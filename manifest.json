@@ -1,0 +1,39 @@
+{
+  "name": "Mike Molares · Oclusión Dental",
+  "short_name": "Mike Molares",
+  "description": "Auxiliar académico del Dr. Miguel Alvarado para la materia de Oclusión — Universidad Cuauhtémoc.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d2b45",
+  "theme_color": "#095287",
+  "lang": "es-MX",
+  "categories": ["education", "medical"],
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
