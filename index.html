@@ -13,8 +13,8 @@
 <meta property="og:title" content="Aula Virtual · Oclusión Dental">
 <meta property="og:description" content="Asistente académico, quizzes por niveles, Step by Dent y biblioteca del curso. Dr. Miguel Alvarado Avilés.">
 <meta property="og:url" content="https://dentipedia.dentilike.com.mx/">
-<meta property="og:image" content="https://dentipedia.dentilike.com.mx/assets/og-dentipedia.jpg">
-<meta property="og:image:secure_url" content="https://dentipedia.dentilike.com.mx/assets/og-dentipedia.jpg">
+<meta property="og:image" content="https://dentipedia.dentilike.com.mx/og-dentipedia.jpg">
+<meta property="og:image:secure_url" content="https://dentipedia.dentilike.com.mx/og-dentipedia.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -22,12 +22,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Aula Virtual · Oclusión Dental">
 <meta name="twitter:description" content="Asistente académico, quizzes por niveles, Step by Dent y biblioteca del curso.">
-<meta name="twitter:image" content="https://dentipedia.dentilike.com.mx/assets/og-dentipedia.jpg">
+<meta name="twitter:image" content="https://dentipedia.dentilike.com.mx/og-dentipedia.jpg">
 <meta name="description" content="Auxiliar académico del Dr. Miguel Alvarado para la materia de Oclusión — Universidad Cuauhtémoc.">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#095287">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mikes Molares">
@@ -2884,10 +2884,10 @@ const CRONOGRAMA = [
 ];
 
 // -------- PDFs de la biblioteca (archivos externos en /docs) --------
-const PDF_TEMA1 = "docs/Tema1_Anatomia_ATM.pdf";
-const PDF_SYLLABUS = "docs/Syllabus_Oclusion_2026_V4.pdf";
-const PDF_MANUAL = "docs/Manual_Practicas_Oclusion.pdf";
-const PDF_TEMA2 = "docs/Tema2_Fotografia_Clinica.pdf";
+const PDF_TEMA1 = "Tema1_Anatomia_ATM.pdf";
+const PDF_SYLLABUS = "Syllabus_Oclusion_2026_V4.pdf";
+const PDF_MANUAL = "Manual_Practicas_Oclusion.pdf";
+const PDF_TEMA2 = "Tema2_Fotografia_Clinica.pdf";
 
 /* Calcula la próxima sesión a partir de la fecha real del dispositivo.
    Así el "PRÓXIMA SESIÓN" se mantiene solo, sin editar el código cada semana. */
@@ -3061,7 +3061,7 @@ function mostrarModalInstalar(modo){
   wrap.id = 'modalInstalar';
   wrap.onclick = (e)=>{ if(e.target === wrap) cerrarModalInstalar(); };
   wrap.innerHTML = `<div class="modal-card">
-      <img class="modal-icono" src="assets/icon-192.png" alt="Mikes Molares">
+      <img class="modal-icono" src="icon-192.png" alt="Mikes Molares">
       ${cuerpo}
       <button class="modal-btn" onclick="cerrarModalInstalar()">Entendido</button>
     </div>`;

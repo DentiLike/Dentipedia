@@ -1,20 +1,20 @@
 /* Mike Molares — Service Worker
    Sube la versión (CACHE) cada vez que publiques cambios,
    así los alumnos reciben la actualización en vez de la copia vieja. */
-const CACHE = 'mikes-molares-v18';
+const CACHE = 'mikes-molares-v19';
 
 const BASE = self.registration.scope;
 const ARCHIVOS = [
   './',
   './index.html',
   './manifest.json',
-  './assets/icon-192.png',
-  './assets/icon-512.png',
-  './assets/icon-maskable-192.png',
-  './assets/icon-maskable-512.png',
-  './assets/apple-touch-icon.png',
-  './assets/og-dentipedia.jpg',
-  './docs/Tema2_Fotografia_Clinica.pdf'
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-192.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png',
+  './og-dentipedia.jpg',
+  './Tema2_Fotografia_Clinica.pdf'
 ];
 
 self.addEventListener('install', evento => {
