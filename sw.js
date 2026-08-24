@@ -1,7 +1,7 @@
 /* Mike Molares — Service Worker
    Sube la versión (CACHE) cada vez que publiques cambios,
    así los alumnos reciben la actualización en vez de la copia vieja. */
-const CACHE = 'mikes-molares-v14';
+const CACHE = 'mikes-molares-v18';
 
 const BASE = self.registration.scope;
 const ARCHIVOS = [
@@ -13,6 +13,7 @@ const ARCHIVOS = [
   './assets/icon-maskable-192.png',
   './assets/icon-maskable-512.png',
   './assets/apple-touch-icon.png',
+  './assets/og-dentipedia.jpg',
   './docs/Tema2_Fotografia_Clinica.pdf'
 ];
 
