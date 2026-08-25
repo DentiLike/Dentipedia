@@ -1,7 +1,7 @@
 {
-  "name": "Mike Molares · Oclusión Dental",
-  "short_name": "Mike Molares",
-  "description": "Auxiliar académico del Dr. Miguel Alvarado para la materia de Oclusión — Universidad Cuauhtémoc.",
+  "name": "Dentipedia · Aula Virtual de Oclusión",
+  "short_name": "Dentipedia",
+  "description": "Aula virtual de Oclusión Dental. Universidad Cuauhtémoc · Dr. Miguel Alvarado Avilés.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
