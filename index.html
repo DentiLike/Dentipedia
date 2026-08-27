@@ -280,6 +280,30 @@ input{font-family:inherit}
 .sub-empty{text-align:center; color:var(--gris); font-size:.87rem; padding:3rem 1.5rem; line-height:1.6}
 .sub-empty .ico{font-size:2.2rem; display:block; margin-bottom:.6rem}
 .notas-mini{background:var(--teal-claro); border:1px solid #bfe8e6; border-radius:10px; padding:.65rem .8rem; font-size:.76rem; color:var(--teal-osc); line-height:1.5; margin-bottom:1rem}
+/* ---- Material de práctica ---- */
+.mat-card{background:#fff; border:1.5px solid var(--teal); border-radius:14px; padding:.8rem .85rem; margin-bottom:.9rem; box-shadow:0 3px 14px rgba(93,193,191,.16)}
+.mat-card.proximamente{border-color:var(--borde); border-style:dashed; box-shadow:none}
+.mat-cab{display:flex; align-items:center; gap:.55rem; margin-bottom:.5rem}
+.mat-ico{font-size:1.1rem; line-height:1}
+.mat-cab-txt{display:flex; flex-direction:column; line-height:1.3}
+.mat-cab-txt b{font-family:'Fredoka'; font-size:.85rem; color:var(--azul-osc); font-weight:600}
+.mat-cab-txt small{font-size:.68rem; color:var(--gris); font-weight:600}
+.mat-titulo{font-size:.8rem; font-weight:700; color:var(--tinta); line-height:1.4; margin-bottom:.35rem}
+.mat-nota{font-size:.74rem; color:var(--gris); line-height:1.5; margin-bottom:.6rem}
+.mat-prox{font-size:.77rem; color:var(--gris); line-height:1.5}
+.mat-grupo{font-size:.68rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--teal-osc); margin:.7rem 0 .35rem}
+.mat-item{display:flex; align-items:flex-start; gap:.5rem; font-size:.78rem; color:var(--tinta); line-height:1.5; padding:.18rem 0}
+.mat-punto{flex:0 0 6px; width:6px; height:6px; border-radius:50%; background:var(--teal); margin-top:.42rem}
+.mat-ver{width:100%; margin-top:.2rem; background:var(--teal-claro); border:1px solid #bfe8e6; color:var(--teal-osc); font-size:.77rem; font-weight:700; padding:.5rem; border-radius:9px; text-align:center}
+.mat-ver:active{background:#d6f4f3}
+.mat-imprimir{width:100%; background:var(--azul); color:#fff; font-size:.8rem; font-weight:700; padding:.65rem; border-radius:10px; margin-top:.2rem}
+/* ---- Accesos rápidos del inicio ---- */
+.acceso-row{display:grid; grid-template-columns:repeat(4,1fr); gap:.4rem; margin-bottom:1rem}
+.acceso{display:flex; flex-direction:column; align-items:center; gap:.22rem; background:#fff; border:1px solid var(--borde); border-radius:12px; padding:.6rem .2rem; font-size:.67rem; font-weight:700; color:var(--azul-osc); line-height:1.2}
+.acceso span{font-size:1.15rem; line-height:1}
+.acceso:active{background:var(--teal-claro); border-color:var(--teal)}
+/* ---- Encabezado de grupo en el menú ⋮ ---- */
+.dropdown-cab{font-size:.62rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--gris-claro); padding:.35rem .7rem .2rem}
 .form-carga{display:flex; flex-direction:column; gap:.7rem}
 .form-carga label{font-size:.78rem; font-weight:700; color:var(--gris); margin-bottom:-.4rem}
 .form-carga input, .form-carga select{border:1.5px solid var(--borde); border-radius:10px; padding:.7rem .8rem; font-size:.88rem}
@@ -349,13 +373,17 @@ input{font-family:inherit}
     <div class="hdr-actions">
       <button class="icon-btn" onclick="toggleHdrMenu('chat')">⋮</button>
       <div class="dropdown" id="menuChat">
-        <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
-        <button class="dropdown-item" onclick="abrirAyuda('chat')">❓ Ayuda</button>
+        <div class="dropdown-cab">Material del curso</div>
+        <button class="dropdown-item" onclick="abrirBiblioteca('chat','salon')">📘 Teoría</button>
+        <button class="dropdown-item" onclick="abrirBiblioteca('chat','lab')">🧪 Laboratorio</button>
+        <div class="dropdown-sep"></div>
+        <div class="dropdown-cab">Clínica</div>
         <button class="dropdown-item" onclick="abrirRuta('chat')">🧭 Step by Dent</button>
         <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
-        <button class="dropdown-item" onclick="abrirBiblioteca('chat')">📚 Biblioteca</button>
         <button class="dropdown-item" onclick="abrirMisCalificaciones('chat')">📊 Mis calificaciones</button>
         <div class="dropdown-sep"></div>
+        <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
+        <button class="dropdown-item" onclick="abrirAyuda('chat')">❓ Ayuda</button>
         <button class="dropdown-item danger" onclick="salir()">🚪 Salir</button>
       </div>
     </div>
@@ -1324,10 +1352,24 @@ function tarjetaInicio(){
   ];
   const chips = sugerencias.map(s=>`<button class="sug-chip" onclick="preguntarSugerencia('${s.replace(/'/g,"\\'")}')">${s}</button>`).join('');
 
+  // Material de la próxima práctica de laboratorio
+  const practica = proximaPractica();
+  const bloquePractica = bloqueMaterial(practica, true);
+
+  // Accesos rápidos: lo más usado, sin entrar al menú ⋮
+  const accesos = `<div class="acceso-row">
+      <button class="acceso" onclick="abrirBiblioteca('chat','salon')"><span>📘</span>Teoría</button>
+      <button class="acceso" onclick="abrirBiblioteca('chat','lab')"><span>🧪</span>Laboratorio</button>
+      <button class="acceso" onclick="abrirRuta('chat')"><span>🧭</span>Step by Dent</button>
+      <button class="acceso" onclick="elegirTemaQuiz()"><span>📝</span>Quiz</button>
+    </div>`;
+
   const card = document.createElement('div');
   card.className = 'msg bot';
   card.style.alignSelf = 'stretch';
   card.innerHTML = `${bloqueSesion}
+    ${bloquePractica}
+    ${accesos}
     <div class="inicio-titulo">Tu avance</div>
     ${filas}
     <div class="inicio-titulo" style="margin-top:.8rem">¿Por dónde empezar?</div>
@@ -3222,6 +3264,122 @@ const RECURSOS = {
   tema4:     { url: PDF_TEMA4,    label:"Tema 4 · Trabajo y balance",    file:"Tema4_Trabajo_Balance.pdf" }
 };
 
+/* -------- Material por práctica de laboratorio --------
+   Clave = iso de la sesión del CRONOGRAMA.
+   Las prácticas sin material definido salen como "Próximamente"
+   automáticamente: solo hay que agregar la entrada aquí. */
+const MATERIALES = {
+  "2026-08-20": {
+    titulo: "Práctica 1 · Toma de modelos y registro de mordida",
+    nota: "Se trabaja en binas, entre los mismos alumnos.",
+    grupos: [
+      { g:"Impresión y vaciado", items:[
+        "Alginato y dosificadores",
+        "Yeso tipo piedra",
+        "Taza de hule flexible (alginato)",
+        "Taza de hule (yeso)",
+        "Espátula de plástico",
+        "Espátula metálica",
+        "Juego de cucharillas de impresión"
+      ]},
+      { g:"Registro y análisis", items:[
+        "Cera rosa toda estación (registro de mordida)",
+        "Espejo facial (para observar asimetrías)",
+        "Lápiz lavable tipo cera (marcar puntos en cara)",
+        "Zócalos o formadores de zócalos de goma"
+      ]},
+      { g:"Bioseguridad e higiene", items:[
+        "Guantes de exploración",
+        "Cubrebocas",
+        "Bata clínica",
+        "Lentes de protección",
+        "Toallas desechables",
+        "Desinfectante Lysol (idealmente toallitas Sani-Cloth)"
+      ]}
+    ]
+  },
+  "2026-08-27": {
+    titulo: "Práctica 2 · Fotografía clínica dental",
+    nota: "Serie completa: 12 tomas (6 extraorales + 6 intraorales). Entrega y presentación: jueves 3 de septiembre.",
+    grupos: [
+      { g:"Equipo fotográfico", items:[
+        "Espejos intraorales (puede ser un set por equipo)",
+        "Retractores de carrillos especiales para fotografía",
+        "Ring flash (flash anular) o fuente de luz LED adicional",
+        "Cámara o dispositivo de captura fotográfica"
+      ]},
+      { g:"Bioseguridad", items:[
+        "Guantes",
+        "Cubrebocas",
+        "Toallas desechables",
+        "Lysol (idealmente Sani-Cloth) para desinfectar espejos y retractores entre cada toma"
+      ]}
+    ]
+  }
+};
+
+/* Próxima sesión de laboratorio (aunque la próxima sesión general sea de salón) */
+function proximaPractica(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  for(const s of CRONOGRAMA){
+    if(!s.iso || s.track !== 'lab') continue;
+    if(s.tipo === 'Evaluación' || s.tipo === 'Festivo') continue;
+    const f = new Date(s.iso + 'T00:00:00');
+    if(f >= hoy) return s;
+  }
+  return null;
+}
+
+/* HTML del material de una práctica (o aviso de Próximamente) */
+function bloqueMaterial(sesion, compacto){
+  if(!sesion) return '';
+  const m = MATERIALES[sesion.iso];
+  const cuando = textoCuando(sesion.iso);
+  const cab = `<div class="mat-cab">
+      <span class="mat-ico">🧰</span>
+      <span class="mat-cab-txt">
+        <b>Material para tu próxima práctica</b>
+        <small>${sesion.fecha}${cuando ? ' · ' + cuando : ''}</small>
+      </span>
+    </div>`;
+
+  if(!m){
+    return `<div class="mat-card proximamente">${cab}
+      <div class="mat-prox">Próximamente. El Dr. Alvarado aún está preparando esta lista.</div>
+    </div>`;
+  }
+
+  if(compacto){
+    const total = m.grupos.reduce((a,g)=>a+g.items.length,0);
+    return `<div class="mat-card">${cab}
+      <div class="mat-titulo">${m.titulo}</div>
+      <button class="mat-ver" onclick="abrirMaterial('chat','${sesion.iso}')">Ver los ${total} materiales →</button>
+    </div>`;
+  }
+
+  const grupos = m.grupos.map(g=>`<div class="mat-grupo">${g.g}</div>` +
+      g.items.map(i=>`<div class="mat-item"><span class="mat-punto"></span>${i}</div>`).join('')
+    ).join('');
+  return `<div class="mat-card abierta">${cab}
+      <div class="mat-titulo">${m.titulo}</div>
+      ${m.nota ? `<div class="mat-nota">${m.nota}</div>` : ''}
+      ${grupos}
+    </div>`;
+}
+
+/* Subpantalla con el material completo + checklist imprimible */
+function abrirMaterial(origen, iso){
+  const destino = origen || pantallaAnterior;
+  const sesion = CRONOGRAMA.find(s=>s.iso===iso) || proximaPractica();
+  const m = sesion ? MATERIALES[sesion.iso] : null;
+  let cuerpo = bloqueMaterial(sesion, false);
+  if(m){
+    cuerpo += `<div class="notas-mini">✅ Marca lo que ya tengas listo. Se guarda en este dispositivo.</div>`;
+    cuerpo += `<button class="mat-imprimir" onclick="window.print()">🖨️ Imprimir esta lista</button>`;
+  }
+  abrirSubScreen(destino, 'Material de práctica', cuerpo);
+}
+
 function sesionCard(f, proxIso){
   const esProxima = proxIso && f.iso === proxIso;
   const claseDestacado = esProxima ? ' proxima' : '';
@@ -3251,7 +3409,7 @@ function abrirBiblioteca(origen, tab, filtro){
     : `<div class="sub-empty"><span class="ico">🔍</span>No encontré sesiones que coincidan con "<b>${filtro}</b>" en esta pestaña.</div>`;
 
   const avisoLab = (tab === 'lab' && !f)
-    ? `<div class="notas-mini">🧰 <b>Material necesario para la próxima práctica:</b> Próximamente. El Dr. Alvarado aún está preparando esta lista.</div>`
+    ? bloqueMaterial(proximaPractica(), true)
     : '';
 
   const cuerpo = `
