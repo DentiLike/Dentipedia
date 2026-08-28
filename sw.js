@@ -1,7 +1,7 @@
 /* Mike Molares — Service Worker
    Sube la versión (CACHE) cada vez que publiques cambios,
    así los alumnos reciben la actualización en vez de la copia vieja. */
-const CACHE = 'dentipedia-v27';
+const CACHE = 'dentipedia-v28';
 
 const BASE = self.registration.scope;
 const ARCHIVOS = [

@@ -280,6 +280,49 @@ input{font-family:inherit}
 .sub-empty{text-align:center; color:var(--gris); font-size:.87rem; padding:3rem 1.5rem; line-height:1.6}
 .sub-empty .ico{font-size:2.2rem; display:block; margin-bottom:.6rem}
 .notas-mini{background:var(--teal-claro); border:1px solid #bfe8e6; border-radius:10px; padding:.65rem .8rem; font-size:.76rem; color:var(--teal-osc); line-height:1.5; margin-bottom:1rem}
+/* ---- Aviso de entrega (lo más visible de la pantalla) ---- */
+.entrega-card{border-radius:14px; padding:.9rem .95rem; margin-bottom:.9rem; border:2px solid; position:relative; overflow:hidden}
+.entrega-card.vencida{background:#fef2f2; border-color:#dc2626}
+.entrega-card.hoy{background:#fff7ed; border-color:#ea580c; animation:pulsoEnt 2.2s ease-in-out infinite}
+.entrega-card.pronto{background:#fffbeb; border-color:#d97706}
+.entrega-card.normal{background:var(--azul-claro); border-color:var(--azul)}
+@keyframes pulsoEnt{0%,100%{box-shadow:0 0 0 0 rgba(234,88,12,.35)}50%{box-shadow:0 0 0 7px rgba(234,88,12,0)}}
+.entrega-top{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.45rem; flex-wrap:wrap}
+.entrega-label{font-size:.66rem; font-weight:800; letter-spacing:.06em}
+.entrega-card.vencida .entrega-label{color:#dc2626}
+.entrega-card.hoy .entrega-label{color:#ea580c}
+.entrega-card.pronto .entrega-label{color:#b45309}
+.entrega-card.normal .entrega-label{color:var(--azul-osc)}
+.entrega-cuenta{font-size:.66rem; font-weight:800; padding:.18rem .5rem; border-radius:999px; color:#fff}
+.entrega-card.vencida .entrega-cuenta{background:#dc2626}
+.entrega-card.hoy .entrega-cuenta{background:#ea580c}
+.entrega-card.pronto .entrega-cuenta{background:#d97706}
+.entrega-card.normal .entrega-cuenta{background:var(--azul)}
+.entrega-titulo{font-family:'Fredoka'; font-size:.92rem; color:var(--tinta); line-height:1.35; margin-bottom:.3rem}
+.entrega-fecha{font-size:.76rem; font-weight:700; color:var(--tinta); margin-bottom:.4rem}
+.entrega-detalle{font-size:.76rem; color:var(--gris); line-height:1.5; margin-bottom:.65rem}
+.entrega-btn{width:100%; background:rgba(255,255,255,.85); border:1px solid rgba(0,0,0,.12); color:var(--tinta); font-size:.77rem; font-weight:700; padding:.55rem; border-radius:9px}
+.entrega-btn:active{background:#fff}
+.mat-entrega{background:#fff7ed; border:1px solid #fed7aa; color:#b45309; font-size:.74rem; font-weight:600; padding:.4rem .6rem; border-radius:8px; margin-bottom:.5rem}
+/* ---- Pantalla de fechas ---- */
+.fecha-row{border:1.5px solid var(--borde); border-radius:12px; padding:.75rem .8rem; margin-bottom:.7rem; background:#fff}
+.fecha-row.vencida{border-color:#fecaca; background:#fef2f2}
+.fecha-row.hoy{border-color:#fed7aa; background:#fff7ed}
+.fecha-row.pronto{border-color:#fde68a; background:#fffbeb}
+.fecha-row.pasada{opacity:.62}
+.fecha-row-top{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.35rem; flex-wrap:wrap}
+.fecha-badge{font-size:.6rem; font-weight:800; letter-spacing:.05em; padding:.15rem .5rem; border-radius:999px; color:#fff; background:var(--azul)}
+.fecha-badge.vencida{background:#dc2626}
+.fecha-badge.hoy{background:#ea580c}
+.fecha-badge.pronto{background:#d97706}
+.fecha-cuenta{font-size:.68rem; font-weight:700; color:var(--gris)}
+.fecha-titulo{font-size:.83rem; font-weight:700; color:var(--tinta); line-height:1.4; margin-bottom:.22rem}
+.fecha-dia{font-size:.74rem; font-weight:700; color:var(--azul-osc); margin-bottom:.3rem}
+.fecha-detalle{font-size:.74rem; color:var(--gris); line-height:1.5}
+.cal-btn-grande{width:100%; background:var(--azul); color:#fff; font-family:'Fredoka'; font-size:.87rem; padding:.8rem; border-radius:12px; margin-top:.4rem}
+.cal-btn-grande:active{background:var(--azul-osc)}
+.cal-ayuda{font-size:.73rem; color:var(--gris); line-height:1.55; margin-top:.6rem; padding:0 .2rem}
+.acceso.destacado{border-color:var(--teal); background:var(--teal-claro)}
 /* ---- Material de práctica ---- */
 .mat-card{background:#fff; border:1.5px solid var(--teal); border-radius:14px; padding:.8rem .85rem; margin-bottom:.9rem; box-shadow:0 3px 14px rgba(93,193,191,.16)}
 .mat-card.proximamente{border-color:var(--borde); border-style:dashed; box-shadow:none}
@@ -374,6 +417,7 @@ input{font-family:inherit}
       <button class="icon-btn" onclick="toggleHdrMenu('chat')">⋮</button>
       <div class="dropdown" id="menuChat">
         <div class="dropdown-cab">Material del curso</div>
+        <button class="dropdown-item" onclick="abrirFechas('chat')">📅 Fechas de entrega</button>
         <button class="dropdown-item" onclick="abrirBiblioteca('chat','salon')">📘 Teoría</button>
         <button class="dropdown-item" onclick="abrirBiblioteca('chat','lab')">🧪 Laboratorio</button>
         <div class="dropdown-sep"></div>
@@ -1352,6 +1396,9 @@ function tarjetaInicio(){
   ];
   const chips = sugerencias.map(s=>`<button class="sug-chip" onclick="preguntarSugerencia('${s.replace(/'/g,"\\'")}')">${s}</button>`).join('');
 
+  // Aviso de entrega: va primero, es lo más importante de la pantalla
+  const bloqueEnt = bloqueEntrega(entregaVigente());
+
   // Material de la próxima práctica de laboratorio
   const practica = proximaPractica();
   const bloquePractica = bloqueMaterial(practica, true);
@@ -1361,13 +1408,14 @@ function tarjetaInicio(){
       <button class="acceso" onclick="abrirBiblioteca('chat','salon')"><span>📘</span>Teoría</button>
       <button class="acceso" onclick="abrirBiblioteca('chat','lab')"><span>🧪</span>Laboratorio</button>
       <button class="acceso" onclick="abrirRuta('chat')"><span>🧭</span>Step by Dent</button>
-      <button class="acceso" onclick="elegirTemaQuiz()"><span>📝</span>Quiz</button>
+      <button class="acceso destacado" onclick="abrirFechas('chat')"><span>📅</span>Fechas</button>
     </div>`;
 
   const card = document.createElement('div');
   card.className = 'msg bot';
   card.style.alignSelf = 'stretch';
-  card.innerHTML = `${bloqueSesion}
+  card.innerHTML = `${bloqueEnt}
+    ${bloqueSesion}
     ${bloquePractica}
     ${accesos}
     <div class="inicio-titulo">Tu avance</div>
@@ -3264,6 +3312,173 @@ const RECURSOS = {
   tema4:     { url: PDF_TEMA4,    label:"Tema 4 · Trabajo y balance",    file:"Tema4_Trabajo_Balance.pdf" }
 };
 
+/* -------- ENTREGAS: fechas límite de prácticas y proyectos --------
+   Esto es lo que el alumno NO puede alegar que no sabía.
+   iso = fecha límite. practica = iso de la sesión donde se realizó. */
+const ENTREGAS = [
+  {
+    iso:"2026-08-27",
+    titulo:"Entrega Práctica 1 · Modelos y registro de mordida",
+    detalle:"Modelos en zócalos, perfectamente recortados y pulidos, con calidad de laboratorio. Registro de mordida en cera.",
+    practica:"2026-08-20"
+  },
+  {
+    iso:"2026-09-03",
+    titulo:"Entrega y presentación Práctica 2 · Fotografía clínica",
+    detalle:"Serie de 12 tomas (6 extraorales + 6 intraorales) en formato digital. En sesión expones tu caso: datos del paciente compañero y maloclusiones detectadas.",
+    practica:"2026-08-27"
+  }
+];
+
+/* Entrega vigente: la próxima pendiente, o una recién vencida (hasta 7 días) */
+function entregaVigente(){
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  let vencida = null;
+  for(const e of ENTREGAS){
+    const d = diasPara(e.iso);
+    if(d >= 0) return e;
+    if(d >= -7) vencida = e;
+  }
+  return vencida;
+}
+
+/* Nivel de urgencia -> define color y texto del aviso */
+function urgenciaEntrega(iso){
+  const d = diasPara(iso);
+  if(d < 0)  return { cls:'vencida', label:'ENTREGA VENCIDA', txt:'Venció hace ' + Math.abs(d) + (Math.abs(d)===1?' día':' días') };
+  if(d === 0) return { cls:'hoy',     label:'ENTREGA HOY',     txt:'Es hoy' };
+  if(d === 1) return { cls:'hoy',     label:'ENTREGA MAÑANA',  txt:'Es mañana' };
+  if(d <= 3)  return { cls:'pronto',  label:'ENTREGA PRÓXIMA', txt:'Faltan ' + d + ' días' };
+  if(d <= 10) return { cls:'normal',  label:'PRÓXIMA ENTREGA', txt:'Faltan ' + d + ' días' };
+  return { cls:'normal', label:'PRÓXIMA ENTREGA', txt:'Faltan ' + d + ' días' };
+}
+
+function fechaLarga(iso){
+  const f = new Date(iso + 'T00:00:00');
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  const mes  = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return dias[f.getDay()] + ' ' + f.getDate() + ' de ' + mes[f.getMonth()];
+}
+
+/* Aviso grande de entrega. compacto=true -> versión para el inicio */
+function bloqueEntrega(e){
+  if(!e) return '';
+  const u = urgenciaEntrega(e.iso);
+  return `<div class="entrega-card ${u.cls}">
+      <div class="entrega-top">
+        <span class="entrega-label">⏰ ${u.label}</span>
+        <span class="entrega-cuenta">${u.txt}</span>
+      </div>
+      <div class="entrega-titulo">${e.titulo}</div>
+      <div class="entrega-fecha">📅 ${fechaLarga(e.iso)}</div>
+      <div class="entrega-detalle">${e.detalle}</div>
+      <div class="entrega-acciones">
+        <button class="entrega-btn" onclick="descargarICS('${e.iso}')">📅 Agregar a mi calendario</button>
+      </div>
+    </div>`;
+}
+
+/* -------- Exportar fechas a calendario (.ics estándar) --------
+   Funciona con Google Calendar, Apple, Outlook: se abre el archivo y se importa.
+   Si se pasa un iso, exporta solo esa entrega; sin argumento, todo el curso. */
+function icsFecha(iso, sumarDias){
+  const f = new Date(iso + 'T00:00:00');
+  if(sumarDias) f.setDate(f.getDate() + sumarDias);
+  const mm = String(f.getMonth()+1).padStart(2,'0');
+  const dd = String(f.getDate()).padStart(2,'0');
+  return '' + f.getFullYear() + mm + dd;
+}
+/* RFC 5545: ninguna línea debe pasar de 75 octetos.
+   Se corta y se continúa con un espacio al inicio. */
+function icsPlegar(texto){
+  return texto.split('\r\n').map(linea=>{
+    if(linea.length <= 74) return linea;
+    let out = linea.slice(0,74), resto = linea.slice(74);
+    while(resto.length > 73){ out += '\r\n ' + resto.slice(0,73); resto = resto.slice(73); }
+    return out + (resto ? '\r\n ' + resto : '');
+  }).join('\r\n');
+}
+function icsEscapar(t){
+  return String(t).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+}
+function icsEvento(uid, iso, titulo, detalle, alarmas){
+  let ev = 'BEGIN:VEVENT\r\n';
+  ev += 'UID:' + uid + '@dentipedia.dentilike.com.mx\r\n';
+  ev += 'DTSTAMP:' + icsFecha(new Date().toISOString().slice(0,10)) + 'T000000Z\r\n';
+  ev += 'DTSTART;VALUE=DATE:' + icsFecha(iso) + '\r\n';
+  ev += 'DTEND;VALUE=DATE:' + icsFecha(iso, 1) + '\r\n';
+  ev += 'SUMMARY:' + icsEscapar(titulo) + '\r\n';
+  if(detalle) ev += 'DESCRIPTION:' + icsEscapar(detalle) + '\r\n';
+  ev += 'LOCATION:Universidad Cuauhtémoc · San Luis Potosí\r\n';
+  (alarmas||[]).forEach(dias=>{
+    ev += 'BEGIN:VALARM\r\nTRIGGER:-P' + dias + 'D\r\nACTION:DISPLAY\r\n';
+    ev += 'DESCRIPTION:' + icsEscapar(titulo) + '\r\nEND:VALARM\r\n';
+  });
+  ev += 'END:VEVENT\r\n';
+  return ev;
+}
+function descargarICS(soloIso){
+  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\n';
+  ics += 'PRODID:-//Dentipedia//Oclusion 426//ES\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n';
+  ics += 'X-WR-CALNAME:Oclusión 426 · Dr. Alvarado\r\n';
+
+  let n = 0;
+  // Entregas: con recordatorio 3 días y 1 día antes
+  ENTREGAS.forEach((e,i)=>{
+    if(soloIso && e.iso !== soloIso) return;
+    ics += icsEvento('entrega' + i, e.iso, '⏰ ' + e.titulo, e.detalle, [3,1]);
+    n++;
+  });
+
+  // Curso completo: sesiones y evaluaciones, con recordatorio 1 día antes en exámenes
+  if(!soloIso){
+    CRONOGRAMA.forEach((c,i)=>{
+      if(c.tipo === 'Festivo') return;
+      const esEval = c.tipo === 'Evaluación';
+      const pre = esEval ? '📝 ' : (c.track === 'lab' ? '🧪 ' : '📘 ');
+      ics += icsEvento('sesion' + i, c.iso, pre + 'Oclusión · ' + c.tipo, c.tema, esEval ? [1] : null);
+      n++;
+    });
+  }
+  ics += 'END:VCALENDAR\r\n';
+
+  const nombre = soloIso ? 'Entrega_Oclusion_' + soloIso + '.ics' : 'Oclusion_426_Curso_Completo.ics';
+  const blob = new Blob([icsPlegar(ics)], {type:'text/calendar;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = nombre;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1500);
+}
+
+/* Pantalla de fechas clave: todas las entregas + botón de calendario */
+function abrirFechas(origen){
+  const destino = origen || pantallaAnterior;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const filas = ENTREGAS.map(e=>{
+    const u = urgenciaEntrega(e.iso);
+    const pasada = diasPara(e.iso) < 0;
+    return `<div class="fecha-row ${u.cls}${pasada?' pasada':''}">
+        <div class="fecha-row-top">
+          <span class="fecha-badge ${u.cls}">${u.label}</span>
+          <span class="fecha-cuenta">${u.txt}</span>
+        </div>
+        <div class="fecha-titulo">${e.titulo}</div>
+        <div class="fecha-dia">📅 ${fechaLarga(e.iso)}</div>
+        <div class="fecha-detalle">${e.detalle}</div>
+      </div>`;
+  }).join('');
+
+  const cuerpo = `
+    <div class="notas-mini">📌 Estas son las fechas límite del curso. Agrégalas a tu calendario y no dependas de la memoria.</div>
+    ${filas}
+    <button class="cal-btn-grande" onclick="descargarICS()">📅 Agregar TODO el curso a mi calendario</button>
+    <div class="cal-ayuda">Se descarga un archivo <b>.ics</b>. Ábrelo y tu celular te preguntará en qué calendario guardarlo (Google, Apple o Outlook). Incluye clases, laboratorios, exámenes y entregas, con recordatorio automático antes de cada entrega.</div>
+  `;
+  abrirSubScreen(destino, 'Fechas de entrega', cuerpo);
+}
+
 /* -------- Material por práctica de laboratorio --------
    Clave = iso de la sesión del CRONOGRAMA.
    Las prácticas sin material definido salen como "Próximamente"
@@ -3349,10 +3564,17 @@ function bloqueMaterial(sesion, compacto){
     </div>`;
   }
 
+  // ¿Esta práctica tiene fecha de entrega asociada?
+  const ent = ENTREGAS.find(e=>e.practica === sesion.iso);
+  const avisoEnt = ent
+    ? `<div class="mat-entrega">⏰ Se entrega el <b>${fechaLarga(ent.iso)}</b></div>`
+    : '';
+
   if(compacto){
     const total = m.grupos.reduce((a,g)=>a+g.items.length,0);
     return `<div class="mat-card">${cab}
       <div class="mat-titulo">${m.titulo}</div>
+      ${avisoEnt}
       <button class="mat-ver" onclick="abrirMaterial('chat','${sesion.iso}')">Ver los ${total} materiales →</button>
     </div>`;
   }
@@ -3362,6 +3584,7 @@ function bloqueMaterial(sesion, compacto){
     ).join('');
   return `<div class="mat-card abierta">${cab}
       <div class="mat-titulo">${m.titulo}</div>
+      ${avisoEnt}
       ${m.nota ? `<div class="mat-nota">${m.nota}</div>` : ''}
       ${grupos}
     </div>`;
@@ -3409,7 +3632,7 @@ function abrirBiblioteca(origen, tab, filtro){
     : `<div class="sub-empty"><span class="ico">🔍</span>No encontré sesiones que coincidan con "<b>${filtro}</b>" en esta pestaña.</div>`;
 
   const avisoLab = (tab === 'lab' && !f)
-    ? bloqueMaterial(proximaPractica(), true)
+    ? bloqueEntrega(entregaVigente()) + bloqueMaterial(proximaPractica(), true)
     : '';
 
   const cuerpo = `
