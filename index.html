@@ -396,7 +396,7 @@ body.mp-abierto{overflow:hidden}
 .consulta-fab:active{transform:scale(.94)}
 .consulta-cap{position:fixed; inset:0; z-index:150; background:rgba(15,23,42,.5); display:none; align-items:flex-end}
 .consulta-cap.activo{display:flex}
-.consulta-panel{width:100%; max-height:82vh; display:flex; flex-direction:column; background:#fff;
+.consulta-panel{width:100%; height:76vh; max-height:76vh; display:flex; flex-direction:column; background:#fff;
   border-radius:20px 20px 0 0; padding:1rem .9rem calc(1rem + env(safe-area-inset-bottom))}
 .consulta-cab{display:flex; align-items:center; gap:.6rem; margin-bottom:.8rem}
 .consulta-ava{width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid var(--teal); flex:0 0 auto}
@@ -404,12 +404,26 @@ body.mp-abierto{overflow:hidden}
 .consulta-cab-txt b{font-family:'Fredoka'; font-size:.95rem; color:var(--azul-osc); font-weight:600}
 .consulta-cab-txt small{font-size:.71rem; color:var(--gris)}
 .consulta-x{background:#f1f5f9; width:32px; height:32px; border-radius:8px; color:var(--gris); font-size:.85rem; flex:0 0 auto}
-#consultaInput{width:100%; border:1.5px solid var(--borde); border-radius:11px; padding:.75rem .85rem;
-  font-family:inherit; font-size:.9rem; color:var(--tinta); background:#f8fafc}
+#consultaInput{flex:1; min-width:0; border:1.5px solid var(--borde); border-radius:22px; padding:.7rem 1rem;
+  font-family:inherit; font-size:.88rem; color:var(--tinta); background:#f8fafc}
 #consultaInput:focus{outline:none; border-color:var(--teal); background:#fff}
-.consulta-res{flex:1; overflow-y:auto; margin-top:.8rem; -webkit-overflow-scrolling:touch}
+.consulta-agarre{width:38px; height:4px; border-radius:99px; background:var(--borde); margin:0 auto .7rem}
+.consulta-hilo{flex:1; min-height:180px; overflow-y:auto; display:flex; flex-direction:column;
+  gap:.5rem; padding:.2rem .1rem .6rem; -webkit-overflow-scrolling:touch}
+.cmsg{max-width:88%; font-size:.83rem; line-height:1.65; padding:.7rem .85rem; border-radius:14px}
+.cmsg.bot{align-self:flex-start; background:#f1f5f9; color:var(--tinta); border-bottom-left-radius:5px}
+.cmsg.bot b{color:var(--azul-osc)}
+.cmsg.yo{align-self:flex-end; background:var(--azul); color:#fff; border-bottom-right-radius:5px}
+.cmsg.escribiendo{display:flex; gap:5px; align-items:center; padding:.85rem .9rem}
+.cpunto{width:7px; height:7px; border-radius:50%; background:var(--gris-claro); animation:cpunteo 1.1s infinite}
+.cpunto:nth-child(2){animation-delay:.18s}
+.cpunto:nth-child(3){animation-delay:.36s}
+@keyframes cpunteo{0%,60%,100%{opacity:.3; transform:translateY(0)}30%{opacity:1; transform:translateY(-3px)}}
+.consulta-barra{display:flex; gap:.5rem; align-items:center; padding-top:.6rem; border-top:1px solid var(--borde)}
+.consulta-enviar{flex:0 0 44px; height:44px; border-radius:50%; background:var(--azul); color:#fff; font-size:1rem}
+.consulta-enviar:active{background:var(--azul-osc)}
 .cons-vacio{font-size:.78rem; color:var(--gris); line-height:1.55; margin-bottom:.55rem}
-.cons-chips{display:flex; flex-wrap:wrap; gap:.4rem}
+.cons-chips{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.6rem}
 .cons-chip{background:var(--teal-claro); border:1px solid #bfe8e6; color:var(--teal-osc);
   font-size:.75rem; font-weight:700; padding:.4rem .7rem; border-radius:99px}
 .cons-chip:active{background:#d6f4f3}
@@ -687,11 +701,11 @@ body.mp-abierto{overflow:hidden}
     </div>
   </div>
   <div class="ini-body" id="inicioBody"></div>
-  <button class="avatar-fab" id="avatarFab" onclick="mostrarChat()" aria-label="Abrir chat con Mikes Molares">
+  <button class="avatar-fab" id="avatarFab" onclick="abrirConsulta()" aria-label="Consultar a Mikes Molares">
     <img class="js-avatar" src="" alt="">
     <span class="fab-punto" id="fabPunto"></span>
   </button>
-  <div class="fab-globo" id="fabGlobo" onclick="mostrarChat()"></div>
+  <div class="fab-globo" id="fabGlobo" onclick="abrirConsulta()"></div>
 </div>
 
 <div id="chatScreen">
@@ -763,17 +777,21 @@ body.mp-abierto{overflow:hidden}
 </button>
 <div class="consulta-cap" id="consultaCap" onclick="if(event.target===this)cerrarConsulta()">
   <div class="consulta-panel">
+    <div class="consulta-agarre"></div>
     <div class="consulta-cab">
       <img class="js-avatar consulta-ava" src="" alt="">
       <div class="consulta-cab-txt">
-        <b>Consulta rápida</b>
-        <small>Escribe un término y te lo explico</small>
+        <b>Mikes Molares</b>
+        <small>Consulta sin salir de esta página</small>
       </div>
       <button class="consulta-x" onclick="cerrarConsulta()">✕</button>
     </div>
-    <input type="text" id="consultaInput" placeholder="fraguado, grabado, polimerización..."
-           autocomplete="off" oninput="buscarConsulta()">
-    <div class="consulta-res" id="consultaRes"></div>
+    <div class="consulta-hilo" id="consultaHilo"></div>
+    <div class="consulta-barra">
+      <input type="text" id="consultaInput" placeholder="Escribe tu duda o un término..."
+             autocomplete="off" onkeydown="if(event.key==='Enter')enviarConsulta()">
+      <button class="consulta-enviar" onclick="enviarConsulta()" aria-label="Enviar">➤</button>
+    </div>
   </div>
 </div>
 
@@ -2579,7 +2597,7 @@ function enviarPregunta(){
     const logi = respuestaLogistica(val);
     if(logi){ agregarBot(logi); return; }
 
-    agregarBot(`Eso todavía no lo tengo en el material que me cargó el Dr. Alvarado 🤔 Por ahora manejo el <b>Tema 1 · Anatomía de la ATM y conceptos básicos</b> y el <b>Tema 2 · Fotografía clínica dental</b>.<br><br>Sí te puedo ayudar con: osteología (temporal, cóndilo, esfenoides, maxilar), músculos de la masticación, inervación e irrigación, disco articular, ligamentos, tejido dentoalveolar y neurofisiología oclusal (RC/MIC, curvas, reflejos).<br><br>Del Tema 2 puedo ayudarte con: triángulo de exposición, tomas extraorales e intraorales, retractores, espejo oclusal y criterios de rechazo.<br><br>También puedes preguntarme por el <b>calendario, exámenes o prácticas</b>. Y si tu duda va más al fondo, acércate al Dr. Alvarado — para eso está.`);
+    agregarBot(`Eso todavía no lo tengo en el material que me cargó el Dr. Alvarado 🤔<br><br>Manejo los <b>11 temas del curso</b>: anatomía de la ATM, fotografía clínica, interferencias, trabajo y balance, oclusión patológica, clases I a V, trastornos de la ATM, trastornos musculares, hábitos parafuncionales, articulador y férulas oclusales.<br><br>También el <b>glosario de materiales</b>: fraguado, gelificación, polimerización, grabado, alginato, yesos, ceras y siliconas. Y el <b>calendario, exámenes y prácticas</b>.<br><br>Si tu duda va más al fondo, acércate al Dr. Alvarado — para eso está.`);
   }, 500 + Math.random()*400);
 }
 
@@ -4490,55 +4508,75 @@ function abrirConsulta(){
   const c = $('consultaCap');
   if(!c) return;
   c.classList.add('activo');
-  pintarSugerenciasConsulta();
+  const h = $('consultaHilo');
+  if(h && !h.innerHTML.trim()) saludoConsulta();
   const i = $('consultaInput');
-  if(i){ i.value = ''; setTimeout(()=>i.focus(), 120); }
+  if(i) setTimeout(()=>i.focus(), 150);
 }
 function cerrarConsulta(){
   const c = $('consultaCap');
   if(c) c.classList.remove('activo');
 }
-function pintarSugerenciasConsulta(){
-  const r = $('consultaRes');
-  if(!r) return;
-  const muestra = ['Fraguado','Gelificación','Polimerización','Fotopolimerización','Grabado ácido','Sinéresis'];
-  r.innerHTML = `<div class="cons-vacio">Términos más consultados</div>
-    <div class="cons-chips">${muestra.map(t=>
-      `<button class="cons-chip" onclick="verTermino('${t.replace(/'/g,"")}')">${t}</button>`).join('')}</div>`;
+
+function burbujaConsulta(quien, html){
+  const h = $('consultaHilo');
+  if(!h) return null;
+  const b = document.createElement('div');
+  b.className = 'cmsg ' + quien;
+  b.innerHTML = html;
+  h.appendChild(b);
+  h.scrollTop = h.scrollHeight;
+  return b;
 }
+
+function saludoConsulta(){
+  const sug = ['Fraguado','Alginato','Polimerización','Grabado ácido','Relación céntrica'];
+  burbujaConsulta('bot',
+    `¿Alguna duda o algún término que no entiendas? Escríbelo y te lo explico aquí mismo, sin que pierdas tu lugar. 🦷` +
+    `<div class="cons-chips">${sug.map(t=>
+      `<button class="cons-chip" onclick="verTermino('${t.replace(/'/g,'')}')">${t}</button>`).join('')}</div>`);
+}
+
 function verTermino(t){
   const i = $('consultaInput');
   if(i) i.value = t;
-  buscarConsulta();
+  enviarConsulta();
 }
-function buscarConsulta(){
-  const i = $('consultaInput'), r = $('consultaRes');
-  if(!i || !r) return;
-  const q = i.value.trim();
-  if(!q){ pintarSugerenciasConsulta(); return; }
 
-  const e = buscarGlosario(q);
-  if(e){
-    r.innerHTML = `<div class="cons-hit">
-        <div class="cons-t">${e.t}</div>
-        <div class="cons-g">${e.g} · glosario de materiales</div>
-        <div class="cons-d">${e.d}</div>
-      </div>`;
-    return;
+function enviarConsulta(){
+  const i = $('consultaInput');
+  if(!i) return;
+  const val = i.value.trim();
+  if(!val) return;
+  i.value = '';
+  burbujaConsulta('yo', val);
+
+  const esperando = burbujaConsulta('bot escribiendo', '<span class="cpunto"></span><span class="cpunto"></span><span class="cpunto"></span>');
+  setTimeout(()=>{
+    if(esperando) esperando.remove();
+    burbujaConsulta('bot', responderConsulta(val));
+  }, 320 + Math.random()*260);
+}
+
+/* Misma cadena de respuesta que el chat completo */
+function responderConsulta(val){
+  const soc = respuestaSocial(val);
+  if(soc) return soc;
+  const resp = buscarRespuesta(val);
+  if(resp) return resp;
+  const logi = respuestaLogistica(val);
+  if(logi) return logi;
+
+  // Sugerencias por aproximación antes de rendirse
+  const qn = normalizar(val);
+  const cerca = GLOSARIO.filter(x =>
+      normalizar(x.t).includes(qn) || x.kw.some(k => normalizar(k).includes(qn))).slice(0,6);
+  if(cerca.length){
+    return `No tengo ese término exacto, pero quizá buscabas alguno de estos:` +
+      `<div class="cons-chips">${cerca.map(x=>
+        `<button class="cons-chip" onclick="verTermino('${x.t.replace(/'/g,'')}')">${x.t}</button>`).join('')}</div>`;
   }
-  // Si no es término de material, buscamos en el temario
-  const tema = buscarRespuesta(q);
-  if(tema){
-    r.innerHTML = `<div class="cons-hit"><div class="cons-d">${tema}</div></div>`;
-    return;
-  }
-  // Sugerencias por aproximación
-  const qn = normalizar(q);
-  const cerca = GLOSARIO.filter(x=>normalizar(x.t).includes(qn) || x.kw.some(k=>normalizar(k).includes(qn))).slice(0,6);
-  r.innerHTML = cerca.length
-    ? `<div class="cons-vacio">¿Buscabas alguno de estos?</div>
-       <div class="cons-chips">${cerca.map(x=>`<button class="cons-chip" onclick="verTermino('${x.t.replace(/'/g,"")}')">${x.t}</button>`).join('')}</div>`
-    : `<div class="cons-vacio">No encontré ese término. Puedes preguntárselo a Mikes Molares en el chat, que tiene cargado todo el temario.</div>`;
+  return `Eso todavía no lo tengo cargado 🤔 Puedo ayudarte con los <b>11 temas del curso</b>, con el <b>glosario de materiales</b> y con el calendario, exámenes y prácticas.<br><br>Si tu duda va más al fondo, acércate al Dr. Alvarado: para eso está.`;
 }
 
 /* --------- Visor de imagen --------- */
@@ -5083,6 +5121,16 @@ const GLOSARIO = [
   d:"Aumento de volumen durante el endurecimiento. En yeso depende del tipo: <b>tipo II</b> alrededor de 0.3%, <b>tipo III</b> entre 0.15 y 0.20%, <b>tipo IV</b> cerca de 0.10%.<br><br>Menor expansión significa mayor precisión, y por eso los troqueles se hacen en tipo IV."},
  {g:"Comportamiento", t:"Relación agua/polvo", kw:["relacion agua polvo","agua polvo","proporcion","dosificacion"],
   d:"Proporción entre líquido y polvo de la mezcla. Es el factor que <b>más determina</b> las propiedades finales.<br><br>Más agua de la indicada baja la resistencia de forma drástica y alarga el fraguado. Es el error más común y el más costoso: se pesa el polvo y se mide el agua, nunca a ojo."},
+ {g:"Materiales", t:"Alginato", kw:["alginato","hidrocoloide irreversible","material de impresion alginato"],
+  d:"Material de impresión del grupo de los <b>hidrocoloides irreversibles</b>. Endurece por <b>gelificación química</b>: reaccionan el alginato de sodio y el sulfato de calcio.<br><br>• <b>Mezclado</b>: 45 segundos a 1 minuto<br>• <b>Fraguado en boca</b>: 2 a 3 minutos<br>• <b>Vaciado</b>: dentro de los primeros 15 minutos<br><br>Ventajas: barato, cómodo para el paciente, tolera humedad. Desventajas: <b>baja estabilidad dimensional</b> por sinéresis e imbibición, y detalle inferior al de las siliconas.<br><br>Se guarda en ambiente húmedo pero <b>sin sumergir</b>."},
+ {g:"Materiales", t:"Agar", kw:["agar","hidrocoloide reversible"],
+  d:"Hidrocoloide <b>reversible</b>: gelifica al enfriarse y vuelve a fluir al calentarse, porque su cambio es <b>térmico</b> y no químico.<br><br>Da mejor detalle que el alginato, pero requiere equipo de acondicionamiento y su uso clínico es limitado."},
+ {g:"Materiales", t:"Siliconas de impresión", kw:["silicona","siliconas","adicion","condensacion","polivinilsiloxano"],
+  d:"Elastómeros de alta fidelidad. Dos familias:<br><br>• <b>De adición</b> o polivinilsiloxano: excelente estabilidad dimensional, admite vaciado diferido, sin subproductos. Es la de elección.<br>• <b>De condensación</b>: libera alcohol como subproducto y se contrae con el tiempo, así que exige vaciado inmediato.<br><br>Vienen en varias viscosidades: fluida, regular, pesada y masilla."},
+ {g:"Materiales", t:"Cera de registro", kw:["cera","cera rosa","toda estacion","cera azul","cera de registro","que cera uso"],
+  d:"Material para registrar la relación entre arcadas.<br><br>• <b>Cera rosa toda estación</b>: la más común y económica, pero se <b>ablanda a temperatura bucal</b> y puede deformarse al retirarla.<br>• <b>Cera azul de registro</b>: más dura y con menos distorsión, preferible cuando el registro se va a montar y analizar.<br>• <b>Cera de incrustaciones</b>: dura y quebradiza, calcina sin residuo. Es la del encerado de férulas.<br><br>Para la Práctica 1 la rosa es aceptable; para un montaje formal considera cera azul o silicona de registro."},
+ {g:"Materiales", t:"Yeso dental", kw:["yeso","tipos de yeso","yeso piedra","yeso paris","extraduro","densita"],
+  d:"Todos son <b>sulfato de calcio hemihidratado</b>. Cambia la forma de partícula y el agua que necesitan: menos agua, más resistencia.<br><br>• <b>Tipo II</b> · París: zócalos y montaje en articulador<br>• <b>Tipo III</b> · piedra: modelos de estudio y trabajo. <b>El de tu práctica</b><br>• <b>Tipo IV</b> · extraduro: troqueles de prótesis fija<br>• <b>Tipo V</b> · alta expansión: compensar contracción de aleaciones<br><br>La ficha completa con tiempos y errores está en Biblioteca › Consulta."},
  {g:"Acrílico", t:"Monómero", kw:["monomero","metilmetacrilato","liquido del acrilico"],
   d:"Molécula pequeña que se une a otras para formar el polímero. En acrílico dental es el <b>metilmetacrilato</b>: líquido, volátil, inflamable e irritante para vía respiratoria, piel y mucosas.<br><br>Exige área ventilada, guantes y lentes. La exposición repetida puede producir sensibilización."},
  {g:"Acrílico", t:"Polímero", kw:["polimero","polvo del acrilico","pmma"],
