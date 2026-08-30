@@ -1,7 +1,7 @@
 /* Mike Molares — Service Worker
    Sube la versión (CACHE) cada vez que publiques cambios,
    así los alumnos reciben la actualización en vez de la copia vieja. */
-const CACHE = 'dentipedia-v28';
+const CACHE = 'dentipedia-v36';
 
 const BASE = self.registration.scope;
 const ARCHIVOS = [
@@ -15,6 +15,19 @@ const ARCHIVOS = [
   './apple-touch-icon.png',
   './Tema3_Interferencias_RC_OC.pdf',
   './Tema4_Trabajo_Balance.pdf',
+  './Guia_Articulador_Semiajustable.pdf',
+  './foto01_frente_reposo.webp',
+  './foto02_frente_sonrisa.webp',
+  './foto03_tres_cuartos_der.webp',
+  './foto04_perfil_der.webp',
+  './foto05_tres_cuartos_izq.webp',
+  './foto06_perfil_izq.webp',
+  './foto07_frontal_oclusion.webp',
+  './foto08_oclusal_sup.webp',
+  './foto09_oclusal_inf.webp',
+  './foto10_lateral_der.webp',
+  './foto11_lateral_izq.webp',
+  './foto12_sobremordida.webp',
   './og-dentipedia.jpg',
   './Tema2_Fotografia_Clinica.pdf'
 ];

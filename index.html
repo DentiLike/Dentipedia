@@ -72,6 +72,61 @@ input{font-family:inherit}
 .login-foot{margin-top:1.6rem; font-size:.72rem; opacity:.55}
 .login-privacidad{margin-top:.9rem; font-size:.7rem; opacity:.72; line-height:1.5; max-width:300px}
 
+/* ===== INICIO (tablero) ===== */
+#inicioScreen{height:var(--vh); display:none; flex-direction:column; background:#f6f8fa}
+#inicioScreen.show{display:flex}
+.ini-header{flex-shrink:0; display:flex; align-items:center; gap:.7rem; padding:.85rem 1rem calc(.85rem + 2px);
+  background:var(--azul); color:#fff; padding-top:calc(.85rem + env(safe-area-inset-top))}
+.ini-marca{flex:1; display:flex; flex-direction:column; line-height:1.25; min-width:0}
+.ini-marca b{font-family:'Fredoka'; font-size:1.15rem; font-weight:600}
+.ini-marca small{font-size:.68rem; opacity:.82}
+.icon-btn.oscuro{background:rgba(255,255,255,.16); color:#fff}
+.icon-btn.oscuro:active{background:rgba(255,255,255,.3)}
+.ini-body{flex:1; overflow-y:auto; padding:1rem .9rem 6.5rem; -webkit-overflow-scrolling:touch}
+.ini-saludo{margin-bottom:1rem}
+.ini-hola{font-family:'Fredoka'; font-size:1.3rem; color:var(--azul-osc); line-height:1.3}
+.ini-frase{font-size:.76rem; color:var(--gris); font-style:italic; line-height:1.5; margin-top:.25rem}
+.ini-practica{display:flex; align-items:center; gap:.75rem; width:100%; text-align:left;
+  background:linear-gradient(135deg,var(--azul),var(--teal-osc)); color:#fff;
+  padding:.95rem .9rem; border-radius:14px; margin-bottom:.8rem; box-shadow:0 4px 16px rgba(9,82,135,.26)}
+.ini-practica:active{opacity:.92}
+.ini-practica.urge{animation:practicaPulso 2.4s ease-in-out infinite}
+@keyframes practicaPulso{0%,100%{box-shadow:0 4px 16px rgba(9,82,135,.26)}50%{box-shadow:0 4px 22px rgba(93,193,191,.6)}}
+.ini-practica-ico{flex:0 0 38px; height:38px; background:rgba(255,255,255,.2); border-radius:50%;
+  display:flex; align-items:center; justify-content:center; font-size:.95rem}
+.ini-practica-txt{flex:1; display:flex; flex-direction:column; gap:.12rem; min-width:0}
+.ini-practica-txt b{font-family:'Fredoka'; font-size:1rem; font-weight:600}
+.ini-practica-txt small{font-size:.72rem; opacity:.9; line-height:1.35}
+.ini-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:.6rem; margin-bottom:1rem}
+.ini-btn{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.35rem;
+  background:#fff; border:1.5px solid var(--borde); border-radius:14px; padding:1.1rem .5rem;
+  font-family:'Fredoka'; font-size:.88rem; color:var(--azul-osc); font-weight:500}
+.ini-btn span{font-size:1.6rem; line-height:1}
+.ini-btn:active{border-color:var(--teal); background:var(--teal-claro)}
+.ini-avance{background:#fff; border:1px solid var(--borde); border-radius:12px; padding:.75rem .85rem}
+.ini-avance-top{display:flex; justify-content:space-between; align-items:baseline; font-size:.76rem; color:var(--gris); margin-bottom:.45rem}
+.ini-avance-top b{font-family:'Fredoka'; font-size:.95rem; color:var(--azul)}
+.ini-avance-barra{height:7px; background:#eef2f6; border-radius:99px; overflow:hidden}
+.ini-avance-barra i{display:block; height:100%; background:var(--teal); border-radius:99px; transition:width .4s}
+/* Avatar flotante */
+.avatar-fab{position:absolute; right:1rem; bottom:calc(1.2rem + env(safe-area-inset-bottom));
+  width:62px; height:62px; border-radius:50%; padding:0; overflow:visible; z-index:40;
+  background:#fff; border:2.5px solid var(--teal); box-shadow:0 5px 20px rgba(9,82,135,.3)}
+.avatar-fab img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block}
+.avatar-fab:active{transform:scale(.94)}
+.fab-punto{position:absolute; top:-2px; right:-2px; width:16px; height:16px; border-radius:50%;
+  background:#dc2626; border:2.5px solid #fff; display:none}
+.fab-punto.on{display:block; animation:fabPunto 1.6s ease-in-out infinite}
+@keyframes fabPunto{0%,100%{transform:scale(1)}50%{transform:scale(1.22)}}
+.fab-globo{position:absolute; right:5.4rem; bottom:calc(1.9rem + env(safe-area-inset-bottom));
+  max-width:min(240px,62vw); background:var(--azul-osc); color:#fff; font-size:.79rem; line-height:1.5;
+  padding:.7rem .85rem; padding-right:1.7rem; border-radius:14px 14px 4px 14px; z-index:39;
+  display:none; box-shadow:0 5px 18px rgba(0,0,0,.24)}
+.fab-globo.visible{display:block; animation:globoEntra .3s ease-out}
+@keyframes globoEntra{from{opacity:0; transform:translateY(6px) scale(.94)}to{opacity:1; transform:none}}
+.globo-x{position:absolute; top:.3rem; right:.4rem; font-size:.7rem; opacity:.6; padding:.2rem}
+.chat-atras{flex:0 0 34px; height:34px; background:#f1f5f9; color:var(--gris); border-radius:9px; font-size:1.35rem; line-height:1}
+.chat-atras:active{background:#e2e8f0}
 /* ===== CHAT ===== */
 #chatScreen{height:var(--vh); display:none; flex-direction:column; background:#fff}
 #chatScreen.show{display:flex}
@@ -280,24 +335,164 @@ input{font-family:inherit}
 .sub-empty{text-align:center; color:var(--gris); font-size:.87rem; padding:3rem 1.5rem; line-height:1.6}
 .sub-empty .ico{font-size:2.2rem; display:block; margin-bottom:.6rem}
 .notas-mini{background:var(--teal-claro); border:1px solid #bfe8e6; border-radius:10px; padding:.65rem .8rem; font-size:.76rem; color:var(--teal-osc); line-height:1.5; margin-bottom:1rem}
+/* ==================== MODO PRÁCTICA ==================== */
+.mp-cap{position:fixed; inset:0; z-index:120; background:#f8fafc; display:none; flex-direction:column}
+.mp-cap.activo{display:flex}
+body.mp-abierto{overflow:hidden}
+.mp-top{display:flex; align-items:center; gap:.6rem; padding:.7rem .8rem; background:var(--azul); color:#fff; flex:0 0 auto}
+.mp-cerrar,.mp-crono-btn{background:rgba(255,255,255,.18); color:#fff; width:38px; height:38px; border-radius:10px; font-size:1.05rem; flex:0 0 auto; display:flex; align-items:center; justify-content:center}
+.mp-cerrar:active,.mp-crono-btn:active{background:rgba(255,255,255,.32)}
+.mp-top-mid{flex:1; min-width:0}
+.mp-progreso{font-size:.68rem; font-weight:700; opacity:.9; margin-bottom:.3rem}
+.mp-barra-out{height:5px; background:rgba(255,255,255,.25); border-radius:99px; overflow:hidden}
+.mp-barra-out i{display:block; height:100%; background:var(--teal); border-radius:99px; transition:width .3s}
+.mp-cuerpo{flex:1; overflow-y:auto; padding:1.1rem .9rem 1.4rem; -webkit-overflow-scrolling:touch}
+.mp-pie{flex:0 0 auto; display:flex; gap:.5rem; padding:.7rem .8rem calc(.7rem + env(safe-area-inset-bottom)); background:#fff; border-top:1px solid var(--borde)}
+.mp-btn{flex:1; background:#fff; border:1.5px solid var(--borde); color:var(--tinta); font-family:'Fredoka'; font-size:1rem; padding:1rem; border-radius:13px}
+.mp-btn.primario{background:var(--azul); border-color:var(--azul); color:#fff}
+.mp-btn.primario:active{background:var(--azul-osc)}
+.mp-atras{flex:0 0 58px; background:#fff; border:1.5px solid var(--borde); color:var(--gris); font-size:1.5rem; border-radius:13px}
+.mp-atras:disabled{opacity:.3}
+.mp-etapa-cab{margin-bottom:.9rem}
+.mp-etapa-num{display:inline-block; background:var(--teal); color:#fff; font-size:.65rem; font-weight:800; letter-spacing:.05em; padding:.2rem .55rem; border-radius:99px; margin-bottom:.45rem}
+.mp-etapa-t{font-family:'Fredoka'; font-size:1.35rem; color:var(--azul-osc); line-height:1.25}
+.mp-etapa-s{font-size:.82rem; color:var(--gris); margin-top:.2rem}
+.mp-intro{font-size:.85rem; color:var(--tinta); line-height:1.65; margin-bottom:.8rem}
+.mp-alerta{background:#fff7ed; border:1.5px solid #fed7aa; color:#9a3412; border-radius:11px; padding:.7rem .8rem; font-size:.8rem; line-height:1.55; margin-bottom:.9rem}
+.mp-h{font-family:'Fredoka'; font-size:.95rem; color:var(--azul); margin:1rem 0 .6rem}
+.mp-mat{display:flex; align-items:flex-start; gap:.7rem; width:100%; background:#fff; border:1.5px solid var(--borde); border-radius:12px; padding:.9rem .85rem; margin-bottom:.5rem; text-align:left; font-size:.88rem; color:var(--tinta); line-height:1.45}
+.mp-mat .mp-chk{flex:0 0 24px; width:24px; height:24px; border:2px solid var(--gris-claro); border-radius:7px; position:relative}
+.mp-mat.on{border-color:var(--ok); background:#f0fdf4}
+.mp-mat.on .mp-chk{background:var(--ok); border-color:var(--ok)}
+.mp-mat.on .mp-chk::after{content:'✓'; position:absolute; inset:0; color:#fff; font-size:.85rem; display:flex; align-items:center; justify-content:center}
+.mp-sinmat{font-size:.82rem; color:var(--gris); padding:.6rem 0}
+.mp-faltan{text-align:center; font-size:.78rem; font-weight:700; color:#b45309; background:#fffbeb; border-radius:9px; padding:.55rem; margin-top:.5rem}
+.mp-mini{font-size:.75rem; font-weight:700; color:var(--teal-osc); margin-bottom:.7rem}
+.mp-paso-num{font-size:.68rem; font-weight:800; letter-spacing:.06em; color:var(--gris-claro); text-transform:uppercase; margin-bottom:.5rem}
+.mp-paso{font-family:'Fredoka'; font-size:1.4rem; color:var(--tinta); line-height:1.4; margin-bottom:.7rem}
+.mp-det{font-size:.92rem; color:var(--gris); line-height:1.65; margin-bottom:1rem; padding-left:.7rem; border-left:3px solid var(--teal)}
+.mp-yahecho{display:inline-block; background:#f0fdf4; color:var(--ok); font-size:.74rem; font-weight:700; padding:.3rem .65rem; border-radius:99px; margin-bottom:.8rem}
+.mp-nota{background:var(--teal-claro); border:1px solid #bfe8e6; border-radius:11px; padding:.7rem .8rem; font-size:.8rem; color:var(--teal-osc); line-height:1.6; margin-bottom:.9rem}
+.mp-sig{border-top:1px dashed var(--borde); padding-top:.8rem; margin-top:1.2rem}
+.mp-sig-t{font-size:.66rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--gris-claro); margin-bottom:.4rem}
+.mp-sig-i{font-size:.8rem; color:var(--gris-claro); line-height:1.5; padding:.22rem 0}
+.mp-final{text-align:center; padding:2.5rem 1rem}
+.mp-final-ico{font-size:3.5rem; margin-bottom:.8rem}
+.mp-final-t{font-family:'Fredoka'; font-size:1.5rem; color:var(--azul-osc); margin-bottom:.4rem}
+.mp-final-s{font-size:.87rem; color:var(--gris); line-height:1.6; margin-bottom:1.6rem}
+.mp-final .mp-btn{margin-bottom:.6rem; width:100%}
+/* Imagen de referencia */
+.mp-img{display:block; width:100%; padding:0; margin:0 0 .9rem; border:1.5px solid var(--borde); border-radius:12px; overflow:hidden; background:#e8e8e0; position:relative}
+.mp-img img{display:block; width:100%; height:auto}
+.mp-img-lupa{position:absolute; right:.5rem; bottom:.5rem; background:rgba(15,23,42,.72); color:#fff; font-size:.66rem; font-weight:700; padding:.25rem .55rem; border-radius:99px}
+.mp-img:active{border-color:var(--teal)}
+.ruta-thumb{flex:0 0 54px; width:54px; height:46px; object-fit:cover; border-radius:7px; border:1px solid var(--borde); background:#e8e8e0; margin-left:.5rem}
+/* Visor a pantalla completa */
+.visor{position:fixed; inset:0; z-index:200; background:rgba(15,23,42,.92); display:none; align-items:center; justify-content:center; padding:1rem}
+.visor.activo{display:flex}
+.visor-in{position:relative; width:100%; max-width:640px}
+.visor-in img{display:block; width:100%; height:auto; border-radius:12px; background:#e8e8e0}
+.visor-x{position:absolute; top:-2.6rem; right:0; background:rgba(255,255,255,.18); color:#fff; width:40px; height:40px; border-radius:10px; font-size:1.05rem}
+.visor-pie{color:#fff; font-size:.85rem; text-align:center; margin-top:.7rem; line-height:1.5}
+/* Temporizador */
+.mp-crono{position:fixed; inset:0; z-index:130; background:rgba(15,23,42,.55); display:none; align-items:flex-end}
+.mp-crono.activo{display:flex}
+.crono-panel{width:100%; background:#fff; border-radius:20px 20px 0 0; padding:1rem .9rem calc(1rem + env(safe-area-inset-bottom))}
+.crono-cab{display:flex; align-items:center; justify-content:space-between; font-family:'Fredoka'; font-size:1rem; color:var(--azul-osc); margin-bottom:.6rem}
+.crono-x{background:#f1f5f9; width:32px; height:32px; border-radius:8px; color:var(--gris); font-size:.9rem}
+.crono-display{font-family:'Fredoka'; font-size:3.2rem; text-align:center; color:var(--azul); line-height:1.1}
+.crono-display.urgente{color:#dc2626; animation:cronoPulso .5s ease-in-out infinite}
+@keyframes cronoPulso{0%,100%{opacity:1}50%{opacity:.4}}
+.crono-nombre{text-align:center; font-size:.82rem; color:var(--gris); margin-bottom:.9rem}
+.crono-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:.45rem; margin-bottom:.7rem}
+.crono-op{display:flex; flex-direction:column; gap:.15rem; background:var(--azul-claro); border:1px solid #cfe3f2; border-radius:11px; padding:.65rem .5rem; text-align:center}
+.crono-op b{font-size:.76rem; color:var(--azul-osc); font-weight:700; line-height:1.3}
+.crono-op small{font-size:.68rem; color:var(--gris)}
+.crono-op:active{background:#dbeafe}
+.crono-parar{width:100%; background:#fef2f2; border:1px solid #fecaca; color:#dc2626; font-size:.85rem; font-weight:700; padding:.75rem; border-radius:11px}
+/* Selector de práctica */
+.elegir-card{display:flex; align-items:center; gap:.75rem; width:100%; background:#fff; border:1.5px solid var(--borde); border-radius:13px; padding:.9rem .85rem; margin-bottom:.6rem; text-align:left}
+.elegir-card:active{border-color:var(--azul); background:var(--azul-claro)}
+.elegir-ico{font-size:1.6rem; flex:0 0 auto}
+.elegir-txt{flex:1; display:flex; flex-direction:column; gap:.15rem; min-width:0}
+.elegir-txt b{font-family:'Fredoka'; font-size:.92rem; color:var(--azul-osc); font-weight:600}
+.elegir-txt small{font-size:.72rem; color:var(--gris)}
+.elegir-flecha{font-size:.9rem; color:var(--teal); flex:0 0 auto}
+/* Botón de entrada */
+.mp-lanzar{display:flex; align-items:center; justify-content:center; gap:.5rem; width:100%; background:linear-gradient(135deg,var(--azul),var(--teal-osc)); color:#fff; font-family:'Fredoka'; font-size:1rem; padding:.95rem; border-radius:13px; margin-bottom:.9rem; box-shadow:0 4px 16px rgba(9,82,135,.28)}
+.mp-lanzar:active{opacity:.9}
+.mp-lanzar small{display:block; font-size:.68rem; opacity:.85; font-weight:400}
+.nivel-prog{margin-left:auto; display:flex; align-items:center; gap:.35rem}
+.nivel-frac{font-size:.7rem; font-weight:700; color:var(--gris); opacity:.85}
+/* ---- Resumen de quiz ---- */
+.quiz-resumen{display:flex; align-items:center; gap:.7rem; width:100%; text-align:left; background:#fff;
+  border:1.5px solid var(--borde); border-radius:12px; padding:.75rem .8rem; margin-bottom:.9rem}
+.quiz-resumen:active{border-color:var(--teal); background:var(--teal-claro)}
+.quiz-res-ico{font-size:1.4rem; flex:0 0 auto}
+.quiz-res-txt{flex:1; display:flex; flex-direction:column; gap:.2rem; min-width:0}
+.quiz-res-txt b{font-family:'Fredoka'; font-size:.9rem; color:var(--azul-osc); font-weight:600}
+.quiz-res-txt small{font-size:.72rem; color:var(--gris)}
+.quiz-res-barra{display:block; height:5px; background:#eef2f6; border-radius:99px; overflow:hidden; margin-top:.15rem}
+.quiz-res-barra i{display:block; height:100%; background:var(--teal); border-radius:99px}
+.quiz-res-flecha{font-size:1.3rem; color:var(--gris-claro); flex:0 0 auto}
+/* ---- Selector de articulador ---- */
+.ruta-item{align-items:center}
+.ruta-det{display:block; font-style:normal; font-size:.74rem; color:var(--gris); line-height:1.55; margin-top:.28rem}
+.art-box{background:var(--azul-claro); border:1px solid #cfe3f2; border-radius:12px; padding:.75rem .8rem; margin:.8rem 0}
+.art-titulo{font-family:'Fredoka'; font-size:.85rem; color:var(--azul-osc); margin-bottom:.2rem}
+.art-sub{font-size:.72rem; color:var(--gris); line-height:1.45; margin-bottom:.6rem}
+.art-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:.4rem; margin-bottom:.6rem}
+.art-op{display:flex; flex-direction:column; gap:.1rem; background:#fff; border:1.5px solid var(--borde); border-radius:9px; padding:.5rem .4rem; text-align:center; line-height:1.25}
+.art-op b{font-size:.78rem; color:var(--tinta); font-weight:700}
+.art-op small{font-size:.63rem; color:var(--gris)}
+.art-op.on{border-color:var(--azul); background:#fff; box-shadow:0 0 0 2px rgba(9,82,135,.15)}
+.art-op.on b{color:var(--azul)}
+.art-info{background:#fff; border-radius:9px; padding:.55rem .65rem; font-size:.74rem; color:var(--tinta); line-height:1.55}
+/* ---- Fichas de consulta ---- */
+.ficha-card{display:flex; align-items:center; gap:.7rem; width:100%; background:#fff; border:1.5px solid var(--borde); border-radius:12px; padding:.8rem .85rem; margin-bottom:.6rem; text-align:left}
+.ficha-card:active{border-color:var(--teal); background:var(--teal-claro)}
+.ficha-ico{font-size:1.5rem; line-height:1; flex:0 0 auto}
+.ficha-txt{flex:1; display:flex; flex-direction:column; gap:.15rem; min-width:0}
+.ficha-txt b{font-family:'Fredoka'; font-size:.88rem; color:var(--azul-osc); font-weight:600; line-height:1.3}
+.ficha-txt small{font-size:.72rem; color:var(--gris); line-height:1.4}
+.ficha-flecha{font-size:1.3rem; color:var(--gris-claro); flex:0 0 auto}
+.ficha{padding-bottom:1rem}
+.fi-intro{font-size:.82rem; color:var(--tinta); line-height:1.65; margin-bottom:.8rem}
+.fi-h{font-family:'Fredoka'; font-size:.95rem; color:var(--azul); margin:1.3rem 0 .6rem; padding-bottom:.3rem; border-bottom:2px solid var(--teal-claro)}
+.fi-card{border:1px solid var(--borde); border-radius:11px; padding:.7rem .8rem; margin-bottom:.55rem; background:#fff}
+.fi-card.destacada{border-color:var(--teal); border-width:1.5px; background:var(--teal-claro)}
+.fi-card-t{font-size:.84rem; font-weight:700; color:var(--azul-osc); margin-bottom:.3rem; line-height:1.35}
+.fi-card-b{font-size:.78rem; color:var(--tinta); line-height:1.6}
+.fi-tag{display:inline-block; background:var(--teal); color:#fff; font-size:.6rem; font-weight:800; padding:.12rem .45rem; border-radius:999px; vertical-align:middle; margin-left:.3rem}
+.fi-tabla{border:1px solid var(--borde); border-radius:10px; overflow:hidden; margin-bottom:.6rem}
+.fi-fila{display:flex; font-size:.76rem; border-bottom:1px solid var(--borde)}
+.fi-fila:last-child{border-bottom:none}
+.fi-fila span{flex:1; padding:.5rem .6rem; color:var(--tinta); line-height:1.4}
+.fi-fila span:first-child{flex:1.5; font-weight:600}
+.fi-fila.fi-cab{background:var(--azul-claro)}
+.fi-fila.fi-cab span{font-weight:800; font-size:.7rem; letter-spacing:.03em; text-transform:uppercase; color:var(--azul-osc)}
+.fi-lista{display:flex; flex-direction:column; gap:.45rem}
+.fi-item{background:#f8fafc; border-left:3px solid var(--teal); border-radius:0 8px 8px 0; padding:.6rem .7rem; font-size:.78rem; color:var(--tinta); line-height:1.6}
+.fi-nota{background:var(--teal-claro); border:1px solid #bfe8e6; border-radius:10px; padding:.65rem .8rem; font-size:.77rem; color:var(--teal-osc); line-height:1.6; margin-top:.9rem}
+.fi-descarga{display:block; text-align:center; background:var(--azul); color:#fff; font-size:.82rem; font-weight:700; padding:.8rem; border-radius:11px; margin-top:1.1rem; text-decoration:none}
+.fi-descarga:active{background:var(--azul-osc)}
+.fi-alerta{background:#fff7ed; border:1.5px solid #fed7aa; border-radius:10px; padding:.7rem .8rem; font-size:.78rem; color:#9a3412; line-height:1.6; margin-bottom:1rem}
 /* ---- Aviso de entrega (lo más visible de la pantalla) ---- */
-.entrega-card{border-radius:14px; padding:.9rem .95rem; margin-bottom:.9rem; border:2px solid; position:relative; overflow:hidden}
-.entrega-card.vencida{background:#fef2f2; border-color:#dc2626}
-.entrega-card.hoy{background:#fff7ed; border-color:#ea580c; animation:pulsoEnt 2.2s ease-in-out infinite}
-.entrega-card.pronto{background:#fffbeb; border-color:#d97706}
-.entrega-card.normal{background:var(--azul-claro); border-color:var(--azul)}
-@keyframes pulsoEnt{0%,100%{box-shadow:0 0 0 0 rgba(234,88,12,.35)}50%{box-shadow:0 0 0 7px rgba(234,88,12,0)}}
+.entrega-card{border-radius:14px; padding:.9rem .95rem .9rem 1.15rem; margin-bottom:.9rem;
+  border:2.5px solid #dc2626; position:relative; overflow:hidden}
+.entrega-card::before{content:''; position:absolute; left:0; top:0; bottom:0; width:6px; background:#dc2626}
+.entrega-card.vencida{background:#fef2f2; animation:pulsoEnt 1.6s ease-in-out infinite}
+.entrega-card.hoy{background:#fff7ed; animation:pulsoEnt 2.2s ease-in-out infinite}
+.entrega-card.pronto{background:#fffbeb}
+.entrega-card.normal{background:#fef6f6}
+@keyframes pulsoEnt{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.38)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
 .entrega-top{display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.45rem; flex-wrap:wrap}
 .entrega-label{font-size:.66rem; font-weight:800; letter-spacing:.06em}
-.entrega-card.vencida .entrega-label{color:#dc2626}
-.entrega-card.hoy .entrega-label{color:#ea580c}
-.entrega-card.pronto .entrega-label{color:#b45309}
-.entrega-card.normal .entrega-label{color:var(--azul-osc)}
+.entrega-label{color:#dc2626; display:flex; align-items:center; gap:.3rem}
 .entrega-cuenta{font-size:.66rem; font-weight:800; padding:.18rem .5rem; border-radius:999px; color:#fff}
-.entrega-card.vencida .entrega-cuenta{background:#dc2626}
-.entrega-card.hoy .entrega-cuenta{background:#ea580c}
-.entrega-card.pronto .entrega-cuenta{background:#d97706}
-.entrega-card.normal .entrega-cuenta{background:var(--azul)}
+.entrega-cuenta{background:#dc2626}
+.entrega-aviso{flex:0 0 26px; width:26px; height:26px; border-radius:50%; background:#dc2626; color:#fff;
+  display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; font-weight:800; line-height:1}
 .entrega-titulo{font-family:'Fredoka'; font-size:.92rem; color:var(--tinta); line-height:1.35; margin-bottom:.3rem}
 .entrega-fecha{font-size:.76rem; font-weight:700; color:var(--tinta); margin-bottom:.4rem}
 .entrega-detalle{font-size:.76rem; color:var(--gris); line-height:1.5; margin-bottom:.65rem}
@@ -405,8 +600,46 @@ input{font-family:inherit}
 </div>
 
 <!-- ===== PANTALLA 2: CHAT ===== -->
+<div id="inicioScreen">
+  <div class="ini-header">
+    <div class="ini-marca">
+      <b>Dentipedia</b>
+      <small>Oclusión · Universidad Cuauhtémoc</small>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn oscuro" onclick="toggleHdrMenu('inicio')">⋮</button>
+      <div class="dropdown" id="menuInicio">
+        <div class="dropdown-cab">Material del curso</div>
+        <button class="dropdown-item" onclick="abrirFechas('inicio')">📅 Fechas de entrega</button>
+        <button class="dropdown-item" onclick="abrirBiblioteca('inicio','salon')">📘 Teoría</button>
+        <button class="dropdown-item" onclick="abrirBiblioteca('inicio','lab')">🧪 Laboratorio</button>
+        <button class="dropdown-item" onclick="abrirBiblioteca('inicio','consulta')">📖 Fichas de consulta</button>
+        <div class="dropdown-sep"></div>
+        <div class="dropdown-cab">Práctica y clínica</div>
+        <button class="dropdown-item" onclick="elegirModoPractica('inicio')">▶️ Modo Práctica</button>
+        <button class="dropdown-item" onclick="abrirRuta('inicio')">🧭 Step by Dent</button>
+        <button class="dropdown-item" onclick="irAlQuiz()">📝 Quiz de repaso</button>
+        <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
+        <button class="dropdown-item" onclick="abrirMisCalificaciones('inicio')">📊 Mis calificaciones</button>
+        <div class="dropdown-sep"></div>
+        <button class="dropdown-item" onclick="mostrarChat()">💬 Preguntar a Mikes Molares</button>
+        <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
+        <button class="dropdown-item" onclick="abrirAyuda('inicio')">❓ Ayuda</button>
+        <button class="dropdown-item danger" onclick="salir()">🚪 Salir</button>
+      </div>
+    </div>
+  </div>
+  <div class="ini-body" id="inicioBody"></div>
+  <button class="avatar-fab" id="avatarFab" onclick="mostrarChat()" aria-label="Abrir chat con Mikes Molares">
+    <img class="js-avatar" src="" alt="">
+    <span class="fab-punto" id="fabPunto"></span>
+  </button>
+  <div class="fab-globo" id="fabGlobo" onclick="mostrarChat()"></div>
+</div>
+
 <div id="chatScreen">
   <div class="chat-header">
+    <button class="chat-atras" onclick="mostrarInicio()" aria-label="Volver al inicio">‹</button>
     <img class="js-avatar" src="" alt="Mikes Molares">
     <div class="who">
       <b>Mikes Molares <span class="dot-on"></span></b>
@@ -416,13 +649,18 @@ input{font-family:inherit}
     <div class="hdr-actions">
       <button class="icon-btn" onclick="toggleHdrMenu('chat')">⋮</button>
       <div class="dropdown" id="menuChat">
+        <button class="dropdown-item" onclick="mostrarInicio()">🏠 Inicio</button>
+        <div class="dropdown-sep"></div>
         <div class="dropdown-cab">Material del curso</div>
         <button class="dropdown-item" onclick="abrirFechas('chat')">📅 Fechas de entrega</button>
         <button class="dropdown-item" onclick="abrirBiblioteca('chat','salon')">📘 Teoría</button>
         <button class="dropdown-item" onclick="abrirBiblioteca('chat','lab')">🧪 Laboratorio</button>
+        <button class="dropdown-item" onclick="abrirBiblioteca('chat','consulta')">📖 Fichas de consulta</button>
         <div class="dropdown-sep"></div>
-        <div class="dropdown-cab">Clínica</div>
+        <div class="dropdown-cab">Práctica y clínica</div>
+        <button class="dropdown-item" onclick="elegirModoPractica('chat')">▶️ Modo Práctica</button>
         <button class="dropdown-item" onclick="abrirRuta('chat')">🧭 Step by Dent</button>
+        <button class="dropdown-item" onclick="irAlQuiz()">📝 Quiz de repaso</button>
         <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
         <button class="dropdown-item" onclick="abrirMisCalificaciones('chat')">📊 Mis calificaciones</button>
         <div class="dropdown-sep"></div>
@@ -447,6 +685,22 @@ input{font-family:inherit}
 <div class="dropdown-backdrop" id="menuBackdrop" onclick="closeAllMenus()"></div>
 
 <!-- ===== SUBPANTALLA GENÉRICA (Ayuda / Calendario / Mis calificaciones / Cargar) ===== -->
+<div id="modoPractica" class="mp-cap">
+  <div class="mp-top">
+    <button class="mp-cerrar" onclick="cerrarModoPractica()">✕</button>
+    <div class="mp-top-mid">
+      <div class="mp-progreso" id="mpProgreso"></div>
+      <div class="mp-barra-out"><i id="mpBarra"></i></div>
+    </div>
+    <button class="mp-crono-btn" onclick="abrirCrono()">⏱️</button>
+  </div>
+  <div class="mp-cuerpo" id="mpCuerpo"></div>
+  <div class="mp-pie" id="mpPie"></div>
+  <div class="mp-crono" id="mpCrono"></div>
+</div>
+
+<div id="visorImg" class="visor" onclick="if(event.target===this)cerrarVisor()"></div>
+
 <div id="subScreen">
   <div class="sub-header">
     <button class="back" onclick="cerrarSubScreen()">←</button>
@@ -563,15 +817,114 @@ function entrarChat(){
 })();
 
 function enrutar(){
-  mostrarChat();
+  mostrarInicio();
 }
 
-function mostrarChat(){
+function mostrarInicio(){
   $('loginScreen').style.display='none';
+  $('chatScreen').classList.remove('show');
+  $('inicioScreen').classList.add('show');
+  pantallaAnterior = 'inicio';
+  pintarInicio();
+}
+
+let chatIniciado = false;
+function mostrarChat(){
+  ocultarGlobo();
+  $('loginScreen').style.display='none';
+  $('inicioScreen').classList.remove('show');
   $('chatScreen').classList.add('show');
   $('hdrAlumno').textContent = ALUMNO.nombre.split(' ')[0];
-  renderChips();
-  saludoInicial();
+  pantallaAnterior = 'chat';
+  if(!chatIniciado){
+    renderChips();
+    saludoInicial();
+    chatIniciado = true;
+  }
+}
+
+function saludoHora(){
+  const h = new Date().getHours();
+  if(h < 12) return 'Buenos días';
+  if(h < 19) return 'Buenas tardes';
+  return 'Buenas noches';
+}
+
+/* Globo de bienvenida del avatar, una vez por sesión */
+function ocultarGlobo(){
+  const g = $('fabGlobo');
+  if(g) g.classList.remove('visible');
+}
+function mostrarGlobo(texto){
+  const g = $('fabGlobo');
+  if(!g) return;
+  g.innerHTML = texto + '<span class="globo-x" onclick="event.stopPropagation();ocultarGlobo()">✕</span>';
+  g.classList.add('visible');
+  setTimeout(ocultarGlobo, 9000);
+}
+
+function pintarInicio(){
+  const nombre = ALUMNO ? ALUMNO.nombre.split(' ')[0] : '';
+  const ent = entregaVigente();
+  const practica = proximaPractica();
+
+  // Progreso compacto
+  const r = leerRuta();
+  const totalR = etapasRuta().reduce((a,e)=>a+itemsEtapa(e).length+((e.materiales||[]).length),0);
+  const hechosR = etapasRuta().reduce((a,e)=>a+((r[e.id]||[]).length)+((r[e.id+'_mat']||[]).length),0);
+  const pctR = totalR ? Math.round(hechosR/totalR*100) : 0;
+
+  // ¿Hoy o mañana hay laboratorio? Entonces Modo Práctica se destaca
+  const dLab = practica ? diasPara(practica.iso) : 99;
+  const urgeLab = dLab >= 0 && dLab <= 1;
+
+  const bloques = [
+    bloqueEntrega(ent),
+    bloqueProximaSesion(),
+    bloqueMaterial(practica, true)
+  ].filter(Boolean).join('');
+
+  $('inicioBody').innerHTML = `
+    <div class="ini-saludo">
+      <div class="ini-hola">${saludoHora()}, ${nombre}</div>
+      <div class="ini-frase">“${fraseAleatoria()}”</div>
+    </div>
+    ${bloques}
+    <button class="ini-practica${urgeLab ? ' urge' : ''}" onclick="elegirModoPractica('inicio')">
+      <span class="ini-practica-ico">▶</span>
+      <span class="ini-practica-txt">
+        <b>Modo Práctica</b>
+        <small>${urgeLab ? 'Tienes laboratorio ' + (dLab===0?'hoy':'mañana') + ' · guía paso a paso' : 'Guía paso a paso para el laboratorio'}</small>
+      </span>
+    </button>
+    <div class="ini-grid">
+      <button class="ini-btn" onclick="abrirBiblioteca('inicio','salon')"><span>📘</span>Teoría</button>
+      <button class="ini-btn" onclick="abrirBiblioteca('inicio','lab')"><span>🧪</span>Laboratorio</button>
+      <button class="ini-btn" onclick="irAlQuiz()"><span>📝</span>Quiz</button>
+      <button class="ini-btn" onclick="abrirFechas('inicio')"><span>📅</span>Calendario</button>
+    </div>
+    <div class="ini-avance">
+      <div class="ini-avance-top"><span>Tu avance en ${RUTAS[rutaActual].nombre}</span><b>${pctR}%</b></div>
+      <div class="ini-avance-barra"><i style="width:${pctR}%"></i></div>
+    </div>`;
+
+  // Punto rojo en el avatar cuando hay entrega urgente
+  const punto = $('fabPunto');
+  if(punto){
+    const urge = ent && diasPara(ent.iso) <= 2;
+    punto.classList.toggle('on', !!urge);
+  }
+
+  // Bienvenida una sola vez por sesión
+  if(!sessionStorage.getItem('mm_saludado')){
+    try{ sessionStorage.setItem('mm_saludado','1'); }catch(e){}
+    let msg = `Hola ${nombre}, soy Mikes Molares. Pregúntame lo que sea del temario.`;
+    if(ent && diasPara(ent.iso) <= 2){
+      const u = urgenciaEntrega(ent.iso);
+      msg = `${nombre}, ojo: ${u.txt.toLowerCase()} para entregar. Tócame si tienes dudas.`;
+    }
+    setTimeout(()=>mostrarGlobo(msg), 1100);
+  }
 }
 
 
@@ -583,7 +936,10 @@ function salir(){
   localStorage.removeItem('mm_alumno');
   ALUMNO = null;
   $('chatScreen').classList.remove('show');
+  $('inicioScreen').classList.remove('show');
   $('loginScreen').style.display='flex';
+  chatIniciado = false;
+  try{ sessionStorage.removeItem('mm_saludado'); }catch(e){}
   $('chatBody').innerHTML='';
   $('inNombre').value='';
 }
@@ -1351,39 +1707,39 @@ function saludoInicial(){
 
 /* Panel de arranque: próxima sesión + avance + de qué preguntar.
    Resuelve el "no sé por dónde empezar" y da motivo para volver. */
-function tarjetaInicio(){
+/* Bloque de próxima sesión, reutilizado en inicio y en el chat */
+function bloqueProximaSesion(){
   const prox = proximaSesion();
-  let bloqueSesion = '';
-  if(prox){
-    const cuando = textoCuando(prox.iso);
-    const doc = prox.doc ? RECURSOS[prox.doc] : null;
-    bloqueSesion = `<div class="inicio-sesion">
-        <div class="inicio-label">${cuando ? cuando + ' · ' : ''}PRÓXIMA SESIÓN</div>
-        <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
-        <div class="inicio-tema">${prox.tema}</div>
-        ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 ${doc.label}</a>` : ''}
-      </div>`;
-  }
+  if(!prox) return '';
+  const cuando = textoCuando(prox.iso);
+  const doc = prox.doc ? RECURSOS[prox.doc] : null;
+  return `<div class="inicio-sesion">
+      <div class="inicio-label">${cuando ? cuando + ' · ' : ''}PRÓXIMA SESIÓN</div>
+      <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
+      <div class="inicio-tema">${prox.tema}</div>
+      ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 ${doc.label}</a>` : ''}
+    </div>`;
+}
 
-  // Avance por tema
+function tarjetaInicio(){
+  const bloqueSesion = bloqueProximaSesion();
+
+  // Avance de quizzes, resumido en una línea. El detalle vive en el selector.
   const prog = leerProgreso();
-  let filas = '';
-  ORDEN_TEMAS.filter(id=>QUIZ[id]).forEach(id=>{
-    const aprobados = NIVELES.filter(n=>{
-      const r = prog[id+'_'+n.id];
-      return r && r.aprobado;
-    }).length;
-    const corto = temaCorto(id);
-    const puntos = NIVELES.map((n,i)=> i < aprobados ? '<span class="pt on"></span>' : '<span class="pt"></span>').join('');
-    filas += `<button class="inicio-tema-row" onclick="mostrarNiveles('${id}')">
-        <span class="fila-tema">
-          <b>${corto}</b>
-          <small>${temaTitulo(id)}</small>
-        </span>
-        <span class="pts">${puntos}</span>
-        <span class="inicio-nivel">${aprobados}/3</span>
-      </button>`;
-  });
+  const temasQ = ORDEN_TEMAS.filter(id=>QUIZ[id]);
+  const nivelesOk = temasQ.reduce((a,id)=>
+    a + NIVELES.filter(n=>{ const r = prog[id+'_'+n.id]; return r && r.aprobado; }).length, 0);
+  const nivelesTot = temasQ.length * NIVELES.length;
+  const pctQ = nivelesTot ? Math.round(nivelesOk/nivelesTot*100) : 0;
+  const filas = `<button class="quiz-resumen" onclick="elegirTemaQuiz()">
+      <span class="quiz-res-ico">📝</span>
+      <span class="quiz-res-txt">
+        <b>Quiz de repaso</b>
+        <small>${nivelesOk} de ${nivelesTot} niveles aprobados · ${temasQ.length} temas</small>
+        <span class="quiz-res-barra"><i style="width:${pctQ}%"></i></span>
+      </span>
+      <span class="quiz-res-flecha">›</span>
+    </button>`;
 
   // Sugerencias de qué preguntar
   const sugerencias = [
@@ -1407,8 +1763,8 @@ function tarjetaInicio(){
   const accesos = `<div class="acceso-row">
       <button class="acceso" onclick="abrirBiblioteca('chat','salon')"><span>📘</span>Teoría</button>
       <button class="acceso" onclick="abrirBiblioteca('chat','lab')"><span>🧪</span>Laboratorio</button>
-      <button class="acceso" onclick="abrirRuta('chat')"><span>🧭</span>Step by Dent</button>
-      <button class="acceso destacado" onclick="abrirFechas('chat')"><span>📅</span>Fechas</button>
+      <button class="acceso" onclick="abrirFechas('chat')"><span>📅</span>Fechas</button>
+      <button class="acceso destacado" onclick="elegirModoPractica('chat')"><span>▶</span>Práctica</button>
     </div>`;
 
   const card = document.createElement('div');
@@ -1418,7 +1774,6 @@ function tarjetaInicio(){
     ${bloqueSesion}
     ${bloquePractica}
     ${accesos}
-    <div class="inicio-titulo">Tu avance</div>
     ${filas}
     <div class="inicio-titulo" style="margin-top:.8rem">¿Por dónde empezar?</div>
     <div class="sug-wrap">${chips}</div>
@@ -1669,18 +2024,30 @@ function reportarDudas(temaId, nivelId, preguntas){
   window.open('https://wa.me/524446036659?text=' + encodeURIComponent(msg), '_blank');
 }
 
+/* El quiz se juega dentro del chat. Desde el tablero hay que abrirlo antes,
+   o el contenido se escribe en una pantalla que no se ve. */
+function irAlQuiz(){
+  closeAllMenus();
+  const enChat = $('chatScreen').classList.contains('show');
+  if(!enChat) mostrarChat();
+  setTimeout(elegirTemaQuiz, enChat ? 0 : 180);
+}
+
 function elegirTemaQuiz(){
   const temasConQuiz = ORDEN_TEMAS.filter(id => QUIZ[id]);
   if(temasConQuiz.length === 1){ mostrarNiveles(temasConQuiz[0]); return; }
   agregarUser('Quiz de repaso');
+  const progQ = leerProgreso();
   let tarjetas = '';
   temasConQuiz.forEach(id=>{
-    const t = TEMAS[id];
     const corto = temaCorto(id);
     const titulo = temaTitulo(id);
     const totalPreg = Object.values(QUIZ[id]).reduce((a,n)=>a+n.length,0);
+    const aprobados = NIVELES.filter(n=>{ const r = progQ[id+'_'+n.id]; return r && r.aprobado; }).length;
+    const puntos = NIVELES.map((n,i)=> i < aprobados ? '<span class="pt on"></span>' : '<span class="pt"></span>').join('');
     tarjetas += `<button class="nivel-card" onclick="mostrarNiveles('${id}')">
-        <div class="nivel-top"><span class="nivel-ico">📚</span><b>${corto}</b></div>
+        <div class="nivel-top"><span class="nivel-ico">📚</span><b>${corto}</b>
+          <span class="nivel-prog">${puntos}<span class="nivel-frac">${aprobados}/3</span></span></div>
         <div class="nivel-desc">${titulo}<br><span style="opacity:.7">${totalPreg} preguntas en 3 niveles</span></div>
       </button>`;
   });
@@ -2404,6 +2771,8 @@ const RUTAS = {
     sub:"Antes de tocar, fotografiar o registrar nada.",
     intro:"Ningún registro clínico es válido sin autorización previa del paciente. En fotografía además hay que separar el uso <b>clínico</b> del uso <b>académico o de difusión</b>: son permisos distintos.",
     items:[
+      { t:"Historia clínica llenada y firmada", d:"Antes de cualquier procedimiento. Si el paciente es de primera vez, este es el momento de levantarla completa." },
+      { t:"Aviso de privacidad entregado", d:"El paciente debe conocer qué datos se recaban, con qué finalidad y quién los resguarda. Se entrega copia y queda constancia en el expediente." },
       "Explicar en lenguaje sencillo qué se va a hacer y para qué",
       "Aclarar riesgos, alternativas y el derecho a negarse sin represalias",
       "Especificar el destino de las imágenes: expediente, clase, publicación",
@@ -2413,6 +2782,8 @@ const RUTAS = {
       "Entregar copia al paciente y conservar el original en el expediente"
     ],
     materiales:[
+          "Formato de historia clínica",
+          "Aviso de privacidad impreso",
           "Formato de consentimiento informado (2 copias)",
           "Pluma de tinta azul o negra",
           "Tabla de apoyo",
@@ -2817,10 +3188,402 @@ const RUTAS = {
         nota:"Restaurar sin controlar la causa garantiza que la lesión regrese. La operatoria trata el efecto, no la enfermedad."
       }
     ]
+  },
+
+  foto: {
+    nombre: "Serie fotográfica clínica",
+    matTitulo: "Equipo necesario",
+    sub: "Las 12 tomas de la serie completa",
+    icono: "📸",
+    etapas: [
+  {
+    id:"fdocs", n:1, icono:"📋", titulo:"Documentación del paciente",
+    sub:"Antes de tocar o fotografiar nada.",
+    intro:"Toda actividad que implique interacción con el paciente exige documentación previa. No es trámite: sin ella, ningún registro que tomes es válido y expones al paciente y a ti mismo.",
+    items:[
+      { t:"Historia clínica completa", d:"Debe estar llenada y firmada antes de iniciar. Si el paciente es de primera vez, este es el momento." },
+      { t:"Consentimiento informado firmado", d:"Explicado en lenguaje sencillo: qué se va a hacer, para qué, riesgos y derecho a negarse. Firma del paciente y del operador, con fecha." },
+      { t:"Aviso de privacidad entregado", d:"El paciente debe conocer qué datos se recaban, con qué finalidad y quién los resguarda. Se entrega copia y se deja constancia en el expediente." },
+      { t:"Autorización específica de uso académico", d:"El uso clínico y el uso académico o de difusión son permisos distintos. Si las fotos se van a presentar en clase, se autoriza por separado." },
+      { t:"En menores de edad, firma del tutor", d:"Padre, madre o tutor legal. El menor puede asentir, pero la firma válida es la del tutor." }
+    ],
+    materiales:[
+      "Formato de historia clínica",
+      "Formato de consentimiento informado",
+      "Aviso de privacidad impreso",
+      "Bolígrafo de tinta azul o negra"
+    ],
+    alerta:"Esto aplica a cualquier práctica con paciente, no solo a fotografía. Si falta alguno de los tres documentos, no procedas.",
+    nota:"Conserva el original en el expediente y entrega copia al paciente. Es requisito de la NOM-004."
+  },
+  {
+    id:"fpre", n:2, icono:"🧴", titulo:"Preparación y bioseguridad",
+    sub:"Montaje del área y del equipo.",
+    intro:"La serie se arruina en la preparación, no en el disparo. Un espejo empañado o un fondo con objetos de más te obligan a repetir todo.",
+    items:[
+      { t:"Montar el fondo", d:"Idealmente negro mate. Absorbe la luz, elimina sombras proyectadas y hace que el contorno facial resalte. Evita fondos brillantes, con textura o con objetos visibles." },
+      { t:"Activar la cuadrícula guía del dispositivo", d:"Casi todas las cámaras y celulares tienen líneas guía en los ajustes. Actívalas: son tu referencia para centrar y para verificar que el plano no esté inclinado. Es la forma más simple de estandarizar la serie." },
+      { t:"Preparar al paciente", d:"Sin lentes, aretes grandes ni maquillaje excesivo. Cabello retirado de la cara y orejas descubiertas: en los perfiles la oreja es tu referencia de que no hubo rotación." },
+      { t:"Limpiar y desinfectar espejos y retractores", d:"Entre cada paciente y entre tomas si se contaminan. Lysol o Sani-Cloth." },
+      { t:"Tener lista la jeringa triple", d:"El aire de la unidad es lo que va a mantener el espejo sin empañar durante las tomas intraorales. Verifica que tenga presión antes de empezar." },
+      { t:"Verificar batería y espacio de memoria", d:"Quedarte sin espacio a media serie significa repetir con el paciente ya cansado." }
+    ],
+    materiales:[
+      "Cámara o dispositivo de captura",
+      "Ring flash o fuente de luz LED",
+      "Espejos intraorales (oclusal y lateral)",
+      "Retractores de carrillos para fotografía",
+      "Guantes, cubrebocas y toallas desechables",
+      "Lysol o Sani-Cloth para desinfección entre tomas"
+    ],
+    nota:"Si el espejo se empaña a media serie, sécalo y vuelve a calentarlo. Nunca soples sobre él."
+  },
+  {
+    id:"fextra", n:3, icono:"🙂", titulo:"Extraorales · 6 tomas",
+    sub:"Cara completa, sin retractores.",
+    intro:"Estas seis documentan el <b>patrón facial</b>: simetría, perfil y línea de sonrisa. En todas, el paciente va en <b>posición natural de cabeza</b>, con el plano de Frankfort paralelo al piso, hombros relajados y espalda recta. Usa la cuadrícula del dispositivo para verificar que no haya inclinación.",
+    items:[
+      { t:"1 · Frente en reposo", img:"foto01_frente_reposo.webp", d:"Paciente de frente a la cámara, mirada al horizonte en un punto fijo a la altura de sus ojos. Labios en reposo, sin contraer ni apretar. Encuadre de vértex a mentón. Centra la línea media facial con la línea vertical de la cuadrícula y verifica que la línea bipupilar quede horizontal." },
+      { t:"2 · Frente sonriendo", img:"foto02_frente_sonrisa.webp", d:"Misma posición exacta que la anterior, sin mover al paciente ni la cámara. Sonrisa amplia y natural, mostrando dientes. Aquí valoras línea de sonrisa, exposición de incisivos y corredores bucales." },
+      { t:"3 · Tres cuartos derecho", img:"foto03_tres_cuartos_der.webp", d:"El paciente gira la cabeza aproximadamente 45° hacia su izquierda, de modo que veas su lado derecho. La mirada sigue al frente respecto a su cara, no hacia la cámara. Referencia: debe verse apenas la punta de la nariz sobrepasando el contorno de la mejilla." },
+      { t:"4 · Perfil derecho", img:"foto04_perfil_der.webp", d:"Giro completo de 90°: el paciente queda mirando al frente con su lado derecho hacia la cámara. Mirada al horizonte, no hacia abajo. Referencia de que no hay rotación: se ve una sola ceja, una sola pestaña y la oreja completa. Aquí valoras el perfil facial y la posición labial." },
+      { t:"5 · Tres cuartos izquierdo", img:"foto05_tres_cuartos_izq.webp", d:"Espejo de la toma 3: giro de 45° hacia su derecha para ver su lado izquierdo. Usa el mismo grado de giro que en el lado derecho para que la serie sea comparable." },
+      { t:"6 · Perfil izquierdo", img:"foto06_perfil_izq.webp", d:"Espejo de la toma 4. Mismas referencias: una ceja, una pestaña, oreja completa. Compara ambos perfiles: las diferencias entre ellos son hallazgo de asimetría." }
+    ],
+    alerta:"La posición natural de cabeza no es 'como quede'. Pide al paciente que mire un punto fijo a la altura de sus ojos, nunca hacia la cámara ni hacia el piso.",
+    nota:"Mantén la misma distancia y la misma altura de cámara en las seis tomas. Si cambias de distancia entre una y otra, la serie deja de ser comparable."
+  },
+  {
+    id:"fintra", n:4, icono:"🦷", titulo:"Intraorales · 6 tomas",
+    sub:"Con retractores y espejos.",
+    intro:"Aquí documentas la <b>oclusión</b>. Cada toma tiene un encuadre específico: si el plano oclusal sale inclinado o la imagen descentrada, la foto no sirve para análisis. Sopla con la jeringa triple sobre el espejo justo antes de disparar para evitar el empañamiento.",
+    items:[
+      { t:"7 · Frontal en oclusión", img:"foto07_frontal_oclusion.webp", d:"Paciente sentado, cabeza erguida y mirada al frente. Retractores traccionando de forma simétrica y hacia afuera, no hacia arriba. Dientes en máxima intercuspidación. Centra la línea media dentaria con la vertical de la cuadrícula y mantén el plano oclusal paralelo a la horizontal. Deben verse de canino a canino como mínimo, idealmente hasta primeros molares." },
+      { t:"8 · Oclusal superior", img:"foto08_oclusal_sup.webp", d:"Paciente recostado con la cabeza en extensión. Espejo oclusal introducido apoyando en los últimos molares, angulado a unos 45° respecto al plano oclusal. La cámara se dirige al espejo, no a la boca. Debe verse la arcada completa hasta los últimos molares, con la imagen centrada y en forma de herradura simétrica. El rafe medio va alineado con la vertical de la cuadrícula." },
+      { t:"9 · Oclusal inferior", img:"foto09_oclusal_inf.webp", d:"Paciente semisentado, cabeza ligeramente flexionada, lengua retraída hacia atrás y abajo para que no cubra la arcada. Mismo principio: espejo a 45°, foto del reflejo, arcada completa y centrada. La lengua tapando premolares es el error más común de esta toma." },
+      { t:"10 · Lateral derecha", img:"foto10_lateral_der.webp", d:"Paciente con la cabeza al frente, sin girarla. Quien gira es el operador y el retractor: se tracciona solo el lado derecho hacia afuera y atrás, y se retira o afloja el izquierdo. Dientes en oclusión. Debe verse la relación molar y canina del lado derecho, con el plano oclusal horizontal y centrado en el canino. Puede usarse espejo lateral para mejor acceso." },
+      { t:"11 · Lateral izquierda", img:"foto11_lateral_izq.webp", d:"Espejo de la anterior, traccionando el lado izquierdo. Mantén la misma angulación y el mismo encuadre que usaste en el derecho: la comparación entre ambos lados es justamente el dato diagnóstico." },
+      { t:"12 · Sobremordida", img:"foto12_sobremordida.webp", d:"Vista de perfil con retractor, tomada perpendicular al plano sagital y a la altura del plano oclusal, nunca desde arriba. Dientes en oclusión. Debe apreciarse con claridad el resalte horizontal (overjet) y el entrecruzamiento vertical (overbite). Puede tomarse directa o con espejo lateral según acceso." }
+    ],
+    alerta:"En las oclusales la foto se toma del reflejo del espejo, nunca directa a la boca. La imagen queda invertida y hay que rotarla al editar.",
+    nota:"Un plano oclusal inclinado o una imagen descentrada invalidan la toma para análisis. Antes de disparar, revisa la cuadrícula: es un segundo y te ahorra repetir."
+  },
+  {
+    id:"fcierre", n:5, icono:"💾", titulo:"Revisión y entrega",
+    sub:"Antes de dejar ir al paciente.",
+    intro:"Revisa la serie con el paciente todavía en el sillón. Repetir una toma en ese momento cuesta dos minutos; citarlo de nuevo cuesta una semana.",
+    items:[
+      "Verificar que estén las 12 tomas completas",
+      "Revisar que ninguna tenga el plano oclusal inclinado",
+      "Descartar fotos movidas, oscuras o con espejo empañado",
+      "Confirmar que ninguna tenga dedos o guantes en el encuadre",
+      "Rotar las oclusales para corregir la inversión del espejo",
+      "Nombrar los archivos con paciente y fecha",
+      "Respaldar en dos lugares distintos",
+      "Desinfectar y guardar espejos y retractores"
+    ],
+    nota:"No edites color ni contraste más allá de lo mínimo. Una foto clínica alterada deja de ser un registro."
+  }
+    ]
+  },
+  montaje: {
+    nombre: "Montaje en articulador",
+    matTitulo: "Material necesario",
+    sub: "Con arco facial, céntrica y habitual",
+    icono: "⚙️",
+    porArticulador: true,
+    etapas: [
+  {
+    id:"mdocs", n:1, icono:"📋", titulo:"Documentación del paciente",
+    sub:"El arco facial se toma en boca: aplica.",
+    intro:"La toma del arco facial y los registros implican interacción directa con el paciente. Toda actividad con paciente exige la documentación completa antes de iniciar.",
+    items:[
+      { t:"Historia clínica completa y firmada", d:"Debe estar levantada antes de cualquier procedimiento." },
+      { t:"Consentimiento informado firmado", d:"Explicado en lenguaje sencillo, con firma del paciente y del operador y fecha." },
+      { t:"Aviso de privacidad entregado", d:"Con copia para el paciente y constancia en el expediente." },
+      { t:"En menores de edad, firma del tutor", d:"Padre, madre o tutor legal." }
+    ],
+    materiales:[
+      "Formato de historia clínica",
+      "Formato de consentimiento informado",
+      "Aviso de privacidad impreso"
+    ],
+    alerta:"Sin los tres documentos no se procede. Aplica a toda práctica con paciente, no solo a esta."
+  },
+  {
+    id:"mprep", n:2, icono:"📦", titulo:"Verificación previa",
+    sub:"Modelos y articulador listos.",
+    intro:"Se asume que ya tienes los modelos vaciados y recortados. Antes de montar, revisa que no haya nada que desvíe el resultado: una burbuja en una cúspide o un zócalo desnivelado arruinan el montaje completo.",
+    items:[
+      "Modelos secos, sin burbujas en cúspides ni en fondos de surco",
+      "Bases recortadas y paralelas al plano oclusal",
+      "Modelos ocluyen entre sí de forma estable, sin balanceo",
+      "Retirar cualquier nódulo de yeso de las superficies oclusales",
+      "Articulador limpio, sin restos de yeso previo",
+      "Verificar que el articulador cierre sin juego lateral",
+      "Vástago incisal en cero y bloqueado",
+      "Hacer retenciones en la base de los modelos para que agarre el yeso"
+    ],
+    materiales:[
+      "Modelos superior e inferior",
+      "Articulador semiajustable",
+      "Platinas de montaje",
+      "Yeso tipo II para montaje",
+      "Taza y espátula de yeso",
+      "Lecrón y navaja de yeso",
+      "Vaselina o separador"
+    ],
+    alerta:"Si los modelos no ocluyen estables en la mano, no van a ocluir en el articulador. Corrige antes de continuar.",
+    nota:"Las retenciones se hacen con fresa o lecrón en la base del modelo. Sin ellas el modelo se desprende de la platina."
+  },
+  {
+    id:"marco", n:3, icono:"🎯", titulo:"Toma del arco facial",
+    sub:"Registro de la relación cráneo-maxilar.",
+    intro:"El arco facial no registra la oclusión. Registra <b>dónde está el maxilar superior respecto al eje de bisagra</b>, para que el modelo superior quede montado con la misma relación espacial que tiene en el paciente. Sin él, el arco de cierre del articulador no reproduce el del paciente y los contactos en movimiento salen falsos.",
+    items:[
+      "Localizar y marcar los puntos de referencia posteriores",
+      "Marcar el punto de referencia anterior según tu sistema",
+      "Ablandar la horquilla y adaptarla al arco superior",
+      "Registrar solo las cúspides, sin cubrir surcos",
+      "Colocar la horquilla en boca y verificar asiento completo",
+      "Posicionar los olivares en conductos auditivos externos",
+      "Nivelar el arco: paralelo al piso y centrado",
+      "Apretar los tornillos en el orden correcto, sin mover el arco",
+      "Verificar estabilidad antes de retirar",
+      "Retirar el conjunto sin deformar la horquilla"
+    ],
+    alerta:"Si la horquilla se mueve al apretar los tornillos, todo el montaje queda mal. Vuelve a empezar en lugar de compensar después.",
+    nota:"El paciente debe estar sentado, erguido y relajado. Un paciente tenso o recargado cambia la posición de la cabeza."
+  },
+  {
+    id:"msup", n:4, icono:"⬆️", titulo:"Montaje del modelo superior",
+    sub:"Se monta primero y define todo lo demás.",
+    intro:"El superior se monta con la transferencia del arco facial. Cualquier error aquí se hereda al inferior y a los dos registros.",
+    items:[
+      "Montar el arco facial en el articulador según tu sistema",
+      "Colocar la platina de montaje en el miembro superior",
+      "Asentar el modelo superior sobre la horquilla",
+      "Verificar que el modelo no toque la platina",
+      "Apoyar el modelo con soporte si queda en voladizo",
+      "Mezclar el yeso tipo II a consistencia cremosa",
+      "Aplicar el yeso entre el modelo y la platina, sin burbujas",
+      "Cerrar el miembro superior hasta contacto con el vástago",
+      "Mantener sin mover hasta el fraguado inicial",
+      "Retirar excedentes y alisar antes de que endurezca del todo"
+    ],
+    nota:"Si el modelo queda en voladizo y no lo apoyas, el peso del yeso fresco lo baja y el montaje queda desviado."
+  },
+  {
+    id:"mrc", n:5, icono:"🎚️", titulo:"Registro en relación céntrica",
+    sub:"Posición ósea, reproducible.",
+    intro:"La <b>relación céntrica</b> es una posición determinada por la articulación, no por los dientes: cóndilos en su posición más superoanterior contra la vertiente posterior de la eminencia, con el disco interpuesto. Es reproducible y por eso sirve como punto de partida del diagnóstico.",
+    items:[
+      "Desprogramar al paciente antes de tomar el registro",
+      "Guiar la mandíbula con técnica bimanual, sin forzar",
+      "Verificar que el arco de cierre sea repetible varias veces",
+      "Recortar la cera y ablandarla de forma uniforme",
+      "Interponer el registro sin que los dientes se toquen entre sí",
+      "Guiar el cierre hasta marcar solo las puntas de cúspides",
+      "Enfriar el registro en boca antes de retirarlo",
+      "Verificar que asiente en ambos modelos sin balanceo",
+      "Recortar excedentes que impidan el asiento completo"
+    ],
+    alerta:"Si el paciente cierra en su mordida habitual durante el registro, no estás registrando céntrica. Repite la desprogramación.",
+    nota:"La cera rosa toda estación se deforma con facilidad. Para un montaje formal considera cera azul de registro o silicona de registro."
+  },
+  {
+    id:"minf", n:6, icono:"⬇️", titulo:"Montaje del modelo inferior",
+    sub:"Con el articulador invertido.",
+    intro:"El inferior se monta contra el superior ya fijado, usando el registro de céntrica como intermediario.",
+    items:[
+      "Invertir el articulador y estabilizarlo",
+      "Colocar el registro de céntrica sobre el modelo superior",
+      "Asentar el modelo inferior sobre el registro",
+      "Verificar asiento completo y sin balanceo",
+      "Fijar provisionalmente con cera pegajosa si es necesario",
+      "Colocar la platina en el miembro inferior",
+      "Mezclar el yeso y aplicarlo entre modelo y platina",
+      "Cerrar y sostener sin presión hasta el fraguado",
+      "Esperar el fraguado completo antes de manipular",
+      "Retirar el registro y verificar que los modelos ocluyan igual"
+    ],
+    alerta:"No presiones al cerrar. La presión hunde el registro de cera y el montaje queda con la dimensión vertical disminuida.",
+    nota:"Al retirar el registro, los modelos deben contactar exactamente como lo hacían con él puesto. Si no, algo se movió."
+  },
+  {
+    id:"mhab", n:7, icono:"🔄", titulo:"Registro en posición habitual",
+    sub:"El segundo montaje, para comparar.",
+    intro:"La <b>posición habitual de conveniencia</b> es donde el paciente cierra por costumbre, guiado por sus dientes y no por la articulación. Aquí está el valor didáctico del ejercicio: montar las dos y ver cuánto se separan entre sí.",
+    items:[
+      "Pedir al paciente que cierre en su mordida de siempre",
+      "No guiar ni desprogramar: es la posición que él elige",
+      "Repetir el cierre varias veces y confirmar que sea constante",
+      "Tomar el registro sin modificar la trayectoria de cierre",
+      "Marcar claramente este registro para no confundirlo",
+      "Montar un segundo juego de modelos con este registro",
+      "O bien remontar el inferior usando platina de montaje intercambiable"
+    ],
+    nota:"Si tu articulador tiene platinas magnéticas o de encastre, puedes hacer dos montajes del inferior y alternarlos. Es la forma más didáctica de ver el contraste."
+  },
+  {
+    id:"mverif", n:8, icono:"🔍", titulo:"Verificación y análisis",
+    sub:"Lo que el montaje debe revelarte.",
+    intro:"Un montaje bien hecho te muestra cosas que en boca no se ven. Aquí es donde el ejercicio deja de ser manual y se vuelve diagnóstico.",
+    items:[
+      "Comparar la posición de los modelos en céntrica y en habitual",
+      "Medir el deslizamiento de céntrica a habitual",
+      "Identificar el primer punto de contacto en céntrica",
+      "Localizar interferencias en el lado de trabajo",
+      "Localizar interferencias en el lado de balance",
+      "Evaluar la guía anterior y la guía canina",
+      "Registrar los hallazgos por escrito",
+      "Fotografiar el montaje para el reporte"
+    ],
+    alerta:"Un deslizamiento amplio entre céntrica y habitual no es normal. Es un hallazgo que hay que documentar y explicar en el reporte.",
+    nota:"Este es el punto de toda la práctica. El montaje no es el objetivo, es la herramienta para encontrar las interferencias del tema II."
+  }
+    ]
   }
 };
 
 // Ruta activa por defecto
+/* -------- Articuladores semiajustables --------
+   Cada sistema tiene su propio arco facial y su forma de transferir.
+   Los pasos genéricos viven en RUTAS.montaje; aquí van las diferencias. */
+const ARTICULADORES = {
+  whipmix: {
+    nombre:"Whip Mix", ref:"Serie 2240 / 3040",
+    tipo:"Arbitrario, referencia en eje de bisagra",
+    puntos:"Olivares en conductos auditivos + nasion",
+    resumen:"El más difundido en escuelas. Su arco facial se apoya en conductos auditivos y usa el nasion como tercer punto. La horquilla se transfiere junto con el arco completo al articulador.",
+    arco:[
+      "Ensamblar el arco facial y aflojar los tornillos centrales",
+      "Ablandar la horquilla y adaptarla al arco superior",
+      "Insertar los olivares en ambos conductos auditivos",
+      "Apoyar el posicionador del nasion sobre el puente nasal",
+      "Centrar el arco verificando simetría de ambos lados",
+      "Apretar primero el tornillo del nasion, luego los laterales",
+      "Apretar el tornillo del vástago de la horquilla al final",
+      "Aflojar el nasion y retirar el conjunto hacia adelante"
+    ],
+    montar:[
+      "Colocar el soporte de montaje en el articulador",
+      "Fijar el arco facial sobre el soporte, sin forzarlo",
+      "Verificar que la horquilla quede libre de la platina",
+      "Asentar el modelo superior sobre las marcas de la horquilla"
+    ],
+    nota:"En Whip Mix el nasion es el tercer punto de referencia. Si se apoya mal, el plano queda inclinado y todo el montaje se desvía."
+  },
+  bioart: {
+    nombre:"Bio-Art", ref:"A7 Plus / A7 Fix",
+    tipo:"Arbitrario, referencia en conductos auditivos",
+    puntos:"Olivares + apoyo nasal ajustable",
+    resumen:"Fabricación brasileña, muy usado en México por costo y disponibilidad. El arco facial es de tipo arbitrario con apoyo nasal, y el sistema de platinas es de encastre, lo que facilita hacer dos montajes del inferior.",
+    arco:[
+      "Abrir el arco facial y verificar el juego de los olivares",
+      "Ablandar la horquilla y registrar las cúspides superiores",
+      "Colocar los olivares en los conductos auditivos",
+      "Ajustar el apoyo nasal hasta que el arco quede estable",
+      "Verificar paralelismo del arco respecto al piso",
+      "Fijar el tornillo del apoyo nasal",
+      "Fijar los tornillos del brazo de la horquilla",
+      "Retirar el conjunto sosteniendo la horquilla"
+    ],
+    montar:[
+      "Instalar la mesa de transferencia en el articulador",
+      "Acoplar el arco facial a la mesa",
+      "Verificar que el conjunto quede firme antes de aplicar yeso",
+      "Asentar el modelo superior sobre la horquilla"
+    ],
+    nota:"El sistema de encastre de las platinas Bio-Art permite retirar y volver a colocar el modelo sin perder la posición. Aprovéchalo para montar céntrica y habitual."
+  },
+  dentatus: {
+    nombre:"Dentatus", ref:"ARH / ARL",
+    tipo:"Arbitrario, arco facial simple",
+    puntos:"Apoyo en conductos auditivos y raíz nasal",
+    resumen:"Articulador sueco de diseño clásico y construcción metálica. Su arco facial es más simple que los anteriores y se ajusta directo al articulador, sin mesa de transferencia independiente.",
+    arco:[
+      "Verificar que las ramas del arco deslicen libremente",
+      "Ablandar la horquilla y adaptarla al arco superior",
+      "Colocar el arco apoyando en ambos conductos auditivos",
+      "Apoyar la referencia anterior en la raíz nasal",
+      "Comprobar que el arco no esté rotado",
+      "Fijar los tornillos laterales de forma simétrica",
+      "Fijar el vástago de la horquilla",
+      "Retirar el conjunto en un solo movimiento"
+    ],
+    montar:[
+      "Acoplar el arco facial directamente al articulador",
+      "Colocar la platina de montaje en el miembro superior",
+      "Verificar altura y libertad del modelo",
+      "Asentar el modelo superior sobre la horquilla"
+    ],
+    nota:"Al ser de construcción metálica y ajuste directo, revisa que los tornillos no tengan holgura antes de montar. Un tornillo flojo aquí se nota mucho."
+  },
+  panadent: {
+    nombre:"Panadent", ref:"PSH / PCH",
+    tipo:"Eje de bisagra cinemático o arbitrario",
+    puntos:"Referencia en plano axio-orbitario",
+    resumen:"Sistema estadounidense de mayor precisión, con analizador de eje de bisagra. Permite trabajo cinemático real, no solo arbitrario. Es el más complejo de los cuatro y el que más pasos exige.",
+    arco:[
+      "Montar el registrador de eje sobre el arco facial",
+      "Localizar el eje de bisagra terminal del paciente",
+      "Marcar los puntos del eje en la piel del paciente",
+      "Ablandar la horquilla y registrar las cúspides",
+      "Alinear el arco con los puntos marcados",
+      "Ajustar el indicador del plano de referencia orbitario",
+      "Fijar los tornillos siguiendo el orden del fabricante",
+      "Verificar el registro antes de retirar el conjunto"
+    ],
+    montar:[
+      "Instalar el soporte de transferencia Panadent",
+      "Acoplar el arco facial respetando la referencia orbitaria",
+      "Verificar que el plano quede correctamente orientado",
+      "Asentar el modelo superior sobre la horquilla"
+    ],
+    nota:"Si tu laboratorio tiene Panadent, aprovecha el analizador de eje. Es la diferencia entre un montaje arbitrario y uno cinemático."
+  }
+};
+
+let articuladorActual = (function(){
+  try{ return localStorage.getItem('mm_articulador') || 'whipmix'; }catch(e){ return 'whipmix'; }
+})();
+
+function cambiarArticulador(id, origen){
+  articuladorActual = id;
+  try{ localStorage.setItem('mm_articulador', id); }catch(e){}
+  abrirRuta(origen || 'chat', 'marco', 'montaje');
+}
+
+/* Devuelve los items de una etapa aplicando la variante del articulador */
+/* Un paso puede ser un texto simple o {t:"título", d:"detalle"} */
+function txtItem(x){ return (x && typeof x === 'object') ? x.t : x; }
+function detItem(x){ return (x && typeof x === 'object' && x.d) ? x.d : ''; }
+function imgItem(x){ return (x && typeof x === 'object' && x.img) ? x.img : ''; }
+
+function itemsEtapa(e){
+  if(rutaActual !== 'montaje') return e.items;
+  const a = ARTICULADORES[articuladorActual];
+  if(!a) return e.items;
+  if(e.id === 'marco') return a.arco;
+  if(e.id === 'msup')  return a.montar.concat(e.items.slice(4));
+  return e.items;
+}
+function notaEtapa(e){
+  if(rutaActual === 'montaje' && (e.id === 'marco' || e.id === 'msup')){
+    const a = ARTICULADORES[articuladorActual];
+    if(a) return a.nota;
+  }
+  return e.nota;
+}
+
+const ETIQUETA_RUTA = {
+  caso:"Caso clínico",
+  operatoria:"Operatoria",
+  foto:"Fotografía",
+  montaje:"Articulador"
+};
+
 let rutaActual = "caso";
 
 function etapasRuta(){ return RUTAS[rutaActual].etapas; }
@@ -2864,12 +3627,12 @@ function toggleItemRuta(etapaId, i){
   if(!etapa) return;
   const hechos = (r[etapaId]||[]).length;
   const cont = $('rutaCont'+etapaId);
-  const totalLista = esMat ? (etapa.materiales||[]).length : etapa.items.length;
+  const totalLista = esMat ? (etapa.materiales||[]).length : itemsEtapa(etapa).length;
   if(cont) cont.textContent = hechos + '/' + totalLista;
   const etapaId_ = baseId;
   const chk = $('rutaChk'+etapaId+'_'+i);
   if(chk) chk.classList.toggle('on');
-  const totalEtapa = etapa.items.length + (etapa.materiales||[]).length;
+  const totalEtapa = itemsEtapa(etapa).length + (etapa.materiales||[]).length;
   const hechosEtapa = ((r[etapaId_]||[]).length) + ((r[etapaId_+'_mat']||[]).length);
   const barra = $('rutaBar'+etapaId_);
   if(barra) barra.style.width = Math.round(hechosEtapa/totalEtapa*100) + '%';
@@ -2880,7 +3643,7 @@ function toggleItemRuta(etapaId, i){
 }
 function actualizarProgresoRutaGlobal(){
   const r = leerRuta();
-  const total = etapasRuta().reduce((a,e)=>a+e.items.length+((e.materiales||[]).length),0);
+  const total = etapasRuta().reduce((a,e)=>a+itemsEtapa(e).length+((e.materiales||[]).length),0);
   const hechos = etapasRuta().reduce((a,e)=>a+((r[e.id]||[]).length)+((r[e.id+'_mat']||[]).length),0);
   const el = $('rutaGlobal');
   if(el) el.textContent = hechos + ' de ' + total + ' pasos';
@@ -2888,10 +3651,305 @@ function actualizarProgresoRutaGlobal(){
   if(bg) bg.style.width = Math.round(hechos/total*100) + '%';
 }
 
+/* ==================== MODO PRÁCTICA ====================
+   Vista guiada de pantalla completa: una pantalla por paso,
+   pensada para usarse con guantes en el laboratorio. */
+
+let mpRuta = null;      // ruta activa
+let mpEtapa = 0;        // índice de etapa
+let mpPaso = -1;        // -1 = pantalla de materiales; 0..n = paso
+let mpWakeLock = null;
+
+/* Tiempos estándar. Cada preset son segundos. */
+const TIEMPOS = [
+  { t:"Mezclado de alginato",     s:45  },
+  { t:"Fraguado del alginato",    s:180 },
+  { t:"Mezclado de yeso",         s:60  },
+  { t:"Fraguado inicial del yeso", s:600 },
+  { t:"Separar modelo del molde", s:2700 },
+  { t:"Curado de acrílico",       s:1200 }
+];
+
+function mpEtapasActuales(){ return RUTAS[mpRuta].etapas; }
+
+async function pedirWakeLock(){
+  try{
+    if('wakeLock' in navigator){
+      mpWakeLock = await navigator.wakeLock.request('screen');
+    }
+  }catch(e){}
+}
+function soltarWakeLock(){
+  try{ if(mpWakeLock){ mpWakeLock.release(); mpWakeLock = null; } }catch(e){}
+}
+
+/* Elegir qué práctica iniciar */
+function elegirModoPractica(origen){
+  const destino = origen || pantallaAnterior;
+  const tarjetas = Object.keys(RUTAS).map(k=>{
+    const r = RUTAS[k];
+    const n = r.etapas.length;
+    const pasos = r.etapas.reduce((a,e)=>a+itemsEtapaDe(k,e).length,0);
+    return `<button class="elegir-card" onclick="cerrarSubScreen();abrirModoPractica('${k}')">
+        <span class="elegir-ico">${r.icono}</span>
+        <span class="elegir-txt"><b>${r.nombre}</b><small>${n} etapas · ${pasos} pasos</small></span>
+        <span class="elegir-flecha">▶</span>
+      </button>`;
+  }).join('');
+  abrirSubScreen(destino, 'Modo Práctica', `
+    <div class="notas-mini">▶️ Vista guiada de pantalla completa, un paso a la vez. Pensada para seguirla con guantes en el laboratorio: la pantalla no se apaga y tu avance se guarda solo.</div>
+    ${tarjetas}`);
+}
+/* Longitud real de una etapa según su ruta, sin cambiar rutaActual */
+function itemsEtapaDe(ruta, e){
+  if(ruta !== 'montaje') return e.items;
+  const a = ARTICULADORES[articuladorActual];
+  if(!a) return e.items;
+  if(e.id === 'marco') return a.arco;
+  if(e.id === 'msup')  return a.montar.concat(e.items.slice(4));
+  return e.items;
+}
+
+function abrirModoPractica(cual){
+  mpRuta = cual || rutaActual || 'montaje';
+  rutaActual = mpRuta;
+  mpEtapa = 0; mpPaso = -1;
+  const cap = $('modoPractica');
+  if(cap) cap.classList.add('activo');
+  document.body.classList.add('mp-abierto');
+  pedirWakeLock();
+  pintarModoPractica();
+}
+function cerrarModoPractica(){
+  const cap = $('modoPractica');
+  if(cap) cap.classList.remove('activo');
+  document.body.classList.remove('mp-abierto');
+  soltarWakeLock();
+  pararCrono();
+  if($('inicioScreen') && $('inicioScreen').classList.contains('show')) pintarInicio();
+}
+
+function mpAvanzar(){
+  const e = mpEtapasActuales()[mpEtapa];
+  const pasos = itemsEtapa(e);
+  if(mpPaso < pasos.length - 1){ mpPaso++; }
+  else if(mpEtapa < mpEtapasActuales().length - 1){ mpEtapa++; mpPaso = -1; }
+  else { mpFinal(); return; }
+  pintarModoPractica();
+}
+function mpRetroceder(){
+  if(mpPaso > -1){ mpPaso--; }
+  else if(mpEtapa > 0){
+    mpEtapa--;
+    mpPaso = itemsEtapa(mpEtapasActuales()[mpEtapa]).length - 1;
+  } else return;
+  pintarModoPractica();
+}
+function mpIrEtapa(i){ mpEtapa = i; mpPaso = -1; pintarModoPractica(); }
+
+/* Marca el paso actual y avanza */
+function mpListo(){
+  const e = mpEtapasActuales()[mpEtapa];
+  if(mpPaso >= 0){
+    const r = leerRuta();
+    r[e.id] = r[e.id] || [];
+    if(r[e.id].indexOf(mpPaso) < 0) r[e.id].push(mpPaso);
+    guardarRuta(r);
+  }
+  mpAvanzar();
+}
+function mpToggleMat(i){
+  const e = mpEtapasActuales()[mpEtapa];
+  const clave = e.id + '_mat';
+  const r = leerRuta();
+  r[clave] = r[clave] || [];
+  const pos = r[clave].indexOf(i);
+  if(pos >= 0) r[clave].splice(pos,1); else r[clave].push(i);
+  guardarRuta(r);
+  pintarModoPractica();
+}
+
+function mpFinal(){
+  const cuerpo = `
+    <div class="mp-final">
+      <div class="mp-final-ico">🎉</div>
+      <div class="mp-final-t">Práctica completada</div>
+      <div class="mp-final-s">Terminaste <b>${RUTAS[mpRuta].nombre}</b>. Tu avance quedó guardado.</div>
+      <button class="mp-btn primario" onclick="cerrarModoPractica()">Salir del modo práctica</button>
+      <button class="mp-btn" onclick="mpEtapa=0;mpPaso=-1;pintarModoPractica()">Volver al inicio de la ruta</button>
+    </div>`;
+  const c = $('mpCuerpo'); if(c) c.innerHTML = cuerpo;
+  const f = $('mpPie'); if(f) f.innerHTML = '';
+  const b = $('mpBarra'); if(b) b.style.width = '100%';
+  const p = $('mpProgreso'); if(p) p.textContent = 'Completado';
+}
+
+function pintarModoPractica(){
+  const etapas = mpEtapasActuales();
+  const e = etapas[mpEtapa];
+  const pasos = itemsEtapa(e);
+  const r = leerRuta();
+  const hechos = r[e.id] || [];
+  const matHechos = r[e.id + '_mat'] || [];
+
+  // Progreso global de la ruta
+  const totalPasos = etapas.reduce((a,x)=>a+itemsEtapa(x).length,0);
+  let previos = 0;
+  for(let i=0;i<mpEtapa;i++) previos += itemsEtapa(etapas[i]).length;
+  const actual = previos + Math.max(0, mpPaso + 1);
+  const pct = Math.round(actual / totalPasos * 100);
+
+  const bar = $('mpBarra'); if(bar) bar.style.width = pct + '%';
+  const pr = $('mpProgreso');
+  if(pr) pr.textContent = 'Etapa ' + (mpEtapa+1) + ' de ' + etapas.length + ' · Paso ' + Math.max(1, mpPaso+1) + ' de ' + pasos.length;
+
+  let cuerpo = '';
+
+  if(mpPaso === -1){
+    // Pantalla de materiales de la etapa
+    const mats = (e.materiales || []);
+    const lista = mats.length
+      ? mats.map((t,i)=>`
+          <button class="mp-mat${matHechos.includes(i)?' on':''}" onclick="mpToggleMat(${i})">
+            <span class="mp-chk"></span><span>${t}</span>
+          </button>`).join('')
+      : '<div class="mp-sinmat">Esta etapa no requiere material adicional.</div>';
+    const faltan = mats.length - matHechos.length;
+    cuerpo = `
+      <div class="mp-etapa-cab">
+        <span class="mp-etapa-num">Etapa ${mpEtapa+1}</span>
+        <div class="mp-etapa-t">${e.icono} ${e.titulo}</div>
+        <div class="mp-etapa-s">${e.sub}</div>
+      </div>
+      <div class="mp-intro">${e.intro}</div>
+      ${e.alerta ? `<div class="mp-alerta">⚠️ ${e.alerta}</div>` : ''}
+      <div class="mp-h">🧰 Antes de empezar, reúne esto</div>
+      ${lista}
+      ${mats.length && faltan > 0 ? `<div class="mp-faltan">Te faltan ${faltan} de ${mats.length}</div>` : ''}`;
+  } else {
+    // Pantalla de un paso
+    const sig = pasos.slice(mpPaso+1, mpPaso+3);
+    cuerpo = `
+      <div class="mp-mini">${e.icono} ${e.titulo}</div>
+      <div class="mp-paso-num">Paso ${mpPaso+1} de ${pasos.length}</div>
+      <div class="mp-paso">${txtItem(pasos[mpPaso])}</div>
+      ${imgItem(pasos[mpPaso]) ? `<button class="mp-img" onclick="ampliarImagen('${imgItem(pasos[mpPaso])}','${txtItem(pasos[mpPaso]).replace(/'/g,'')}')">
+          <img src="${imgItem(pasos[mpPaso])}" alt="Referencia de encuadre: ${txtItem(pasos[mpPaso])}" loading="lazy">
+          <span class="mp-img-lupa">Toca para ampliar</span>
+        </button>` : ''}
+      ${detItem(pasos[mpPaso]) ? `<div class="mp-det">${detItem(pasos[mpPaso])}</div>` : ''}
+      ${hechos.includes(mpPaso) ? '<div class="mp-yahecho">✓ Ya lo marcaste antes</div>' : ''}
+      ${mpPaso === pasos.length-1 && notaEtapa(e) ? `<div class="mp-nota">💡 ${notaEtapa(e)}</div>` : ''}
+      ${sig.length ? `<div class="mp-sig"><div class="mp-sig-t">Después viene</div>${sig.map(x=>`<div class="mp-sig-i">${txtItem(x)}</div>`).join('')}</div>` : ''}`;
+  }
+
+  const c = $('mpCuerpo'); if(c){ c.innerHTML = cuerpo; c.scrollTop = 0; }
+
+  const esUltimo = (mpEtapa === etapas.length-1) && (mpPaso === pasos.length-1);
+  const pie = `
+    <button class="mp-atras" onclick="mpRetroceder()" ${(mpEtapa===0 && mpPaso===-1)?'disabled':''}>‹</button>
+    <button class="mp-btn primario" onclick="${mpPaso===-1?'mpAvanzar()':'mpListo()'}">
+      ${mpPaso===-1 ? 'Ya tengo todo, empezar →' : (esUltimo ? 'Terminar práctica ✓' : 'Listo, siguiente →')}
+    </button>`;
+  const f = $('mpPie'); if(f) f.innerHTML = pie;
+}
+
+/* --------- Visor de imagen --------- */
+function ampliarImagen(src, titulo){
+  const el = $('visorImg');
+  if(!el) return;
+  el.innerHTML = `<div class="visor-in">
+      <button class="visor-x" onclick="cerrarVisor()">✕</button>
+      <img src="${src}" alt="${titulo||''}">
+      ${titulo ? `<div class="visor-pie">${titulo}</div>` : ''}
+    </div>`;
+  el.classList.add('activo');
+}
+function cerrarVisor(){
+  const el = $('visorImg');
+  if(el){ el.classList.remove('activo'); el.innerHTML = ''; }
+}
+
+/* --------- Temporizador --------- */
+let cronoInt = null, cronoFin = 0, cronoNombre = '';
+function abrirCrono(){
+  const opts = TIEMPOS.map(x=>`<button class="crono-op" onclick="iniciarCrono(${x.s},'${x.t}')"><b>${x.t}</b><small>${formatoMin(x.s)}</small></button>`).join('');
+  const el = $('mpCrono');
+  if(el){
+    el.innerHTML = `<div class="crono-panel">
+        <div class="crono-cab">⏱️ Temporizador <button class="crono-x" onclick="cerrarCrono()">✕</button></div>
+        <div class="crono-display" id="cronoDisplay">--:--</div>
+        <div class="crono-nombre" id="cronoNombre">Elige un tiempo</div>
+        <div class="crono-grid">${opts}</div>
+        <button class="crono-parar" onclick="pararCrono()">Detener</button>
+      </div>`;
+    el.classList.add('activo');
+  }
+}
+function cerrarCrono(){ const el=$('mpCrono'); if(el) el.classList.remove('activo'); }
+function formatoMin(s){
+  const m = Math.floor(s/60), q = s%60;
+  return m ? (m + ' min' + (q? ' ' + q + ' s':'')) : (q + ' s');
+}
+function iniciarCrono(seg, nombre){
+  pararCrono();
+  cronoNombre = nombre;
+  cronoFin = Date.now() + seg*1000;
+  const nom = $('cronoNombre'); if(nom) nom.textContent = nombre;
+  cronoInt = setInterval(tickCrono, 250);
+  tickCrono();
+}
+function tickCrono(){
+  const resta = Math.max(0, Math.round((cronoFin - Date.now())/1000));
+  const d = $('cronoDisplay');
+  if(d){
+    const m = String(Math.floor(resta/60)).padStart(2,'0');
+    const s2 = String(resta%60).padStart(2,'0');
+    d.textContent = m + ':' + s2;
+    d.classList.toggle('urgente', resta <= 10 && resta > 0);
+  }
+  if(resta <= 0){
+    pararCrono();
+    if(d) d.textContent = '00:00';
+    const nom = $('cronoNombre'); if(nom) nom.textContent = '¡Listo! ' + cronoNombre;
+    try{ if(navigator.vibrate) navigator.vibrate([300,150,300,150,300]); }catch(e){}
+    pitido();
+  }
+}
+function pararCrono(){ if(cronoInt){ clearInterval(cronoInt); cronoInt = null; } }
+function pitido(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value = 880; o.type = 'sine';
+    g.gain.setValueAtTime(0.25, ctx.currentTime);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+    o.stop(ctx.currentTime + 1.25);
+  }catch(e){}
+}
+
+function selectorArticulador(origen){
+  const opciones = Object.keys(ARTICULADORES).map(k=>{
+    const a = ARTICULADORES[k];
+    return `<button class="art-op${k===articuladorActual?' on':''}" onclick="cambiarArticulador('${k}','${origen}')">
+        <b>${a.nombre}</b><small>${a.ref}</small>
+      </button>`;
+  }).join('');
+  const a = ARTICULADORES[articuladorActual];
+  return `<div class="art-box">
+      <div class="art-titulo">⚙️ Tu articulador</div>
+      <div class="art-sub">Los pasos de esta etapa cambian según el sistema. Elige el que usas en el laboratorio.</div>
+      <div class="art-grid">${opciones}</div>
+      <div class="art-info"><b>${a.nombre} · ${a.ref}</b><br>${a.resumen}</div>
+    </div>`;
+}
+
 function abrirRuta(origen, abierta, cual){
   if(cual) rutaActual = cual;
   const r = leerRuta();
-  const total = etapasRuta().reduce((a,e)=>a+e.items.length+((e.materiales||[]).length),0);
+  const total = etapasRuta().reduce((a,e)=>a+itemsEtapa(e).length+((e.materiales||[]).length),0);
   const hechos = etapasRuta().reduce((a,e)=>a+((r[e.id]||[]).length)+((r[e.id+'_mat']||[]).length),0);
 
   // Kit básico: mismo para todas las rutas, se revisa antes de entrar
@@ -2914,14 +3972,16 @@ function abrirRuta(origen, abierta, cual){
   etapasRuta().forEach(e=>{
     const marcados = r[e.id] || [];
     const marcMatPre = r[e.id+'_mat'] || [];
-    const totalEtapa = e.items.length + ((e.materiales||[]).length);
+    const listaItems = itemsEtapa(e);
+    const totalEtapa = listaItems.length + ((e.materiales||[]).length);
     const hechosEtapa = marcados.length + marcMatPre.length;
     const pct = Math.round(hechosEtapa / totalEtapa * 100);
     const abierto = abierta === e.id;
-    const items = e.items.map((t,i)=>`
+    const items = listaItems.map((x,i)=>`
       <button class="ruta-item" onclick="toggleItemRuta('${e.id}',${i})">
         <span class="ruta-chk${marcados.includes(i)?' on':''}" id="rutaChk${e.id}_${i}"></span>
-        <span>${t}</span>
+        <span>${txtItem(x)}${detItem(x) ? `<em class="ruta-det">${detItem(x)}</em>` : ''}</span>
+        ${imgItem(x) ? `<img class="ruta-thumb" src="${imgItem(x)}" alt="" loading="lazy">` : ''}
       </button>`).join('');
 
     const marcMat = r[e.id+'_mat'] || [];
@@ -2952,13 +4012,19 @@ function abrirRuta(origen, abierta, cual){
             ${bloqueMat}
             <div class="mat-titulo" style="margin-top:.7rem">✅ Pasos del procedimiento</div>
             ${items}
-            ${e.nota ? `<div class="ruta-nota">💡 ${e.nota}</div>` : ''}
+            ${(rutaActual==='montaje' && (e.id==='marco'||e.id==='msup')) ? selectorArticulador(origen) : ''}
+            ${notaEtapa(e) ? `<div class="ruta-nota">💡 ${notaEtapa(e)}</div>` : ''}
           </div>` : ''}
       </div>`;
   });
 
+  const lanzador = `<button class="mp-lanzar" onclick="abrirModoPractica('${rutaActual}')">
+      <span>▶</span>
+      <span style="text-align:left">Iniciar Modo Práctica<small>Paso a paso, pensado para el laboratorio</small></span>
+    </button>`;
+
   const tabs = Object.keys(RUTAS).map(k=>
-    `<button class="biblio-tab ${k===rutaActual?'active':''}" onclick="abrirRuta('${origen}','','${k}')">${RUTAS[k].icono} ${k==='caso'?'Caso clínico':'Operatoria'}</button>`
+    `<button class="biblio-tab ${k===rutaActual?'active':''}" onclick="abrirRuta('${origen}','','${k}')">${RUTAS[k].icono} ${ETIQUETA_RUTA[k] || RUTAS[k].nombre}</button>`
   ).join('');
 
   abrirSubScreen(origen, 'Step by Dent', `
@@ -2973,6 +4039,7 @@ function abrirRuta(origen, abierta, cual){
         <span class="ruta-barra grande"><i id="rutaGlobalBar" style="width:${Math.round(hechos/total*100)}%"></i></span>
       </div>
     </div>
+    ${lanzador}
     ${bloqueKit}
     ${etapas}
     <button class="ruta-imprimir" onclick="imprimirRuta()">🖨️ Imprimir esta lista de verificación</button>
@@ -3014,13 +4081,14 @@ function imprimirRuta(){
       ${alerta}
       ${mats}
       <div class="matt pasos">Pasos del procedimiento</div>
-      <ul>${e.items.map(t=>`<li><span class="box"></span>${t}</li>`).join('')}</ul>
+      <ul>${itemsEtapa(e).map(x=>`<li><span class="box"></span>${txtItem(x)}${detItem(x)?`<i class="det">${detItem(x)}</i>`:''}</li>`).join('')}</ul>
     </section>`;
   }).join('');
 
   const html = `<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">
 <title>${ruta.nombre} — Oclusión</title>
 <style>
+  .det{display:block; font-style:normal; font-size:8.5pt; color:#555; line-height:1.4; margin-top:2px}
   @page{ size:letter; margin:14mm 13mm; }
   *{box-sizing:border-box}
   body{font-family:'Segoe UI',Arial,sans-serif; color:#12222e; margin:0; font-size:10.5pt; line-height:1.45}
@@ -3172,7 +4240,7 @@ function guardarResultado(resultado){
 
 /* ================= MENÚ ⋮ ================= */
 function toggleHdrMenu(quien){
-  const id = quien==='chat' ? 'menuChat' : 'menuAdmin';
+  const id = quien==='inicio' ? 'menuInicio' : (quien==='chat' ? 'menuChat' : 'menuAdmin');
   const menu = $(id);
   const abierto = menu.classList.contains('show');
   closeAllMenus();
@@ -3198,6 +4266,7 @@ function abrirSubScreen(origen, titulo, html){
 }
 function cerrarSubScreen(){
   $('subScreen').classList.remove('show');
+  if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
 function abrirAyuda(origen){
@@ -3269,6 +4338,173 @@ const CRONOGRAMA = [
   {iso:"2026-12-03", sem:17, fecha:"03 Dic · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Tercera Evaluación Parcial (examen final)."}
 ];
 
+/* -------- FICHAS DE CONSULTA --------
+   Material de referencia que no depende de una fecha de sesión.
+   Se consulta en cualquier momento desde Biblioteca > Consulta. */
+const FICHAS = [
+{
+  id:'yesos', icono:'🧱',
+  titulo:'Tipos de yeso dental',
+  sub:'Clasificación ADA y para qué sirve cada uno',
+  tags:'yeso piedra paris extraduro densita modelos zocalos vaciado fraguado',
+  html:`
+<p class="fi-intro">Todos los yesos dentales son <b>sulfato de calcio hemihidratado</b>. Lo que cambia entre ellos es la forma de las partículas y cuánta agua necesitan: mientras menos agua, más resistente y más caro el yeso. Por eso no se eligen al gusto, se eligen por para qué va a servir el modelo.</p>
+
+<div class="fi-h">Clasificación ADA / ISO 6873</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Tipo I · Yeso para impresión</div>
+  <div class="fi-card-b">Prácticamente en desuso. Fue material de impresión antes del alginato. Muy frágil.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Tipo II · Yeso París (yeso de taller)</div>
+  <div class="fi-card-b">El más blando y el más barato. <b>No se usa para el modelo del paciente.</b> Su lugar es el zócalo y el montaje en articulador, donde importa que sea fácil de recortar y no que aguante.<br><br><b>Agua/polvo:</b> 45–50 ml por 100 g · <b>Resistencia:</b> ~9 MPa</div>
+</div>
+
+<div class="fi-card destacada">
+  <div class="fi-card-t">Tipo III · Yeso piedra <span class="fi-tag">el de tu práctica</span></div>
+  <div class="fi-card-b">Es el estándar para <b>modelos de estudio y de trabajo</b>. Aguanta el recorte y el manejo sin fracturarse, y reproduce bien el detalle que necesitas para analizar oclusión.<br><br><b>Agua/polvo:</b> 28–32 ml por 100 g · <b>Resistencia:</b> ~20 MPa · <b>Expansión:</b> ~0.15–0.20%</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Tipo IV · Extraduro (densita)</div>
+  <div class="fi-card-b">Para <b>troqueles</b> de prótesis fija: coronas, incrustaciones, carillas. Alta resistencia y baja expansión, porque un troquel deformado da una corona que no ajusta.<br><br><b>Agua/polvo:</b> 22–24 ml por 100 g · <b>Resistencia:</b> ~35 MPa · <b>Expansión:</b> ~0.10%</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Tipo V · Extraduro de alta expansión</div>
+  <div class="fi-card-b">Igual que el tipo IV pero expande a propósito, para compensar la contracción de ciertas aleaciones al colar. Uso muy específico de laboratorio.<br><br><b>Expansión:</b> ~0.30% · <b>Resistencia:</b> ~48 MPa</div>
+</div>
+
+<div class="fi-h">Tiempos estándar de fraguado</div>
+<div class="fi-tabla">
+  <div class="fi-fila fi-cab"><span>Etapa</span><span>Tipo II</span><span>Tipo III</span></div>
+  <div class="fi-fila"><span>Mezclado</span><span>60 s</span><span>60 s</span></div>
+  <div class="fi-fila"><span>Fraguado inicial</span><span>8–12 min</span><span>8–10 min</span></div>
+  <div class="fi-fila"><span>Separar del molde</span><span>30–45 min</span><span>45–60 min</span></div>
+  <div class="fi-fila"><span>Resistencia total</span><span>24 h</span><span>24 h</span></div>
+</div>
+<p class="fi-nota">Son valores de referencia. Cada marca trae su propia hoja técnica y manda esa.</p>
+
+<div class="fi-h">Errores que arruinan el modelo</div>
+<div class="fi-lista">
+  <div class="fi-item"><b>Medir a ojo.</b> Es el error número uno. Más agua de la indicada baja la resistencia de forma drástica y el modelo se fractura al recortarlo. Pesa el polvo y mide el agua.</div>
+  <div class="fi-item"><b>Agregar polvo o agua a media mezcla.</b> Rompe la proporción y ya no hay forma de corregirlo. Si te equivocaste, tira y empieza de nuevo.</div>
+  <div class="fi-item"><b>No vibrar.</b> Las burbujas quedan justo donde más molestan, en cúspides y superficies oclusales. Vacía en un solo punto y deja que el yeso corra por la impresión.</div>
+  <div class="fi-item"><b>Separar antes de tiempo.</b> El yeso alcanza su resistencia a las 24 h. Separarlo a los 20 minutos te va a costar cúspides rotas.</div>
+  <div class="fi-item"><b>Dejar la impresión esperando.</b> El alginato pierde agua y se deforma. Vacía dentro de los primeros 15 minutos.</div>
+</div>
+
+<p class="fi-nota">💡 Regla práctica para esta materia: el modelo se vacía en <b>tipo III</b> y el zócalo se hace en <b>tipo II</b>. Así ahorras material sin sacrificar el modelo.</p>
+`
+},
+{
+  id:'articulador', icono:'⚙️',
+  titulo:'El articulador semiajustable',
+  sub:'Arco facial, montaje y los dos registros · Tema VII',
+  tags:'articulador arco facial montaje centrica habitual whipmix bioart dentatus panadent bisagra',
+  html:`
+<p class="fi-intro">Un articulador reproduce la relación entre maxilar y mandíbula y permite simular los movimientos mandibulares fuera de la boca. La razón de fondo es simple: <b>en boca no puedes ver los contactos posteriores durante un movimiento de lateralidad</b>. La lengua estorba, el carrillo estorba y el paciente se cansa. En el articulador quedan a la vista.</p>
+<p class="fi-intro"><b>Semiajustable</b> quiere decir que ajustas algunos parámetros del paciente —trayectoria condílea y ángulo de Bennett— pero no todos. No reproduce el movimiento real completo, lo aproxima. Para diagnóstico de oclusión y para férulas esa aproximación alcanza.</p>
+
+<div class="fi-h">El arco facial: lo que más se malentiende</div>
+<p class="fi-intro">El arco facial <b>no registra la oclusión</b> y no tiene relación con cómo muerde el paciente. Registra dónde está el maxilar superior respecto al <b>eje de bisagra terminal</b>, el eje alrededor del cual rota la mandíbula al abrir.</p>
+<p class="fi-intro">Si montas el superior sin arco facial, el arco de cierre del articulador no es el del paciente, y los contactos que observes van a ser falsos.</p>
+
+<div class="fi-h">Los cuatro sistemas del laboratorio</div>
+<div class="fi-card"><div class="fi-card-t">Whip Mix · 2240 / 3040</div><div class="fi-card-b">Referencia anterior en <b>nasion</b>. El arco completo se transfiere al articulador sobre un soporte de montaje. Es el más difundido en escuelas.</div></div>
+<div class="fi-card"><div class="fi-card-t">Bio-Art · A7 Plus / A7 Fix</div><div class="fi-card-b">Apoyo nasal ajustable y mesa de transferencia independiente. Sus platinas de encastre permiten quitar y volver a poner el modelo sin perder posición, muy útil para montar las dos posiciones.</div></div>
+<div class="fi-card"><div class="fi-card-t">Dentatus · ARH / ARL</div><div class="fi-card-b">Referencia en raíz nasal. El arco se acopla directo al articulador, sin mesa intermedia. Construcción metálica: revisa holguras antes de montar.</div></div>
+<div class="fi-card"><div class="fi-card-t">Panadent · PSH / PCH</div><div class="fi-card-b">Referencia en plano axio-orbitario y analizador de eje de bisagra. Permite trabajo cinemático real. El más preciso y el más laborioso.</div></div>
+
+<div class="fi-h">Los dos registros del Tema VII</div>
+<div class="fi-card destacada"><div class="fi-card-t">Relación céntrica</div><div class="fi-card-b">La determina la <b>articulación</b>, no los dientes. Cóndilos en posición superoanterior contra la vertiente posterior de la eminencia, con el disco interpuesto. Es <b>reproducible</b>, y por eso sirve como referencia diagnóstica.</div></div>
+<div class="fi-card destacada"><div class="fi-card-t">Posición habitual de conveniencia</div><div class="fi-card-b">Máxima intercuspidación. Donde el paciente cierra por costumbre, guiado por sus dientes. La determina la <b>oclusión</b>, no la articulación.</div></div>
+<p class="fi-intro">Lo que recorre la mandíbula entre el primer contacto en céntrica y la posición habitual es el <b>deslizamiento en céntrica</b>. Pequeño y simétrico se considera fisiológico. Amplio o con componente lateral marcado es un hallazgo: el paciente está esquivando una interferencia, y ese desvío cuesta músculo y articulación.</p>
+
+<div class="fi-alerta"><b>Desprogramar no es opcional.</b> La musculatura tiene memoria de la posición habitual. Si pides al paciente que cierre sin más, va a su mordida de siempre y estás registrando la posición equivocada. Sin desprogramación, tu registro de céntrica no es de céntrica.</div>
+
+<div class="fi-h">Errores que arruinan el montaje</div>
+<div class="fi-lista">
+  <div class="fi-item"><b>Presionar al cerrar sobre la cera.</b> Se hunde el registro y el montaje queda con la dimensión vertical disminuida.</div>
+  <div class="fi-item"><b>No apoyar el modelo en voladizo.</b> El peso del yeso fresco lo baja y el montaje se desvía.</div>
+  <div class="fi-item"><b>Burbujas o nódulos en cúspides.</b> Vas a diagnosticar una interferencia que no existe.</div>
+  <div class="fi-item"><b>Omitir las retenciones en la base.</b> El modelo se desprende de la platina y hay que rehacer todo.</div>
+  <div class="fi-item"><b>Manipular antes del fraguado completo.</b> Micromovimientos que no notas pero que desplazan el modelo.</div>
+</div>
+
+<p class="fi-nota">💡 El modelo se vacía en <b>yeso tipo III</b>; el montaje y el zócalo van en <b>tipo II</b>, más blando y fácil de recortar.</p>
+
+<a class="fi-descarga" href="Guia_Articulador_Semiajustable.pdf" download>📄 Descargar la guía completa en PDF</a>
+`
+},
+{
+  id:'botox', icono:'💉',
+  titulo:'Toxina botulínica en ATM',
+  sub:'Qué es, para qué se usa y dónde están sus límites',
+  tags:'botox toxina botulinica bruxismo masetero hipertrofia dolor miofascial musculo',
+  html:`
+<div class="fi-alerta">Esto es contenido de <b>criterio clínico</b>, no un instructivo de aplicación. En México la aplicación exige formación específica y cédula que la respalde. Como estudiante lo que te toca es saber cuándo tiene sentido y cuándo no.</div>
+
+<div class="fi-h">Qué es</div>
+<p class="fi-intro">Es una <b>neurotoxina producida por <i>Clostridium botulinum</i></b>, y el tipo A es el que se usa clínicamente. Bloquea la liberación de acetilcolina en la unión neuromuscular, así que el músculo deja de recibir la orden de contraerse y queda debilitado de forma temporal.</p>
+<p class="fi-intro">La palabra clave es <b>temporal</b>. El nervio regenera terminaciones nuevas y la función vuelve. No destruye el músculo ni es permanente.</p>
+
+<div class="fi-tabla">
+  <div class="fi-fila fi-cab"><span>Fase</span><span>Tiempo</span></div>
+  <div class="fi-fila"><span>Inicio del efecto</span><span>24–72 horas</span></div>
+  <div class="fi-fila"><span>Efecto máximo</span><span>1–2 semanas</span></div>
+  <div class="fi-fila"><span>Duración</span><span>3–6 meses</span></div>
+</div>
+
+<div class="fi-h">Para qué se usa en el sistema estomatognático</div>
+<div class="fi-lista">
+  <div class="fi-item"><b>Bruxismo, sobre todo nocturno.</b> No quita el bruxismo: el paciente sigue apretando porque el origen es central. Lo que hace es bajar la fuerza con la que lo hace, y con eso disminuye el desgaste y el dolor.</div>
+  <div class="fi-item"><b>Hipertrofia maseterina.</b> Aquí el resultado es más predecible. Reduce el volumen del músculo, con efecto funcional y estético.</div>
+  <div class="fi-item"><b>Dolor miofascial.</b> En puntos gatillo del masetero y el temporal que no cedieron con manejo conservador.</div>
+  <div class="fi-item"><b>Luxación mandibular recurrente.</b> Casos seleccionados, aplicando en el pterigoideo lateral. Es técnicamente demandante y de mayor riesgo.</div>
+  <div class="fi-item"><b>Sonrisa gingival.</b> Indicación estética, sobre los elevadores del labio superior.</div>
+</div>
+
+<div class="fi-h">Los límites que sí debes tener claros</div>
+<div class="fi-lista">
+  <div class="fi-item"><b>No es primera línea.</b> Antes van el diagnóstico correcto, la educación al paciente, la férula oclusal, la fisioterapia y el manejo farmacológico. Si te saltas eso, estás tapando un síntoma sin saber qué lo produce.</div>
+  <div class="fi-item"><b>No corrige la oclusión.</b> Debilita músculo. Una interferencia oclusal sigue exactamente donde estaba.</div>
+  <div class="fi-item"><b>La evidencia es heterogénea.</b> En hipertrofia maseterina es sólida. En trastornos temporomandibulares los estudios son de muestra pequeña y resultados mixtos. En buena parte de estos usos es <b>off-label</b>.</div>
+  <div class="fi-item"><b>El efecto se va.</b> Si el paciente aprieta por estrés o por un trastorno del sueño y eso no se atendió, a los 4 meses vuelve al punto de partida.</div>
+</div>
+
+<div class="fi-h">Riesgos y efectos adversos</div>
+<div class="fi-lista">
+  <div class="fi-item">Debilidad masticatoria excesiva si la dosis se pasa</div>
+  <div class="fi-item">Asimetría facial o de la sonrisa por difusión a músculos vecinos</div>
+  <div class="fi-item">Disfagia, sobre todo en aplicaciones profundas</div>
+  <div class="fi-item">Atrofia muscular con aplicaciones repetidas</div>
+  <div class="fi-item">Se ha reportado disminución de densidad ósea en ángulo mandibular y cóndilo con uso prolongado. Es un dato relevante y todavía en discusión.</div>
+</div>
+
+<div class="fi-h">Contraindicaciones</div>
+<div class="fi-lista">
+  <div class="fi-item">Embarazo y lactancia</div>
+  <div class="fi-item">Enfermedades de la unión neuromuscular: miastenia gravis, síndrome de Eaton-Lambert, ELA</div>
+  <div class="fi-item">Tratamiento con aminoglucósidos, que potencian el bloqueo</div>
+  <div class="fi-item">Infección activa en el sitio de aplicación</div>
+  <div class="fi-item">Antecedente de hipersensibilidad a la toxina o a la albúmina</div>
+</div>
+
+<p class="fi-nota">💡 Para el examen y para la clínica quédate con esto: la toxina botulínica es un <b>coadyuvante</b> dentro de un plan de tratamiento, nunca el plan completo. Si un paciente llega pidiéndola directamente, tu trabajo es diagnosticar primero.</p>
+`
+}
+];
+
+function abrirFicha(origen, id){
+  const f = FICHAS.find(x=>x.id===id);
+  if(!f) return;
+  const destino = origen || pantallaAnterior;
+  abrirSubScreen(destino, f.titulo, '<div class="ficha">' + f.html + '</div>');
+}
+
 // -------- PDFs de la biblioteca (archivos externos en /docs) --------
 const PDF_TEMA1 = "Tema1_Anatomia_ATM.pdf";
 const PDF_SYLLABUS = "Syllabus_Oclusion_2026_V4.pdf";
@@ -3276,6 +4512,7 @@ const PDF_MANUAL = "Manual_Practicas_Oclusion.pdf";
 const PDF_TEMA2 = "Tema2_Fotografia_Clinica.pdf";
 const PDF_TEMA3 = "Tema3_Interferencias_RC_OC.pdf";
 const PDF_TEMA4 = "Tema4_Trabajo_Balance.pdf";
+const PDF_ARTICULADOR = "Guia_Articulador_Semiajustable.pdf";
 
 /* Calcula la próxima sesión a partir de la fecha real del dispositivo.
    Así el "PRÓXIMA SESIÓN" se mantiene solo, sin editar el código cada semana. */
@@ -3366,7 +4603,7 @@ function bloqueEntrega(e){
   const u = urgenciaEntrega(e.iso);
   return `<div class="entrega-card ${u.cls}">
       <div class="entrega-top">
-        <span class="entrega-label">⏰ ${u.label}</span>
+        <span class="entrega-label"><span class="entrega-aviso">!</span>${u.label}</span>
         <span class="entrega-cuenta">${u.txt}</span>
       </div>
       <div class="entrega-titulo">${e.titulo}</div>
@@ -3625,6 +4862,39 @@ function abrirBiblioteca(origen, tab, filtro){
   const proxIso = prox ? prox.iso : null;
 
   const f = normalizar(filtro);
+
+  // Pestaña de consulta: fichas de referencia, no depende de fechas
+  if(tab === 'consulta'){
+    const fichas = f
+      ? FICHAS.filter(x => normalizar(x.titulo + ' ' + x.sub + ' ' + x.tags).includes(f))
+      : FICHAS;
+    const tarjetas = fichas.length
+      ? fichas.map(x=>`
+          <button class="ficha-card" onclick="abrirFicha('${destino}','${x.id}')">
+            <span class="ficha-ico">${x.icono}</span>
+            <span class="ficha-txt"><b>${x.titulo}</b><small>${x.sub}</small></span>
+            <span class="ficha-flecha">›</span>
+          </button>`).join('')
+      : `<div class="sub-empty"><span class="ico">🔍</span>No encontré fichas que coincidan con "<b>${filtro}</b>".</div>`;
+    const cuerpoC = `
+      <div class="biblio-tabs">
+        <button class="biblio-tab" onclick="abrirBiblioteca('${destino}','salon')">🏫 Salón</button>
+        <button class="biblio-tab" onclick="abrirBiblioteca('${destino}','lab')">🧪 Laboratorio</button>
+        <button class="biblio-tab active" onclick="abrirBiblioteca('${destino}','consulta')">📖 Consulta</button>
+      </div>
+      <div class="biblio-buscar">
+        <input type="text" id="biblioBuscar" placeholder="Buscar en las fichas..." value="${filtro.replace(/"/g,'&quot;')}"
+               oninput="filtrarBiblioteca('${destino}','consulta')">
+        ${filtro ? `<button class="biblio-limpiar" onclick="abrirBiblioteca('${destino}','consulta')">✕</button>` : ''}
+      </div>
+      <div class="notas-mini">📖 Material de referencia para consultar en cualquier momento, no está atado a una fecha de clase.</div>
+      ${tarjetas}`;
+    abrirSubScreen(destino, 'Biblioteca', cuerpoC);
+    const inpC = $('biblioBuscar');
+    if(inpC && filtro){ inpC.focus(); inpC.setSelectionRange(inpC.value.length, inpC.value.length); }
+    return;
+  }
+
   const todas = CRONOGRAMA.filter(s => s.track === tab);
   const lista = f ? todas.filter(s => normalizar(s.tema + ' ' + s.fecha + ' ' + s.tipo).includes(f)) : todas;
   const filas = lista.length
@@ -3639,6 +4909,7 @@ function abrirBiblioteca(origen, tab, filtro){
     <div class="biblio-tabs">
       <button class="biblio-tab ${tab==='salon'?'active':''}" onclick="abrirBiblioteca('${destino}','salon')">🏫 Salón</button>
       <button class="biblio-tab ${tab==='lab'?'active':''}" onclick="abrirBiblioteca('${destino}','lab')">🧪 Laboratorio</button>
+      <button class="biblio-tab" onclick="abrirBiblioteca('${destino}','consulta')">📖 Consulta</button>
     </div>
     <div class="biblio-buscar">
       <input type="text" id="biblioBuscar" placeholder="Buscar tema, fecha o práctica..." value="${filtro.replace(/"/g,'&quot;')}"
