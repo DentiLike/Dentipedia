@@ -387,6 +387,39 @@ body.mp-abierto{overflow:hidden}
 .mp-img-lupa{position:absolute; right:.5rem; bottom:.5rem; background:rgba(15,23,42,.72); color:#fff; font-size:.66rem; font-weight:700; padding:.25rem .55rem; border-radius:99px}
 .mp-img:active{border-color:var(--teal)}
 .ruta-thumb{flex:0 0 54px; width:54px; height:46px; object-fit:cover; border-radius:7px; border:1px solid var(--borde); background:#e8e8e0; margin-left:.5rem}
+/* Consulta rápida de términos */
+.consulta-fab{position:fixed; right:1rem; bottom:calc(1.2rem + env(safe-area-inset-bottom));
+  width:54px; height:54px; border-radius:50%; padding:0; overflow:hidden; z-index:60; display:none;
+  background:#fff; border:2.5px solid var(--teal); box-shadow:0 5px 18px rgba(9,82,135,.3)}
+.consulta-fab.visible{display:block}
+.consulta-fab img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block}
+.consulta-fab:active{transform:scale(.94)}
+.consulta-cap{position:fixed; inset:0; z-index:150; background:rgba(15,23,42,.5); display:none; align-items:flex-end}
+.consulta-cap.activo{display:flex}
+.consulta-panel{width:100%; max-height:82vh; display:flex; flex-direction:column; background:#fff;
+  border-radius:20px 20px 0 0; padding:1rem .9rem calc(1rem + env(safe-area-inset-bottom))}
+.consulta-cab{display:flex; align-items:center; gap:.6rem; margin-bottom:.8rem}
+.consulta-ava{width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid var(--teal); flex:0 0 auto}
+.consulta-cab-txt{flex:1; display:flex; flex-direction:column; line-height:1.3; min-width:0}
+.consulta-cab-txt b{font-family:'Fredoka'; font-size:.95rem; color:var(--azul-osc); font-weight:600}
+.consulta-cab-txt small{font-size:.71rem; color:var(--gris)}
+.consulta-x{background:#f1f5f9; width:32px; height:32px; border-radius:8px; color:var(--gris); font-size:.85rem; flex:0 0 auto}
+#consultaInput{width:100%; border:1.5px solid var(--borde); border-radius:11px; padding:.75rem .85rem;
+  font-family:inherit; font-size:.9rem; color:var(--tinta); background:#f8fafc}
+#consultaInput:focus{outline:none; border-color:var(--teal); background:#fff}
+.consulta-res{flex:1; overflow-y:auto; margin-top:.8rem; -webkit-overflow-scrolling:touch}
+.cons-vacio{font-size:.78rem; color:var(--gris); line-height:1.55; margin-bottom:.55rem}
+.cons-chips{display:flex; flex-wrap:wrap; gap:.4rem}
+.cons-chip{background:var(--teal-claro); border:1px solid #bfe8e6; color:var(--teal-osc);
+  font-size:.75rem; font-weight:700; padding:.4rem .7rem; border-radius:99px}
+.cons-chip:active{background:#d6f4f3}
+.cons-hit{background:#f8fafc; border:1px solid var(--borde); border-radius:12px; padding:.85rem .9rem}
+.cons-t{font-family:'Fredoka'; font-size:1.05rem; color:var(--azul-osc); line-height:1.3}
+.cons-g{font-size:.65rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--teal-osc); margin:.15rem 0 .5rem}
+.cons-d{font-size:.83rem; color:var(--tinta); line-height:1.65}
+.cons-d b{color:var(--azul-osc)}
+.gl-grupo{font-size:.65rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--teal-osc)}
 /* Visor a pantalla completa */
 .visor{position:fixed; inset:0; z-index:200; background:rgba(15,23,42,.92); display:none; align-items:center; justify-content:center; padding:1rem}
 .visor.activo{display:flex}
@@ -724,6 +757,25 @@ body.mp-abierto{overflow:hidden}
 </div>
 
 <div id="visorImg" class="visor" onclick="if(event.target===this)cerrarVisor()"></div>
+
+<button class="consulta-fab" id="consultaFab" onclick="abrirConsulta()" aria-label="Consulta rápida de términos">
+  <img class="js-avatar" src="" alt="">
+</button>
+<div class="consulta-cap" id="consultaCap" onclick="if(event.target===this)cerrarConsulta()">
+  <div class="consulta-panel">
+    <div class="consulta-cab">
+      <img class="js-avatar consulta-ava" src="" alt="">
+      <div class="consulta-cab-txt">
+        <b>Consulta rápida</b>
+        <small>Escribe un término y te lo explico</small>
+      </div>
+      <button class="consulta-x" onclick="cerrarConsulta()">✕</button>
+    </div>
+    <input type="text" id="consultaInput" placeholder="fraguado, grabado, polimerización..."
+           autocomplete="off" oninput="buscarConsulta()">
+    <div class="consulta-res" id="consultaRes"></div>
+  </div>
+</div>
 
 <div id="subScreen">
   <div class="sub-header">
@@ -1507,7 +1559,7 @@ const TEMAS = {
         r:"<b>Desplazamiento discal con reducción</b><br><br>El disco está desplazado, casi siempre hacia <b>adelante y adentro</b>, cuando la boca está cerrada. Al abrir, el cóndilo lo recaptura y el disco vuelve a su posición: eso produce el <b>clic de apertura</b>. Al cerrar, el disco se vuelve a desplazar y suele haber un segundo clic, más suave, el <b>clic recíproco</b>.<br><br>Rasgos: apertura conservada, chasquido reproducible, dolor variable. La presencia de clic recíproco es lo que confirma la reducción." },
       { kw:["luxacion sin reduccion","bloqueo cerrado","closed lock"],
         r:"<b>Desplazamiento discal sin reducción</b><br><br>El disco está desplazado y el cóndilo <b>ya no logra recapturarlo</b> al abrir. El disco se convierte en un obstáculo mecánico.<br><br>Signos clave:<br>• Apertura <b>limitada</b>, típicamente por debajo de 30 mm<br>• <b>Desviación</b> de la línea media hacia el lado afectado al abrir<br>• <b>Desaparición del clic</b> que el paciente tenía antes<br>• Dolor al forzar la apertura<br><br>Que el clic desaparezca no es mejoría: suele ser progresión del cuadro. Es un dato que hay que preguntar dirigidamente." },
-      { kw:["incompatibilidad de superficies","alteraciones morfologicas"],
+      { kw:["incompatibilidad de superficies","alteraciones morfologicas","adherencias","adhesiones","que son las adherencias","diferencia entre adherencia y adhesion"],
         r:"<b>Incompatibilidad estructural</b><br><br>Ocurre cuando las superficies articulares pierden su relación normal de deslizamiento.<br><br>• <b>Alteraciones morfológicas</b>: cambios de forma del cóndilo, la eminencia o el disco, por desarrollo, desgaste o remodelado. Producen ruidos reproducibles siempre en el mismo punto de la apertura.<br>• <b>Adherencias</b>: unión temporal entre superficies por falta de lubricación. Suelen ceder con el movimiento.<br>• <b>Adhesiones</b>: unión fibrosa <b>permanente</b>. No ceden solas y limitan de forma persistente." },
       { kw:["subluxacion","luxacion mandibular","hipermovilidad"],
         r:"<b>Subluxación y luxación</b><br><br>• <b>Subluxación</b>: el cóndilo sobrepasa la eminencia articular en apertura amplia, pero el paciente <b>puede volver solo</b>. Se acompaña de un salto y a veces un ruido sordo. Es un cuadro de hipermovilidad.<br>• <b>Luxación</b>: el cóndilo queda <b>bloqueado</b> por delante de la eminencia y el paciente <b>no puede cerrar</b> sin ayuda. Requiere reducción manual.<br><br>La diferencia práctica es esa: si vuelve solo es subluxación, si necesita maniobra es luxación." },
@@ -1515,11 +1567,11 @@ const TEMAS = {
         r:"<b>Sinovitis y capsulitis</b><br><br>• <b>Sinovitis</b>: inflamación de la membrana sinovial. Dolor articular localizado, que aumenta con la función.<br>• <b>Capsulitis</b>: inflamación de la cápsula articular. Dolor a la palpación del polo lateral del cóndilo y a los movimientos que la tensan.<br><br>Ambas comparten un dato útil: puede aparecer una <b>mordida abierta posterior del lado afectado</b>, porque el derrame separa las superficies y desplaza el cóndilo hacia abajo." },
       { kw:["retrodiscitis","tejido retrodiscal"],
         r:"<b>Retrodiscitis</b><br><br>Inflamación de los tejidos retrodiscales, la zona bilaminar por detrás del disco. Es un tejido muy vascularizado e inervado, así que duele bastante.<br><br>Causas: traumatismo directo en el mentón, desplazamiento posterior del cóndilo, o una relación retrusiva mantenida.<br><br>Signo típico: dolor que aumenta al apretar los dientes, y mordida abierta posterior del lado afectado por el edema." },
-      { kw:["poliartritis","artritis","osteoartritis atm"],
+      { kw:["poliartritis","artritis","osteoartritis atm","crepitacion","que es la crepitacion","ruido de arena","cambios degenerativos"],
         r:"<b>Artritis y poliartritis</b><br><br>• <b>Osteoartritis</b>: proceso degenerativo por sobrecarga. Crepitación, dolor de larga evolución y cambios óseos en imagen.<br>• <b>Poliartritis</b>: la ATM se afecta dentro de una enfermedad <b>sistémica</b>, como artritis reumatoide, psoriásica o lupus. Casi siempre es bilateral y se acompaña de afectación de otras articulaciones.<br><br>Dato relevante: en la artritis reumatoide juvenil el daño condilar puede alterar el crecimiento mandibular y producir micrognatia. Ante sospecha de poliartritis, interconsulta con reumatología." },
       { kw:["tendinitis temporal","tendinitis del temporal"],
         r:"<b>Tendinitis del temporal</b><br><br>Inflamación del tendón del músculo temporal en su inserción sobre la apófisis coronoides.<br><br>Se presenta como dolor en la región temporal que puede confundirse con cefalea o incluso con dolor dentario del maxilar. Aumenta con la palpación de la coronoides por vía intraoral y con la función.<br><br>Es un buen ejemplo de por qué el dolor orofacial exige diagnóstico diferencial: más de un paciente ha recibido tratamiento de conductos por un dolor que era muscular o tendinoso." },
-      { kw:["exploracion de atm","como explorar la atm","palpacion articular"],
+      { kw:["exploracion de atm","como explorar la atm","palpacion articular","apertura maxima","cuanto debe abrir","rango de movimiento","lateralidad normal"],
         r:"<b>Exploración básica</b><br><br>• <b>Apertura máxima</b>: normal entre 40 y 55 mm interincisal. Menos de 40 mm es limitación.<br>• <b>Lateralidades y protrusiva</b>: se espera alrededor de 8 a 12 mm.<br>• <b>Trayectoria de apertura</b>: recta, desviada o en S. Una desviación que se corrige sugiere reducción discal; una que persiste sugiere restricción.<br>• <b>Palpación</b>: polo lateral del cóndilo y vía auricular.<br>• <b>Ruidos</b>: clic contra crepitación. El clic sugiere problema discal; la crepitación, cambio degenerativo.<br><br>Todo se registra con números, no con adjetivos." }
     ]
   },
@@ -2446,6 +2498,11 @@ function buscarRespuesta(preguntaOriginal){
       }
       if(puntos > mejorPuntos){ mejorPuntos = puntos; mejor = grupo.r; }
     }
+  }
+  // El glosario compite con su puntaje real, no con un valor fijo
+  const gl = buscarGlosario(preguntaOriginal);
+  if(gl && ultimoPuntajeGlosario >= mejorPuntos){
+    return `<b>${gl.t}</b><br><span class="gl-grupo">${gl.g} · glosario de materiales</span><br><br>${gl.d}`;
   }
   return mejorPuntos >= 3 ? mejor : null;
 }
@@ -4426,6 +4483,64 @@ function pintarModoPractica(){
   const f = $('mpPie'); if(f) f.innerHTML = pie;
 }
 
+/* --------- Consulta rápida de términos ---------
+   Vive dentro de las subpantallas: el alumno está leyendo el material del
+   tema o siguiendo una práctica y necesita un término sin salirse. */
+function abrirConsulta(){
+  const c = $('consultaCap');
+  if(!c) return;
+  c.classList.add('activo');
+  pintarSugerenciasConsulta();
+  const i = $('consultaInput');
+  if(i){ i.value = ''; setTimeout(()=>i.focus(), 120); }
+}
+function cerrarConsulta(){
+  const c = $('consultaCap');
+  if(c) c.classList.remove('activo');
+}
+function pintarSugerenciasConsulta(){
+  const r = $('consultaRes');
+  if(!r) return;
+  const muestra = ['Fraguado','Gelificación','Polimerización','Fotopolimerización','Grabado ácido','Sinéresis'];
+  r.innerHTML = `<div class="cons-vacio">Términos más consultados</div>
+    <div class="cons-chips">${muestra.map(t=>
+      `<button class="cons-chip" onclick="verTermino('${t.replace(/'/g,"")}')">${t}</button>`).join('')}</div>`;
+}
+function verTermino(t){
+  const i = $('consultaInput');
+  if(i) i.value = t;
+  buscarConsulta();
+}
+function buscarConsulta(){
+  const i = $('consultaInput'), r = $('consultaRes');
+  if(!i || !r) return;
+  const q = i.value.trim();
+  if(!q){ pintarSugerenciasConsulta(); return; }
+
+  const e = buscarGlosario(q);
+  if(e){
+    r.innerHTML = `<div class="cons-hit">
+        <div class="cons-t">${e.t}</div>
+        <div class="cons-g">${e.g} · glosario de materiales</div>
+        <div class="cons-d">${e.d}</div>
+      </div>`;
+    return;
+  }
+  // Si no es término de material, buscamos en el temario
+  const tema = buscarRespuesta(q);
+  if(tema){
+    r.innerHTML = `<div class="cons-hit"><div class="cons-d">${tema}</div></div>`;
+    return;
+  }
+  // Sugerencias por aproximación
+  const qn = normalizar(q);
+  const cerca = GLOSARIO.filter(x=>normalizar(x.t).includes(qn) || x.kw.some(k=>normalizar(k).includes(qn))).slice(0,6);
+  r.innerHTML = cerca.length
+    ? `<div class="cons-vacio">¿Buscabas alguno de estos?</div>
+       <div class="cons-chips">${cerca.map(x=>`<button class="cons-chip" onclick="verTermino('${x.t.replace(/'/g,"")}')">${x.t}</button>`).join('')}</div>`
+    : `<div class="cons-vacio">No encontré ese término. Puedes preguntárselo a Mikes Molares en el chat, que tiene cargado todo el temario.</div>`;
+}
+
 /* --------- Visor de imagen --------- */
 function ampliarImagen(src, titulo){
   const el = $('visorImg');
@@ -4835,9 +4950,14 @@ function abrirSubScreen(origen, titulo, html){
   $('subScreenTitle').textContent = titulo;
   $('subScreenBody').innerHTML = html;
   $('subScreen').classList.add('show');
+  const fab = $('consultaFab');
+  if(fab) fab.classList.add('visible');
 }
 function cerrarSubScreen(){
   $('subScreen').classList.remove('show');
+  cerrarConsulta();
+  const fab = $('consultaFab');
+  if(fab) fab.classList.remove('visible');
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
@@ -4910,6 +5030,126 @@ const CRONOGRAMA = [
   {iso:"2026-12-03", sem:17, fecha:"03 Dic · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Tercera Evaluación Parcial (examen final)."}
 ];
 
+/* -------- GLOSARIO DE MATERIALES · fuente única --------
+   Alimenta tres cosas a la vez: la ficha de Biblioteca, las respuestas de
+   Mikes Molares y la consulta rápida del avatar. Si se edita aquí, cambia
+   en los tres lados. */
+const GLOSARIO = [
+ {g:"Endurecimiento", t:"Fraguado", kw:["fraguado","fraguar","que es el fraguado","endurecimiento"],
+  d:"Proceso por el cual un material pasa de estado plástico a rígido. En odontología se refiere a reacciones <b>químicas de tipo ácido-base o de hidratación</b>, como en el yeso, el alginato o los cementos.<br><br>Es el término general de endurecimiento: toda polimerización endurece, pero no todo fraguado es polimerización."},
+ {g:"Endurecimiento", t:"Tiempo de trabajo", kw:["tiempo de trabajo","cuanto tiempo tengo para trabajar"],
+  d:"Lapso desde que inicia la mezcla hasta que el material pierde su capacidad de fluir y adaptarse. Es tu ventana real de manipulación, y termina <b>antes</b> del tiempo de fraguado."},
+ {g:"Endurecimiento", t:"Tiempo de fraguado", kw:["tiempo de fraguado","fraguado inicial","fraguado final"],
+  d:"Momento en que el material alcanza rigidez suficiente para retirarse sin deformarse.<br><br>• <b>Fraguado inicial</b>: ya no se puede manipular<br>• <b>Fraguado final</b>: alcanza sus propiedades<br><br>En yeso tipo III el inicial ocurre entre 8 y 10 minutos, pero la resistencia total llega a las <b>24 horas</b>."},
+ {g:"Endurecimiento", t:"Gelificación", kw:["gelificacion","gelificar","sol gel","hidrocoloide"],
+  d:"Transformación de un <b>sol</b>, suspensión fluida, en un <b>gel</b>, red semisólida. Es como endurecen los hidrocoloides.<br><br>• En el <b>alginato</b> es <b>química e irreversible</b>: reaccionan alginato de sodio y sulfato de calcio<br>• En el <b>agar</b> es <b>térmica y reversible</b>: gelifica al enfriar y vuelve a fluir al calentar<br><br>Por eso el alginato es hidrocoloide irreversible y el agar, reversible."},
+ {g:"Endurecimiento", t:"Polimerización", kw:["polimerizacion","polimerizar","que es polimerizacion"],
+  d:"Reacción en la que moléculas pequeñas, los <b>monómeros</b>, se unen formando cadenas largas o <b>polímeros</b>. Ocurre en acrílicos, resinas compuestas y selladores.<br><br>Es siempre <b>exotérmica</b>: libera calor. Por eso una férula acrílica se calienta al curar y nunca se prueba en boca durante el fraguado."},
+ {g:"Endurecimiento", t:"Autopolimerización", kw:["autopolimerizacion","autocurado","quimicopolimerizable"],
+  d:"Polimerización activada por reacción química entre una pasta base y un catalizador, sin luz ni calor. Es la del <b>acrílico de autocurado</b> y los provisionales."},
+ {g:"Endurecimiento", t:"Fotopolimerización", kw:["fotopolimerizacion","fotocurado","luz de fotocurado","lampara","canforquinona"],
+  d:"Polimerización activada por <b>luz visible</b>, habitualmente entre 450 y 490 nm. El fotoiniciador más usado es la <b>canforquinona</b>, que absorbe alrededor de 468 nm y se activa con luz azul.<br><br>Puntos prácticos: lámpara lo más cerca posible y perpendicular, y respetar el <b>grosor máximo de incremento</b>, en general 2 mm. Si el incremento es más grueso, la base queda sin curar aunque la superficie se vea dura."},
+ {g:"Endurecimiento", t:"Termopolimerización", kw:["termopolimerizacion","termocurado","mufla"],
+  d:"Polimerización activada por <b>calor</b>, en mufla o baño de agua. Es la de los acrílicos de bases protésicas, que alcanzan mejores propiedades que los de autocurado."},
+ {g:"Endurecimiento", t:"Polimerización dual", kw:["dual","polimerizacion dual","cemento dual"],
+  d:"Combina activación por <b>luz y por reacción química</b>. Se usa en cementos de resina, donde la luz puede no llegar a toda la interfase, por ejemplo bajo una corona."},
+ {g:"Endurecimiento", t:"Contracción de polimerización", kw:["contraccion de polimerizacion","contraccion","estres de contraccion"],
+  d:"Reducción de volumen al unirse los monómeros, porque las cadenas quedan más juntas que las moléculas libres. En resinas compuestas ronda el <b>2 a 3%</b>.<br><br>Genera <b>estrés de contracción</b> en la interfase adhesiva, causa de brechas marginales, sensibilidad posoperatoria y caries secundaria. Por eso se trabaja por incrementos."},
+ {g:"Endurecimiento", t:"Grado de conversión", kw:["grado de conversion","monomero residual"],
+  d:"Porcentaje de monómeros que efectivamente reaccionaron. Nunca llega al 100%: en resinas compuestas ronda el <b>55 a 75%</b>.<br><br>El que no reacciona queda como <b>monómero residual</b> y puede liberarse, lo que se relaciona con irritación pulpar y sensibilización."},
+ {g:"Adhesión", t:"Grabado ácido", kw:["grabado","grabado acido","acido ortofosforico","grabar"],
+  d:"Aplicación de <b>ácido ortofosfórico al 32 a 37%</b> para desmineralizar selectivamente la superficie dentaria y crear microporosidades donde el adhesivo se traba.<br><br>Tiempos de referencia:<br>• <b>Esmalte</b>: 15 a 30 segundos<br>• <b>Dentina</b>: 15 segundos como máximo<br><br>Sobregrabar dentina colapsa las fibras de colágeno y <b>empeora</b> la adhesión. En esmalte el resultado visible es el aspecto blanco tiza al secar."},
+ {g:"Adhesión", t:"Capa híbrida", kw:["capa hibrida","hibridacion","nakabayashi","adhesion humeda"],
+  d:"Zona de interpenetración entre la dentina desmineralizada y la resina adhesiva. Es el mecanismo real de la adhesión a dentina, descrito por Nakabayashi.<br><br>Requiere que el colágeno expuesto no se colapse: de ahí la técnica de <b>adhesión húmeda</b>, secando sin desecar."},
+ {g:"Adhesión", t:"Barrillo dentinario", kw:["barrillo dentinario","smear layer","barrillo"],
+  d:"Capa de detritus de <b>1 a 2 micras</b> que queda sobre la dentina tras el corte con instrumental rotatorio. Obstruye los túbulos.<br><br>Los sistemas de <b>grabado total</b> lo eliminan; los <b>autograbantes</b> lo modifican e incorporan."},
+ {g:"Comportamiento", t:"Sinéresis", kw:["sineresis","perdida de agua del alginato"],
+  d:"El gel <b>pierde agua</b> y exuda líquido, por lo que la impresión se <b>contrae</b>. Ocurre si el alginato se deja al aire.<br><br>Junto con la imbibición, es la razón de vaciar dentro de los primeros 15 minutos."},
+ {g:"Comportamiento", t:"Imbibición", kw:["imbibicion","absorcion de agua","alginato sumergido"],
+  d:"El gel <b>absorbe agua</b> si se deja sumergido, por lo que la impresión se <b>expande</b>.<br><br>Por eso el alginato se guarda en ambiente húmedo pero <b>sin sumergir</b>, y se vacía cuanto antes."},
+ {g:"Comportamiento", t:"Estabilidad dimensional", kw:["estabilidad dimensional","estable dimensionalmente"],
+  d:"Capacidad de un material de conservar forma y tamaño con el tiempo. El <b>alginato</b> la tiene baja; las <b>siliconas de adición</b> la tienen alta y admiten vaciado diferido."},
+ {g:"Comportamiento", t:"Deformación permanente", kw:["deformacion permanente","deformacion residual"],
+  d:"Porción de la deformación que <b>no se recupera</b> al retirar la fuerza. En un material de impresión interesa que sea mínima: de ella depende que reproduzca fielmente al salir de las retenciones."},
+ {g:"Comportamiento", t:"Recuperación elástica", kw:["recuperacion elastica","elasticidad","retiro de la impresion"],
+  d:"Capacidad de volver a la forma original tras deformarse. Permite que el material salga de zonas retentivas sin distorsionarse.<br><br>Por eso la impresión se retira con un <b>movimiento firme y único</b>: el retiro lento aumenta la deformación permanente."},
+ {g:"Comportamiento", t:"Viscosidad", kw:["viscosidad","fluido","pesado","masilla","consistencia"],
+  d:"Resistencia a fluir. Los materiales de impresión se clasifican en <b>fluido, regular, pesado y masilla</b>, y se combinan según la técnica."},
+ {g:"Comportamiento", t:"Tixotropía", kw:["tixotropia","tixotropico"],
+  d:"Propiedad de <b>fluir cuando se aplica presión</b> y mantenerse en su sitio en reposo. Es lo que evita que un material fluido escurra de la cucharilla o del diente."},
+ {g:"Comportamiento", t:"Reacción exotérmica", kw:["exotermica","libera calor","se calienta"],
+  d:"La que <b>libera calor</b>. Ocurre en la polimerización del acrílico y en el fraguado del yeso.<br><br>Consecuencia práctica: nunca probar acrílico en boca durante el curado."},
+ {g:"Comportamiento", t:"Expansión de fraguado", kw:["expansion de fraguado","expansion del yeso"],
+  d:"Aumento de volumen durante el endurecimiento. En yeso depende del tipo: <b>tipo II</b> alrededor de 0.3%, <b>tipo III</b> entre 0.15 y 0.20%, <b>tipo IV</b> cerca de 0.10%.<br><br>Menor expansión significa mayor precisión, y por eso los troqueles se hacen en tipo IV."},
+ {g:"Comportamiento", t:"Relación agua/polvo", kw:["relacion agua polvo","agua polvo","proporcion","dosificacion"],
+  d:"Proporción entre líquido y polvo de la mezcla. Es el factor que <b>más determina</b> las propiedades finales.<br><br>Más agua de la indicada baja la resistencia de forma drástica y alarga el fraguado. Es el error más común y el más costoso: se pesa el polvo y se mide el agua, nunca a ojo."},
+ {g:"Acrílico", t:"Monómero", kw:["monomero","metilmetacrilato","liquido del acrilico"],
+  d:"Molécula pequeña que se une a otras para formar el polímero. En acrílico dental es el <b>metilmetacrilato</b>: líquido, volátil, inflamable e irritante para vía respiratoria, piel y mucosas.<br><br>Exige área ventilada, guantes y lentes. La exposición repetida puede producir sensibilización."},
+ {g:"Acrílico", t:"Polímero", kw:["polimero","polvo del acrilico","pmma"],
+  d:"La cadena resultante de la unión de monómeros. En acrílico dental es el polvo de <b>polimetilmetacrilato</b>."},
+ {g:"Acrílico", t:"Fases del acrílico", kw:["fases del acrilico","fase plastica","fase arenosa","fase filamentosa","fase gomosa"],
+  d:"La mezcla pasa por cuatro etapas:<br><br>• <b>Arenosa</b>: el polvo aún no se disuelve<br>• <b>Filamentosa o pegajosa</b>: se adhiere a los instrumentos, no es momento de trabajarlo<br>• <b>Plástica</b>: momento ideal, moldeable y sin pegarse<br>• <b>Gomosa</b>: ya no se adapta, pasó el tiempo de trabajo"},
+ {g:"Acrílico", t:"Porosidad", kw:["porosidad","burbujas en el acrilico","poros"],
+  d:"Burbujas en la masa por mezcla incorrecta, falta de presión durante el curado o evaporación del monómero. Debilita la pieza y retiene placa.<br><br>Se previene con proporción correcta, mezcla adecuada y curado en olla de presión."}
+];
+
+/* Busca un término del glosario. Devuelve la entrada o null. */
+function buscarGlosario(pregunta){
+  const q = normalizar(pregunta);
+  const qT = tokens(pregunta);
+  if(!qT.length) return null;
+  let mejor = null, pts = 0;
+  for(const e of GLOSARIO){
+    let p = 0;
+    const nombreNorm = normalizar(e.t);
+    if(q === nombreNorm) p += 30;
+    else if(q.includes(nombreNorm) && nombreNorm.length > 4) p += 14;
+    for(const kw of e.kw){
+      const k = normalizar(kw);
+      if(q === k) p += 20;
+      else if(k.includes(' ') && q.includes(k)) p += 10;
+      else {
+        for(const kt of tokens(kw)){
+          for(const qt of qT){
+            if(qt === kt) p += 4;
+            else if(qt.length > 4 && kt.length > 4 && (qt.startsWith(kt) || kt.startsWith(qt))) p += 2;
+          }
+        }
+      }
+    }
+    if(p > pts){ pts = p; mejor = e; }
+  }
+  ultimoPuntajeGlosario = pts;
+  return pts >= 4 ? mejor : null;
+}
+let ultimoPuntajeGlosario = 0;
+
+function respuestaGlosario(pregunta){
+  const e = buscarGlosario(pregunta);
+  if(!e) return null;
+  return `<b>${e.t}</b><br><span class="gl-grupo">${e.g} · glosario de materiales</span><br><br>${e.d}`;
+}
+
+/* HTML de la ficha, generado del mismo arreglo */
+function htmlGlosario(){
+  const grupos = [];
+  GLOSARIO.forEach(e=>{
+    let g = grupos.find(x=>x.g === e.g);
+    if(!g){ g = {g:e.g, items:[]}; grupos.push(g); }
+    g.items.push(e);
+  });
+  let h = `<p class="fi-intro">Estos términos se usan a diario en el laboratorio y muchas veces se confunden. Vale la pena tenerlos precisos: la diferencia entre <b>fraguado</b> y <b>polimerización</b> no es de estilo, son reacciones distintas.</p>
+  <div class="fi-nota">💬 También puedes preguntarle cualquiera de estos términos a Mikes Molares y te responde al momento.</div>`;
+  grupos.forEach(g=>{
+    h += `<div class="fi-h">${g.g}</div>`;
+    g.items.forEach(e=>{
+      h += `<div class="fi-card"><div class="fi-card-t">${e.t}</div><div class="fi-card-b">${e.d}</div></div>`;
+    });
+  });
+  h += `<p class="fi-nota">💡 Un par de distinciones que conviene fijar: el <b>alginato gelifica</b>, el <b>yeso fragua</b> y el <b>acrílico polimeriza</b>. Los tres endurecen, pero por mecanismos distintos.</p>`;
+  return h;
+}
+
 /* -------- FICHAS DE CONSULTA --------
    Material de referencia que no depende de una fecha de sesión.
    Se consulta en cualquier momento desde Biblioteca > Consulta. */
@@ -4975,133 +5215,8 @@ const FICHAS = [
   id:'glosario', icono:'📖',
   titulo:'Glosario de materiales dentales',
   sub:'Fraguado, polimerización, grabado y términos relacionados',
-  tags:'fraguado gelificacion polimerizacion fotopolimerizacion grabado sinéresis imbibicion monomero curado viscosidad tixotropia exotermica contraccion elastomero alginato acrilico yeso',
-  html:`
-<p class="fi-intro">Estos términos se usan a diario en el laboratorio y muchas veces se confunden entre sí. Vale la pena tenerlos precisos: la diferencia entre <b>fraguado</b> y <b>polimerización</b> no es de estilo, son reacciones distintas.</p>
-
-<div class="fi-h">Endurecimiento de los materiales</div>
-
-<div class="fi-card destacada">
-  <div class="fi-card-t">Fraguado</div>
-  <div class="fi-card-b">Proceso por el cual un material pasa de estado plástico a rígido. En odontología suele referirse a reacciones <b>químicas de tipo ácido-base o de hidratación</b>, como en el yeso, el alginato o los cementos.<br><br>Es el término general de endurecimiento. Toda polimerización implica endurecimiento, pero no todo fraguado es polimerización.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Tiempo de trabajo</div>
-  <div class="fi-card-b">Lapso desde que inicia la mezcla hasta que el material pierde su capacidad de fluir y adaptarse. Es tu ventana real para trabajar. Se acaba <b>antes</b> del tiempo de fraguado.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Tiempo de fraguado</div>
-  <div class="fi-card-b">Momento en que el material alcanza rigidez suficiente para retirarse sin deformarse. Se distingue el <b>fraguado inicial</b>, cuando ya no se puede manipular, del <b>fraguado final</b>, cuando alcanza sus propiedades.<br><br>En el yeso tipo III el fraguado inicial ocurre entre 8 y 10 minutos, pero la resistencia total llega a las <b>24 horas</b>.</div>
-</div>
-
-<div class="fi-card destacada">
-  <div class="fi-card-t">Gelificación</div>
-  <div class="fi-card-b">Transformación de un <b>sol</b>, que es una suspensión fluida, en un <b>gel</b>, que es una red semisólida. Es el mecanismo por el que endurecen los <b>hidrocoloides</b> como el alginato y el agar.<br><br>• En el <b>alginato</b> la gelificación es <b>química e irreversible</b>: reaccionan el alginato de sodio y el sulfato de calcio.<br>• En el <b>agar</b> es <b>térmica y reversible</b>: gelifica al enfriarse y vuelve a fluir al calentarse.<br><br>Por eso el alginato es un hidrocoloide irreversible y el agar, reversible.</div>
-</div>
-
-<div class="fi-card destacada">
-  <div class="fi-card-t">Polimerización</div>
-  <div class="fi-card-b">Reacción en la que moléculas pequeñas, los <b>monómeros</b>, se unen formando cadenas largas o <b>polímeros</b>. Es lo que ocurre en acrílicos, resinas compuestas y selladores.<br><br>Es siempre <b>exotérmica</b>: libera calor. Por eso una férula acrílica se calienta al curar y nunca se prueba en boca durante el fraguado.</div>
-</div>
-
-<div class="fi-h">Tipos de polimerización</div>
-<div class="fi-tabla">
-  <div class="fi-fila fi-cab"><span>Tipo</span><span>Qué la activa</span><span>Ejemplo</span></div>
-  <div class="fi-fila"><span>Autopolimerización</span><span>Reacción química entre pasta base y catalizador</span><span>Acrílico de autocurado, provisionales</span></div>
-  <div class="fi-fila"><span>Fotopolimerización</span><span>Luz visible, habitualmente entre 450 y 490 nm</span><span>Resina compuesta, sellador</span></div>
-  <div class="fi-fila"><span>Termopolimerización</span><span>Calor, en mufla o baño</span><span>Acrílico de bases protésicas</span></div>
-  <div class="fi-fila"><span>Dual</span><span>Luz y reacción química a la vez</span><span>Cementos de resina</span></div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Fotopolimerización</div>
-  <div class="fi-card-b">Polimerización activada por luz. El fotoiniciador más usado es la <b>canforquinona</b>, que absorbe alrededor de los 468 nm y se activa con luz azul.<br><br>Puntos prácticos: la lámpara debe estar lo más cerca posible y perpendicular, y hay que respetar el <b>grosor máximo de incremento</b>, en general 2 mm. Si el incremento es más grueso, la base queda sin curar aunque la superficie se vea dura.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Contracción de polimerización</div>
-  <div class="fi-card-b">Reducción de volumen al unirse los monómeros, porque las cadenas quedan más juntas que las moléculas libres. En resinas compuestas ronda el 2 a 3%.<br><br>Genera <b>estrés de contracción</b> en la interfase adhesiva, y es la causa de brechas marginales, sensibilidad posoperatoria y caries secundaria. Por eso se trabaja por incrementos.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Grado de conversión</div>
-  <div class="fi-card-b">Porcentaje de monómeros que efectivamente reaccionaron. Nunca llega al 100%: en resinas compuestas ronda el 55 a 75%.<br><br>El monómero que no reacciona queda como <b>residual</b> y puede liberarse, lo que se relaciona con irritación pulpar y sensibilización.</div>
-</div>
-
-<div class="fi-h">Adhesión</div>
-
-<div class="fi-card destacada">
-  <div class="fi-card-t">Grabado ácido</div>
-  <div class="fi-card-b">Aplicación de <b>ácido ortofosfórico</b> al 32 a 37% para desmineralizar selectivamente la superficie dentaria y crear microporosidades donde el adhesivo se traba.<br><br>Tiempos de referencia:<br>• <b>Esmalte</b>: 15 a 30 segundos<br>• <b>Dentina</b>: 15 segundos como máximo<br><br>Sobregrabar dentina colapsa las fibras de colágeno y <b>empeora</b> la adhesión. En esmalte el resultado visible es el aspecto blanco tiza al secar.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Capa híbrida</div>
-  <div class="fi-card-b">Zona de interpenetración entre la dentina desmineralizada y la resina adhesiva. Es el mecanismo real de la adhesión a dentina, descrito por Nakabayashi.<br><br>Requiere que el colágeno expuesto no se colapse: de ahí la técnica de <b>adhesión húmeda</b>, secando sin desecar.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Barrillo dentinario</div>
-  <div class="fi-card-b">Capa de detritus de aproximadamente 1 a 2 micras que queda sobre la dentina tras el corte con instrumental rotatorio. Obstruye los túbulos.<br><br>Los sistemas de <b>grabado total</b> lo eliminan; los <b>autograbantes</b> lo modifican e incorporan.</div>
-</div>
-
-<div class="fi-h">Comportamiento de los materiales</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Sinéresis e imbibición</div>
-  <div class="fi-card-b">Los dos enemigos de una impresión de alginato:<br><br>• <b>Sinéresis</b>: el gel <b>pierde agua</b> y exuda líquido. La impresión se contrae.<br>• <b>Imbibición</b>: el gel <b>absorbe agua</b> si se deja sumergido. La impresión se expande.<br><br>Ambos deforman el modelo. Por eso el alginato se vacía dentro de los primeros 15 minutos, y mientras tanto se guarda en ambiente húmedo pero sin sumergir.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Estabilidad dimensional</div>
-  <div class="fi-card-b">Capacidad de un material de conservar su forma y tamaño con el tiempo. El alginato la tiene <b>baja</b>; las siliconas de adición la tienen <b>alta</b> y admiten vaciado diferido.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Deformación permanente</div>
-  <div class="fi-card-b">Porción de la deformación que <b>no se recupera</b> al retirar la fuerza. En un material de impresión interesa que sea mínima, porque de ella depende que la impresión reproduzca fielmente al retirarla de las retenciones.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Recuperación elástica</div>
-  <div class="fi-card-b">Capacidad de volver a la forma original tras deformarse. Es lo que permite que un material de impresión salga de las zonas retentivas sin distorsionarse.<br><br>Por eso la impresión se retira con un <b>movimiento firme y único</b>: el retiro lento aumenta la deformación permanente.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Viscosidad y tixotropía</div>
-  <div class="fi-card-b">• <b>Viscosidad</b>: resistencia a fluir. Los materiales se clasifican en fluido, regular, pesado y masilla.<br>• <b>Tixotropía</b>: propiedad de fluir cuando se le aplica presión y mantenerse en su sitio cuando está en reposo. Es lo que hace que un material fluido no escurra de la cucharilla.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Reacción exotérmica</div>
-  <div class="fi-card-b">La que <b>libera calor</b>. Ocurre en la polimerización del acrílico y en el fraguado del yeso.<br><br>Consecuencia práctica: nunca probar acrílico en boca durante el curado, y considerar que el modelo de yeso se calienta mientras fragua.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Expansión de fraguado</div>
-  <div class="fi-card-b">Aumento de volumen durante el endurecimiento. En el yeso depende del tipo: tipo II alrededor de 0.3%, tipo III entre 0.15 y 0.20%, tipo IV cerca de 0.10%.<br><br>Menor expansión significa mayor precisión, y por eso los troqueles se hacen en tipo IV.</div>
-</div>
-
-<div class="fi-card">
-  <div class="fi-card-t">Relación agua/polvo</div>
-  <div class="fi-card-b">Proporción entre líquido y polvo de la mezcla. Es el factor que más determina las propiedades finales.<br><br>Más agua de la indicada baja la resistencia de forma drástica y aumenta el tiempo de fraguado. Es el error más común y el más costoso: por eso se pesa el polvo y se mide el agua, nunca a ojo.</div>
-</div>
-
-<div class="fi-h">Vocabulario del acrílico</div>
-<div class="fi-lista">
-  <div class="fi-item"><b>Monómero.</b> Molécula pequeña que se une a otras. En acrílico dental es el metilmetacrilato, líquido, volátil e irritante.</div>
-  <div class="fi-item"><b>Polímero.</b> La cadena resultante. En acrílico es el polvo de polimetilmetacrilato.</div>
-  <div class="fi-item"><b>Fase arenosa.</b> Primera etapa de la mezcla: el polvo aún no se disuelve.</div>
-  <div class="fi-item"><b>Fase filamentosa o pegajosa.</b> El material se adhiere a los instrumentos. No es momento de trabajarlo.</div>
-  <div class="fi-item"><b>Fase plástica.</b> Momento ideal de manipulación: moldeable y sin pegarse.</div>
-  <div class="fi-item"><b>Fase gomosa.</b> Ya no se adapta. Pasó el tiempo de trabajo.</div>
-  <div class="fi-item"><b>Porosidad.</b> Burbujas por mezcla incorrecta, falta de presión o evaporación del monómero. Debilita la pieza y retiene placa.</div>
-</div>
-
-<p class="fi-nota">💡 Un par de distinciones que conviene fijar: el <b>alginato gelifica</b>, el <b>yeso fragua</b> y el <b>acrílico polimeriza</b>. Los tres endurecen, pero por mecanismos distintos.</p>
-`
+  tags:'fraguado gelificacion polimerizacion fotopolimerizacion grabado sinéresis imbibicion monomero curado viscosidad tixotropia exotermica contraccion acrilico yeso alginato',
+  gen:'glosario'
 },
 {
   id:'articulador', icono:'⚙️',
@@ -5206,7 +5321,8 @@ function abrirFicha(origen, id){
   const f = FICHAS.find(x=>x.id===id);
   if(!f) return;
   const destino = origen || pantallaAnterior;
-  abrirSubScreen(destino, f.titulo, '<div class="ficha">' + f.html + '</div>');
+  const cuerpo = f.gen === 'glosario' ? htmlGlosario() : f.html;
+  abrirSubScreen(destino, f.titulo, '<div class="ficha">' + cuerpo + '</div>');
 }
 
 // -------- PDFs de la biblioteca (archivos externos en /docs) --------
