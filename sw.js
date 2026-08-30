@@ -1,7 +1,7 @@
 /* Mike Molares — Service Worker
    Sube la versión (CACHE) cada vez que publiques cambios,
    así los alumnos reciben la actualización en vez de la copia vieja. */
-const CACHE = 'dentipedia-v37';
+const CACHE = 'dentipedia-v40';
 
 const BASE = self.registration.scope;
 const ARCHIVOS = [
@@ -16,6 +16,15 @@ const ARCHIVOS = [
   './Tema3_Interferencias_RC_OC.pdf',
   './Tema4_Trabajo_Balance.pdf',
   './Guia_Articulador_Semiajustable.pdf',
+  './Manual_Practicas_Oclusion.pdf',
+  './Syllabus_Oclusion_2026_V4.pdf',
+  './Tema1_Anatomia_ATM.pdf',
+  './Tema5_Oclusion_Patologica.pdf',
+  './Tema6_Clases_Relaciones_Patologicas.pdf',
+  './Tema7_Trastornos_ATM.pdf',
+  './Tema8_Trastornos_Musculares.pdf',
+  './Tema9_Habitos_Parafuncionales.pdf',
+  './Tema11_Ferulas_Oclusales.pdf',
   './foto01_frente_reposo.webp',
   './foto02_frente_sonrisa.webp',
   './foto03_tres_cuartos_der.webp',

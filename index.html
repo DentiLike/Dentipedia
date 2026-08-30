@@ -448,6 +448,30 @@ body.mp-abierto{overflow:hidden}
 .art-op.on{border-color:var(--azul); background:#fff; box-shadow:0 0 0 2px rgba(9,82,135,.15)}
 .art-op.on b{color:var(--azul)}
 .art-info{background:#fff; border-radius:9px; padding:.55rem .65rem; font-size:.74rem; color:var(--tinta); line-height:1.55}
+/* ---- Material del tema ---- */
+.sesion-recursos{display:flex; flex-direction:column; gap:.4rem; margin-top:.65rem}
+.rec-btn{display:flex; align-items:center; gap:.55rem; width:100%; text-align:left;
+  padding:.55rem .7rem; border-radius:10px; border:1px solid; text-decoration:none}
+.rec-btn .rec-ico{font-size:1.05rem; flex:0 0 auto; line-height:1}
+.rec-btn .rec-txt{flex:1; display:flex; flex-direction:column; gap:.05rem; min-width:0}
+.rec-btn .rec-txt b{font-size:.76rem; font-weight:700; line-height:1.3}
+.rec-btn .rec-txt small{font-size:.68rem; opacity:.8; line-height:1.3}
+.rec-flecha{font-size:.9rem; opacity:.6; flex:0 0 auto}
+.rec-btn.leer{background:var(--teal-claro); border-color:#bfe8e6; color:var(--teal-osc)}
+.rec-btn.leer:active{background:#d6f4f3}
+.rec-btn.bajar{background:var(--azul-claro); border-color:#cfe3f2; color:var(--azul-osc)}
+.rec-btn.bajar:active{background:#dbeafe}
+.rec-btn.ficha{background:#fff; border-color:var(--borde); color:var(--tinta)}
+.rec-btn.ficha:active{background:#f1f5f9}
+.mt-cab{border-bottom:2px solid var(--teal-claro); padding-bottom:.7rem; margin-bottom:1rem}
+.mt-corto{font-size:.66rem; font-weight:800; letter-spacing:.06em; color:var(--teal-osc); text-transform:uppercase}
+.mt-titulo{font-family:'Fredoka'; font-size:1.15rem; color:var(--azul-osc); line-height:1.3; margin-top:.2rem}
+.mt-bloque{font-size:.82rem; color:var(--tinta); line-height:1.7; padding:.85rem .9rem; margin-bottom:.7rem;
+  background:#fff; border:1px solid var(--borde); border-radius:12px}
+.mt-bloque b{color:var(--azul-osc)}
+.mt-quiz{width:100%; background:var(--azul); color:#fff; font-family:'Fredoka'; font-size:.9rem;
+  padding:.8rem; border-radius:12px; margin:.4rem 0 .9rem}
+.mt-quiz:active{background:var(--azul-osc)}
 /* ---- Fichas de consulta ---- */
 .ficha-card{display:flex; align-items:center; gap:.7rem; width:100%; background:#fff; border:1.5px solid var(--borde); border-radius:12px; padding:.8rem .85rem; margin-bottom:.6rem; text-align:left}
 .ficha-card:active{border-color:var(--teal); background:var(--teal-claro)}
@@ -1420,11 +1444,186 @@ const TEMAS = {
         r: `<b>Valor didáctico</b><br><br>Es el ejercicio que permite <b>ver</b> lo que en boca solo se intuye. Comparar lo marcado en el paciente con lo observado en el articulador es la mejor forma de educar el criterio.`
       }
     ]
-  }
+  },
+
+  patologica: {
+    nombre: "Tema 5 · Oclusión patológica",
+    corto: "Tema 5",
+    titulo: "Oclusión patológica: causas directas e indirectas",
+    chip: "Oclusión patológica",
+    resumenTitulo: "Oclusión patológica · causas directas e indirectas",
+    grupos: [
+      { kw:["que es oclusion patologica","oclusion patologica","definicion de oclusion patologica"],
+        r:"<b>Definición</b><br><br>Es aquella oclusión que <b>supera la capacidad de adaptación</b> del sistema estomatognático y produce daño en alguno de sus componentes: dientes, periodonto, músculos o articulación.<br><br>Ojo con esto: no toda oclusión ideal es sana ni toda maloclusión es patológica. Lo que define lo patológico no es la forma, es el <b>daño</b>. Un paciente con apiñamiento y sin signos de daño no tiene oclusión patológica; uno con oclusión aparentemente normal pero con desgaste severo y dolor muscular, sí." },
+      { kw:["diferencia entre maloclusion y oclusion patologica","maloclusion vs patologica"],
+        r:"<b>No son lo mismo</b><br><br>• <b>Maloclusión</b>: una desviación de la relación dentaria considerada normal. Es un criterio <b>morfológico</b>.<br>• <b>Oclusión patológica</b>: una oclusión que está causando daño. Es un criterio <b>funcional y biológico</b>.<br><br>Puede haber maloclusión sin patología y patología sin maloclusión evidente. Por eso el diagnóstico no se hace solo mirando los modelos." },
+      { kw:["capacidad de adaptacion","adaptacion del sistema","tolerancia fisiologica"],
+        r:"<b>La clave está en la adaptación</b><br><br>El sistema estomatognático tolera bastante. Ante una fuerza anormal puede adaptarse con remodelado óseo, desgaste fisiológico o cambios musculares, y seguir funcionando sin síntomas.<br><br>La patología aparece cuando la demanda <b>supera</b> esa capacidad. Esa capacidad varía entre personas: por eso dos pacientes con la misma interferencia pueden tener uno un cuadro doloroso y el otro nada." },
+      { kw:["causas directas","cuales son las causas directas"],
+        r:"<b>Causas directas</b><br><br>Son las que actúan <b>sobre la oclusión misma</b> y alteran el contacto entre los dientes:<br><br>• Interferencias oclusales en céntrica, trabajo o balance<br>• Contactos prematuros<br>• Pérdida dentaria no rehabilitada, con migración y extrusión<br>• Restauraciones en sobreoclusión o con anatomía incorrecta<br>• Desgaste dentario que altera las guías<br>• Tratamientos protésicos u ortodóncicos mal terminados<br>• Fracturas dentarias o radiculares" },
+      { kw:["causas indirectas","cuales son las causas indirectas"],
+        r:"<b>Causas indirectas</b><br><br>No alteran el contacto dentario, pero <b>modifican la carga</b> que ese contacto recibe:<br><br>• Hábitos parafuncionales: bruxismo y apretamiento<br>• Estrés y alteraciones del sueño<br>• Trastornos de la ATM previos<br>• Alteraciones posturales y respiración bucal<br>• Enfermedad periodontal, que reduce el soporte<br>• Deglución atípica y otros hábitos linguales<br>• Factores sistémicos como artritis o enfermedades del colágeno<br><br>Suelen ser las más difíciles de controlar, porque no se resuelven con ajuste oclusal." },
+      { kw:["signos de oclusion patologica","como se detecta","hallazgos clinicos"],
+        r:"<b>Qué buscar en la exploración</b><br><br>• <b>Dentario</b>: facetas de desgaste, abfracciones, fracturas de cúspides, movilidad<br>• <b>Periodontal</b>: ensanchamiento del ligamento en radiografía, migración dentaria, recesiones<br>• <b>Muscular</b>: dolor a la palpación, hipertrofia maseterina, fatiga al masticar<br>• <b>Articular</b>: ruidos, limitación de apertura, desviación al abrir, dolor preauricular<br><br>Ningún signo aislado hace el diagnóstico. Lo que lo hace es el <b>patrón</b>." },
+      { kw:["trauma oclusal","trauma primario y secundario"],
+        r:"<b>Trauma oclusal</b><br><br>Es la lesión del periodonto por fuerzas oclusales excesivas. Se divide en dos:<br><br>• <b>Trauma primario</b>: fuerza <b>excesiva</b> sobre un periodonto <b>sano</b>. Ejemplo típico: una restauración alta.<br>• <b>Trauma secundario</b>: fuerza <b>normal</b> sobre un periodonto <b>disminuido</b> por enfermedad periodontal previa.<br><br>La distinción importa porque el tratamiento cambia: en el primario ajustas la oclusión; en el secundario primero tienes que tratar la periodontitis." },
+      { kw:["tratamiento de oclusion patologica","como se trata","plan de tratamiento"],
+        r:"<b>Secuencia de manejo</b><br><br>1. <b>Diagnóstico</b> completo: historia, exploración, modelos montados, análisis oclusal<br>2. <b>Control de la causa indirecta</b> cuando existe: manejo del bruxismo, del estrés, de la periodontitis<br>3. <b>Terapia reversible</b> primero: férula oclusal, educación, fisioterapia<br>4. <b>Terapia irreversible</b> solo después y con indicación clara: ajuste oclusal, rehabilitación, ortodoncia<br><br>La regla de oro es empezar por lo reversible. Si desgastas esmalte sin diagnóstico, no hay marcha atrás." }
+    ]
+  },
+  clases: {
+    nombre: "Tema 6 · Clasificación de relaciones patológicas",
+    corto: "Tema 6",
+    titulo: "Clases I a V de relaciones patológicas",
+    chip: "Clases I a V",
+    resumenTitulo: "Clasificación de las relaciones patológicas",
+    grupos: [
+      { kw:["clasificacion de relaciones patologicas","clases i a v","cuales son las clases"],
+        r:"<b>Las cinco clases</b><br><br>Esta clasificación describe <b>hacia dónde</b> se desvía la relación mandibular respecto a la posición de referencia:<br><br>• <b>Clase I</b> · relación protrusiva<br>• <b>Clase II</b> · relación retrusiva<br>• <b>Clase III</b> · relación vertical aumentada<br>• <b>Clase IV</b> · relación latero-protrusiva<br>• <b>Clase V</b> · relación vertical disminuida<br><br>No la confundas con la clasificación de Angle, que es otra cosa: Angle describe la relación <b>molar</b> anteroposterior." },
+      { kw:["clase i protrusiva","relacion protrusiva"],
+        r:"<b>Clase I · Relación protrusiva</b><br><br>La mandíbula se posiciona <b>hacia adelante</b> respecto de donde debería estar.<br><br>Suele originarse por interferencias posteriores que obligan a la mandíbula a avanzar para lograr contacto, o por hábitos de postura mandibular adelantada. Los cóndilos quedan desplazados hacia abajo y adelante en la eminencia.<br><br>Consecuencias frecuentes: sobrecarga de los anteriores, desgaste incisal marcado y fatiga de los músculos protrusores." },
+      { kw:["clase ii retrusiva","relacion retrusiva"],
+        r:"<b>Clase II · Relación retrusiva</b><br><br>La mandíbula queda <b>hacia atrás</b>. Es de las más comprometedoras para la articulación, porque el cóndilo se desplaza posteriormente y comprime la zona <b>retrodiscal</b>, que está muy vascularizada e inervada.<br><br>Por eso este cuadro suele cursar con dolor articular real, no solo muscular. Puede asociarse a pérdida de dientes posteriores, a sobremordida profunda o a restauraciones que no respetaron la posición." },
+      { kw:["clase iii vertical aumentada","dimension vertical aumentada"],
+        r:"<b>Clase III · Relación vertical aumentada</b><br><br>La dimensión vertical de oclusión está <b>por encima</b> de lo que el paciente tolera.<br><br>Causa más común: iatrogenia. Restauraciones, prótesis o rehabilitaciones que quedaron altas. También puede darse por erupción pasiva alterada.<br><br>Signos: el paciente refiere que no cierra bien o que los dientes le chocan, hay tensión muscular constante, dificultad para juntar los labios y a veces espacio libre interoclusal ausente." },
+      { kw:["clase iv latero protrusiva","relacion lateroprotrusiva"],
+        r:"<b>Clase IV · Relación latero-protrusiva</b><br><br>Combina dos desviaciones: la mandíbula se desplaza hacia <b>adelante y hacia un lado</b> a la vez.<br><br>Es la más compleja de las cinco, porque los dos cóndilos están en posiciones distintas y asimétricas. Suele deberse a interferencias unilaterales que obligan a un desvío en dos planos.<br><br>Clínicamente se ve desviación de la línea media en cierre, desgaste asimétrico y sintomatología muscular de un solo lado." },
+      { kw:["clase v vertical disminuida","dimension vertical disminuida","colapso de mordida"],
+        r:"<b>Clase V · Relación vertical disminuida</b><br><br>Pérdida de dimensión vertical. La mandíbula sobrecierra.<br><br>Causas: pérdida de dientes posteriores sin rehabilitar, desgaste generalizado severo, o bruxismo de larga evolución.<br><br>Signos característicos: tercio inferior de la cara acortado, queilitis angular, labios evertidos, aspecto de mayor edad, y sobrecarga de los dientes anteriores que quedan como único tope. La ATM sufre porque el cóndilo tiende a posicionarse posterosuperior." },
+      { kw:["como se diagnostican las clases","diagnostico de las clases","como diferenciarlas"],
+        r:"<b>Cómo se llega al diagnóstico</b><br><br>No se diagnostican mirando la boca en máxima intercuspidación. Necesitas:<br><br>• Modelos <b>montados en articulador</b> con arco facial<br>• Registro en <b>relación céntrica</b> y en <b>posición habitual</b><br>• Comparar ambas posiciones y medir el deslizamiento y su dirección<br>• Evaluar dimensión vertical y espacio libre interoclusal<br>• Correlacionar con los signos clínicos y articulares<br><br>La dirección del deslizamiento de céntrica a habitual es lo que te dice la clase." }
+    ]
+  },
+  atmtrast: {
+    nombre: "Tema 7 · Trastornos de la ATM",
+    corto: "Tema 7",
+    titulo: "Trastornos del complejo articular",
+    chip: "Trastornos ATM",
+    resumenTitulo: "Trastornos de la articulación temporomandibular",
+    grupos: [
+      { kw:["trastornos de la atm","clasificacion de trastornos atm","tipos de trastornos"],
+        r:"<b>Panorama general</b><br><br>Los trastornos temporomandibulares se agrupan en tres grandes bloques:<br><br>• <b>Alteraciones del complejo cóndilo-disco</b>: desplazamientos y luxaciones del disco<br>• <b>Incompatibilidad estructural</b> entre superficies articulares: alteraciones morfológicas, adherencias, subluxación<br>• <b>Trastornos inflamatorios</b>: sinovitis, capsulitis, retrodiscitis, artritis<br><br>A esto se suman los trastornos musculares, que se ven en el Tema 8 y que en la práctica son los más frecuentes." },
+      { kw:["desplazamiento del disco","luxacion discal con reduccion","clic articular"],
+        r:"<b>Desplazamiento discal con reducción</b><br><br>El disco está desplazado, casi siempre hacia <b>adelante y adentro</b>, cuando la boca está cerrada. Al abrir, el cóndilo lo recaptura y el disco vuelve a su posición: eso produce el <b>clic de apertura</b>. Al cerrar, el disco se vuelve a desplazar y suele haber un segundo clic, más suave, el <b>clic recíproco</b>.<br><br>Rasgos: apertura conservada, chasquido reproducible, dolor variable. La presencia de clic recíproco es lo que confirma la reducción." },
+      { kw:["luxacion sin reduccion","bloqueo cerrado","closed lock"],
+        r:"<b>Desplazamiento discal sin reducción</b><br><br>El disco está desplazado y el cóndilo <b>ya no logra recapturarlo</b> al abrir. El disco se convierte en un obstáculo mecánico.<br><br>Signos clave:<br>• Apertura <b>limitada</b>, típicamente por debajo de 30 mm<br>• <b>Desviación</b> de la línea media hacia el lado afectado al abrir<br>• <b>Desaparición del clic</b> que el paciente tenía antes<br>• Dolor al forzar la apertura<br><br>Que el clic desaparezca no es mejoría: suele ser progresión del cuadro. Es un dato que hay que preguntar dirigidamente." },
+      { kw:["incompatibilidad de superficies","alteraciones morfologicas"],
+        r:"<b>Incompatibilidad estructural</b><br><br>Ocurre cuando las superficies articulares pierden su relación normal de deslizamiento.<br><br>• <b>Alteraciones morfológicas</b>: cambios de forma del cóndilo, la eminencia o el disco, por desarrollo, desgaste o remodelado. Producen ruidos reproducibles siempre en el mismo punto de la apertura.<br>• <b>Adherencias</b>: unión temporal entre superficies por falta de lubricación. Suelen ceder con el movimiento.<br>• <b>Adhesiones</b>: unión fibrosa <b>permanente</b>. No ceden solas y limitan de forma persistente." },
+      { kw:["subluxacion","luxacion mandibular","hipermovilidad"],
+        r:"<b>Subluxación y luxación</b><br><br>• <b>Subluxación</b>: el cóndilo sobrepasa la eminencia articular en apertura amplia, pero el paciente <b>puede volver solo</b>. Se acompaña de un salto y a veces un ruido sordo. Es un cuadro de hipermovilidad.<br>• <b>Luxación</b>: el cóndilo queda <b>bloqueado</b> por delante de la eminencia y el paciente <b>no puede cerrar</b> sin ayuda. Requiere reducción manual.<br><br>La diferencia práctica es esa: si vuelve solo es subluxación, si necesita maniobra es luxación." },
+      { kw:["sinovitis y capsulitis","inflamacion articular"],
+        r:"<b>Sinovitis y capsulitis</b><br><br>• <b>Sinovitis</b>: inflamación de la membrana sinovial. Dolor articular localizado, que aumenta con la función.<br>• <b>Capsulitis</b>: inflamación de la cápsula articular. Dolor a la palpación del polo lateral del cóndilo y a los movimientos que la tensan.<br><br>Ambas comparten un dato útil: puede aparecer una <b>mordida abierta posterior del lado afectado</b>, porque el derrame separa las superficies y desplaza el cóndilo hacia abajo." },
+      { kw:["retrodiscitis","tejido retrodiscal"],
+        r:"<b>Retrodiscitis</b><br><br>Inflamación de los tejidos retrodiscales, la zona bilaminar por detrás del disco. Es un tejido muy vascularizado e inervado, así que duele bastante.<br><br>Causas: traumatismo directo en el mentón, desplazamiento posterior del cóndilo, o una relación retrusiva mantenida.<br><br>Signo típico: dolor que aumenta al apretar los dientes, y mordida abierta posterior del lado afectado por el edema." },
+      { kw:["poliartritis","artritis","osteoartritis atm"],
+        r:"<b>Artritis y poliartritis</b><br><br>• <b>Osteoartritis</b>: proceso degenerativo por sobrecarga. Crepitación, dolor de larga evolución y cambios óseos en imagen.<br>• <b>Poliartritis</b>: la ATM se afecta dentro de una enfermedad <b>sistémica</b>, como artritis reumatoide, psoriásica o lupus. Casi siempre es bilateral y se acompaña de afectación de otras articulaciones.<br><br>Dato relevante: en la artritis reumatoide juvenil el daño condilar puede alterar el crecimiento mandibular y producir micrognatia. Ante sospecha de poliartritis, interconsulta con reumatología." },
+      { kw:["tendinitis temporal","tendinitis del temporal"],
+        r:"<b>Tendinitis del temporal</b><br><br>Inflamación del tendón del músculo temporal en su inserción sobre la apófisis coronoides.<br><br>Se presenta como dolor en la región temporal que puede confundirse con cefalea o incluso con dolor dentario del maxilar. Aumenta con la palpación de la coronoides por vía intraoral y con la función.<br><br>Es un buen ejemplo de por qué el dolor orofacial exige diagnóstico diferencial: más de un paciente ha recibido tratamiento de conductos por un dolor que era muscular o tendinoso." },
+      { kw:["exploracion de atm","como explorar la atm","palpacion articular"],
+        r:"<b>Exploración básica</b><br><br>• <b>Apertura máxima</b>: normal entre 40 y 55 mm interincisal. Menos de 40 mm es limitación.<br>• <b>Lateralidades y protrusiva</b>: se espera alrededor de 8 a 12 mm.<br>• <b>Trayectoria de apertura</b>: recta, desviada o en S. Una desviación que se corrige sugiere reducción discal; una que persiste sugiere restricción.<br>• <b>Palpación</b>: polo lateral del cóndilo y vía auricular.<br>• <b>Ruidos</b>: clic contra crepitación. El clic sugiere problema discal; la crepitación, cambio degenerativo.<br><br>Todo se registra con números, no con adjetivos." }
+    ]
+  },
+
+  musculares: {
+    nombre: "Tema 8 · Trastornos musculares",
+    corto: "Tema 8",
+    titulo: "Dolor muscular local, mioespasmos y dolor miofascial",
+    chip: "Trastornos musculares",
+    resumenTitulo: "Trastornos musculares masticatorios",
+    grupos: [
+      { kw:["trastornos musculares","dolor muscular masticatorio","tipos de dolor muscular"],
+        r:"<b>Panorama</b><br><br>Los trastornos musculares son la causa <b>más frecuente</b> de dolor en el sistema masticatorio, por encima de los articulares. Los tres cuadros del programa son:<br><br>• <b>Dolor muscular local</b><br>• <b>Mioespasmo</b><br>• <b>Dolor miofascial</b><br><br>Se distinguen por la duración, la presencia de contracción y la existencia de puntos gatillo. Diferenciarlos importa porque el manejo cambia." },
+      { kw:["dolor muscular local","mialgia local"],
+        r:"<b>Dolor muscular local</b><br><br>Es la respuesta inicial del músculo a una sobrecarga o a un traumatismo. Corresponde a una mialgia no inflamatoria.<br><br>Características:<br>• Dolor <b>a la palpación</b> del músculo afectado<br>• Aumenta con la función y disminuye con el reposo<br>• Puede haber leve limitación de apertura<br>• <b>No</b> hay puntos gatillo ni dolor referido<br>• Es de instalación reciente<br><br>Es el cuadro de mejor pronóstico. Suele ceder retirando la causa y con manejo conservador." },
+      { kw:["mioespasmo","espasmo muscular","contraccion involuntaria"],
+        r:"<b>Mioespasmo</b><br><br>Contracción <b>involuntaria, súbita y sostenida</b> del músculo, de origen en el sistema nervioso central.<br><br>Características:<br>• Inicio <b>brusco</b><br>• Limitación <b>marcada</b> de la apertura<br>• Músculo firme y doloroso a la palpación<br>• Puede haber cambio agudo en la oclusión, porque el músculo contraído desplaza la mandíbula<br>• Duración corta, de horas a días<br><br>Es el que más asusta al paciente por lo repentino. Un mioespasmo del pterigoideo lateral inferior produce mordida abierta posterior del lado contrario." },
+      { kw:["dolor miofascial","puntos gatillo","trigger points"],
+        r:"<b>Dolor miofascial</b><br><br>Es un dolor muscular <b>regional y crónico</b> caracterizado por la presencia de <b>puntos gatillo</b>: bandas tensas dentro del músculo que, al palparse, reproducen un dolor <b>referido</b> a distancia.<br><br>Características:<br>• Evolución prolongada<br>• Dolor referido con patrón reproducible<br>• Sensación de fatiga y rigidez<br>• Frecuentemente asociado a estrés y a alteraciones del sueño<br><br>Lo que lo define y lo distingue de los otros dos es el <b>punto gatillo con dolor referido</b>." },
+      { kw:["dolor referido","patrones de dolor referido"],
+        r:"<b>Dolor referido</b><br><br>Es dolor que se percibe en un sitio <b>distinto</b> de donde está el origen. Explica muchos diagnósticos equivocados.<br><br>Patrones frecuentes:<br>• <b>Masetero</b> → dientes posteriores, oído, región mandibular<br>• <b>Temporal</b> → región temporal, dientes superiores, detrás del ojo<br>• <b>Esternocleidomastoideo</b> → cara, oído, región frontal<br>• <b>Pterigoideo lateral</b> → región del seno maxilar y ATM<br><br>De ahí la advertencia clásica: hay pacientes tratados endodónticamente por un dolor que era del masetero. Palpa antes de instrumentar." },
+      { kw:["palpacion muscular","como palpar los musculos","exploracion muscular"],
+        r:"<b>Cómo palpar</b><br><br>Presión firme y constante, aproximadamente 1 a 2 kg, sostenida entre 2 y 5 segundos, y siempre bilateral para comparar.<br><br>Músculos a explorar:<br>• <b>Masetero</b>: superficial y profundo, extraoral<br>• <b>Temporal</b>: haces anterior, medio y posterior<br>• <b>Pterigoideo medial</b>: intraoral, cara interna de la rama<br>• <b>Esternocleidomastoideo</b> y <b>trapecio</b>: cervicales, se exploran porque refieren a la cara<br><br>Registra si hay dolor, si hay dolor referido y a dónde refiere. Esa última parte es la que orienta el diagnóstico." },
+      { kw:["tratamiento de trastornos musculares","manejo del dolor muscular"],
+        r:"<b>Manejo</b><br><br>Siempre empezando por lo reversible:<br><br>• <b>Educación</b>: explicar el cuadro, retirar hábitos, dieta blanda temporal<br>• <b>Termoterapia</b> y ejercicios de estiramiento controlado<br>• <b>Férula oclusal</b> de estabilización<br>• <b>Fisioterapia</b><br>• <b>Farmacológico</b>: analgésicos, relajantes musculares en cuadros agudos<br>• <b>Manejo del estrés</b> y del sueño, que suelen ser el motor de fondo<br><br>Solo después, y con diagnóstico firme, se plantea terapia irreversible. La toxina botulínica es coadyuvante, no primera línea." }
+    ]
+  },
+  habitos: {
+    nombre: "Tema 9 · Hábitos parafuncionales",
+    corto: "Tema 9",
+    titulo: "Bruxismo, apretamiento y deglución",
+    chip: "Hábitos parafuncionales",
+    resumenTitulo: "Hábitos parafuncionales y deglución",
+    grupos: [
+      { kw:["que es parafuncion","hábitos parafuncionales","funcion vs parafuncion"],
+        r:"<b>Función y parafunción</b><br><br>• La <b>función</b> es la actividad con propósito: masticar, deglutir, hablar. Sus contactos son breves e intermitentes, y las fuerzas se distribuyen.<br>• La <b>parafunción</b> es actividad <b>sin propósito funcional</b>. Sus contactos son prolongados y sostenidos, con fuerzas mayores y más concentradas.<br><br>La diferencia crítica es el tiempo. En masticación los dientes contactan pocos minutos al día; en parafunción pueden contactar horas. Eso es lo que rebasa la capacidad de adaptación." },
+      { kw:["bruxismo","que es el bruxismo","tipos de bruxismo"],
+        r:"<b>Bruxismo</b><br><br>Actividad repetitiva de la musculatura masticatoria caracterizada por <b>apretar o rechinar</b> los dientes.<br><br>Se clasifica por el momento:<br>• <b>Bruxismo del sueño</b>: actividad rítmica, se considera un fenómeno de origen central asociado a microdespertares<br>• <b>Bruxismo de vigilia</b>: predomina el apretamiento, muy ligado a estrés y concentración<br><br>Un punto que conviene tener claro: el consenso actual considera el bruxismo un <b>comportamiento</b>, no una enfermedad en sí. Puede ser factor de riesgo, y en algunos casos hasta protector frente a la apnea." },
+      { kw:["apretamiento dental","clenching","apretamiento vs rechinamiento"],
+        r:"<b>Apretamiento y rechinamiento</b><br><br>• <b>Apretamiento</b>: fuerza <b>estática</b>, sin desplazamiento. Predomina en vigilia. Produce dolor muscular, abfracciones y line alba en carrillo, pero poco desgaste.<br>• <b>Rechinamiento</b>: fuerza <b>dinámica</b>, con movimiento excéntrico. Predomina en sueño. Produce <b>facetas de desgaste</b> planas y brillantes que coinciden entre arcadas.<br><br>El dato que los diferencia en clínica es el desgaste: si hay facetas coincidentes, hubo movimiento." },
+      { kw:["signos de bruxismo","como detectar bruxismo","diagnostico de bruxismo"],
+        r:"<b>Signos a buscar</b><br><br>• Facetas de desgaste que <b>coinciden</b> al llevar los modelos a la posición excéntrica<br>• Hipertrofia maseterina<br>• Línea alba en la mucosa yugal e indentaciones en el borde lateral de la lengua<br>• Abfracciones cervicales<br>• Fracturas de cúspides o de restauraciones repetidas<br>• Dolor muscular matutino y cefalea al despertar<br>• Movilidad dentaria sin causa periodontal<br><br>El diagnóstico definitivo del bruxismo del sueño requiere polisomnografía; en consulta hablamos de bruxismo <b>probable</b> cuando hay signos clínicos más reporte del paciente." },
+      { kw:["deglucion tipica","deglucion normal","deglucion madura"],
+        r:"<b>Deglución típica</b><br><br>Es la deglución <b>madura</b>, la que se establece tras la transición de la infantil.<br><br>Características:<br>• Dientes en <b>contacto</b> durante la deglución<br>• Punta de la lengua apoyada en la <b>papila retroincisiva</b>, detrás de los incisivos superiores<br>• Contracción de los <b>elevadores</b> mandibulares<br>• <b>Sin</b> participación de la musculatura perioral<br><br>Se degluten alrededor de 600 a 1000 veces al día, así que un patrón alterado tiene efecto acumulativo importante." },
+      { kw:["deglucion atipica","deglucion infantil","empuje lingual"],
+        r:"<b>Deglución atípica</b><br><br>Persistencia del patrón infantil más allá de la edad esperada.<br><br>Características:<br>• Lengua <b>interpuesta</b> entre las arcadas<br>• Dientes <b>sin contacto</b> al deglutir<br>• Contracción evidente de la musculatura <b>perioral</b>: se ve el mentón arrugado y los labios tensos<br>• A veces movimiento compensatorio de cabeza<br><br>Consecuencias: mordida abierta anterior, protrusión de incisivos, mordida cruzada posterior por falta de estímulo transversal, y recidiva ortodóncica si no se corrige. Suele asociarse a respiración bucal, deglución con biberón prolongada o amígdalas hipertróficas." },
+      { kw:["tratamiento de habitos","manejo del bruxismo","como tratar los habitos"],
+        r:"<b>Manejo</b><br><br>Para bruxismo y apretamiento:<br>• Educación y toma de conciencia del hábito<br>• Higiene del sueño y manejo del estrés<br>• <b>Férula de estabilización</b>, que protege pero no cura el hábito<br>• Control de factores como cafeína, alcohol, tabaco y ciertos fármacos<br>• Descartar apnea del sueño cuando hay indicios<br><br>Para deglución atípica:<br>• <b>Terapia miofuncional</b> con fonoaudiología<br>• Corrección de la causa: respiración bucal, obstrucción de vía aérea<br>• Ortodoncia una vez controlado el hábito, no antes<br><br>En ambos casos: si no se controla la causa, la recidiva es cuestión de tiempo." }
+    ]
+  },
+  articulador: {
+    nombre: "Tema 10 · Montaje en articulador",
+    corto: "Tema 10",
+    titulo: "Arco facial, céntrica y posición habitual",
+    chip: "Articulador",
+    resumenTitulo: "Montaje de modelos en articulador semiajustable",
+    grupos: [
+      { kw:["que es un articulador","para que sirve el articulador","tipos de articulador"],
+        r:"<b>Qué es y para qué sirve</b><br><br>Instrumento mecánico que reproduce la relación maxilomandibular y permite simular los movimientos fuera de la boca. La razón de fondo: en boca <b>no puedes ver</b> los contactos posteriores durante una lateralidad, porque la lengua y el carrillo estorban.<br><br>Tipos:<br>• <b>No ajustable</b> o de bisagra: solo abre y cierra<br>• <b>Semiajustable</b>: ajusta trayectoria condílea y ángulo de Bennett. Es el del curso<br>• <b>Totalmente ajustable</b>: reproduce el movimiento individual con registros pantográficos" },
+      { kw:["arco facial","para que sirve el arco facial","que registra el arco facial"],
+        r:"<b>Arco facial</b><br><br>Aquí está el malentendido más común: el arco facial <b>no registra la oclusión</b>. Registra la posición del maxilar superior respecto al <b>eje de bisagra terminal</b>.<br><br>Si montas sin arco facial, el radio de rotación del articulador no coincide con el del paciente y el arco de cierre es distinto. Los contactos que observes serán falsos, y el error crece mientras más te alejes de la posición de registro.<br><br>Puede ser <b>arbitrario</b>, con puntos anatómicos promedio, o <b>cinemático</b>, localizando el eje real." },
+      { kw:["relacion centrica","que es relacion centrica","rc"],
+        r:"<b>Relación céntrica</b><br><br>Posición determinada por la <b>articulación</b>, no por los dientes: cóndilos en su posición más superoanterior contra la vertiente posterior de la eminencia, con el disco correctamente interpuesto.<br><br>Es <b>independiente</b> del contacto dentario y, sobre todo, es <b>reproducible</b>. Por eso sirve como punto de partida del diagnóstico y como referencia para rehabilitar." },
+      { kw:["posicion habitual","maxima intercuspidacion","mic"],
+        r:"<b>Posición habitual de conveniencia</b><br><br>También llamada máxima intercuspidación. Es donde el paciente cierra <b>por costumbre</b>, guiado por sus propios dientes.<br><br>La determina la <b>oclusión</b>, no la articulación. Puede coincidir con relación céntrica o estar desplazada respecto a ella. Es una posición adaptada, no necesariamente sana." },
+      { kw:["deslizamiento en centrica","diferencia entre rc y mic","slide"],
+        r:"<b>Deslizamiento en céntrica</b><br><br>Es el recorrido de la mandíbula desde el primer contacto en relación céntrica hasta la posición habitual.<br><br>• Pequeño y <b>simétrico</b>, en el plano sagital, se considera fisiológico<br>• <b>Amplio</b> o con componente <b>lateral</b> marcado es un hallazgo que debe documentarse<br><br>Un deslizamiento lateral indica que el paciente está esquivando una interferencia, y ese desvío tiene costo muscular y articular. Es el vínculo directo con el tema de interferencias." },
+      { kw:["desprogramacion","como desprogramar","por que desprogramar"],
+        r:"<b>Desprogramación</b><br><br>La musculatura tiene <b>memoria</b> de la posición habitual. Si le pides al paciente que cierre sin más, va a su mordida de siempre y registras la posición equivocada.<br><br>Métodos:<br>• Rodillo de algodón o tope anterior durante algunos minutos<br>• Jig de Lucia<br>• Manipulación bimanual de Dawson<br><br>Sin desprogramar, tu registro de céntrica no es de céntrica. Es el error más frecuente de la práctica." },
+      { kw:["errores de montaje","que arruina el montaje","fallas comunes"],
+        r:"<b>Errores que arruinan el montaje</b><br><br>• <b>Presionar al cerrar</b> sobre la cera: se hunde el registro y baja la dimensión vertical<br>• <b>No apoyar el modelo en voladizo</b>: el peso del yeso fresco lo desvía<br>• <b>Burbujas o nódulos</b> en cúspides: contactos falsos<br>• <b>Omitir retenciones</b> en la base: el modelo se desprende de la platina<br>• <b>Mover el arco</b> al apretar tornillos: plano de referencia inclinado<br>• <b>Manipular antes del fraguado completo</b>: micromovimientos que no notas<br><br>Sobre la cera: la rosa toda estación se deforma a temperatura bucal. Para un montaje que vas a analizar, considera cera azul de registro o silicona." },
+      { kw:["yeso para montaje","que yeso se usa","tipo de yeso"],
+        r:"<b>Yesos del montaje</b><br><br>• El <b>modelo</b> se vacía en <b>tipo III</b>, yeso piedra: resiste el recorte y reproduce el detalle necesario<br>• El <b>montaje y el zócalo</b> se hacen en <b>tipo II</b>, yeso París: más blando y fácil de recortar<br><br>Usar tipo III para montar es desperdiciar material y trabajo de recorte. Usar tipo II para el modelo es garantizar que se fracture." }
+    ]
+  },
+  ferulas: {
+    nombre: "Tema 11 · Férulas oclusales",
+    corto: "Tema 11",
+    titulo: "Estabilización, reposicionamiento y plano posterior",
+    chip: "Férulas oclusales",
+    resumenTitulo: "Férulas oclusales · tipos e indicaciones",
+    grupos: [
+      { kw:["que es una ferula oclusal","para que sirve una ferula","guarda oclusal"],
+        r:"<b>Qué es una férula</b><br><br>Aparato removible, generalmente de acrílico duro, que cubre las superficies oclusales de una arcada. Su función es <b>modificar temporalmente</b> la relación oclusal y distribuir las fuerzas.<br><br>Su mayor virtud es que es <b>reversible</b>. Por eso es la primera línea de tratamiento antes de cualquier terapia irreversible: si no funciona, se retira y el paciente queda como estaba.<br><br>Objetivos: proteger estructuras, relajar musculatura, reposicionar la mandíbula y servir como herramienta <b>diagnóstica</b>." },
+      { kw:["ferula de estabilizacion","ferula miorrelajante","michigan"],
+        r:"<b>Férula de estabilización</b><br><br>Es la más usada y la más versátil. También llamada miorrelajante o tipo Michigan.<br><br>Características:<br>• Cobertura <b>total</b> de la arcada<br>• Contactos <b>uniformes y simultáneos</b> de todos los dientes antagonistas en relación céntrica<br>• <b>Guía anterior</b> que desocluye los posteriores en movimientos excéntricos<br>• <b>Guía canina</b> en lateralidad<br>• Superficie plana y lisa<br><br>Indicaciones: bruxismo, dolor muscular, protección de restauraciones extensas. Uso habitual nocturno." },
+      { kw:["ferula de reposicionamiento anterior","reposicionamiento","ferula de avance"],
+        r:"<b>Férula de reposicionamiento anterior</b><br><br>Reposiciona la mandíbula <b>hacia adelante</b> para recapturar el disco desplazado y mantener una relación cóndilo-disco más favorable.<br><br>Indicación principal: desplazamiento discal <b>con reducción</b>, especialmente cuando hay dolor o el clic es reciente.<br><br>Advertencias que debes tener presentes:<br>• Uso <b>limitado en tiempo</b>, con controles frecuentes<br>• El uso prolongado puede producir <b>mordida abierta posterior</b> irreversible<br>• No es para todos los pacientes con clic: muchos clics asintomáticos no requieren tratamiento<br><br>Es la férula que más vigilancia exige." },
+      { kw:["plano de mordida posterior","plano posterior","ferula posterior"],
+        r:"<b>Plano de mordida posterior</b><br><br>Cubre únicamente los <b>dientes posteriores</b>, habitualmente con dos segmentos unidos por una barra lingual.<br><br>Indicaciones: casos que requieren cambios importantes de dimensión vertical o de posición mandibular, y algunos cuadros de mordida profunda severa.<br><br>Riesgo importante: al no cubrir los anteriores, permite la <b>extrusión</b> de los dientes no cubiertos. Es de uso <b>corto y muy controlado</b>. No es una férula de uso prolongado." },
+      { kw:["plano de mordida anterior","nti","jig"],
+        r:"<b>Plano de mordida anterior</b><br><br>Cubre solo los dientes anteriores. Produce desoclusión posterior inmediata y relajación muscular rápida, y por eso también se usa como desprogramador.<br><br>El mismo riesgo, invertido: permite <b>extrusión de los posteriores</b> y puede generar mordida abierta si se usa de forma prolongada.<br><br>Regla práctica: cualquier férula de cobertura <b>parcial</b> es de uso corto y con controles. Solo las de cobertura <b>total</b> admiten uso prolongado." },
+      { kw:["criterios de una buena ferula","como ajustar una ferula","requisitos"],
+        r:"<b>Criterios de una férula bien hecha</b><br><br>• <b>Retención</b> adecuada: se sostiene sola, entra y sale sin forzar<br>• <b>Estabilidad</b>: no bascula al presionar de un lado<br>• <b>Contactos puntiformes uniformes</b> en todos los antagonistas<br>• <b>Guía anterior</b> que desocluye posteriores en protrusiva<br>• <b>Guía canina</b> que desocluye el resto en lateralidad<br>• Superficie <b>lisa y pulida</b>, sin filos<br>• Grosor mínimo compatible con resistencia, habitualmente 2 a 3 mm en posteriores<br><br>El ajuste se verifica con papel de articular y se repite en los controles: la férula cambia con el uso." },
+      { kw:["acrilico","monomero","manejo del acrilico","seguridad"],
+        r:"<b>Manejo seguro del acrílico</b><br><br>El monómero de metilmetacrilato es <b>volátil, inflamable e irritante</b> para vía respiratoria, piel y mucosas. Además hay riesgo de sensibilización con la exposición repetida.<br><br>Medidas:<br>• Trabajar en área <b>ventilada</b><br>• <b>Guantes</b> y lentes de protección<br>• No inhalar los vapores directamente<br>• Mantener alejado de fuentes de calor<br>• Frascos <b>cerrados</b> cuando no se usan<br>• Curado en olla de presión, alrededor de 20 minutos<br><br>La polimerización es <b>exotérmica</b>: la pieza se calienta. Nunca se prueba en boca durante el fraguado." },
+      { kw:["ferula no cura","limitaciones de las ferulas","que no hace una ferula"],
+        r:"<b>Lo que una férula no hace</b><br><br>Es importante que se lo expliques al paciente desde el inicio:<br><br>• <b>No cura el bruxismo</b>. El paciente sigue apretando: lo que hace es proteger y distribuir la fuerza<br>• <b>No corrige la maloclusión</b><br>• <b>No sustituye</b> el diagnóstico ni el manejo de la causa de fondo<br><br>Si el paciente aprieta por estrés o por un trastorno del sueño y eso no se atiende, la férula protege los dientes pero el problema sigue. Es protección y diagnóstico, no curación." }
+    ]
+  },
 };
 
 // orden de temas para el menú de chips (se irán agregando más)
-const ORDEN_TEMAS = ["atm","foto","interf","balance"];
+const ORDEN_TEMAS = ["atm","foto","interf","balance","patologica","clases","atmtrast","musculares","habitos","articulador","ferulas"];
 
 /* ================= BANCO DE QUIZ (Tema 1) ================= */
 // Preguntas verificables directamente contra el material — sin inferencias.
@@ -1679,7 +1878,380 @@ const QUIZ = {
       {q:"¿Qué aporta comparar las marcas en boca con las del articulador?", ops:["Nada relevante", "Permite identificar los contactos que el paciente esquiva y educar el criterio clínico", "Solo ahorra tiempo", "Sustituye la exploración clínica"], correcta:1, explicacion:"La comparación revela lo que la propiocepción oculta y es el ejercicio con mayor valor didáctico."},
       {q:"La fatiga muscular ipsilateral a una interferencia de trabajo se explica por:", ops:["La postura del paciente", "La sobrecarga sostenida de los elevadores de ese lado al intentar el movimiento", "La ausencia de saliva", "El tipo de alimento"], correcta:1, explicacion:"El músculo del mismo lado trabaja en exceso al intentar completar el movimiento contra el obstáculo."}
     ]
-  }
+  },
+
+  patologica: {
+    facil: [
+      {q:"¿Qué define a una oclusión como patológica?",ops:["Que exista apiñamiento","Que produzca daño al superar la capacidad de adaptación","Que no sea Clase I de Angle","Que haya más de un diente ausente"],correcta:1,explicacion:"Lo que define lo patológico es el daño, no la forma. Una maloclusión sin daño no es oclusión patológica."},
+      {q:"¿Una maloclusión es siempre una oclusión patológica?",ops:["Sí, siempre","No, puede existir maloclusión sin daño","Solo en adultos","Solo si hay dolor"],correcta:1,explicacion:"La maloclusión es un criterio morfológico; la oclusión patológica es funcional y biológico. Pueden existir por separado."},
+      {q:"Las interferencias oclusales se clasifican como causa:",ops:["Indirecta","Directa","Sistémica","Idiopática"],correcta:1,explicacion:"Las causas directas actúan sobre la oclusión misma, alterando el contacto entre los dientes."},
+      {q:"El bruxismo se considera una causa:",ops:["Directa","Indirecta","Congénita","Infecciosa"],correcta:1,explicacion:"No altera el contacto dentario, pero modifica la carga que ese contacto recibe. Por eso es indirecta."},
+      {q:"¿Qué es el trauma oclusal primario?",ops:["Fuerza normal sobre periodonto reducido","Fuerza excesiva sobre periodonto sano","Fuerza normal sobre periodonto sano","Trauma por golpe externo"],correcta:1,explicacion:"Fuerza excesiva sobre un periodonto sano. El ejemplo típico es una restauración alta."},
+      {q:"¿Qué es el trauma oclusal secundario?",ops:["Fuerza excesiva sobre periodonto sano","Fuerza normal sobre periodonto disminuido","Trauma en un segundo episodio","Trauma en dientes posteriores"],correcta:1,explicacion:"La fuerza es normal, pero el soporte periodontal está reducido por enfermedad previa."},
+      {q:"Las facetas de desgaste son un signo de tipo:",ops:["Articular","Dentario","Muscular","Neurológico"],correcta:1,explicacion:"Son un hallazgo dentario. Los signos articulares serían ruidos o limitación; los musculares, dolor a la palpación."},
+      {q:"¿Con qué tipo de terapia debe iniciarse el manejo?",ops:["Irreversible","Reversible","Quirúrgica","Farmacológica exclusiva"],correcta:1,explicacion:"Siempre se empieza por lo reversible: férula, educación, fisioterapia. Lo irreversible no tiene marcha atrás."},
+      {q:"La enfermedad periodontal como factor de oclusión patológica es una causa:",ops:["Directa","Indirecta","No es factor","Solo estética"],correcta:1,explicacion:"Reduce el soporte, modificando la respuesta a la carga sin alterar el contacto dentario."},
+      {q:"El ensanchamiento del ligamento periodontal en radiografía es signo:",ops:["Muscular","Periodontal","Articular","Neurológico"],correcta:1,explicacion:"Es un hallazgo periodontal característico de sobrecarga oclusal."},
+      {q:"Una restauración en sobreoclusión es causa:",ops:["Indirecta","Directa","Sistémica","Psicógena"],correcta:1,explicacion:"Altera directamente el contacto dentario, por lo tanto es causa directa."},
+      {q:"¿Qué explica que dos pacientes con la misma interferencia tengan resultados distintos?",ops:["El azar","La distinta capacidad de adaptación","La edad únicamente","El tipo de dentífrico"],correcta:1,explicacion:"La capacidad de adaptación varía entre personas. Por eso la misma causa no produce el mismo efecto."},
+      {q:"La pérdida dentaria no rehabilitada actúa como causa directa porque:",ops:["Genera estrés","Produce migración y extrusión que alteran el contacto","Causa infección","Reduce la saliva"],correcta:1,explicacion:"Los dientes vecinos y antagonistas migran, cambiando los contactos oclusales."},
+      {q:"La hipertrofia maseterina es un signo:",ops:["Dentario","Muscular","Periodontal","Articular"],correcta:1,explicacion:"Corresponde al componente muscular, generalmente asociado a parafunción."},
+      {q:"¿Qué debe tratarse primero en un trauma oclusal secundario?",ops:["El ajuste oclusal","La enfermedad periodontal","La extracción","La estética"],correcta:1,explicacion:"El problema de fondo es el soporte disminuido. Ajustar la oclusión sin tratar la periodontitis no resuelve la causa."}
+    ],
+    medio: [
+      {q:"Un paciente con oclusión clínicamente normal presenta desgaste severo y dolor muscular. ¿Cómo se clasifica?",ops:["Oclusión fisiológica","Oclusión patológica","Maloclusión Clase II","Oclusión ideal"],correcta:1,explicacion:"Hay daño, y eso define lo patológico, aunque la forma parezca normal."},
+      {q:"El estrés como factor de oclusión patológica actúa principalmente:",ops:["Alterando el contacto dentario","Aumentando la actividad parafuncional","Disminuyendo el esmalte","Modificando la forma condilar"],correcta:1,explicacion:"Actúa a través de la parafunción, aumentando la carga sobre estructuras que sí están en contacto normal."},
+      {q:"¿Por qué el ajuste oclusal se considera terapia irreversible?",ops:["Porque es caro","Porque elimina estructura dentaria de forma permanente","Porque requiere anestesia","Porque dura muchas sesiones"],correcta:1,explicacion:"Se desgasta esmalte y no hay forma de reponerlo. Por eso exige diagnóstico firme previo."},
+      {q:"Un paciente presenta abfracciones cervicales múltiples. Esto sugiere:",ops:["Caries","Concentración de fuerzas oclusales anormales","Enfermedad periodontal","Fluorosis"],correcta:1,explicacion:"Las abfracciones se asocian a flexión cervical por cargas oclusales concentradas."},
+      {q:"La respiración bucal se clasifica como causa indirecta porque:",ops:["Altera el contacto oclusal","Modifica postura y desarrollo, cambiando las cargas","Produce caries","Reduce la dimensión vertical"],correcta:1,explicacion:"No cambia el contacto entre dientes, pero altera el entorno funcional y las cargas."},
+      {q:"¿Cuál es el orden correcto de manejo?",ops:["Rehabilitación, diagnóstico, férula","Diagnóstico, control de causa, terapia reversible, irreversible","Férula, extracción, diagnóstico","Ortodoncia, diagnóstico, ajuste"],correcta:1,explicacion:"Diagnóstico primero, luego control de causa, después lo reversible y solo al final lo irreversible."},
+      {q:"Un diente con movilidad y ligamento ensanchado, con periodonto sano, sugiere:",ops:["Trauma oclusal secundario","Trauma oclusal primario","Absceso","Fractura radicular"],correcta:1,explicacion:"Periodonto sano más fuerza excesiva es la definición de trauma primario."},
+      {q:"El desgaste dentario puede ser causa directa porque:",ops:["Produce sensibilidad","Altera las guías oclusales","Cambia el color","Aumenta la caries"],correcta:1,explicacion:"Al perder anatomía se pierden las guías, y eso modifica los contactos en movimiento."},
+      {q:"¿Qué caracteriza al remodelado adaptativo?",ops:["Es siempre patológico","Es una respuesta que permite mantener función sin síntomas","Solo ocurre en niños","Requiere cirugía"],correcta:1,explicacion:"Es la respuesta adaptativa que mantiene el sistema funcionando dentro de su tolerancia."},
+      {q:"Una férula oclusal en oclusión patológica sirve principalmente como:",ops:["Tratamiento definitivo","Terapia reversible y herramienta diagnóstica","Sustituto de la ortodoncia","Método de blanqueamiento"],correcta:1,explicacion:"Es reversible y además informa sobre la respuesta del paciente antes de decidir algo definitivo."},
+      {q:"La artritis reumatoide como factor de oclusión patológica es:",ops:["Causa directa","Causa indirecta sistémica","No es factor","Solo afecta manos"],correcta:1,explicacion:"Es un factor sistémico que compromete la articulación y por tanto la respuesta a la carga."},
+      {q:"Un paciente con desgaste generalizado sin dolor ni movilidad. ¿Qué indica?",ops:["Siempre requiere rehabilitación inmediata","Puede tratarse de adaptación dentro de su tolerancia","Es urgencia","Requiere cirugía"],correcta:1,explicacion:"Sin signos de daño activo, puede corresponder a adaptación. Amerita seguimiento, no intervención automática."},
+      {q:"Las fracturas repetidas de restauraciones sugieren:",ops:["Mala técnica exclusivamente","Posible sobrecarga oclusal o parafunción","Material caducado","Higiene deficiente"],correcta:1,explicacion:"La repetición apunta a una causa de fondo: fuerzas anormales."},
+      {q:"¿Por qué las causas indirectas suelen ser más difíciles de controlar?",ops:["Son más raras","No se resuelven con ajuste oclusal","No producen daño","Son siempre genéticas"],correcta:1,explicacion:"Involucran conducta, sueño, estrés o enfermedad sistémica, fuera del alcance del ajuste."},
+      {q:"La migración patológica de dientes anteriores puede indicar:",ops:["Solo estética","Pérdida de soporte posterior con sobrecarga anterior","Caries incipiente","Bruxismo leve"],correcta:1,explicacion:"Cuando se pierde soporte posterior, los anteriores reciben carga para la que no están diseñados."}
+    ],
+    avanzado: [
+      {q:"Paciente con periodontitis avanzada y movilidad generalizada. El ajuste oclusal aislado:",ops:["Resuelve el cuadro","No resuelve la causa, que es la pérdida de soporte","Está contraindicado siempre","Sustituye el raspado"],correcta:1,explicacion:"En trauma secundario, la causa es el soporte disminuido. El control de la infección es prioritario."},
+      {q:"¿Cuál es el fundamento de iniciar con terapia reversible?",ops:["Es más barata","Permite evaluar la respuesta sin comprometer estructuras","Es más rápida","La exige el seguro"],correcta:1,explicacion:"Da información diagnóstica y, si falla, el paciente queda como estaba."},
+      {q:"Un paciente bruxista con oclusión estable y sin daño. La conducta más razonable es:",ops:["Ajuste oclusal inmediato","Rehabilitación completa","Protección y control, con seguimiento","Extracción de terceros molares"],correcta:2,explicacion:"Sin daño no hay indicación de terapia irreversible. Protección y vigilancia."},
+      {q:"La capacidad de adaptación depende principalmente de:",ops:["Solo la edad","Factores individuales, sistémicos y locales","El tipo de dieta","La higiene"],correcta:1,explicacion:"Es multifactorial, y por eso es individual e impredecible entre pacientes."},
+      {q:"Ante desgaste severo, ¿qué debe determinarse antes de rehabilitar?",ops:["El color deseado","Si el proceso está activo o estabilizado","El presupuesto","La marca del material"],correcta:1,explicacion:"Rehabilitar sobre un proceso activo sin controlarlo lleva a fracaso de la rehabilitación."},
+      {q:"Un paciente con mordida abierta posterior aguda unilateral sugiere primero descartar:",ops:["Caries","Proceso inflamatorio articular o mioespasmo","Fluorosis","Bruxismo"],correcta:1,explicacion:"El derrame articular o el espasmo desplazan el cóndilo y producen esa mordida abierta aguda."},
+      {q:"La documentación fotográfica y de modelos montados en oclusión patológica sirve para:",ops:["Cumplir un trámite","Establecer línea base y evaluar progresión","Cobrar más","Sustituir la historia clínica"],correcta:1,explicacion:"Sin línea base no se puede saber si el proceso avanza o se estabilizó."},
+      {q:"¿Qué hace incorrecta la afirmación 'toda interferencia debe eliminarse'?",ops:["Nada, es correcta","Muchas interferencias son adaptadas y asintomáticas","Las interferencias no existen","Solo aplica en niños"],correcta:1,explicacion:"La presencia de interferencia no implica patología. Se interviene cuando hay daño o síntomas."},
+      {q:"Un paciente refiere que su mordida cambió en semanas. Prioridad diagnóstica:",ops:["Ortodoncia","Descartar causa articular, inflamatoria o neoplásica","Blanqueamiento","Férula sin estudio"],correcta:1,explicacion:"Un cambio oclusal rápido es signo de alarma y exige estudio antes de cualquier tratamiento oclusal."},
+      {q:"El concepto de 'oclusión fisiológica' implica:",ops:["Oclusión ideal de libro","Oclusión que funciona sin daño aunque no sea ideal","Ausencia de restauraciones","Clase I de Angle"],correcta:1,explicacion:"Fisiológico se refiere a función sin daño, no a morfología ideal."},
+      {q:"En un paciente con apnea del sueño y bruxismo, el manejo debe considerar:",ops:["Solo la férula","Interconsulta médica, porque el bruxismo puede vincularse a la apnea","Extracciones","Nada especial"],correcta:1,explicacion:"El bruxismo del sueño puede relacionarse con eventos respiratorios. Tratar solo la boca deja el problema de fondo."},
+      {q:"El análisis oclusal en articulador aporta respecto al examen en boca:",ops:["Nada relevante","Visualización de contactos posteriores en movimiento","Mayor rapidez","Menor costo"],correcta:1,explicacion:"Permite ver lo que la lengua y el carrillo impiden observar en boca."},
+      {q:"¿Cuál es el riesgo de rehabilitar sin controlar una causa indirecta?",ops:["Ninguno","Fracaso de la rehabilitación por persistencia de la sobrecarga","Cambio de color","Mayor sensibilidad"],correcta:1,explicacion:"La fuerza anormal persiste y termina dañando lo nuevo igual que dañó lo anterior."},
+      {q:"La relación entre oclusión y trastornos temporomandibulares se considera actualmente:",ops:["Causal directa y única","Un factor entre varios, dentro de un modelo multifactorial","Inexistente","Solo genética"],correcta:1,explicacion:"La evidencia actual sostiene un modelo multifactorial, donde la oclusión es un factor más."},
+      {q:"Ante un paciente asintomático con múltiples signos de desgaste antiguo estabilizado, lo indicado es:",ops:["Rehabilitación completa inmediata","Registro, educación y seguimiento","Ajuste oclusal amplio","Ortodoncia"],correcta:1,explicacion:"Un proceso estabilizado y asintomático se documenta y vigila. Intervenir sin indicación genera riesgo sin beneficio."}
+    ]
+  },
+  clases: {
+    facil: [
+      {q:"La Clase I de relaciones patológicas corresponde a:",ops:["Relación retrusiva","Relación protrusiva","Vertical aumentada","Vertical disminuida"],correcta:1,explicacion:"Clase I es la relación protrusiva: la mandíbula queda adelantada."},
+      {q:"La Clase II corresponde a:",ops:["Relación protrusiva","Relación retrusiva","Latero-protrusiva","Vertical disminuida"],correcta:1,explicacion:"Clase II es la relación retrusiva: la mandíbula queda hacia atrás."},
+      {q:"La Clase III corresponde a:",ops:["Vertical disminuida","Vertical aumentada","Protrusiva","Retrusiva"],correcta:1,explicacion:"Clase III es la relación vertical aumentada."},
+      {q:"La Clase IV corresponde a:",ops:["Vertical aumentada","Latero-protrusiva","Retrusiva","Vertical disminuida"],correcta:1,explicacion:"Clase IV combina desviación lateral y protrusiva."},
+      {q:"La Clase V corresponde a:",ops:["Vertical aumentada","Vertical disminuida","Protrusiva","Latero-protrusiva"],correcta:1,explicacion:"Clase V es la relación vertical disminuida."},
+      {q:"Esta clasificación describe:",ops:["La relación molar","La dirección de la desviación mandibular","El tipo de caries","El grado de apiñamiento"],correcta:1,explicacion:"Describe hacia dónde se desvía la relación mandibular, no la relación molar."},
+      {q:"¿Con qué clasificación NO debe confundirse?",ops:["Angle","Black","Miller","Kennedy"],correcta:0,explicacion:"La de Angle describe la relación molar anteroposterior, que es algo distinto."},
+      {q:"En la Clase II, ¿qué estructura se comprime?",ops:["El disco anterior","La zona retrodiscal","El cóndilo contralateral","La eminencia"],correcta:1,explicacion:"El desplazamiento posterior del cóndilo comprime los tejidos retrodiscales."},
+      {q:"La causa más frecuente de Clase III es:",ops:["Genética","Iatrogenia por restauraciones altas","Bruxismo","Caries"],correcta:1,explicacion:"Restauraciones o prótesis que quedaron altas son la causa más común."},
+      {q:"Un signo típico de Clase V es:",ops:["Tercio inferior aumentado","Tercio inferior acortado y queilitis angular","Mordida abierta anterior","Prognatismo"],correcta:1,explicacion:"La pérdida de dimensión vertical acorta el tercio inferior y favorece la queilitis angular."},
+      {q:"¿Qué se necesita para diagnosticar estas clases?",ops:["Solo ver la boca","Modelos montados con arco facial y ambos registros","Radiografía panorámica","Fotografía extraoral"],correcta:1,explicacion:"Se requiere comparar relación céntrica con posición habitual en modelos montados."},
+      {q:"La Clase IV es la más compleja porque:",ops:["Es la más frecuente","Los dos cóndilos están en posiciones asimétricas","No tiene tratamiento","Solo afecta niños"],correcta:1,explicacion:"Combina desviación en dos planos, con cóndilos en posiciones distintas."},
+      {q:"La pérdida de dientes posteriores sin rehabilitar tiende a producir:",ops:["Clase III","Clase V","Clase I","Ninguna"],correcta:1,explicacion:"Al perder el tope posterior se pierde dimensión vertical, llevando a Clase V."},
+      {q:"En Clase I, ¿qué dientes suelen sobrecargarse?",ops:["Los molares","Los anteriores","Los terceros molares","Ninguno"],correcta:1,explicacion:"La posición adelantada sobrecarga los anteriores, con desgaste incisal marcado."},
+      {q:"El dato que orienta a la clase es:",ops:["El color dentario","La dirección del deslizamiento de céntrica a habitual","La edad","El número de restauraciones"],correcta:1,explicacion:"La dirección del deslizamiento entre ambas posiciones define la clase."}
+    ],
+    medio: [
+      {q:"Paciente con dolor articular real y antecedente de pérdida de posteriores. Sospecha inicial:",ops:["Clase I","Clase II","Clase III","Clase IV"],correcta:1,explicacion:"La retrusión comprime la zona retrodiscal, que es muy inervada, y produce dolor articular verdadero."},
+      {q:"Paciente rehabilitado que refiere que 'los dientes le chocan' y tensión constante. Sugiere:",ops:["Clase V","Clase III","Clase I","Clase II"],correcta:1,explicacion:"Es el cuadro típico de dimensión vertical aumentada por iatrogenia."},
+      {q:"El espacio libre interoclusal ausente sugiere:",ops:["Clase V","Clase III","Clase I","Clase IV"],correcta:1,explicacion:"Si no hay espacio libre, la dimensión vertical está aumentada."},
+      {q:"Desviación de línea media en cierre con desgaste asimétrico sugiere:",ops:["Clase I","Clase IV","Clase III","Clase V"],correcta:1,explicacion:"La combinación de desvío lateral y protrusivo caracteriza a la Clase IV."},
+      {q:"En Clase V, el cóndilo tiende a posicionarse:",ops:["Anteroinferior","Posterosuperior","Lateral","Sin cambio"],correcta:1,explicacion:"El sobrecierre lleva al cóndilo hacia posterosuperior, comprometiendo la articulación."},
+      {q:"¿Por qué la Clase II se considera comprometedora para la articulación?",ops:["Por estética","Porque comprime tejidos muy vascularizados e inervados","Por caries","Por el color"],correcta:1,explicacion:"La zona retrodiscal es rica en vasos y nervios; su compresión produce dolor real."},
+      {q:"Un paciente con bruxismo de larga evolución y desgaste generalizado severo puede desarrollar:",ops:["Clase III","Clase V","Clase I","Ninguna"],correcta:1,explicacion:"La pérdida progresiva de estructura reduce la dimensión vertical."},
+      {q:"En Clase I, el desplazamiento condilar es hacia:",ops:["Arriba y atrás","Abajo y adelante en la eminencia","Lateral","No hay desplazamiento"],correcta:1,explicacion:"La protrusión desplaza el cóndilo hacia abajo y adelante sobre la eminencia."},
+      {q:"El registro en posición habitual es necesario porque:",ops:["Es más fácil","Permite comparar con céntrica y ver la desviación","Es más rápido","Lo pide el laboratorio"],correcta:1,explicacion:"Sin ambos registros no se puede medir la magnitud ni la dirección de la desviación."},
+      {q:"Una interferencia posterior que obliga a avanzar la mandíbula produce:",ops:["Clase II","Clase I","Clase V","Clase III"],correcta:1,explicacion:"El avance para evitar la interferencia genera relación protrusiva."},
+      {q:"La erupción pasiva alterada puede contribuir a:",ops:["Clase V","Clase III","Clase IV","Clase II"],correcta:1,explicacion:"Puede asociarse a aumento de la dimensión vertical."},
+      {q:"En Clase IV, la sintomatología muscular suele ser:",ops:["Bilateral simétrica","Unilateral","Ausente","Solo nocturna"],correcta:1,explicacion:"La asimetría del desvío produce sobrecarga predominante de un lado."},
+      {q:"Los labios evertidos y aspecto de mayor edad se asocian a:",ops:["Clase III","Clase V","Clase I","Clase IV"],correcta:1,explicacion:"Son consecuencia de la pérdida de dimensión vertical."},
+      {q:"¿Por qué no basta la máxima intercuspidación para clasificar?",ops:["Es difícil de ver","Porque no revela la desviación respecto a céntrica","Cambia con la edad","No es reproducible"],correcta:1,explicacion:"La posición habitual sola no muestra desde dónde se desvió la mandíbula."},
+      {q:"En Clase III, los músculos suelen estar:",ops:["Relajados","En tensión constante","Atrofiados","Sin cambios"],correcta:1,explicacion:"La dimensión aumentada mantiene los elevadores en estiramiento y tensión permanente."}
+    ],
+    avanzado: [
+      {q:"Paciente con prótesis reciente que refiere fatiga muscular y dificultad para juntar labios. Conducta:",ops:["Esperar adaptación indefinidamente","Evaluar dimensión vertical y espacio libre interoclusal","Extraer","Blanquear"],correcta:1,explicacion:"El cuadro sugiere Clase III iatrogénica. Hay que medir antes de asumir adaptación."},
+      {q:"¿Por qué la restauración de la dimensión vertical en Clase V debe ser gradual?",ops:["Por costo","Para permitir adaptación neuromuscular y articular","Por estética","Por normativa"],correcta:1,explicacion:"Los cambios bruscos no dan tiempo a la adaptación y pueden desencadenar sintomatología."},
+      {q:"En Clase II con retrodiscitis asociada, la terapia inicial más razonable es:",ops:["Ajuste oclusal amplio","Férula de reposicionamiento anterior con controles","Extracciones","Ortodoncia inmediata"],correcta:1,explicacion:"Se busca descomprimir la zona retrodiscal de forma reversible y controlada."},
+      {q:"La medición del espacio libre interoclusal se realiza:",ops:["En máxima intercuspidación","En posición de reposo fisiológico comparada con oclusión","Con el paciente acostado","Con la boca abierta al máximo"],correcta:1,explicacion:"Es la diferencia entre la dimensión vertical postural y la de oclusión."},
+      {q:"Un deslizamiento de céntrica a habitual con componente lateral marcado indica:",ops:["Normalidad","Que el paciente esquiva una interferencia","Falta de dientes","Error de montaje siempre"],correcta:1,explicacion:"El desvío lateral es evitación de un obstáculo, con costo muscular y articular."},
+      {q:"¿Qué limita el uso clínico de esta clasificación?",ops:["Que no existe","Que requiere montaje y registros correctos para ser válida","Que solo aplica en niños","Que es demasiado nueva"],correcta:1,explicacion:"Un registro mal tomado invalida la clasificación por completo."},
+      {q:"Ante Clase IV, el plan de tratamiento suele ser más complejo porque:",ops:["Es más rara","Requiere corregir desviaciones en dos planos simultáneos","No tiene tratamiento","Solo es estético"],correcta:1,explicacion:"Corregir en dos planos exige planificación y control más finos."},
+      {q:"En Clase V con pérdida de posteriores, la secuencia lógica incluye:",ops:["Rehabilitar anteriores primero","Restablecer soporte posterior y dimensión vertical","Solo blanquear","Solo ortodoncia"],correcta:1,explicacion:"Sin soporte posterior restablecido, los anteriores seguirán sobrecargados."},
+      {q:"La férula puede usarse en estas clases como:",ops:["Tratamiento definitivo","Prueba diagnóstica de la nueva posición antes de rehabilitar","Sustituto de prótesis","Elemento estético"],correcta:1,explicacion:"Permite ensayar la posición de forma reversible antes de comprometerse."},
+      {q:"Un paciente con Clase I y desgaste incisal severo requiere evaluar además:",ops:["Solo estética","Presencia de parafunción asociada","Color de los dientes","Higiene únicamente"],correcta:1,explicacion:"La sobrecarga anterior suele acompañarse de parafunción que hay que controlar."},
+      {q:"¿Qué hace más confiable el diagnóstico de clase?",ops:["Repetir el registro y verificar reproducibilidad","Hacerlo rápido","Usar solo fotografías","Preguntar al paciente"],correcta:0,explicacion:"Un registro no reproducible no es válido. La reproducibilidad es el control de calidad."},
+      {q:"En un paciente con Clase III iatrogénica, la primera medida es:",ops:["Rehabilitar de nuevo de inmediato","Identificar y corregir la restauración responsable","Extraer","Prescribir analgésicos indefinidamente"],correcta:1,explicacion:"Si la causa es una restauración alta, corregirla es la intervención directa."},
+      {q:"La relación entre estas clases y los trastornos temporomandibulares es:",ops:["Causal absoluta","Un factor contribuyente dentro de un modelo multifactorial","Inexistente","Solo en ancianos"],correcta:1,explicacion:"Contribuyen, pero no explican por sí solas la aparición del trastorno."},
+      {q:"Al comparar montajes en céntrica y habitual, lo que se documenta es:",ops:["Solo el color","Magnitud y dirección del deslizamiento y primer contacto","El número de dientes","La higiene"],correcta:1,explicacion:"Esos tres datos son el hallazgo diagnóstico del ejercicio."},
+      {q:"El principal error que invalida esta clasificación en la práctica es:",ops:["Usar articulador","Registrar sin desprogramar al paciente","Tomar fotografías","Usar yeso tipo III"],correcta:1,explicacion:"Sin desprogramación se registra la posición habitual creyendo que es céntrica, y todo el análisis falla."}
+    ]
+  },
+  atmtrast: {
+    facil: [
+      {q:"El desplazamiento discal más frecuente es hacia:",ops:["Posterior","Anterior y medial","Lateral puro","Superior"],correcta:1,explicacion:"El desplazamiento anteromedial es el más común."},
+      {q:"El clic recíproco es característico de:",ops:["Desplazamiento sin reducción","Desplazamiento con reducción","Osteoartritis","Capsulitis"],correcta:1,explicacion:"Hay clic al abrir y otro al cerrar, lo que indica que el disco se recaptura y se vuelve a desplazar."},
+      {q:"En el bloqueo cerrado, la apertura suele ser:",ops:["Mayor de 50 mm","Menor de 30 mm","Normal","Ilimitada"],correcta:1,explicacion:"La limitación marcada es el signo cardinal del desplazamiento sin reducción."},
+      {q:"En desplazamiento sin reducción, la mandíbula al abrir se desvía hacia:",ops:["El lado sano","El lado afectado","No se desvía","Hacia adelante"],correcta:1,explicacion:"El disco actúa como obstáculo y limita el desplazamiento del cóndilo afectado."},
+      {q:"La desaparición del clic previo con limitación de apertura sugiere:",ops:["Curación","Progresión a bloqueo cerrado","Capsulitis","Artritis"],correcta:1,explicacion:"No es mejoría: indica que el disco ya no se recaptura."},
+      {q:"La crepitación se asocia principalmente a:",ops:["Desplazamiento con reducción","Cambios degenerativos","Capsulitis","Mioespasmo"],correcta:1,explicacion:"La crepitación sugiere alteración de las superficies articulares."},
+      {q:"En la subluxación, el paciente:",ops:["No puede cerrar sin ayuda","Puede volver a cerrar por sí mismo","Pierde la conciencia","No abre la boca"],correcta:1,explicacion:"Si vuelve solo es subluxación; si requiere maniobra, es luxación."},
+      {q:"La inflamación de la membrana sinovial se denomina:",ops:["Capsulitis","Sinovitis","Retrodiscitis","Tendinitis"],correcta:1,explicacion:"Sinovitis es la inflamación de la membrana sinovial."},
+      {q:"La retrodiscitis afecta a:",ops:["El disco","Los tejidos retrodiscales","La cápsula","El músculo temporal"],correcta:1,explicacion:"Compromete la zona bilaminar posterior al disco."},
+      {q:"La mordida abierta posterior aguda del lado afectado se asocia a:",ops:["Bruxismo","Derrame o inflamación articular","Caries","Fluorosis"],correcta:1,explicacion:"El edema separa las superficies y desplaza el cóndilo hacia abajo."},
+      {q:"La apertura máxima normal se considera aproximadamente:",ops:["20 a 30 mm","40 a 55 mm","60 a 70 mm","15 a 20 mm"],correcta:1,explicacion:"Por debajo de 40 mm se considera limitación."},
+      {q:"Las adherencias se diferencian de las adhesiones en que:",ops:["Son permanentes","Son temporales y suelen ceder con el movimiento","No producen síntomas","Solo ocurren en niños"],correcta:1,explicacion:"Las adherencias son temporales; las adhesiones son fibrosas y permanentes."},
+      {q:"La tendinitis del temporal se localiza en:",ops:["El cóndilo","La apófisis coronoides","El disco","El menisco"],correcta:1,explicacion:"Afecta la inserción del tendón del temporal en la coronoides."},
+      {q:"La poliartritis en ATM suele ser:",ops:["Unilateral","Bilateral y asociada a enfermedad sistémica","Asintomática siempre","Exclusiva de niños"],correcta:1,explicacion:"Forma parte de un cuadro sistémico que afecta varias articulaciones."},
+      {q:"El rango normal de lateralidad es aproximadamente:",ops:["2 a 4 mm","8 a 12 mm","20 mm","30 mm"],correcta:1,explicacion:"Se espera entre 8 y 12 mm en lateralidad y protrusiva."}
+    ],
+    medio: [
+      {q:"Paciente con clic al abrir a los 25 mm y otro al cerrar. Diagnóstico probable:",ops:["Bloqueo cerrado","Desplazamiento discal con reducción","Osteoartritis","Capsulitis"],correcta:1,explicacion:"El clic recíproco es característico de la reducción del disco."},
+      {q:"Un paciente refiere que 'ya no le truena' pero abre menos que antes. Esto indica:",ops:["Mejoría","Posible progresión a desplazamiento sin reducción","Capsulitis","Curación espontánea"],correcta:1,explicacion:"La desaparición del clic con limitación es signo de progresión, no de mejoría."},
+      {q:"La desviación que se corrige durante la apertura sugiere:",ops:["Restricción fija","Reducción discal en algún punto del recorrido","Anquilosis","Fractura"],correcta:1,explicacion:"Si se corrige, el disco se recapturó; si persiste, hay restricción."},
+      {q:"Dolor a la palpación del polo lateral del cóndilo sugiere:",ops:["Mioespasmo","Capsulitis","Tendinitis","Sinovitis exclusivamente"],correcta:1,explicacion:"El dolor en el polo lateral orienta a inflamación capsular."},
+      {q:"El dolor que aumenta al apretar los dientes orienta a:",ops:["Capsulitis","Retrodiscitis","Desplazamiento con reducción","Subluxación"],correcta:1,explicacion:"Apretar comprime la zona retrodiscal inflamada."},
+      {q:"En la artritis reumatoide juvenil, la afectación condilar puede producir:",ops:["Prognatismo","Micrognatia por alteración del crecimiento","Macroglosia","Nada relevante"],correcta:1,explicacion:"El daño del centro de crecimiento condilar limita el desarrollo mandibular."},
+      {q:"Un ruido reproducible siempre en el mismo punto de la apertura sugiere:",ops:["Desplazamiento discal","Alteración morfológica de las superficies","Mioespasmo","Capsulitis"],correcta:1,explicacion:"La reproducibilidad en el mismo punto orienta a un defecto de forma."},
+      {q:"El traumatismo directo en el mentón puede producir:",ops:["Tendinitis","Retrodiscitis","Bruxismo","Deglución atípica"],correcta:1,explicacion:"El impacto desplaza el cóndilo hacia atrás, comprimiendo los tejidos retrodiscales."},
+      {q:"Un dolor en región temporal confundido con cefalea o dolor dentario puede corresponder a:",ops:["Sinovitis","Tendinitis del temporal","Subluxación","Osteoartritis"],correcta:1,explicacion:"Refiere a región temporal y dientes superiores, lo que causa confusión diagnóstica."},
+      {q:"En luxación mandibular, la maniobra necesaria es:",ops:["Ninguna, se resuelve sola","Reducción manual","Cirugía inmediata","Extracción"],correcta:1,explicacion:"El cóndilo queda bloqueado por delante de la eminencia y requiere reducción."},
+      {q:"La diferencia entre subluxación y luxación es:",ops:["El dolor","Si el paciente puede volver a cerrar por sí mismo","La edad","El lado afectado"],correcta:1,explicacion:"Ese es el criterio práctico que las separa."},
+      {q:"En la exploración, los hallazgos deben registrarse:",ops:["Con adjetivos","Con mediciones numéricas","De memoria","Solo si hay dolor"],correcta:1,explicacion:"Sin números no hay forma de comparar en los controles."},
+      {q:"La osteoartritis de ATM se caracteriza por:",ops:["Clic recíproco","Crepitación y cambios óseos en imagen","Ausencia de síntomas","Solo dolor muscular"],correcta:1,explicacion:"Es un proceso degenerativo con cambio de superficies articulares."},
+      {q:"Ante sospecha de poliartritis, la conducta indicada es:",ops:["Solo férula","Interconsulta con reumatología","Extracción","Ortodoncia"],correcta:1,explicacion:"Es una enfermedad sistémica que requiere manejo médico coordinado."},
+      {q:"Las adhesiones fibrosas producen:",ops:["Limitación que cede sola","Limitación persistente","Clic recíproco","Hipermovilidad"],correcta:1,explicacion:"Al ser permanentes, no ceden con el movimiento."}
+    ],
+    avanzado: [
+      {q:"Paciente con bloqueo cerrado de 3 días de evolución. La conducta inicial más razonable es:",ops:["Cirugía inmediata","Manejo conservador con analgesia, dieta blanda y movilización controlada","Ajuste oclusal amplio","Extracción de terceros molares"],correcta:1,explicacion:"El manejo conservador temprano tiene buenos resultados; la cirugía se reserva para casos seleccionados."},
+      {q:"¿Por qué muchos clics asintomáticos no requieren tratamiento?",ops:["Porque no existen","Porque sin dolor ni limitación no hay indicación de intervenir","Porque son incurables","Por costo"],correcta:1,explicacion:"Tratar un hallazgo sin síntomas expone al paciente a riesgo sin beneficio."},
+      {q:"El riesgo del uso prolongado de férula de reposicionamiento anterior es:",ops:["Caries","Mordida abierta posterior irreversible","Halitosis","Fractura condilar"],correcta:1,explicacion:"El mantenimiento de la posición adelantada puede producir cambios oclusales permanentes."},
+      {q:"En un paciente con mordida abierta posterior unilateral aguda y dolor articular, la causa más probable es:",ops:["Bruxismo","Derrame articular por proceso inflamatorio","Caries oclusal","Erupción dentaria"],correcta:1,explicacion:"El derrame separa las superficies y desplaza el cóndilo hacia abajo."},
+      {q:"La resonancia magnética en ATM es el estudio de elección para:",ops:["Hueso cortical","Tejidos blandos y posición del disco","Caries","Periodonto"],correcta:1,explicacion:"Es la técnica que mejor muestra el disco y los tejidos blandos."},
+      {q:"La tomografía en ATM es más útil para valorar:",ops:["El disco","Cambios óseos degenerativos","Los músculos","La cápsula"],correcta:1,explicacion:"Permite ver la morfología ósea y los cambios degenerativos."},
+      {q:"Un paciente con hipermovilidad y episodios repetidos de subluxación requiere:",ops:["Solo observación indefinida","Educación, control de apertura amplia y manejo conservador inicial","Cirugía inmediata","Extracciones"],correcta:1,explicacion:"El manejo conservador y la educación son la primera línea."},
+      {q:"El diagnóstico diferencial del dolor preauricular debe incluir:",ops:["Solo ATM","ATM, dolor muscular referido, patología ótica y neuralgias","Solo oído","Solo dientes"],correcta:1,explicacion:"Varias entidades comparten esa localización y hay que descartarlas."},
+      {q:"La crepitación en un paciente joven sin antecedentes obliga a considerar:",ops:["Que es normal","Proceso degenerativo temprano o enfermedad sistémica","Bruxismo leve","Erupción dentaria"],correcta:1,explicacion:"En pacientes jóvenes es un hallazgo que merece estudio adicional."},
+      {q:"En el desplazamiento discal sin reducción crónico, con el tiempo puede observarse:",ops:["Recuperación completa siempre","Adaptación con mejoría de la apertura sin recaptura del disco","Anquilosis inmediata","Nada"],correcta:1,explicacion:"El tejido retrodiscal puede adaptarse y funcionar como seudodisco, mejorando la apertura."},
+      {q:"El pterigoideo lateral inferior en espasmo produce:",ops:["Mordida abierta posterior contralateral","Mordida abierta anterior","Crepitación","Anquilosis"],correcta:0,explicacion:"Su contracción desplaza el cóndilo, generando mordida abierta posterior del lado contrario."},
+      {q:"La palpación intraoral de la coronoides se usa para explorar:",ops:["Masetero","Tendón del temporal","Pterigoideo lateral","Cápsula"],correcta:1,explicacion:"Es la vía de acceso a la inserción del temporal."},
+      {q:"El registro de la apertura máxima debe incluir:",ops:["Solo la distancia interincisal","La distancia interincisal más el resalte vertical","La edad","El peso"],correcta:1,explicacion:"Sumar el overbite da la apertura real del movimiento mandibular."},
+      {q:"Ante limitación de apertura con causa muscular, a diferencia de la discal, se espera:",ops:["Tope duro","Que la apertura mejore con maniobras de estiramiento suave","Ausencia de dolor","Desviación fija"],correcta:1,explicacion:"El tope muscular es elástico y cede parcialmente; el discal es un tope duro."},
+      {q:"El enfoque actual del manejo de los trastornos temporomandibulares privilegia:",ops:["Cirugía temprana","Terapias conservadoras y reversibles como primera línea","Ajuste oclusal inmediato","Extracciones preventivas"],correcta:1,explicacion:"La mayoría responde a manejo conservador, con buen pronóstico."}
+    ]
+  },
+
+  musculares: {
+    facil: [
+      {q:"¿Cuál es la causa más frecuente de dolor en el sistema masticatorio?",ops:["Articular","Muscular","Dentaria","Neurológica"],correcta:1,explicacion:"Los trastornos musculares superan en frecuencia a los articulares."},
+      {q:"El dolor muscular local se caracteriza por:",ops:["Puntos gatillo","Dolor a la palpación sin dolor referido","Contracción súbita","Crepitación"],correcta:1,explicacion:"Es una mialgia sin puntos gatillo ni dolor referido."},
+      {q:"El mioespasmo se caracteriza por:",ops:["Inicio lento","Contracción involuntaria súbita y sostenida","Ausencia de dolor","Puntos gatillo"],correcta:1,explicacion:"Es una contracción de origen central, brusca y mantenida."},
+      {q:"Lo que define al dolor miofascial es:",ops:["La crepitación","La presencia de puntos gatillo con dolor referido","La limitación de apertura","El clic"],correcta:1,explicacion:"El punto gatillo que reproduce dolor referido es su rasgo distintivo."},
+      {q:"El dolor referido se percibe:",ops:["En el sitio del origen","En un sitio distinto del origen","Solo de noche","Solo al comer"],correcta:1,explicacion:"Esa disociación entre origen y percepción explica muchos errores diagnósticos."},
+      {q:"El masetero suele referir dolor a:",ops:["Rodilla","Dientes posteriores y oído","Abdomen","Pie"],correcta:1,explicacion:"Su patrón incluye dientes posteriores, oído y región mandibular."},
+      {q:"El temporal suele referir dolor a:",ops:["Cuello posterior","Región temporal y dientes superiores","Hombro","Muñeca"],correcta:1,explicacion:"Refiere a región temporal, dientes superiores y detrás del ojo."},
+      {q:"La presión recomendada para palpar músculos masticatorios es de aproximadamente:",ops:["5 a 6 kg","1 a 2 kg","10 kg","Sin presión"],correcta:1,explicacion:"Presión firme de 1 a 2 kg sostenida unos segundos, siempre bilateral."},
+      {q:"El pterigoideo medial se palpa por vía:",ops:["Extraoral únicamente","Intraoral","Nasal","No se palpa"],correcta:1,explicacion:"Se accede por vía intraoral, en la cara interna de la rama."},
+      {q:"¿Por qué se exploran esternocleidomastoideo y trapecio?",ops:["Por costumbre","Porque refieren dolor a la cara","Por estética","No se exploran"],correcta:1,explicacion:"Sus patrones de dolor referido alcanzan cara, oído y región frontal."},
+      {q:"El mioespasmo del pterigoideo lateral inferior produce:",ops:["Mordida abierta anterior","Mordida abierta posterior contralateral","Crepitación","Anquilosis"],correcta:1,explicacion:"El desplazamiento condilar genera mordida abierta posterior del lado opuesto."},
+      {q:"La duración del mioespasmo suele ser:",ops:["De meses","De horas a días","Permanente","De años"],correcta:1,explicacion:"Es un cuadro agudo y de curso corto."},
+      {q:"El dolor miofascial se caracteriza por su curso:",ops:["Agudo y breve","Regional y crónico","Asintomático","Intermitente sin dolor"],correcta:1,explicacion:"Es un dolor regional de evolución prolongada."},
+      {q:"El manejo inicial del dolor muscular debe ser:",ops:["Quirúrgico","Conservador y reversible","Ajuste oclusal amplio","Extracciones"],correcta:1,explicacion:"Educación, termoterapia, férula y fisioterapia van primero."},
+      {q:"La toxina botulínica en trastornos musculares se considera:",ops:["Primera línea","Coadyuvante","Curativa","Contraindicada siempre"],correcta:1,explicacion:"Es coadyuvante dentro de un plan, nunca el plan completo."}
+    ],
+    medio: [
+      {q:"Paciente con dolor de 2 días, a la palpación del masetero, sin puntos gatillo. Diagnóstico probable:",ops:["Dolor miofascial","Dolor muscular local","Mioespasmo","Capsulitis"],correcta:1,explicacion:"Instalación reciente, sin puntos gatillo ni dolor referido: mialgia local."},
+      {q:"Paciente que despierta con imposibilidad súbita de abrir y músculo firme. Sugiere:",ops:["Dolor miofascial","Mioespasmo","Capsulitis","Osteoartritis"],correcta:1,explicacion:"El inicio brusco con limitación marcada y músculo contraído es característico."},
+      {q:"Un paciente recibió tratamiento de conductos sin mejorar el dolor. Debe considerarse:",ops:["Repetir la endodoncia","Dolor referido de origen muscular","Extracción","Blanqueamiento"],correcta:1,explicacion:"El masetero y el temporal refieren a dientes; palpar antes de instrumentar evita este error."},
+      {q:"¿Qué distingue al dolor miofascial del dolor muscular local?",ops:["La edad","La presencia de puntos gatillo con dolor referido","El lado afectado","El sexo"],correcta:1,explicacion:"El punto gatillo con patrón de referencia reproducible es el criterio."},
+      {q:"El cambio agudo en la oclusión durante un mioespasmo se explica por:",ops:["Movimiento dentario","Desplazamiento mandibular por la contracción","Caries","Erupción"],correcta:1,explicacion:"El músculo contraído reposiciona la mandíbula de forma transitoria."},
+      {q:"La palpación bilateral simultánea permite:",ops:["Ahorrar tiempo","Comparar y detectar asimetrías","Reducir el dolor","Evitar guantes"],correcta:1,explicacion:"La comparación entre lados es parte del valor diagnóstico de la maniobra."},
+      {q:"El dolor muscular que cede con reposo y aumenta con la función orienta a:",ops:["Origen articular","Origen muscular","Origen neuropático","Origen vascular"],correcta:1,explicacion:"Esa relación con la función es típica del componente muscular."},
+      {q:"En el registro clínico del dolor referido debe anotarse:",ops:["Solo si duele","El sitio de origen y a dónde refiere","La marca del guante","La hora exacta"],correcta:1,explicacion:"El patrón de referencia es lo que orienta el diagnóstico."},
+      {q:"La férula de estabilización en dolor muscular actúa principalmente:",ops:["Curando el músculo","Reduciendo la actividad parafuncional y distribuyendo cargas","Corrigiendo la maloclusión","Blanqueando"],correcta:1,explicacion:"Protege y reduce carga, sin curar la causa de fondo."},
+      {q:"El estrés y las alteraciones del sueño en dolor miofascial son:",ops:["Irrelevantes","Factores que suelen mantener el cuadro","Contraindicaciones","Signos articulares"],correcta:1,explicacion:"Suelen ser el motor de fondo; sin abordarlos la recidiva es frecuente."},
+      {q:"La limitación de apertura en cuadro muscular tiene un tope:",ops:["Duro","Elástico que cede parcialmente","Ausente","Doloroso sin ceder"],correcta:1,explicacion:"El tope muscular es elástico, a diferencia del tope duro del bloqueo discal."},
+      {q:"Un paciente con hipertrofia maseterina bilateral y dolor sugiere:",ops:["Poliartritis","Parafunción de larga evolución","Tendinitis","Capsulitis"],correcta:1,explicacion:"La hipertrofia es consecuencia de hiperactividad muscular sostenida."},
+      {q:"La dieta blanda temporal en dolor muscular busca:",ops:["Mejorar la nutrición","Reducir la demanda sobre el músculo","Prevenir caries","Blanquear"],correcta:1,explicacion:"Disminuye la carga funcional mientras el músculo se recupera."},
+      {q:"El dolor del esternocleidomastoideo puede confundirse con:",ops:["Dolor dentario inferior","Dolor de oído y cefalea","Dolor abdominal","Ninguno"],correcta:1,explicacion:"Su patrón de referencia incluye oído y región frontal."},
+      {q:"En un cuadro agudo muscular, los relajantes musculares:",ops:["Están contraindicados","Pueden usarse como parte del manejo","Son curativos","Sustituyen la férula"],correcta:1,explicacion:"Forman parte del manejo farmacológico en cuadros agudos."}
+    ],
+    avanzado: [
+      {q:"Paciente con dolor facial crónico, puntos gatillo múltiples y mal dormir. El plan debe incluir:",ops:["Solo férula","Abordaje multimodal con manejo del sueño y del estrés","Cirugía","Extracciones"],correcta:1,explicacion:"El dolor miofascial crónico requiere abordaje que incluya los factores perpetuantes."},
+      {q:"¿Por qué es un error tratar solo el músculo doloroso?",ops:["No lo es","Porque el dolor puede ser referido desde otro sitio","Porque duele más","Por costo"],correcta:1,explicacion:"Tratar el sitio del dolor sin identificar el origen deja la causa intacta."},
+      {q:"En el diagnóstico diferencial de dolor muscular crónico debe descartarse:",ops:["Solo caries","Fibromialgia, neuropatías y causas sistémicas","Solo bruxismo","Nada"],correcta:1,explicacion:"El dolor crónico regional puede formar parte de cuadros más amplios."},
+      {q:"El efecto de la férula sobre el dolor muscular se evalúa:",ops:["El mismo día","En controles seriados con medición de apertura y dolor","Al año","No se evalúa"],correcta:1,explicacion:"Se requieren controles con parámetros objetivos para saber si funciona."},
+      {q:"Un mioespasmo que no cede en semanas obliga a:",ops:["Aumentar la dosis","Reconsiderar el diagnóstico","Extraer","Esperar más"],correcta:1,explicacion:"El mioespasmo es de curso corto; su persistencia sugiere otro diagnóstico."},
+      {q:"El fenómeno de sensibilización central en dolor crónico implica:",ops:["Menos dolor","Amplificación de la respuesta dolorosa","Curación","Ausencia de síntomas"],correcta:1,explicacion:"Explica que estímulos normales se perciban como dolorosos."},
+      {q:"En dolor miofascial, el estiramiento del músculo afectado busca:",ops:["Aumentar la fuerza","Desactivar el punto gatillo y recuperar longitud","Producir hipertrofia","Nada"],correcta:1,explicacion:"El objetivo es la banda tensa y la recuperación de longitud muscular."},
+      {q:"La correlación entre hallazgos oclusales y dolor muscular es:",ops:["Directa y absoluta","Parcial, dentro de un modelo multifactorial","Inexistente","Inversa"],correcta:1,explicacion:"La oclusión es un factor entre varios, no la explicación única."},
+      {q:"Un paciente con dolor unilateral persistente sin respuesta a terapia debe:",ops:["Continuar igual","Ser reevaluado descartando causas no musculares","Recibir más férulas","Ser dado de alta"],correcta:1,explicacion:"La falta de respuesta obliga a revisar el diagnóstico, incluyendo causas graves."},
+      {q:"La educación al paciente en dolor muscular tiene valor porque:",ops:["Es barata","Reduce la actividad parafuncional y la ansiedad asociada","Sustituye el tratamiento","Es obligatoria"],correcta:1,explicacion:"Es una intervención con efecto real sobre el comportamiento que mantiene el cuadro."},
+      {q:"La cefalea atribuida a trastorno temporomandibular se caracteriza por:",ops:["Ser independiente de la función","Modificarse con la función mandibular","Ser nocturna siempre","No responder a nada"],correcta:1,explicacion:"Su relación con la función mandibular es el criterio que la vincula."},
+      {q:"La termoterapia en dolor muscular actúa:",ops:["Curando el músculo","Aumentando el flujo y reduciendo la tensión","Anestesiando","Sin efecto"],correcta:1,explicacion:"Mejora la circulación local y facilita la relajación."},
+      {q:"En pacientes con dolor muscular y apnea del sueño, la conducta incluye:",ops:["Solo férula oclusal","Interconsulta médica antes de indicar dispositivos","Extracciones","Nada especial"],correcta:1,explicacion:"Algunos dispositivos pueden ser inadecuados sin valoración del trastorno respiratorio."},
+      {q:"El registro de la intensidad del dolor con escala numérica permite:",ops:["Cumplir un requisito","Objetivar la evolución entre controles","Cobrar más","Nada"],correcta:1,explicacion:"Convierte un síntoma subjetivo en un dato comparable."},
+      {q:"Ante dolor muscular con signos neurológicos asociados, lo indicado es:",ops:["Aumentar la férula","Derivar para valoración neurológica","Ajuste oclusal","Esperar"],correcta:1,explicacion:"Los signos neurológicos exigen descartar patología fuera del ámbito odontológico."}
+    ]
+  },
+  habitos: {
+    facil: [
+      {q:"La diferencia fundamental entre función y parafunción es:",ops:["La fuerza","El tiempo de contacto y la ausencia de propósito","El lado","La edad"],correcta:1,explicacion:"La parafunción no tiene propósito funcional y sus contactos son prolongados."},
+      {q:"El bruxismo se define como:",ops:["Masticar mucho","Actividad repetitiva de apretar o rechinar los dientes","Deglutir mal","Respirar por la boca"],correcta:1,explicacion:"Es actividad muscular repetitiva de apretamiento o rechinamiento."},
+      {q:"El bruxismo de vigilia predomina como:",ops:["Rechinamiento","Apretamiento","Deglución","Succión"],correcta:1,explicacion:"En vigilia predomina el apretamiento, ligado a estrés y concentración."},
+      {q:"El apretamiento produce una fuerza:",ops:["Dinámica","Estática, sin desplazamiento","Intermitente","Nula"],correcta:1,explicacion:"No hay movimiento, por lo que produce poco desgaste."},
+      {q:"Las facetas de desgaste que coinciden entre arcadas indican:",ops:["Apretamiento puro","Que hubo movimiento excéntrico","Caries","Erosión ácida"],correcta:1,explicacion:"La coincidencia demuestra rechinamiento, no solo apretamiento."},
+      {q:"La línea alba en carrillo se asocia a:",ops:["Caries","Parafunción","Fluorosis","Deglución típica"],correcta:1,explicacion:"Es un signo de succión o presión del carrillo contra los dientes."},
+      {q:"En la deglución típica, la lengua se apoya en:",ops:["Los incisivos inferiores","La papila retroincisiva","El piso de boca","Los carrillos"],correcta:1,explicacion:"Se apoya en la papila retroincisiva, detrás de los incisivos superiores."},
+      {q:"En la deglución típica, los dientes están:",ops:["Separados","En contacto","Con la lengua interpuesta","En protrusión"],correcta:1,explicacion:"El contacto dentario es característico de la deglución madura."},
+      {q:"En la deglución atípica se observa:",ops:["Contacto dentario","Lengua interpuesta y contracción perioral","Ausencia de movimiento","Silencio"],correcta:1,explicacion:"La interposición lingual con contracción perioral es el patrón infantil persistente."},
+      {q:"Una consecuencia frecuente de la deglución atípica es:",ops:["Mordida profunda","Mordida abierta anterior","Bruxismo","Caries cervical"],correcta:1,explicacion:"La interposición impide el cierre anterior."},
+      {q:"El número aproximado de degluciones al día es:",ops:["50","600 a 1000","10","5000"],correcta:1,explicacion:"Por eso un patrón alterado tiene efecto acumulativo relevante."},
+      {q:"El diagnóstico definitivo de bruxismo del sueño requiere:",ops:["Solo la clínica","Polisomnografía","Radiografía","Modelos"],correcta:1,explicacion:"En consulta hablamos de bruxismo probable; el definitivo requiere estudio del sueño."},
+      {q:"La férula en bruxismo:",ops:["Cura el hábito","Protege y distribuye la fuerza","Elimina el estrés","Corrige la oclusión"],correcta:1,explicacion:"Protege las estructuras, pero el paciente sigue apretando."},
+      {q:"El tratamiento de la deglución atípica incluye principalmente:",ops:["Extracciones","Terapia miofuncional","Blanqueamiento","Endodoncia"],correcta:1,explicacion:"La reeducación del patrón es la base del tratamiento."},
+      {q:"El consenso actual considera al bruxismo:",ops:["Una enfermedad","Un comportamiento que puede ser factor de riesgo","Un síndrome genético","Una infección"],correcta:1,explicacion:"Se conceptualiza como comportamiento, no como enfermedad en sí."}
+    ],
+    medio: [
+      {q:"Paciente con dolor muscular matutino y cefalea al despertar sugiere:",ops:["Bruxismo de vigilia","Bruxismo del sueño","Deglución atípica","Caries"],correcta:1,explicacion:"El patrón matutino orienta a actividad durante el sueño."},
+      {q:"Las indentaciones en el borde lateral de la lengua indican:",ops:["Deficiencia vitamínica exclusivamente","Presión lingual contra los dientes por parafunción","Infección","Alergia"],correcta:1,explicacion:"Reflejan presión sostenida de la lengua contra las arcadas."},
+      {q:"Un paciente con fracturas repetidas de restauraciones debe evaluarse por:",ops:["Mala higiene","Posible parafunción","Dieta ácida","Fluorosis"],correcta:1,explicacion:"La repetición sugiere una causa de fondo de sobrecarga."},
+      {q:"La mordida cruzada posterior en deglución atípica se explica por:",ops:["Genética","Falta de estímulo transversal por posición lingual baja","Caries","Trauma"],correcta:1,explicacion:"La lengua no estimula el desarrollo transversal del maxilar."},
+      {q:"La deglución atípica suele asociarse a:",ops:["Buena higiene","Respiración bucal y obstrucción de vía aérea","Bruxismo del sueño","Caries radicular"],correcta:1,explicacion:"La obstrucción respiratoria favorece la postura lingual baja."},
+      {q:"¿Por qué la ortodoncia debe ir después de controlar la deglución atípica?",ops:["Por costo","Porque el hábito produce recidiva","Por edad","Por estética"],correcta:1,explicacion:"Si el hábito persiste, revierte el resultado ortodóncico."},
+      {q:"El bruxismo puede considerarse protector en el contexto de:",ops:["Caries","Apnea del sueño, al reactivar la vía aérea","Periodontitis","Fluorosis"],correcta:1,explicacion:"Se ha propuesto que la actividad muscular puede acompañar la reapertura de la vía aérea."},
+      {q:"Las abfracciones cervicales se relacionan con:",ops:["Cepillado exclusivamente","Flexión cervical por cargas oclusales","Dieta","Genética"],correcta:1,explicacion:"Las cargas concentradas producen flexión y pérdida de estructura cervical."},
+      {q:"El manejo del bruxismo debe incluir el control de:",ops:["Solo la oclusión","Cafeína, alcohol, tabaco y fármacos asociados","Solo el cepillado","Nada"],correcta:1,explicacion:"Son factores moduladores conocidos de la actividad bruxista."},
+      {q:"En el diagnóstico de bruxismo probable se combina:",ops:["Solo signos clínicos","Signos clínicos más autorreporte del paciente","Solo radiografía","Solo modelos"],correcta:1,explicacion:"La combinación de ambos define el bruxismo probable."},
+      {q:"El mentón arrugado durante la deglución indica:",ops:["Deglución típica","Contracción perioral compensatoria","Dolor","Normalidad"],correcta:1,explicacion:"Es signo de participación muscular anómala en la deglución."},
+      {q:"La hipertrofia maseterina en bruxismo se debe a:",ops:["Inflamación","Hiperactividad muscular sostenida","Tumor","Edema"],correcta:1,explicacion:"El músculo responde con hipertrofia al trabajo aumentado."},
+      {q:"La higiene del sueño en el manejo del bruxismo busca:",ops:["Mejorar la estética","Reducir microdespertares y actividad muscular nocturna","Blanquear","Prevenir caries"],correcta:1,explicacion:"Actúa sobre el mecanismo de fondo del bruxismo del sueño."},
+      {q:"Un paciente con amígdalas hipertróficas y deglución atípica requiere:",ops:["Solo ortodoncia","Valoración otorrinolaringológica","Solo férula","Extracciones"],correcta:1,explicacion:"La obstrucción debe resolverse para que la reeducación funcione."},
+      {q:"El desgaste sin facetas coincidentes orienta más a:",ops:["Rechinamiento","Apretamiento o erosión","Caries","Fractura"],correcta:1,explicacion:"Sin coincidencia no hubo movimiento excéntrico; hay que considerar otras causas."}
+    ],
+    avanzado: [
+      {q:"En un paciente con bruxismo y sospecha de apnea, indicar una férula sin valoración puede:",ops:["No tener riesgo","Agravar el trastorno respiratorio en algunos casos","Curar la apnea","Ser siempre ideal"],correcta:1,explicacion:"Algunos diseños pueden comprometer la vía aérea; se requiere valoración previa."},
+      {q:"La afirmación 'la férula cura el bruxismo' es:",ops:["Correcta","Incorrecta: protege pero no elimina la actividad","Parcialmente correcta en niños","Correcta solo de noche"],correcta:1,explicacion:"El origen es central; la férula actúa sobre las consecuencias."},
+      {q:"La terapia miofuncional en deglución atípica busca:",ops:["Fuerza lingual máxima","Reeducar el patrón y automatizarlo","Reducir la lengua","Nada"],correcta:1,explicacion:"El objetivo es que el nuevo patrón se automatice para evitar recidiva."},
+      {q:"El registro de facetas en modelos montados permite:",ops:["Solo documentar","Reproducir el movimiento que las generó","Blanquear","Medir caries"],correcta:1,explicacion:"Llevar los modelos a la posición donde coinciden revela el movimiento parafuncional."},
+      {q:"El bruxismo secundario puede asociarse a:",ops:["Nada","Fármacos, drogas y trastornos neurológicos","Solo estrés","Solo maloclusión"],correcta:1,explicacion:"Existen formas secundarias a medicamentos y condiciones médicas."},
+      {q:"La relación causal entre maloclusión y bruxismo se considera actualmente:",ops:["Demostrada","Débil o no demostrada como causa principal","Inversa","Absoluta"],correcta:1,explicacion:"La evidencia actual no sostiene la oclusión como causa principal del bruxismo."},
+      {q:"En un niño con deglución atípica y mordida abierta, el momento de intervenir depende de:",ops:["La edad únicamente","Maduración, colaboración y control de la causa","El costo","La estética"],correcta:1,explicacion:"Se requiere colaboración y haber resuelto la causa respiratoria si existe."},
+      {q:"La medición objetiva de la actividad bruxista puede hacerse con:",ops:["Solo la clínica","Electromiografía o polisomnografía","Radiografía panorámica","Modelos"],correcta:1,explicacion:"Son las herramientas que registran la actividad muscular real."},
+      {q:"El uso de férula sin control periódico puede llevar a:",ops:["Mejor resultado","Cambios oclusales no deseados","Nada","Curación"],correcta:1,explicacion:"Las férulas modifican la oclusión con el tiempo y requieren ajuste."},
+      {q:"Ante un paciente que desarrolla desgaste rápido y progresivo, debe descartarse:",ops:["Solo bruxismo","Erosión por reflujo o dieta ácida asociada","Caries","Fluorosis"],correcta:1,explicacion:"La combinación de erosión y atrición acelera la pérdida de estructura."},
+      {q:"El abordaje conductual del bruxismo de vigilia se basa en:",ops:["Medicación","Toma de conciencia y estrategias de interrupción del hábito","Cirugía","Férula exclusivamente"],correcta:1,explicacion:"Al ser consciente, es susceptible de intervención conductual."},
+      {q:"La rehabilitación en un bruxista sin control del hábito tiene riesgo de:",ops:["Ninguno","Fracaso mecánico de las restauraciones","Mejor pronóstico","Menor costo"],correcta:1,explicacion:"La sobrecarga persiste y actúa sobre el trabajo nuevo."},
+      {q:"En deglución atípica, la evaluación debe incluir:",ops:["Solo la boca","Vía aérea, postura, hábitos y función lingual","Solo los dientes","Solo la edad"],correcta:1,explicacion:"Es un problema funcional que excede lo dentario."},
+      {q:"El pronóstico de la reeducación deglutoria mejora cuando:",ops:["Se hace sin colaboración","Se resuelve primero la causa obstructiva","Se usa solo férula","Se retrasa años"],correcta:1,explicacion:"Con la vía aérea comprometida el patrón tiende a persistir."},
+      {q:"Documentar el desgaste con fotografías y modelos seriados permite:",ops:["Cobrar más","Determinar si el proceso está activo","Blanquear mejor","Nada"],correcta:1,explicacion:"La comparación en el tiempo distingue proceso activo de daño antiguo estabilizado."}
+    ]
+  },
+  articulador: {
+    facil: [
+      {q:"Un articulador semiajustable permite ajustar:",ops:["Todos los movimientos","Trayectoria condílea y ángulo de Bennett","Solo apertura","Nada"],correcta:1,explicacion:"Ajusta esos dos parámetros; no reproduce el movimiento individual completo."},
+      {q:"El arco facial registra:",ops:["La oclusión","La posición del maxilar respecto al eje de bisagra","El color","La dimensión vertical"],correcta:1,explicacion:"No registra la oclusión: registra la relación cráneo-maxilar."},
+      {q:"La relación céntrica está determinada por:",ops:["Los dientes","La articulación","La lengua","Los labios"],correcta:1,explicacion:"Es una posición articular, independiente del contacto dentario."},
+      {q:"La posición habitual de conveniencia está determinada por:",ops:["La articulación","La oclusión","La postura","El disco"],correcta:1,explicacion:"Es donde el paciente cierra guiado por sus propios dientes."},
+      {q:"El deslizamiento en céntrica es el recorrido entre:",ops:["Apertura y cierre","Primer contacto en céntrica y posición habitual","Protrusiva y lateralidad","Reposo y oclusión"],correcta:1,explicacion:"Esa distancia y su dirección son el hallazgo diagnóstico."},
+      {q:"Desprogramar al paciente sirve para:",ops:["Relajarlo","Romper la memoria muscular de la posición habitual","Reducir el dolor","Blanquear"],correcta:1,explicacion:"Sin desprogramar se registra la posición equivocada."},
+      {q:"El modelo de trabajo se vacía en yeso:",ops:["Tipo I","Tipo III","Tipo II","Tipo V"],correcta:1,explicacion:"El tipo III o yeso piedra resiste el recorte y reproduce el detalle."},
+      {q:"El montaje y el zócalo se hacen en yeso:",ops:["Tipo III","Tipo II","Tipo IV","Tipo V"],correcta:1,explicacion:"El tipo II es más blando y fácil de recortar."},
+      {q:"Un articulador de bisagra NO permite:",ops:["Abrir y cerrar","Reproducir lateralidad y protrusión","Sostener modelos","Nada"],correcta:1,explicacion:"Solo rota en un eje fijo."},
+      {q:"Las retenciones en la base del modelo sirven para:",ops:["Estética","Que el yeso de montaje agarre","Reducir peso","Medir"],correcta:1,explicacion:"Sin ellas el modelo se desprende de la platina."},
+      {q:"Presionar al cerrar sobre el registro de cera produce:",ops:["Mejor asiento","Disminución de la dimensión vertical","Mayor precisión","Nada"],correcta:1,explicacion:"Se hunde el registro y el montaje queda con dimensión vertical reducida."},
+      {q:"El arco facial arbitrario usa como referencia:",ops:["El eje real del paciente","Puntos anatómicos promedio","La línea media","El plano oclusal"],correcta:1,explicacion:"Usa puntos promedio, típicamente los conductos auditivos externos."},
+      {q:"¿Qué modelo se monta primero?",ops:["El inferior","El superior","Cualquiera","Ambos a la vez"],correcta:1,explicacion:"El superior se monta con la transferencia del arco facial y define lo demás."},
+      {q:"Un modelo con burbujas en cúspides produce:",ops:["Mejor detalle","Contactos falsos","Mayor resistencia","Nada"],correcta:1,explicacion:"Vas a diagnosticar una interferencia que no existe."},
+      {q:"La cera rosa toda estación tiene como desventaja:",ops:["Su costo","Que se deforma a temperatura bucal","Su color","Su olor"],correcta:1,explicacion:"Por eso para montajes de análisis se prefiere cera de registro o silicona."}
+    ],
+    medio: [
+      {q:"Montar sin arco facial produce:",ops:["Mejor precisión","Un arco de cierre distinto al del paciente","Menor costo sin consecuencias","Nada"],correcta:1,explicacion:"El radio de rotación no coincide y los contactos observados son falsos."},
+      {q:"El error del arco facial arbitrario respecto al eje real es de aproximadamente:",ops:["50 mm","Hasta unos 5 mm","0 mm","20 mm"],correcta:1,explicacion:"Es un error clínicamente aceptable para la mayoría de los casos."},
+      {q:"Un deslizamiento con componente lateral marcado indica:",ops:["Normalidad","Evitación de una interferencia","Error de laboratorio siempre","Falta de dientes"],correcta:1,explicacion:"El desvío lateral es un mecanismo de escape con costo muscular y articular."},
+      {q:"Si al retirar el registro los modelos no ocluyen igual:",ops:["Es normal","Algo se movió durante el montaje","Falta yeso","El paciente cambió"],correcta:1,explicacion:"La verificación es precisamente para detectar ese desplazamiento."},
+      {q:"El modelo en voladizo sin apoyo durante el montaje:",ops:["Queda mejor","Se desvía por el peso del yeso fresco","No importa","Se seca antes"],correcta:1,explicacion:"El peso lo baja y el montaje queda desviado."},
+      {q:"La manipulación bimanual de Dawson se usa para:",ops:["Medir apertura","Guiar la mandíbula a relación céntrica","Tomar impresión","Ajustar la férula"],correcta:1,explicacion:"Es una técnica de guía y desprogramación para el registro."},
+      {q:"El articulador totalmente ajustable requiere:",ops:["Solo arco facial","Registros pantográficos","Radiografías","Nada especial"],correcta:1,explicacion:"Reproduce el movimiento individual mediante pantografía."},
+      {q:"Montar los dos registros permite:",ops:["Ahorrar tiempo","Comparar céntrica con habitual y medir el deslizamiento","Reducir costo","Nada"],correcta:1,explicacion:"Ese contraste es el objetivo didáctico y diagnóstico del ejercicio."},
+      {q:"El jig de Lucia sirve como:",ops:["Férula definitiva","Desprogramador anterior","Retenedor","Separador"],correcta:1,explicacion:"Desocluye posteriores y permite desprogramar antes del registro."},
+      {q:"Las platinas de encastre o magnéticas facilitan:",ops:["El pulido","Retirar y recolocar el modelo sin perder posición","La impresión","El vaciado"],correcta:1,explicacion:"Permiten alternar entre dos montajes del inferior."},
+      {q:"Manipular el montaje antes del fraguado completo produce:",ops:["Mejor adaptación","Micromovimientos que desplazan el modelo","Mayor resistencia","Nada"],correcta:1,explicacion:"Son desplazamientos que no se notan pero invalidan el montaje."},
+      {q:"El vástago incisal debe estar durante el montaje:",ops:["Libre","En cero y bloqueado","Retirado","Al máximo"],correcta:1,explicacion:"Garantiza que la dimensión vertical del articulador sea la registrada."},
+      {q:"En el articulador se pueden observar contactos que en boca no se ven porque:",ops:["Hay más luz","La lengua y el carrillo no estorban","Los modelos son más grandes","El yeso es blanco"],correcta:1,explicacion:"Esa es la ventaja fundamental del montaje."},
+      {q:"El registro debe asentar en ambos modelos:",ops:["Con presión","Sin balanceo ni interferencias","Con cera adicional","Con adhesivo"],correcta:1,explicacion:"Si balancea, la posición registrada no es estable ni reproducible."},
+      {q:"Apretar los tornillos del arco facial en desorden puede:",ops:["Ahorrar tiempo","Desplazar el arco y arrastrar la horquilla","Mejorar la fijación","Nada"],correcta:1,explicacion:"Hay que seguir el orden que indica el fabricante del sistema."}
+    ],
+    avanzado: [
+      {q:"El montaje en relación céntrica es preferible para diagnóstico porque:",ops:["Es más rápido","Es una posición reproducible e independiente de los dientes","Es más barato","Lo pide el paciente"],correcta:1,explicacion:"La reproducibilidad es lo que permite comparar y planificar."},
+      {q:"En un paciente con dolor articular agudo, tomar el registro de céntrica:",ops:["Es igual de válido","Puede ser poco confiable por la guarda muscular","Es más preciso","Está siempre indicado"],correcta:1,explicacion:"El dolor y la contractura impiden alcanzar la posición real."},
+      {q:"El arco facial cinemático se justifica principalmente en:",ops:["Todos los casos","Rehabilitaciones extensas con cambio de dimensión vertical","Modelos de estudio","Ortodoncia simple"],correcta:1,explicacion:"El beneficio de la precisión adicional aparece en esos casos."},
+      {q:"Un montaje con dimensión vertical disminuida por presión al cerrar llevará a:",ops:["Diagnóstico correcto","Contactos y guías erróneas en el análisis","Mejor estética","Nada"],correcta:1,explicacion:"Todo el análisis posterior parte de una posición equivocada."},
+      {q:"Verificar la reproducibilidad del registro repitiéndolo varias veces sirve para:",ops:["Perder tiempo","Confirmar que la posición es la real","Cansar al paciente","Nada"],correcta:1,explicacion:"Un registro no reproducible no es válido."},
+      {q:"En pacientes desdentados parciales posteriores, el registro requiere:",ops:["Nada especial","Rodetes o bases de registro para estabilizar","Menos cuidado","Solo cera"],correcta:1,explicacion:"Sin topes posteriores, la posición no es estable."},
+      {q:"El análisis del primer punto de contacto en céntrica permite:",ops:["Estética","Identificar la interferencia responsable del deslizamiento","Medir caries","Nada"],correcta:1,explicacion:"Es el punto que obliga a la mandíbula a desviarse."},
+      {q:"El uso de silicona de registro frente a cera ofrece:",ops:["Menor costo","Mayor estabilidad dimensional","Mejor color","Más rapidez siempre"],correcta:1,explicacion:"Es más estable, lo que da un montaje más confiable."},
+      {q:"El montaje permite planificar un ajuste oclusal porque:",ops:["Es decorativo","Permite ensayar el ajuste sobre los modelos antes de tocar al paciente","Es más rápido","Reduce costo"],correcta:1,explicacion:"El ensayo previo evita desgastar estructura innecesariamente."},
+      {q:"Si el análisis en articulador contradice la clínica, lo indicado es:",ops:["Confiar solo en el articulador","Revisar la calidad del montaje y los registros","Ignorar ambos","Rehabilitar igual"],correcta:1,explicacion:"La contradicción suele indicar un error en el registro o el montaje."},
+      {q:"La transferencia del arco facial al articulador debe verificarse antes de:",ops:["Tomar la impresión","Aplicar el yeso de montaje","Recortar modelos","Pulir"],correcta:1,explicacion:"Una vez fraguado el yeso, corregir implica rehacer."},
+      {q:"En el montaje de la posición habitual con platina intercambiable, la ventaja es:",ops:["Menor costo","Alternar entre ambos montajes sin rehacer el superior","Mayor rapidez de fraguado","Nada"],correcta:1,explicacion:"Permite comparar directamente las dos posiciones."},
+      {q:"El ángulo de Bennett en un semiajustable se ajusta con:",ops:["Registros pantográficos","Valores promedio o registros excéntricos","Radiografía","Fotografía"],correcta:1,explicacion:"Se usan valores promedio o registros de lateralidad."},
+      {q:"El principal error que invalida un montaje es:",ops:["Usar yeso tipo II","Registrar sin desprogramar","Recortar los modelos","Usar arco facial"],correcta:1,explicacion:"Se registra la posición habitual creyendo que es céntrica."},
+      {q:"El objetivo final del montaje en el curso es:",ops:["Aprender a usar yeso","Localizar interferencias y medir el deslizamiento","Hacer prótesis","Fotografiar"],correcta:1,explicacion:"El montaje es la herramienta; el diagnóstico oclusal es el objetivo."}
+    ]
+  },
+  ferulas: {
+    facil: [
+      {q:"La principal virtud de una férula oclusal es que es:",ops:["Barata","Reversible","Estética","Permanente"],correcta:1,explicacion:"Al ser reversible, si no funciona el paciente queda como estaba."},
+      {q:"La férula de estabilización también se conoce como:",ops:["De reposicionamiento","Miorrelajante o tipo Michigan","Plano posterior","NTI"],correcta:1,explicacion:"Son nombres del mismo diseño de cobertura total."},
+      {q:"La cobertura de la férula de estabilización es:",ops:["Parcial anterior","Total de la arcada","Solo posterior","Solo canina"],correcta:1,explicacion:"Cubre toda la arcada, lo que permite uso prolongado."},
+      {q:"En la férula de estabilización, los contactos deben ser:",ops:["Solo anteriores","Uniformes y simultáneos en todos los antagonistas","Solo en molares","Ausentes"],correcta:1,explicacion:"La distribución uniforme es uno de sus criterios fundamentales."},
+      {q:"En lateralidad, la férula de estabilización debe presentar:",ops:["Contactos de balance","Guía canina que desocluye el resto","Contactos posteriores","Ningún contacto"],correcta:1,explicacion:"La guía canina desocluye los posteriores en el movimiento."},
+      {q:"La indicación principal de la férula de reposicionamiento anterior es:",ops:["Bruxismo simple","Desplazamiento discal con reducción","Caries","Periodontitis"],correcta:1,explicacion:"Busca recapturar el disco y mantener una relación más favorable."},
+      {q:"El riesgo del uso prolongado de la férula de reposicionamiento es:",ops:["Caries","Mordida abierta posterior irreversible","Halitosis","Fractura"],correcta:1,explicacion:"El mantenimiento de la posición adelantada produce cambios oclusales permanentes."},
+      {q:"El plano de mordida posterior cubre:",ops:["Toda la arcada","Solo los dientes posteriores","Solo los anteriores","Solo caninos"],correcta:1,explicacion:"Son dos segmentos posteriores unidos por una barra lingual."},
+      {q:"El riesgo del plano de mordida posterior es:",ops:["Extrusión de los anteriores no cubiertos","Caries","Fractura condilar","Ninguno"],correcta:0,explicacion:"Los dientes no cubiertos pueden extruirse; por eso es de uso corto."},
+      {q:"El plano de mordida anterior puede producir:",ops:["Extrusión de posteriores","Intrusión de anteriores","Caries","Nada"],correcta:0,explicacion:"Al no cubrirlos, los posteriores pueden extruirse y generar mordida abierta."},
+      {q:"El grosor habitual de una férula en posteriores es de:",ops:["0.5 mm","2 a 3 mm","8 mm","10 mm"],correcta:1,explicacion:"Es el mínimo compatible con resistencia adecuada."},
+      {q:"El monómero de metilmetacrilato es:",ops:["Inocuo","Volátil, inflamable e irritante","Comestible","Inerte"],correcta:1,explicacion:"Requiere ventilación, guantes y protección ocular."},
+      {q:"La polimerización del acrílico es:",ops:["Endotérmica","Exotérmica","Neutra","Sin cambio térmico"],correcta:1,explicacion:"La pieza se calienta, por lo que nunca se prueba en boca durante el fraguado."},
+      {q:"Una férula bien hecha debe entrar y salir:",ops:["Con mucha fuerza","Sin forzar, con retención adecuada","Sin retención","Con adhesivo"],correcta:1,explicacion:"Retención suficiente para sostenerse sola, sin requerir fuerza excesiva."},
+      {q:"La férula en bruxismo:",ops:["Cura el hábito","Protege pero no elimina la actividad","Corrige la maloclusión","Elimina el estrés"],correcta:1,explicacion:"El origen del bruxismo es central; la férula actúa sobre las consecuencias."}
+    ],
+    medio: [
+      {q:"Una férula que bascula al presionar de un lado tiene un problema de:",ops:["Retención","Estabilidad","Color","Grosor"],correcta:1,explicacion:"La estabilidad se evalúa presionando alternadamente de cada lado."},
+      {q:"¿Por qué las férulas de cobertura parcial son de uso corto?",ops:["Por costo","Porque permiten extrusión de los dientes no cubiertos","Por estética","Por comodidad"],correcta:1,explicacion:"Solo la cobertura total evita movimientos dentarios no deseados."},
+      {q:"El ajuste de la férula se verifica con:",ops:["Radiografía","Papel de articular","Fotografía","Modelos"],correcta:1,explicacion:"Permite ver la distribución real de los contactos."},
+      {q:"Los controles periódicos de la férula son necesarios porque:",ops:["Es un trámite","La férula cambia con el uso y requiere reajuste","El paciente lo pide","Por normativa"],correcta:1,explicacion:"El desgaste modifica los contactos y puede alterar la oclusión."},
+      {q:"La férula como herramienta diagnóstica permite:",ops:["Medir caries","Ensayar una posición mandibular de forma reversible","Blanquear","Detectar fracturas"],correcta:1,explicacion:"Informa sobre la respuesta antes de comprometerse con algo irreversible."},
+      {q:"El uso de la férula de estabilización suele indicarse:",ops:["Todo el día siempre","Habitualmente nocturno","Solo al comer","Una vez al mes"],correcta:1,explicacion:"El uso nocturno es el habitual, salvo indicaciones específicas."},
+      {q:"En un paciente con clic asintomático, la férula de reposicionamiento:",ops:["Siempre está indicada","No suele estar indicada","Es urgente","Es curativa"],correcta:1,explicacion:"Sin dolor ni limitación no hay indicación de intervenir."},
+      {q:"El plano de mordida anterior también puede usarse como:",ops:["Retenedor","Desprogramador","Mantenedor de espacio","Blanqueador"],correcta:1,explicacion:"Produce desoclusión posterior y facilita la desprogramación muscular."},
+      {q:"La guía anterior en la férula tiene la función de:",ops:["Estética","Desocluir los posteriores en protrusiva","Aumentar retención","Reducir grosor"],correcta:1,explicacion:"Evita contactos posteriores durante el movimiento excéntrico."},
+      {q:"El curado en olla de presión del acrílico dura aproximadamente:",ops:["2 minutos","20 minutos","2 horas","5 segundos"],correcta:1,explicacion:"Alrededor de 20 minutos, según indicación del fabricante."},
+      {q:"Una superficie de férula rugosa o con filos puede producir:",ops:["Mejor retención","Irritación de tejidos blandos","Mayor duración","Mejor ajuste"],correcta:1,explicacion:"Debe quedar lisa y pulida para no lesionar la mucosa."},
+      {q:"Trabajar el monómero en área no ventilada implica riesgo de:",ops:["Ninguno","Irritación respiratoria y sensibilización","Mejor polimerización","Ahorro"],correcta:1,explicacion:"La exposición repetida puede producir sensibilización."},
+      {q:"La férula de estabilización distribuye la fuerza porque:",ops:["Es gruesa","Genera contactos uniformes en toda la arcada","Es dura","Es removible"],correcta:1,explicacion:"La distribución uniforme evita concentración de carga en pocos dientes."},
+      {q:"La indicación de férula en un paciente con restauraciones extensas busca:",ops:["Estética","Proteger el trabajo restaurador","Reducir costo","Blanquear"],correcta:1,explicacion:"Protege la inversión restauradora frente a la parafunción."},
+      {q:"Si el paciente refiere que la férula 'ya no le queda igual', debe:",ops:["Ignorarse","Evaluarse el ajuste y posibles cambios oclusales","Cambiarse siempre","Suspenderse sin evaluar"],correcta:1,explicacion:"Puede indicar desgaste de la férula o movimiento dentario."}
+    ],
+    avanzado: [
+      {q:"¿Por qué la férula se considera primera línea antes de terapia irreversible?",ops:["Por costo","Porque es reversible y aporta información diagnóstica","Por rapidez","Por estética"],correcta:1,explicacion:"Permite evaluar la respuesta sin comprometer estructuras."},
+      {q:"En un paciente con desplazamiento discal con reducción y dolor, la férula de reposicionamiento requiere:",ops:["Uso indefinido","Tiempo limitado con controles frecuentes","Ningún control","Uso solo diurno"],correcta:1,explicacion:"El riesgo de cambios oclusales permanentes obliga a vigilancia estrecha."},
+      {q:"La férula que produce mordida abierta posterior al retirarla indica:",ops:["Éxito","Cambio oclusal por reposicionamiento mantenido","Buen ajuste","Nada"],correcta:1,explicacion:"Es la complicación clásica del reposicionamiento prolongado."},
+      {q:"En un paciente con dolor muscular sin mejoría tras 8 semanas de férula bien ajustada:",ops:["Aumentar el grosor","Reevaluar el diagnóstico","Continuar igual","Extraer"],correcta:1,explicacion:"La falta de respuesta obliga a revisar si el diagnóstico es correcto."},
+      {q:"La férula en el maxilar frente a la mandíbula se elige según:",ops:["Preferencia estricta","Estabilidad, comodidad, estética y presencia dentaria","El costo únicamente","La edad"],correcta:1,explicacion:"Ambas son válidas; la elección depende de factores del caso."},
+      {q:"El objetivo de la desoclusión posterior en movimientos excéntricos es:",ops:["Estético","Reducir la actividad muscular y la carga posterior","Aumentar retención","Reducir grosor"],correcta:1,explicacion:"Los contactos posteriores en excéntrica aumentan la actividad muscular."},
+      {q:"Una férula mal ajustada con contactos prematuros puede:",ops:["Mejorar el cuadro","Agravar la sintomatología muscular","No tener efecto","Curar más rápido"],correcta:1,explicacion:"Un contacto prematuro sobre la férula reproduce el problema que se busca resolver."},
+      {q:"El aumento de dimensión vertical mediante férula debe ser:",ops:["Máximo posible","El mínimo necesario para el objetivo terapéutico","Irrelevante","Siempre de 10 mm"],correcta:1,explicacion:"Aumentos innecesarios generan tensión muscular adicional."},
+      {q:"El material de elección para férulas de uso prolongado es:",ops:["Acrílico blando","Acrílico duro","Silicona","Cera"],correcta:1,explicacion:"El acrílico duro permite ajuste preciso y mantiene la forma; el blando puede aumentar la actividad muscular."},
+      {q:"Explicar al paciente que la férula no cura el bruxismo tiene valor porque:",ops:["Es un requisito legal","Establece expectativas correctas y favorece el manejo de la causa","Reduce costos","Evita controles"],correcta:1,explicacion:"Sin expectativas correctas, el paciente abandona el manejo de fondo."},
+      {q:"En un paciente con apnea del sueño diagnosticada, la férula oclusal convencional:",ops:["Siempre está indicada","Requiere valoración médica previa","Cura la apnea","Es urgente"],correcta:1,explicacion:"Algunos diseños pueden ser inadecuados en trastornos respiratorios del sueño."},
+      {q:"El plano de mordida posterior se indica en casos que requieren:",ops:["Solo protección","Cambios importantes de dimensión vertical o posición mandibular","Estética","Blanqueamiento"],correcta:1,explicacion:"Es una indicación específica y de uso corto y controlado."},
+      {q:"La verificación de la férula debe repetirse en cada control porque:",ops:["Es rutina","El desgaste y los cambios dentarios modifican los contactos","Lo pide el paciente","Por normativa"],correcta:1,explicacion:"Sin reajuste, la férula puede dejar de cumplir sus criterios."},
+      {q:"Al diseñar la guía anterior de la férula se busca que:",ops:["Sea muy pronunciada","Permita desoclusión sin generar interferencia ni sobrecarga anterior","No exista","Sea plana total"],correcta:1,explicacion:"Debe desocluir con una inclinación que no sobrecargue los anteriores."},
+      {q:"El criterio que define si una férula está cumpliendo su función es:",ops:["Que el paciente la use","La mejoría objetiva de signos y síntomas en controles seriados","Su color","Su grosor"],correcta:1,explicacion:"Se evalúa con parámetros medibles, no solo con la percepción."}
+    ]
+  },
 };
 
 /* ================= UI: chips de temas y quiz ================= */
@@ -1717,7 +2289,7 @@ function bloqueProximaSesion(){
       <div class="inicio-label">${cuando ? cuando + ' · ' : ''}PRÓXIMA SESIÓN</div>
       <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
       <div class="inicio-tema">${prox.tema}</div>
-      ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 ${doc.label}</a>` : ''}
+      ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 Descargar PDF · ${doc.label}</a>` : ''}
     </div>`;
 }
 
@@ -4302,36 +4874,36 @@ function abrirCalendario(origen){
 
 // Cronograma extraído del Syllabus V4 (Dr. Miguel Alvarado)
 const CRONOGRAMA = [
-  {iso:"2026-08-11", sem:1,  fecha:"11 Ago · Martes",  tipo:"Clase",       track:"salon", tema:"Presentación con alumnos y sondeo de conocimientos generales (estructuras ATM)."},
-  {iso:"2026-08-13", sem:1,  fecha:"13 Ago · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Introducción al área clínica, lineamientos y conocimiento de materiales."},
-  {iso:"2026-08-18", sem:2,  fecha:"18 Ago · Martes",  tipo:"Clase",       track:"salon", tema:"Repaso general de las estructuras y componentes de la ATM.", doc:"tema1"},
-  {iso:"2026-08-20", sem:2,  fecha:"20 Ago · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Práctica 1: Toma de modelos y registro de mordida. Plática: generalidades de fotografía clínica.", doc:"practicas"},
+  {iso:"2026-08-11", sem:1,  fecha:"11 Ago · Martes",  tipo:"Clase",       track:"salon", tema:"Presentación con alumnos y sondeo de conocimientos generales (estructuras ATM).", temaId:"atm"},
+  {iso:"2026-08-13", sem:1,  fecha:"13 Ago · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Introducción al área clínica, lineamientos y conocimiento de materiales.", fichaId:"glosario"},
+  {iso:"2026-08-18", sem:2,  fecha:"18 Ago · Martes",  tipo:"Clase",       track:"salon", tema:"Repaso general de las estructuras y componentes de la ATM.", doc:"tema1", temaId:"atm"},
+  {iso:"2026-08-20", sem:2,  fecha:"20 Ago · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Práctica 1: Toma de modelos y registro de mordida. Plática: generalidades de fotografía clínica.", doc:"practicas", temaId:"foto"},
   {iso:"2026-08-25", sem:3,  fecha:"25 Ago · Martes",  tipo:"Evaluación",  track:"salon", tema:"Primer examen parcial: Generalidades de la oclusión."},
-  {iso:"2026-08-27", sem:3,  fecha:"27 Ago · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Evaluación de modelos recortados y articulados en bisagra. Práctica 2: Fotografía clínica.", doc:"tema2"},
-  {iso:"2026-09-01", sem:4,  fecha:"01 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"II. Etiología de las interferencias oclusales. Relación y oclusión céntrica.", doc:"tema3"},
-  {iso:"2026-09-03", sem:4,  fecha:"03 Sep · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis de interferencias: lado de balance y lado de trabajo.", doc:"tema4"},
-  {iso:"2026-09-08", sem:5,  fecha:"08 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"III. Oclusión patológica. Causas directas e indirectas."},
+  {iso:"2026-08-27", sem:3,  fecha:"27 Ago · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Evaluación de modelos recortados y articulados en bisagra. Práctica 2: Fotografía clínica.", doc:"tema2", temaId:"foto"},
+  {iso:"2026-09-01", sem:4,  fecha:"01 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"II. Etiología de las interferencias oclusales. Relación y oclusión céntrica.", doc:"tema3", temaId:"interf"},
+  {iso:"2026-09-03", sem:4,  fecha:"03 Sep · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis de interferencias: lado de balance y lado de trabajo.", doc:"tema4", temaId:"balance"},
+  {iso:"2026-09-08", sem:5,  fecha:"08 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"III. Oclusión patológica. Causas directas e indirectas.", temaId:"patologica", doc:"tema5"},
   {iso:"2026-09-10", sem:5,  fecha:"10 Sep · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Primera presentación de casos clínicos en laboratorio."},
   {iso:"2026-09-15", sem:6,  fecha:"15 Sep · Martes",  tipo:"Festivo",     track:"salon", tema:"Suspensión de labores (Grito de Independencia)."},
-  {iso:"2026-09-17", sem:6,  fecha:"17 Sep · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Generalidades y toma de registros. Inicio de montaje en articulador semiajustable."},
-  {iso:"2026-09-22", sem:7,  fecha:"22 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Clasificación de relaciones patológicas (Clases I a V)."},
+  {iso:"2026-09-17", sem:6,  fecha:"17 Sep · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Generalidades y toma de registros. Inicio de montaje en articulador semiajustable.", temaId:"articulador", fichaId:"articulador", doc:"tema10"},
+  {iso:"2026-09-22", sem:7,  fecha:"22 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Clasificación de relaciones patológicas (Clases I a V).", temaId:"clases", doc:"tema6"},
   {iso:"2026-09-24", sem:7,  fecha:"24 Sep · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Primera Evaluación Parcial (examen, revisión de tareas y articuladores)."},
-  {iso:"2026-09-29", sem:8,  fecha:"29 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos de la ATM. Alteraciones articulares."},
-  {iso:"2026-10-01", sem:8,  fecha:"01 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Exposición con interrogatorio: imágenes de ATM y diagnóstico."},
-  {iso:"2026-10-06", sem:9,  fecha:"06 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos articulares (continuación). Inflamatorios, subluxación."},
-  {iso:"2026-10-08", sem:9,  fecha:"08 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis documental sobre trastornos inflamatorios de la ATM."},
-  {iso:"2026-10-13", sem:10, fecha:"13 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"V. Trastornos musculares. Dolor local, mioespasmos, dolor miofacial."},
+  {iso:"2026-09-29", sem:8,  fecha:"29 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos de la ATM. Alteraciones articulares.", temaId:"atmtrast", doc:"tema7"},
+  {iso:"2026-10-01", sem:8,  fecha:"01 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Exposición con interrogatorio: imágenes de ATM y diagnóstico.", temaId:"atmtrast", doc:"tema7"},
+  {iso:"2026-10-06", sem:9,  fecha:"06 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos articulares (continuación). Inflamatorios, subluxación.", temaId:"atmtrast", doc:"tema7"},
+  {iso:"2026-10-08", sem:9,  fecha:"08 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis documental sobre trastornos inflamatorios de la ATM.", temaId:"atmtrast", doc:"tema7"},
+  {iso:"2026-10-13", sem:10, fecha:"13 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"V. Trastornos musculares. Dolor local, mioespasmos, dolor miofacial.", temaId:"musculares", doc:"tema8"},
   {iso:"2026-10-15", sem:10, fecha:"15 Oct · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Segunda Evaluación Parcial (examen, tareas, reportes)."},
-  {iso:"2026-10-20", sem:11, fecha:"20 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VI. Hábitos parafuncionales. Bruxismo, apretamiento, deglución típica/atípica."},
-  {iso:"2026-10-22", sem:11, fecha:"22 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Revisión de pacientes en clínica: signos de hábitos parafuncionales."},
-  {iso:"2026-10-27", sem:12, fecha:"27 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VIII. Férulas oclusales. Conceptos teóricos e indicaciones."},
-  {iso:"2026-10-29", sem:12, fecha:"29 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Taller de materiales: propiedades y manejo seguro del acrílico y monómero."},
+  {iso:"2026-10-20", sem:11, fecha:"20 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VI. Hábitos parafuncionales. Bruxismo, apretamiento, deglución típica/atípica.", temaId:"habitos", doc:"tema9"},
+  {iso:"2026-10-22", sem:11, fecha:"22 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Revisión de pacientes en clínica: signos de hábitos parafuncionales.", temaId:"habitos", doc:"tema9"},
+  {iso:"2026-10-27", sem:12, fecha:"27 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VIII. Férulas oclusales. Conceptos teóricos e indicaciones.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-10-29", sem:12, fecha:"29 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Taller de materiales: propiedades y manejo seguro del acrílico y monómero.", temaId:"ferulas", fichaId:"glosario"},
   {iso:"2026-11-03", sem:13, fecha:"03 Nov · Martes",  tipo:"Festivo",     track:"salon", tema:"Festivo (Día de Muertos, suspensión oficial)."},
-  {iso:"2026-11-05", sem:13, fecha:"05 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Diseño y encerado de férulas oclusales."},
-  {iso:"2026-11-10", sem:14, fecha:"10 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Férulas de estabilización y reposicionamiento anterior."},
-  {iso:"2026-11-12", sem:14, fecha:"12 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Elaboración y acrilizado de férulas."},
-  {iso:"2026-11-17", sem:15, fecha:"17 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Plano de mordida posterior."},
-  {iso:"2026-11-19", sem:15, fecha:"19 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Ajuste, pulido y calibración de férulas en modelos."},
+  {iso:"2026-11-05", sem:13, fecha:"05 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Diseño y encerado de férulas oclusales.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-10", sem:14, fecha:"10 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Férulas de estabilización y reposicionamiento anterior.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-12", sem:14, fecha:"12 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Elaboración y acrilizado de férulas.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-17", sem:15, fecha:"17 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Plano de mordida posterior.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-19", sem:15, fecha:"19 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Ajuste, pulido y calibración de férulas en modelos.", temaId:"ferulas", doc:"tema11"},
   {iso:"2026-11-24", sem:16, fecha:"24 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Presentación Final de Casos Clínicos (parte 1). Integración de conocimientos de oclusión."},
   {iso:"2026-11-26", sem:16, fecha:"26 Nov · Jueves",  tipo:"Clase",       track:"lab",   tema:"Presentación Final de Casos Clínicos (parte 2)."},
   {iso:"2026-12-01", sem:17, fecha:"01 Dic · Martes",  tipo:"Clase",       track:"salon", tema:"Repaso general e integración de historias clínicas."},
@@ -4397,6 +4969,138 @@ const FICHAS = [
 </div>
 
 <p class="fi-nota">💡 Regla práctica para esta materia: el modelo se vacía en <b>tipo III</b> y el zócalo se hace en <b>tipo II</b>. Así ahorras material sin sacrificar el modelo.</p>
+`
+},
+{
+  id:'glosario', icono:'📖',
+  titulo:'Glosario de materiales dentales',
+  sub:'Fraguado, polimerización, grabado y términos relacionados',
+  tags:'fraguado gelificacion polimerizacion fotopolimerizacion grabado sinéresis imbibicion monomero curado viscosidad tixotropia exotermica contraccion elastomero alginato acrilico yeso',
+  html:`
+<p class="fi-intro">Estos términos se usan a diario en el laboratorio y muchas veces se confunden entre sí. Vale la pena tenerlos precisos: la diferencia entre <b>fraguado</b> y <b>polimerización</b> no es de estilo, son reacciones distintas.</p>
+
+<div class="fi-h">Endurecimiento de los materiales</div>
+
+<div class="fi-card destacada">
+  <div class="fi-card-t">Fraguado</div>
+  <div class="fi-card-b">Proceso por el cual un material pasa de estado plástico a rígido. En odontología suele referirse a reacciones <b>químicas de tipo ácido-base o de hidratación</b>, como en el yeso, el alginato o los cementos.<br><br>Es el término general de endurecimiento. Toda polimerización implica endurecimiento, pero no todo fraguado es polimerización.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Tiempo de trabajo</div>
+  <div class="fi-card-b">Lapso desde que inicia la mezcla hasta que el material pierde su capacidad de fluir y adaptarse. Es tu ventana real para trabajar. Se acaba <b>antes</b> del tiempo de fraguado.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Tiempo de fraguado</div>
+  <div class="fi-card-b">Momento en que el material alcanza rigidez suficiente para retirarse sin deformarse. Se distingue el <b>fraguado inicial</b>, cuando ya no se puede manipular, del <b>fraguado final</b>, cuando alcanza sus propiedades.<br><br>En el yeso tipo III el fraguado inicial ocurre entre 8 y 10 minutos, pero la resistencia total llega a las <b>24 horas</b>.</div>
+</div>
+
+<div class="fi-card destacada">
+  <div class="fi-card-t">Gelificación</div>
+  <div class="fi-card-b">Transformación de un <b>sol</b>, que es una suspensión fluida, en un <b>gel</b>, que es una red semisólida. Es el mecanismo por el que endurecen los <b>hidrocoloides</b> como el alginato y el agar.<br><br>• En el <b>alginato</b> la gelificación es <b>química e irreversible</b>: reaccionan el alginato de sodio y el sulfato de calcio.<br>• En el <b>agar</b> es <b>térmica y reversible</b>: gelifica al enfriarse y vuelve a fluir al calentarse.<br><br>Por eso el alginato es un hidrocoloide irreversible y el agar, reversible.</div>
+</div>
+
+<div class="fi-card destacada">
+  <div class="fi-card-t">Polimerización</div>
+  <div class="fi-card-b">Reacción en la que moléculas pequeñas, los <b>monómeros</b>, se unen formando cadenas largas o <b>polímeros</b>. Es lo que ocurre en acrílicos, resinas compuestas y selladores.<br><br>Es siempre <b>exotérmica</b>: libera calor. Por eso una férula acrílica se calienta al curar y nunca se prueba en boca durante el fraguado.</div>
+</div>
+
+<div class="fi-h">Tipos de polimerización</div>
+<div class="fi-tabla">
+  <div class="fi-fila fi-cab"><span>Tipo</span><span>Qué la activa</span><span>Ejemplo</span></div>
+  <div class="fi-fila"><span>Autopolimerización</span><span>Reacción química entre pasta base y catalizador</span><span>Acrílico de autocurado, provisionales</span></div>
+  <div class="fi-fila"><span>Fotopolimerización</span><span>Luz visible, habitualmente entre 450 y 490 nm</span><span>Resina compuesta, sellador</span></div>
+  <div class="fi-fila"><span>Termopolimerización</span><span>Calor, en mufla o baño</span><span>Acrílico de bases protésicas</span></div>
+  <div class="fi-fila"><span>Dual</span><span>Luz y reacción química a la vez</span><span>Cementos de resina</span></div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Fotopolimerización</div>
+  <div class="fi-card-b">Polimerización activada por luz. El fotoiniciador más usado es la <b>canforquinona</b>, que absorbe alrededor de los 468 nm y se activa con luz azul.<br><br>Puntos prácticos: la lámpara debe estar lo más cerca posible y perpendicular, y hay que respetar el <b>grosor máximo de incremento</b>, en general 2 mm. Si el incremento es más grueso, la base queda sin curar aunque la superficie se vea dura.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Contracción de polimerización</div>
+  <div class="fi-card-b">Reducción de volumen al unirse los monómeros, porque las cadenas quedan más juntas que las moléculas libres. En resinas compuestas ronda el 2 a 3%.<br><br>Genera <b>estrés de contracción</b> en la interfase adhesiva, y es la causa de brechas marginales, sensibilidad posoperatoria y caries secundaria. Por eso se trabaja por incrementos.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Grado de conversión</div>
+  <div class="fi-card-b">Porcentaje de monómeros que efectivamente reaccionaron. Nunca llega al 100%: en resinas compuestas ronda el 55 a 75%.<br><br>El monómero que no reacciona queda como <b>residual</b> y puede liberarse, lo que se relaciona con irritación pulpar y sensibilización.</div>
+</div>
+
+<div class="fi-h">Adhesión</div>
+
+<div class="fi-card destacada">
+  <div class="fi-card-t">Grabado ácido</div>
+  <div class="fi-card-b">Aplicación de <b>ácido ortofosfórico</b> al 32 a 37% para desmineralizar selectivamente la superficie dentaria y crear microporosidades donde el adhesivo se traba.<br><br>Tiempos de referencia:<br>• <b>Esmalte</b>: 15 a 30 segundos<br>• <b>Dentina</b>: 15 segundos como máximo<br><br>Sobregrabar dentina colapsa las fibras de colágeno y <b>empeora</b> la adhesión. En esmalte el resultado visible es el aspecto blanco tiza al secar.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Capa híbrida</div>
+  <div class="fi-card-b">Zona de interpenetración entre la dentina desmineralizada y la resina adhesiva. Es el mecanismo real de la adhesión a dentina, descrito por Nakabayashi.<br><br>Requiere que el colágeno expuesto no se colapse: de ahí la técnica de <b>adhesión húmeda</b>, secando sin desecar.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Barrillo dentinario</div>
+  <div class="fi-card-b">Capa de detritus de aproximadamente 1 a 2 micras que queda sobre la dentina tras el corte con instrumental rotatorio. Obstruye los túbulos.<br><br>Los sistemas de <b>grabado total</b> lo eliminan; los <b>autograbantes</b> lo modifican e incorporan.</div>
+</div>
+
+<div class="fi-h">Comportamiento de los materiales</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Sinéresis e imbibición</div>
+  <div class="fi-card-b">Los dos enemigos de una impresión de alginato:<br><br>• <b>Sinéresis</b>: el gel <b>pierde agua</b> y exuda líquido. La impresión se contrae.<br>• <b>Imbibición</b>: el gel <b>absorbe agua</b> si se deja sumergido. La impresión se expande.<br><br>Ambos deforman el modelo. Por eso el alginato se vacía dentro de los primeros 15 minutos, y mientras tanto se guarda en ambiente húmedo pero sin sumergir.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Estabilidad dimensional</div>
+  <div class="fi-card-b">Capacidad de un material de conservar su forma y tamaño con el tiempo. El alginato la tiene <b>baja</b>; las siliconas de adición la tienen <b>alta</b> y admiten vaciado diferido.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Deformación permanente</div>
+  <div class="fi-card-b">Porción de la deformación que <b>no se recupera</b> al retirar la fuerza. En un material de impresión interesa que sea mínima, porque de ella depende que la impresión reproduzca fielmente al retirarla de las retenciones.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Recuperación elástica</div>
+  <div class="fi-card-b">Capacidad de volver a la forma original tras deformarse. Es lo que permite que un material de impresión salga de las zonas retentivas sin distorsionarse.<br><br>Por eso la impresión se retira con un <b>movimiento firme y único</b>: el retiro lento aumenta la deformación permanente.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Viscosidad y tixotropía</div>
+  <div class="fi-card-b">• <b>Viscosidad</b>: resistencia a fluir. Los materiales se clasifican en fluido, regular, pesado y masilla.<br>• <b>Tixotropía</b>: propiedad de fluir cuando se le aplica presión y mantenerse en su sitio cuando está en reposo. Es lo que hace que un material fluido no escurra de la cucharilla.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Reacción exotérmica</div>
+  <div class="fi-card-b">La que <b>libera calor</b>. Ocurre en la polimerización del acrílico y en el fraguado del yeso.<br><br>Consecuencia práctica: nunca probar acrílico en boca durante el curado, y considerar que el modelo de yeso se calienta mientras fragua.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Expansión de fraguado</div>
+  <div class="fi-card-b">Aumento de volumen durante el endurecimiento. En el yeso depende del tipo: tipo II alrededor de 0.3%, tipo III entre 0.15 y 0.20%, tipo IV cerca de 0.10%.<br><br>Menor expansión significa mayor precisión, y por eso los troqueles se hacen en tipo IV.</div>
+</div>
+
+<div class="fi-card">
+  <div class="fi-card-t">Relación agua/polvo</div>
+  <div class="fi-card-b">Proporción entre líquido y polvo de la mezcla. Es el factor que más determina las propiedades finales.<br><br>Más agua de la indicada baja la resistencia de forma drástica y aumenta el tiempo de fraguado. Es el error más común y el más costoso: por eso se pesa el polvo y se mide el agua, nunca a ojo.</div>
+</div>
+
+<div class="fi-h">Vocabulario del acrílico</div>
+<div class="fi-lista">
+  <div class="fi-item"><b>Monómero.</b> Molécula pequeña que se une a otras. En acrílico dental es el metilmetacrilato, líquido, volátil e irritante.</div>
+  <div class="fi-item"><b>Polímero.</b> La cadena resultante. En acrílico es el polvo de polimetilmetacrilato.</div>
+  <div class="fi-item"><b>Fase arenosa.</b> Primera etapa de la mezcla: el polvo aún no se disuelve.</div>
+  <div class="fi-item"><b>Fase filamentosa o pegajosa.</b> El material se adhiere a los instrumentos. No es momento de trabajarlo.</div>
+  <div class="fi-item"><b>Fase plástica.</b> Momento ideal de manipulación: moldeable y sin pegarse.</div>
+  <div class="fi-item"><b>Fase gomosa.</b> Ya no se adapta. Pasó el tiempo de trabajo.</div>
+  <div class="fi-item"><b>Porosidad.</b> Burbujas por mezcla incorrecta, falta de presión o evaporación del monómero. Debilita la pieza y retiene placa.</div>
+</div>
+
+<p class="fi-nota">💡 Un par de distinciones que conviene fijar: el <b>alginato gelifica</b>, el <b>yeso fragua</b> y el <b>acrílico polimeriza</b>. Los tres endurecen, pero por mecanismos distintos.</p>
 `
 },
 {
@@ -4513,6 +5217,12 @@ const PDF_TEMA2 = "Tema2_Fotografia_Clinica.pdf";
 const PDF_TEMA3 = "Tema3_Interferencias_RC_OC.pdf";
 const PDF_TEMA4 = "Tema4_Trabajo_Balance.pdf";
 const PDF_ARTICULADOR = "Guia_Articulador_Semiajustable.pdf";
+const PDF_TEMA5  = "Tema5_Oclusion_Patologica.pdf";
+const PDF_TEMA6  = "Tema6_Clases_Relaciones_Patologicas.pdf";
+const PDF_TEMA7  = "Tema7_Trastornos_ATM.pdf";
+const PDF_TEMA8  = "Tema8_Trastornos_Musculares.pdf";
+const PDF_TEMA9  = "Tema9_Habitos_Parafuncionales.pdf";
+const PDF_TEMA11 = "Tema11_Ferulas_Oclusales.pdf";
 
 /* Calcula la próxima sesión a partir de la fecha real del dispositivo.
    Así el "PRÓXIMA SESIÓN" se mantiene solo, sin editar el código cada semana. */
@@ -4546,7 +5256,14 @@ const RECURSOS = {
   practicas: { url: PDF_MANUAL,   label:"Manual de Prácticas",      file:"Manual_Practicas_Oclusion.pdf" },
   tema2:     { url: PDF_TEMA2,    label:"Tema 2 · Fotografía Clínica", file:"Tema2_Fotografia_Clinica.pdf" },
   tema3:     { url: PDF_TEMA3,    label:"Tema 3 · Interferencias y RC",  file:"Tema3_Interferencias_RC_OC.pdf" },
-  tema4:     { url: PDF_TEMA4,    label:"Tema 4 · Trabajo y balance",    file:"Tema4_Trabajo_Balance.pdf" }
+  tema4:     { url: PDF_TEMA4,    label:"Tema 4 · Trabajo y balance",    file:"Tema4_Trabajo_Balance.pdf" },
+  tema5:     { url: PDF_TEMA5,    label:"Tema 5 · Oclusión patológica",   file:"Tema5_Oclusion_Patologica.pdf" },
+  tema6:     { url: PDF_TEMA6,    label:"Tema 6 · Clases I a V",          file:"Tema6_Clases_Relaciones_Patologicas.pdf" },
+  tema7:     { url: PDF_TEMA7,    label:"Tema 7 · Trastornos de la ATM",  file:"Tema7_Trastornos_ATM.pdf" },
+  tema8:     { url: PDF_TEMA8,    label:"Tema 8 · Trastornos musculares", file:"Tema8_Trastornos_Musculares.pdf" },
+  tema9:     { url: PDF_TEMA9,    label:"Tema 9 · Hábitos parafuncionales", file:"Tema9_Habitos_Parafuncionales.pdf" },
+  tema10:    { url: PDF_ARTICULADOR, label:"Tema 10 · Articulador",       file:"Guia_Articulador_Semiajustable.pdf" },
+  tema11:    { url: PDF_TEMA11,   label:"Tema 11 · Férulas oclusales",    file:"Tema11_Ferulas_Oclusales.pdf" }
 };
 
 /* -------- ENTREGAS: fechas límite de prácticas y proyectos --------
@@ -4840,24 +5557,68 @@ function abrirMaterial(origen, iso){
   abrirSubScreen(destino, 'Material de práctica', cuerpo);
 }
 
+let destinoBiblio = 'chat';
 function sesionCard(f, proxIso){
   const esProxima = proxIso && f.iso === proxIso;
   const claseDestacado = esProxima ? ' proxima' : '';
   const badgeClase = {Clase:'azul', Laboratorio:'teal', 'Clase / Eval':'azul', Evaluación:'rojo', Festivo:'gris'}[f.tipo] || 'azul';
   const doc = f.doc ? RECURSOS[f.doc] : null;
+  const tm = f.temaId ? TEMAS[f.temaId] : null;
+  const fi = f.fichaId ? FICHAS.find(x=>x.id===f.fichaId) : null;
   return `<div class="sesion-card${claseDestacado}">
     ${esProxima ? `<span class="sesion-proxima-badge">PRÓXIMA SESIÓN${textoCuando(f.iso)?' · '+textoCuando(f.iso):''}</span>` : ''}
     <div class="sesion-fecha">Semana ${f.sem} · ${f.fecha}</div>
     <span class="sesion-badge badge-${badgeClase}">${f.tipo}</span>
     <div class="sesion-tema">${f.tema}</div>
-    ${doc ? `<a class="sesion-doc-btn" href="${doc.url}" download="${doc.file}">📄 ${doc.label}</a>` : ''}
+    ${(doc || tm || fi) ? `<div class="sesion-recursos">
+      ${tm ? `<button class="rec-btn leer" onclick="abrirMaterialTema('${destinoBiblio}','${f.temaId}')">
+          <span class="rec-ico">📖</span>
+          <span class="rec-txt"><b>Leer en la app</b><small>${tm.corto} · ${tm.chip}</small></span>
+        </button>` : ''}
+      ${doc ? `<a class="rec-btn bajar" href="${doc.url}" download="${doc.file}">
+          <span class="rec-ico">📄</span>
+          <span class="rec-txt"><b>Descargar PDF</b><small>${doc.label}</small></span>
+          <span class="rec-flecha">↓</span>
+        </a>` : ''}
+      ${fi ? `<button class="rec-btn ficha" onclick="abrirFicha('${destinoBiblio}','${f.fichaId}')">
+          <span class="rec-ico">${fi.icono}</span>
+          <span class="rec-txt"><b>Ficha de consulta</b><small>${fi.titulo}</small></span>
+        </button>` : ''}
+    </div>` : ''}
   </div>`;
+}
+
+/* Material de un tema, presentado como lectura corrida.
+   Reutiliza la misma base que usa Mikes Molares para responder. */
+function abrirMaterialTema(origen, id){
+  const t = TEMAS[id];
+  if(!t) return;
+  const destino = origen || pantallaAnterior;
+  const secciones = t.grupos.map(g=>`<div class="mt-bloque">${g.r}</div>`).join('');
+  const hayQuiz = !!QUIZ[id];
+  const cuerpo = `
+    <div class="mt-cab">
+      <div class="mt-corto">${t.corto}</div>
+      <div class="mt-titulo">${t.titulo}</div>
+    </div>
+    ${secciones}
+    ${hayQuiz ? `<button class="mt-quiz" onclick="cerrarSubScreen();irAlQuizTema('${id}')">📝 Poner a prueba este tema</button>` : ''}
+    <div class="notas-mini">💬 Si algo no queda claro, pregúntaselo a Mikes Molares: tiene cargado este mismo material.</div>`;
+  abrirSubScreen(destino, t.corto, cuerpo);
+}
+
+function irAlQuizTema(id){
+  closeAllMenus();
+  const enChat = $('chatScreen').classList.contains('show');
+  if(!enChat) mostrarChat();
+  setTimeout(()=>mostrarNiveles(id), enChat ? 0 : 180);
 }
 
 function abrirBiblioteca(origen, tab, filtro){
   tab = tab || 'salon';
   filtro = filtro || '';
   const destino = origen || pantallaAnterior;
+  destinoBiblio = destino;
   const prox = proximaSesion();
   const proxIso = prox ? prox.iso : null;
 
