@@ -482,6 +482,28 @@ body.mp-abierto{overflow:hidden}
 .quiz-res-barra{display:block; height:5px; background:#eef2f6; border-radius:99px; overflow:hidden; margin-top:.15rem}
 .quiz-res-barra i{display:block; height:100%; background:var(--teal); border-radius:99px}
 .quiz-res-flecha{font-size:1.3rem; color:var(--gris-claro); flex:0 0 auto}
+/* ---- ¿Qué pasa si no lo hago? ---- */
+.cq-btn{display:flex; align-items:center; gap:.65rem; width:100%; text-align:left; background:#fef2f2;
+  border:1.5px solid #fecaca; border-radius:12px; padding:.75rem .8rem; margin:.8rem 0}
+.cq-btn:active{background:#fee2e2}
+.cq-btn-ico{font-size:1.2rem; flex:0 0 auto}
+.cq-btn-txt{flex:1; display:flex; flex-direction:column; gap:.12rem; min-width:0}
+.cq-btn-txt b{font-family:'Fredoka'; font-size:.88rem; color:#b91c1c; font-weight:600}
+.cq-btn-txt small{font-size:.71rem; color:#9a3412; line-height:1.35}
+.cq-btn-flecha{font-size:1.3rem; color:#dc2626; flex:0 0 auto}
+.cq-intro{background:#fff7ed; border:1px solid #fed7aa; border-radius:11px; padding:.75rem .85rem;
+  font-size:.81rem; color:#9a3412; line-height:1.6; margin-bottom:1rem}
+.cq-bloque{border:1px solid var(--borde); border-left:4px solid #dc2626; border-radius:0 12px 12px 0;
+  padding:.85rem .9rem; margin-bottom:.8rem; background:#fff}
+.cq-t{display:flex; align-items:center; gap:.5rem; font-family:'Fredoka'; font-size:.95rem;
+  color:#b91c1c; line-height:1.3; margin-bottom:.6rem}
+.cq-t span{font-size:1.1rem}
+.cq-i{font-size:.8rem; color:var(--tinta); line-height:1.65; padding:.3rem 0 .3rem .85rem; position:relative}
+.cq-i::before{content:''; position:absolute; left:0; top:.85rem; width:5px; height:5px;
+  border-radius:50%; background:#dc2626}
+.cq-i b{color:var(--azul-osc)}
+.cq-cierre{background:var(--azul-claro); border:1px solid #cfe3f2; border-radius:11px; padding:.8rem .85rem;
+  font-size:.82rem; color:var(--azul-osc); line-height:1.65; margin-top:.4rem}
 /* ---- Selector de articulador ---- */
 .ruta-item{align-items:center}
 .ruta-det{display:block; font-style:normal; font-size:.74rem; color:var(--gris); line-height:1.55; margin-top:.28rem}
@@ -2520,7 +2542,7 @@ function buscarRespuesta(preguntaOriginal){
   // El glosario compite con su puntaje real, no con un valor fijo
   const gl = buscarGlosario(preguntaOriginal);
   if(gl && ultimoPuntajeGlosario >= mejorPuntos){
-    return `<b>${gl.t}</b><br><span class="gl-grupo">${gl.g} · glosario de materiales</span><br><br>${gl.d}`;
+    return `<b>${gl.t}</b><br><span class="gl-grupo">${gl.g} · glosario</span><br><br>${gl.d}`;
   }
   return mejorPuntos >= 3 ? mejor : null;
 }
@@ -2597,7 +2619,7 @@ function enviarPregunta(){
     const logi = respuestaLogistica(val);
     if(logi){ agregarBot(logi); return; }
 
-    agregarBot(`Eso todavía no lo tengo en el material que me cargó el Dr. Alvarado 🤔<br><br>Manejo los <b>11 temas del curso</b>: anatomía de la ATM, fotografía clínica, interferencias, trabajo y balance, oclusión patológica, clases I a V, trastornos de la ATM, trastornos musculares, hábitos parafuncionales, articulador y férulas oclusales.<br><br>También el <b>glosario de materiales</b>: fraguado, gelificación, polimerización, grabado, alginato, yesos, ceras y siliconas. Y el <b>calendario, exámenes y prácticas</b>.<br><br>Si tu duda va más al fondo, acércate al Dr. Alvarado — para eso está.`);
+    agregarBot(`Eso todavía no lo tengo en el material que me cargó el Dr. Alvarado 🤔<br><br>Manejo los <b>11 temas del curso</b>: anatomía de la ATM, fotografía clínica, interferencias, trabajo y balance, oclusión patológica, clases I a V, trastornos de la ATM, trastornos musculares, hábitos parafuncionales, articulador y férulas oclusales.<br><br>También el <b>glosario</b>: fraguado, polimerización, grabado, alginato, yesos, cúspides de trabajo y balance, y clasificación de Angle. Y el <b>calendario, exámenes y prácticas</b>.<br><br>Si tu duda va más al fondo, acércate al Dr. Alvarado — para eso está.`);
   }, 500 + Math.random()*400);
 }
 
@@ -3639,9 +3661,9 @@ const RUTAS = {
         sub:"Antes de la fresa, el diagnóstico.",
         intro:"Decidir <b>si</b> se interviene es tan importante como decidir <b>cómo</b>. No toda lesión requiere fresa.",
         items:[
-          "Explorar la superficie seca y bien iluminada; evitar presionar con el explorador en fosetas",
+          { t:"Explorar la superficie seca y bien iluminada; evitar presionar con el explorador en fosetas", img:"res_dx_exploracion.webp" },
           "Clasificar la lesión: extensión, superficie afectada, actividad",
-          "Tomar radiografía periapical con XCP para valorar extensión y relación con la pulpa",
+          { t:"Tomar radiografía periapical con XCP para valorar extensión y relación con la pulpa", img:"res_dx_radiografia.webp" },
           "Valorar vitalidad pulpar y sintomatología",
           "Evaluar el riesgo de caries del paciente, no solo el diente",
           "Decidir si el caso es de operatoria o requiere endodoncia",
@@ -3665,7 +3687,7 @@ const RUTAS = {
           "Verificar antecedentes médicos y alergias antes de anestesiar",
           "Seleccionar técnica anestésica adecuada al diente",
           "Verificar la anestesia antes de iniciar",
-          "Colocar dique de hule con grapa apropiada",
+          { t:"Colocar dique de hule con grapa apropiada", img:"res_aislamiento.webp" },
           "Confirmar que el campo esté seco y el diente accesible",
           "Proteger dientes vecinos con banda matriz si aplica"
         ],
@@ -3689,14 +3711,14 @@ const RUTAS = {
         intro:"La preparación moderna es <b>mínimamente invasiva</b>: se elimina tejido infectado, no todo el tejido afectado.",
         alerta:"<b>Nunca dirijas aire directo sobre la dentina expuesta.</b> La dentina no es un tejido inerte: sus túbulos están llenos de fluido en contacto con las prolongaciones de los odontoblastos. El aire deseca los túbulos y provoca un movimiento brusco de ese fluido hacia afuera, que estimula las fibras nerviosas del complejo pulpo-dentinario — ese es el mecanismo hidrodinámico del dolor. La desecación repetida puede aspirar los núcleos de los odontoblastos hacia los túbulos y provocar su muerte celular, además de inflamación pulpar y sensibilidad postoperatoria. En técnica adhesiva hay un daño adicional: sobre-secar colapsa la red de colágeno desmineralizada e impide que el adhesivo la infiltre, lo que reduce la fuerza de unión y favorece la filtración marginal. Seca con algodón o con aire indirecto y suave, dejando la dentina <b>húmeda pero sin encharcar</b>.",
         items:[
-          "Acceso a la lesión con fresa adecuada y refrigeración constante",
+          { t:"Acceso a la lesión con fresa adecuada y refrigeración constante", img:"res_acceso_fresa.webp" },
           "Eliminar dentina infectada (blanda, desorganizada)",
           "Conservar dentina afectada remineralizable en zona pulpar",
           "Verificar la eliminación con detector de caries o criterio táctil",
           "Revisar y biselar márgenes de esmalte según el material a usar",
           "Eliminar prismas de esmalte sin soporte dentinario",
           "Verificar que no queden socavados que impidan la restauración",
-          "Limpiar la cavidad antes de continuar"
+          { t:"Limpiar la cavidad antes de continuar", img:"res_cavidad_limpia.webp" }
         ],
         materiales:[
           "🔧 Pieza de mano de alta velocidad (con refrigeración)",
@@ -3718,12 +3740,12 @@ const RUTAS = {
         sub:"Cuidar la pulpa según la profundidad.",
         intro:"La decisión depende de la <b>proximidad pulpar</b>. No toda cavidad requiere base ni recubrimiento.",
         items:[
-          "Evaluar la profundidad real de la cavidad",
+          { t:"Evaluar la profundidad real de la cavidad", img:"res_profundidad.webp" },
           "Cavidad superficial o media: puede no requerir recubrimiento",
           "Cavidad profunda: recubrimiento indirecto en la zona más profunda",
           "Exposición pulpar: valorar recubrimiento directo o tratamiento pulpar",
-          "Aplicar el material solo donde se necesita, sin cubrir márgenes adhesivos",
-          "Verificar el fraguado antes de continuar"
+          { t:"Aplicar el material solo donde se necesita, sin cubrir márgenes adhesivos", img:"res_proteccion.webp" },
+          { t:"Verificar el fraguado antes de continuar", img:"res_fraguado_liner.webp" }
         ],
         materiales:[
           "Hidróxido de calcio (tipo Dycal) o MTA",
@@ -3741,12 +3763,13 @@ const RUTAS = {
         intro:"Aquí se recupera la anatomía. Una restauración sin anatomía correcta genera interferencias oclusales.",
         items:[
           "Colocar matriz y cuña para restablecer el punto de contacto",
-          "Grabado ácido según protocolo del sistema adhesivo",
-          "Aplicar adhesivo y fotopolimerizar el tiempo indicado",
-          "Colocar el material en incrementos para controlar la contracción",
-          "Fotopolimerizar cada incremento por separado",
+          { t:"Grabado ácido según protocolo del sistema adhesivo", img:"res_grabado.webp" },
+          { t:"Aplicar adhesivo y fotopolimerizar el tiempo indicado", img:"res_adhesivo.webp" },
+          { t:"Colocar el material en incrementos para controlar la contracción", img:"res_incrementos.webp" },
+          { t:"Fotopolimerizar cada incremento por separado", img:"res_fotocurado.webp" },
           "Reproducir la anatomía oclusal: cúspides, surcos y fosas",
-          "Verificar el punto de contacto interproximal con hilo dental",
+          { t:"Verificar el punto de contacto interproximal con hilo dental",
+        d:"El hilo debe entrar con una resistencia clara y salir sin desgarrarse. Si pasa de corrido, el punto quedó abierto y hay que rehacerlo: no se corrige puliendo. Este es también el momento de revisar que la anatomía reproduzca las cúspides de trabajo y respete las de balance." },
           "Retirar matriz y revisar excesos cervicales"
         ],
         materiales:[
@@ -3773,10 +3796,10 @@ const RUTAS = {
         items:[
           "Eliminar excesos con fresas de acabado y refrigeración",
           "Definir surcos y anatomía secundaria",
-          "Pulir con secuencia de discos, gomas o pastas según el material",
+          { t:"Pulir con secuencia de discos, gomas o pastas según el material", img:"res_pulido.webp" },
           "Revisar márgenes con explorador: no debe haber escalones",
           "Verificar ausencia de excesos cervicales con radiografía si aplica",
-          "Comprobar el pulido con aire e iluminación tangencial"
+          { t:"Comprobar el pulido con aire e iluminación tangencial", img:"res_acabado_final.webp" }
         ],
         materiales:[
           "Fresas de acabado de grano fino (12-30 hojas)",
@@ -3796,7 +3819,7 @@ const RUTAS = {
         alerta:"Nunca termines una restauración sin <b>papel articular</b> y sin verificar el <b>punto de contacto con hilo dental</b>. Son dos minutos que evitan un paciente con dolor, una impactación alimentaria o una interferencia que termine en la ATM. Aquí es donde la oclusión deja de ser teoría y se vuelve clínica.",
         items:[
           "Retirar el aislamiento antes de verificar la oclusión",
-          "Marcar contactos en máxima intercuspidación con papel articular",
+          { t:"Marcar contactos en máxima intercuspidación con papel articular", img:"res_oclusion_marcas.webp" },
           "Verificar que los contactos sean simultáneos y bilaterales",
           "Comprobar movimientos de lateralidad: lado de trabajo y de balance",
           "Eliminar interferencias en el lado de balance",
@@ -3824,7 +3847,7 @@ const RUTAS = {
           "Abordar la causa: dieta, higiene, riesgo de caries",
           "Registrar el procedimiento completo en el expediente",
           "Programar cita de control",
-          "En el control: verificar oclusión, contacto, sensibilidad y márgenes"
+          { t:"En el control: verificar oclusión, contacto, sensibilidad y márgenes", img:"res_control.webp" }
         ],
         materiales:[
           "Formato de indicaciones post-operatorias",
@@ -4231,6 +4254,70 @@ const ETIQUETA_RUTA = {
   montaje:"Articulador"
 };
 
+/* -------- ¿Qué pasa si no lo hago? --------
+   Consecuencias clínicas de omitir un paso crítico. Se abre desde la etapa. */
+const CONSECUENCIAS = {
+  op_restauracion: {
+    titulo: "Punto de contacto, cúspides y anatomía",
+    intro: "Estos tres puntos son los que más se descuidan por prisa y los que más problemas generan después. Ninguno se arregla puliendo: se arregla rehaciendo.",
+    bloques: [
+      { t:"Si dejas el punto de contacto abierto", ico:"🍖", items:[
+        "<b>Impactación alimentaria</b> en cada comida. El paciente lo va a notar desde el primer día.",
+        "<b>Inflamación de la papila</b>, que sangra al cepillar y evoluciona a gingivitis localizada.",
+        "Si se mantiene: <b>pérdida ósea interproximal</b> y bolsa periodontal.",
+        "<b>Caries interproximal</b> en el diente vecino, que no la tenía antes de que tú lo trataras.",
+        "<b>Migración dentaria</b> y pérdida de longitud de arco.",
+        "El hilo dental es el juez: si entra sin resistencia, el contacto no existe."
+      ]},
+      { t:"Si no respetas las cúspides de trabajo", ico:"⬇️", items:[
+        "Son las <b>palatinas superiores y vestibulares inferiores</b>: las que sostienen la oclusión.",
+        "<b>Si quedas corto</b>: pierdes contacto oclusal. El antagonista <b>extruye</b>, se pierde dimensión vertical en ese sector y los dientes vecinos quedan sobrecargados.",
+        "<b>Si quedas alto</b>: contacto prematuro. Dolor a la percusión, movilidad, dolor muscular y riesgo de <b>fractura</b> de la restauración o de la cúspide antagonista.",
+        "El paciente que dice “siento raro al morder” casi siempre tiene esto."
+      ]},
+      { t:"Si dejas contacto en el lado de balance", ico:"⚠️", items:[
+        "Las cúspides de balance son las <b>vestibulares superiores y linguales inferiores</b>. En excursión no deberían tocar.",
+        "Un contacto de balance actúa como <b>fulcro</b>: genera una palanca sobre el diente y la articulación.",
+        "Es el contacto <b>más lesivo</b> de todos. Se asocia a dolor muscular, sobrecarga articular y fractura de restauraciones.",
+        "Se detecta en lateralidad, no en máxima intercuspidación. Si solo marcas en MIC, no lo vas a ver."
+      ]},
+      { t:"Si no reproduces la anatomía", ico:"🦷", items:[
+        "Sin <b>surcos de desarrollo</b> el alimento no tiene por dónde escapar: se retiene y sobrecarga.",
+        "Cúspides <b>planas</b>: menor eficiencia masticatoria y el paciente compensa apretando más.",
+        "Anatomía <b>sobrecontorneada</b>: genera interferencias en los movimientos excéntricos.",
+        "<b>Vertientes mal orientadas</b>: desvían la trayectoria de cierre y pueden inducir un deslizamiento que antes no existía.",
+        "Una restauración no es un tapón. Es la reconstrucción de una superficie que participa en la función."
+      ]}
+    ],
+    cierre: "Estos tres detalles son la razón por la que operatoria y oclusión no son materias separadas. Una restauración técnicamente bien hecha pero oclusalmente mal terminada es una restauración mal hecha."
+  }
+};
+
+function abrirConsecuencias(id){
+  const c = CONSECUENCIAS[id];
+  if(!c) return;
+  const bloques = c.bloques.map(b=>`
+    <div class="cq-bloque">
+      <div class="cq-t"><span>${b.ico}</span>${b.t}</div>
+      ${b.items.map(i=>`<div class="cq-i">${i}</div>`).join('')}
+    </div>`).join('');
+  const cuerpo = `
+    <div class="cq-intro">${c.intro}</div>
+    ${bloques}
+    <div class="cq-cierre">${c.cierre}</div>`;
+  abrirSubScreen(pantallaAnterior, c.titulo, cuerpo);
+}
+
+function botonConsecuencias(id){
+  return CONSECUENCIAS[id]
+    ? `<button class="cq-btn" onclick="abrirConsecuencias('${id}')">
+         <span class="cq-btn-ico">⚠️</span>
+         <span class="cq-btn-txt"><b>¿Qué pasa si no lo hago?</b><small>Consecuencias clínicas de omitir estos pasos</small></span>
+         <span class="cq-btn-flecha">›</span>
+       </button>`
+    : '';
+}
+
 let rutaActual = "caso";
 
 function etapasRuta(){ return RUTAS[rutaActual].etapas; }
@@ -4472,7 +4559,8 @@ function pintarModoPractica(){
       ${e.alerta ? `<div class="mp-alerta">⚠️ ${e.alerta}</div>` : ''}
       <div class="mp-h">🧰 Antes de empezar, reúne esto</div>
       ${lista}
-      ${mats.length && faltan > 0 ? `<div class="mp-faltan">Te faltan ${faltan} de ${mats.length}</div>` : ''}`;
+      ${mats.length && faltan > 0 ? `<div class="mp-faltan">Te faltan ${faltan} de ${mats.length}</div>` : ''}
+      ${botonConsecuencias(e.id)}`;
   } else {
     // Pantalla de un paso
     const sig = pasos.slice(mpPaso+1, mpPaso+3);
@@ -4486,6 +4574,7 @@ function pintarModoPractica(){
         </button>` : ''}
       ${detItem(pasos[mpPaso]) ? `<div class="mp-det">${detItem(pasos[mpPaso])}</div>` : ''}
       ${hechos.includes(mpPaso) ? '<div class="mp-yahecho">✓ Ya lo marcaste antes</div>' : ''}
+      ${mpPaso === pasos.length-1 ? botonConsecuencias(e.id) : ''}
       ${mpPaso === pasos.length-1 && notaEtapa(e) ? `<div class="mp-nota">💡 ${notaEtapa(e)}</div>` : ''}
       ${sig.length ? `<div class="mp-sig"><div class="mp-sig-t">Después viene</div>${sig.map(x=>`<div class="mp-sig-i">${txtItem(x)}</div>`).join('')}</div>` : ''}`;
   }
@@ -4738,6 +4827,7 @@ function abrirRuta(origen, abierta, cual){
             <div class="mat-titulo" style="margin-top:.7rem">✅ Pasos del procedimiento</div>
             ${items}
             ${(rutaActual==='montaje' && (e.id==='marco'||e.id==='msup')) ? selectorArticulador(origen) : ''}
+            ${botonConsecuencias(e.id)}
             ${notaEtapa(e) ? `<div class="ruta-nota">💡 ${notaEtapa(e)}</div>` : ''}
           </div>` : ''}
       </div>`;
@@ -5099,7 +5189,7 @@ const GLOSARIO = [
   d:"Aplicación de <b>ácido ortofosfórico al 32 a 37%</b> para desmineralizar selectivamente la superficie dentaria y crear microporosidades donde el adhesivo se traba.<br><br>Tiempos de referencia:<br>• <b>Esmalte</b>: 15 a 30 segundos<br>• <b>Dentina</b>: 15 segundos como máximo<br><br>Sobregrabar dentina colapsa las fibras de colágeno y <b>empeora</b> la adhesión. En esmalte el resultado visible es el aspecto blanco tiza al secar."},
  {g:"Adhesión", t:"Capa híbrida", kw:["capa hibrida","hibridacion","nakabayashi","adhesion humeda"],
   d:"Zona de interpenetración entre la dentina desmineralizada y la resina adhesiva. Es el mecanismo real de la adhesión a dentina, descrito por Nakabayashi.<br><br>Requiere que el colágeno expuesto no se colapse: de ahí la técnica de <b>adhesión húmeda</b>, secando sin desecar."},
- {g:"Adhesión", t:"Barrillo dentinario", kw:["barrillo dentinario","smear layer","barrillo"],
+ {g:"Adhesión", t:"Barrillo dentinario", kw:["barrillo dentinario","smear layer","barrillo","limalla dentinaria","limalla","capa de frotis","detritus dentinario"],
   d:"Capa de detritus de <b>1 a 2 micras</b> que queda sobre la dentina tras el corte con instrumental rotatorio. Obstruye los túbulos.<br><br>Los sistemas de <b>grabado total</b> lo eliminan; los <b>autograbantes</b> lo modifican e incorporan."},
  {g:"Comportamiento", t:"Sinéresis", kw:["sineresis","perdida de agua del alginato"],
   d:"El gel <b>pierde agua</b> y exuda líquido, por lo que la impresión se <b>contrae</b>. Ocurre si el alginato se deja al aire.<br><br>Junto con la imbibición, es la razón de vaciar dentro de los primeros 15 minutos."},
@@ -5121,6 +5211,14 @@ const GLOSARIO = [
   d:"Aumento de volumen durante el endurecimiento. En yeso depende del tipo: <b>tipo II</b> alrededor de 0.3%, <b>tipo III</b> entre 0.15 y 0.20%, <b>tipo IV</b> cerca de 0.10%.<br><br>Menor expansión significa mayor precisión, y por eso los troqueles se hacen en tipo IV."},
  {g:"Comportamiento", t:"Relación agua/polvo", kw:["relacion agua polvo","agua polvo","proporcion","dosificacion"],
   d:"Proporción entre líquido y polvo de la mezcla. Es el factor que <b>más determina</b> las propiedades finales.<br><br>Más agua de la indicada baja la resistencia de forma drástica y alarga el fraguado. Es el error más común y el más costoso: se pesa el polvo y se mide el agua, nunca a ojo."},
+ {g:"Oclusión", t:"Cúspides de trabajo", kw:["cuspides de trabajo","cuspide de trabajo","cuspides de soporte","cuspides centricas","cuspides funcionales"],
+  d:"También llamadas <b>cúspides de soporte</b>, céntricas o funcionales. Son las que mantienen la dimensión vertical y reciben la carga.<br><br>• En el <b>maxilar</b>: las <b>palatinas</b><br>• En la <b>mandíbula</b>: las <b>vestibulares</b><br><br>Ocluyen contra fosas y rebordes marginales del antagonista. Son más redondeadas y voluminosas, porque están hechas para soportar carga y no para cortar.<br><br>Regla para recordarlo: las de soporte son las que quedan <b>hacia adentro arriba y hacia afuera abajo</b>."},
+ {g:"Oclusión", t:"Cúspides de balance", kw:["cuspides de balance","cuspide de balance","cuspides no centricas","cuspides de corte","cuspides guia"],
+  d:"También llamadas <b>no céntricas</b>, de corte o guía. No participan en el soporte de la oclusión.<br><br>• En el <b>maxilar</b>: las <b>vestibulares</b><br>• En la <b>mandíbula</b>: las <b>linguales</b><br><br>Son más afiladas y su función es cortar y contener el bolo alimenticio. En una oclusión ideal <b>no contactan</b> en máxima intercuspidación.<br><br>⚠️ <b>No las confundas con el lado de balance.</b> Las <b>cúspides</b> de balance son las mismas siempre, en cualquier momento. El <b>lado</b> de balance es el lado hacia el que <i>no</i> se mueve la mandíbula durante una lateralidad, y va cambiando según el movimiento. Son dos conceptos distintos que comparten palabra."},
+ {g:"Oclusión", t:"Clasificación de Angle", kw:["angle","clasificacion de angle","clase molar","clase i","clase ii","clase iii","relacion molar"],
+  d:"Describe la <b>relación anteroposterior</b> entre las arcadas, tomando como referencia el primer molar permanente.<br><br><b>Clase I</b><br>La <b>cúspide mesiovestibular del primer molar superior</b> ocluye en el <b>surco mesiovestibular del primer molar inferior</b>. Es la relación considerada normal.<br><br><b>Clase II</b><br>El surco del molar inferior queda por <b>distal</b> respecto a esa cúspide: la arcada inferior está retrasada. Se subdivide en dos:<br>• <b>División 1</b>: incisivos superiores proinclinados, resalte aumentado<br>• <b>División 2</b>: centrales superiores retroinclinados, laterales vestibularizados, sobremordida profunda<br><br><b>Clase III</b><br>El surco del molar inferior queda por <b>mesial</b> respecto a esa cúspide: la arcada inferior está adelantada.<br><br>⚠️ <b>No es la misma clasificación</b> que las Clases I a V del Tema 6. Angle describe relación <b>molar</b>; las Clases I a V describen la <b>dirección de la desviación mandibular</b> respecto a la posición de referencia."},
+ {g:"Oclusión", t:"Relación canina", kw:["relacion canina","clase canina","canina clase i","clase canina ii","clase canina iii"],
+  d:"Complementa a la relación molar y suele ser más fácil de valorar en clínica, porque el canino es visible aunque falten molares.<br><br><b>Clase I</b><br>La cúspide del <b>canino superior</b> ocluye en la <b>tronera entre el canino y el primer premolar inferiores</b>.<br><br><b>Clase II</b><br>La cúspide del canino superior queda por <b>mesial</b> de esa tronera, es decir, más adelante.<br><br><b>Clase III</b><br>Queda por <b>distal</b>, más atrás.<br><br>Cuando la relación molar y la canina no coinciden, hay que documentar ambas: la discrepancia suele indicar pérdida de espacio o migración dentaria."},
  {g:"Materiales", t:"Alginato", kw:["alginato","hidrocoloide irreversible","material de impresion alginato"],
   d:"Material de impresión del grupo de los <b>hidrocoloides irreversibles</b>. Endurece por <b>gelificación química</b>: reaccionan el alginato de sodio y el sulfato de calcio.<br><br>• <b>Mezclado</b>: 45 segundos a 1 minuto<br>• <b>Fraguado en boca</b>: 2 a 3 minutos<br>• <b>Vaciado</b>: dentro de los primeros 15 minutos<br><br>Ventajas: barato, cómodo para el paciente, tolera humedad. Desventajas: <b>baja estabilidad dimensional</b> por sinéresis e imbibición, y detalle inferior al de las siliconas.<br><br>Se guarda en ambiente húmedo pero <b>sin sumergir</b>."},
  {g:"Materiales", t:"Agar", kw:["agar","hidrocoloide reversible"],
@@ -5175,7 +5273,7 @@ let ultimoPuntajeGlosario = 0;
 function respuestaGlosario(pregunta){
   const e = buscarGlosario(pregunta);
   if(!e) return null;
-  return `<b>${e.t}</b><br><span class="gl-grupo">${e.g} · glosario de materiales</span><br><br>${e.d}`;
+  return `<b>${e.t}</b><br><span class="gl-grupo">${e.g} · glosario</span><br><br>${e.d}`;
 }
 
 /* HTML de la ficha, generado del mismo arreglo */
@@ -5187,7 +5285,7 @@ function htmlGlosario(){
     g.items.push(e);
   });
   let h = `<p class="fi-intro">Estos términos se usan a diario en el laboratorio y muchas veces se confunden. Vale la pena tenerlos precisos: la diferencia entre <b>fraguado</b> y <b>polimerización</b> no es de estilo, son reacciones distintas.</p>
-  <div class="fi-nota">💬 También puedes preguntarle cualquiera de estos términos a Mikes Molares y te responde al momento.</div>`;
+  <div class="fi-nota">💬 Puedes preguntarle cualquiera de estos términos a Mikes Molares y te responde al momento, sin salir de donde estés.</div>`;
   grupos.forEach(g=>{
     h += `<div class="fi-h">${g.g}</div>`;
     g.items.forEach(e=>{
@@ -5261,8 +5359,8 @@ const FICHAS = [
 },
 {
   id:'glosario', icono:'📖',
-  titulo:'Glosario de materiales dentales',
-  sub:'Fraguado, polimerización, grabado y términos relacionados',
+  titulo:'Glosario de términos',
+  sub:'Materiales, adhesión y oclusión',
   tags:'fraguado gelificacion polimerizacion fotopolimerizacion grabado sinéresis imbibicion monomero curado viscosidad tixotropia exotermica contraccion acrilico yeso alginato',
   gen:'glosario'
 },
