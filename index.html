@@ -323,6 +323,7 @@ input{font-family:inherit}
 /* ===== SUBPANTALLAS (Ayuda / Calendario / Calificaciones) ===== */
 #subScreen{position:fixed; inset:0; z-index:50; background:#fff; display:none; flex-direction:column}
 #subScreen.show{display:flex}
+#subScreen.sobre-mp{z-index:140}
 .sub-header{flex-shrink:0; display:flex; align-items:center; gap:.7rem; padding:.85rem 1rem; background:var(--azul); color:#fff}
 .sub-header .back{width:34px; height:34px; border-radius:50%; color:#fff; font-size:1.25rem; display:flex; align-items:center; justify-content:center; flex-shrink:0}
 .sub-header .back:active{background:rgba(255,255,255,.15)}
@@ -389,8 +390,10 @@ body.mp-abierto{overflow:hidden}
 .ruta-thumb{flex:0 0 54px; width:54px; height:46px; object-fit:cover; border-radius:7px; border:1px solid var(--borde); background:#e8e8e0; margin-left:.5rem}
 /* Consulta rápida de términos */
 .consulta-fab{position:fixed; right:1rem; bottom:calc(1.2rem + env(safe-area-inset-bottom));
-  width:54px; height:54px; border-radius:50%; padding:0; overflow:hidden; z-index:60; display:none;
-  background:#fff; border:2.5px solid var(--teal); box-shadow:0 5px 18px rgba(9,82,135,.3)}
+  width:54px; height:54px; border-radius:50%; padding:0; overflow:hidden; z-index:125; display:none;
+  background:#fff; border:2.5px solid var(--teal); box-shadow:0 5px 18px rgba(9,82,135,.3);
+  transition:bottom .2s}
+.consulta-fab.alto{bottom:calc(5.6rem + env(safe-area-inset-bottom))}
 .consulta-fab.visible{display:block}
 .consulta-fab img{width:100%; height:100%; border-radius:50%; object-fit:cover; display:block}
 .consulta-fab:active{transform:scale(.94)}
@@ -482,6 +485,35 @@ body.mp-abierto{overflow:hidden}
 .quiz-res-barra{display:block; height:5px; background:#eef2f6; border-radius:99px; overflow:hidden; margin-top:.15rem}
 .quiz-res-barra i{display:block; height:100%; background:var(--teal); border-radius:99px}
 .quiz-res-flecha{font-size:1.3rem; color:var(--gris-claro); flex:0 0 auto}
+/* ---- Nota del profesor ---- */
+.profe-card{background:linear-gradient(135deg,#f0f7fc,#eafbfa); border:1.5px solid var(--teal);
+  border-radius:14px; padding:.85rem .9rem; margin:.9rem 0}
+.profe-cab{display:flex; align-items:center; gap:.6rem; margin-bottom:.6rem}
+.profe-ava{width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid var(--teal); flex:0 0 auto}
+.profe-quien{display:flex; flex-direction:column; line-height:1.3; min-width:0}
+.profe-quien b{font-family:'Fredoka'; font-size:.88rem; color:var(--azul-osc); font-weight:600}
+.profe-quien small{font-size:.68rem; color:var(--gris)}
+.profe-txt{font-size:.82rem; color:var(--tinta); line-height:1.7}
+.profe-txt b{color:var(--azul-osc)}
+/* ---- Listas dentro de un paso ---- */
+.mp-lista{display:flex; flex-direction:column; gap:.45rem; margin:.3rem 0 1rem}
+.mp-lista-i{display:flex; align-items:flex-start; gap:.65rem; width:100%; text-align:left; background:#fff;
+  border:1.5px solid var(--borde); border-radius:11px; padding:.75rem .8rem; font-size:.85rem;
+  color:var(--tinta); line-height:1.5}
+.mp-lista-i.on{border-color:var(--ok); background:#f0fdf4}
+.mp-lista-i.on .mp-chk{background:var(--ok); border-color:var(--ok)}
+.mp-lista-i.on .mp-chk::after{content:'✓'; position:absolute; inset:0; color:#fff; font-size:.8rem;
+  display:flex; align-items:center; justify-content:center}
+.mp-lista-i .mp-chk{flex:0 0 22px; width:22px; height:22px; border:2px solid var(--gris-claro);
+  border-radius:6px; position:relative; margin-top:.05rem}
+.mp-alerta.paso{margin-bottom:1rem}
+.ruta-sublista{display:block; font-style:normal; margin-top:.35rem}
+.ruta-sublista i{display:block; font-style:normal; font-size:.73rem; color:var(--gris); line-height:1.5;
+  padding:.12rem 0 .12rem .7rem; position:relative}
+.ruta-sublista i::before{content:''; position:absolute; left:0; top:.6rem; width:4px; height:4px;
+  border-radius:50%; background:var(--teal)}
+.ruta-alerta{display:block; font-style:normal; font-size:.73rem; color:#9a3412; background:#fff7ed;
+  border:1px solid #fed7aa; border-radius:8px; padding:.5rem .6rem; line-height:1.55; margin-top:.4rem}
 /* ---- ¿Qué pasa si no lo hago? ---- */
 .cq-btn{display:flex; align-items:center; gap:.65rem; width:100%; text-align:left; background:#fef2f2;
   border:1.5px solid #fecaca; border-radius:12px; padding:.75rem .8rem; margin:.8rem 0}
@@ -3652,214 +3684,236 @@ const RUTAS = {
   },
   operatoria: {
     nombre: "Ruta de operatoria dental",
-    matTitulo: "Kit de operatoria dental",
-    sub: "De la lesión al ajuste oclusal",
-    icono: "🔧",
+    matTitulo: "Material necesario",
+    sub: "Restauración con resina, paso a paso",
+    icono: "🦷",
     etapas: [
-      {
-        id:"op_dx", n:1, icono:"🔍", titulo:"Valoración y diagnóstico de la lesión",
-        sub:"Antes de la fresa, el diagnóstico.",
-        intro:"Decidir <b>si</b> se interviene es tan importante como decidir <b>cómo</b>. No toda lesión requiere fresa.",
-        items:[
-          { t:"Explorar la superficie seca y bien iluminada; evitar presionar con el explorador en fosetas", img:"res_dx_exploracion.webp" },
-          "Clasificar la lesión: extensión, superficie afectada, actividad",
-          { t:"Tomar radiografía periapical con XCP para valorar extensión y relación con la pulpa", img:"res_dx_radiografia.webp" },
+  {
+    id:"op_dx", n:1, icono:"🔍", titulo:"Valoración y diagnóstico de la lesión",
+    sub:"Antes de tocar la fresa.",
+    intro:"El diagnóstico define si el caso es tuyo o si necesita otro tratamiento. Una lesión mal valorada se convierte en una endodoncia a la semana siguiente.",
+    items:[
+      { t:"Explorar la superficie seca y bien iluminada", img:"res_dx_exploracion.webp",
+        d:"Evita presionar con el explorador en fosetas y fisuras: puedes cavitar una lesión incipiente que todavía era remineralizable." },
+      { t:"Tomar radiografía periapical con XCP", img:"res_dx_radiografia.webp",
+        d:"Valora extensión de la lesión y su relación con la cámara pulpar.",
+        alerta:"Si la lesión se observa muy en relación con la cámara pulpar, hay <b>alta probabilidad de comunicación</b>. Haz el interrogatorio necesario para descartar pulpitis o necrosis: tipo de dolor, si es espontáneo o provocado, cuánto dura, si despierta al paciente.<br><br>Y <b>revisa siempre la raíz</b>. Ante una imagen radiolúcida periapical, descarta por completo el tratamiento de operatoria convencional: ese diente necesita endodoncia." },
+      { t:"Completar el diagnóstico",
+        lista:[
+          "Clasificar la lesión: extensión, superficie afectada y actividad",
           "Valorar vitalidad pulpar y sintomatología",
-          "Evaluar el riesgo de caries del paciente, no solo el diente",
-          "Decidir si el caso es de operatoria o requiere endodoncia",
+          "Evaluar el riesgo de caries del paciente, no solo del diente",
           "Registrar el hallazgo en el odontograma"
-        ],
-        materiales:[
-          "Radiografía periapical",
-          "XCP (posicionador) para toma de radiografía periapical",
-          "Negatoscopio o visor digital",
-          "Odontograma",
-          "Detector de caries (opcional)"
-        ],
-        nota:"Una lesión incipiente no cavitada puede remineralizarse. Intervenir de más también es un error clínico."
-      },
-      {
-        id:"op_prep", n:2, icono:"📋", titulo:"Preparación del paciente y del campo",
-        sub:"Consentimiento, anestesia y aislamiento.",
-        intro:"El aislamiento no es opcional en operatoria adhesiva: la humedad es la causa más común de fracaso de una restauración.",
-        items:[
+        ]},
+      { t:"Decidir: ¿operatoria o endodoncia?",
+        d:"Es la decisión que sostiene todo lo demás. Si hay duda razonable de compromiso pulpar, es mejor detenerse aquí que descubrirlo con la cavidad abierta." }
+    ],
+    materiales:[
+      "Espejo, explorador y pinzas",
+      "Radiografías periapicales y XCP",
+      "Jeringa de aire y agua",
+      "Odontograma o expediente"
+    ],
+    nota:"Un diagnóstico apurado se paga con una endodoncia."
+  },
+  {
+    id:"op_prep", n:2, icono:"🛡️", titulo:"Preparación del paciente y del campo",
+    sub:"Anestesia y aislamiento.",
+    intro:"El aislamiento no es un lujo ni un trámite: es lo que hace posible la adhesión. Sin campo seco, la resina falla aunque todo lo demás esté bien.",
+    items:[
+      { t:"Antes de anestesiar",
+        lista:[
           "Explicar el procedimiento y obtener consentimiento",
-          "Verificar antecedentes médicos y alergias antes de anestesiar",
-          "Seleccionar técnica anestésica adecuada al diente",
-          "Verificar la anestesia antes de iniciar",
-          { t:"Colocar dique de hule con grapa apropiada", img:"res_aislamiento.webp" },
-          "Confirmar que el campo esté seco y el diente accesible",
-          "Proteger dientes vecinos con banda matriz si aplica"
-        ],
-        materiales:[
-          "Anestésico local en cartucho",
-          "Jeringa carpule",
-          "Agujas cortas y largas",
-          "Anestésico tópico y aplicador",
-          "Dique de hule",
-          "Grapas surtidas y portagrapas",
-          "Arco de Young",
-          "Perforadora de dique",
-          "Hilo dental para asentar el dique",
-          "Tijeras"
-        ],
-        nota:"Si no puedes aislar bien, la restauración adhesiva va a fallar. Resuelve el aislamiento antes de continuar."
-      },
-      {
-        id:"op_cavidad", n:3, icono:"⚙️", titulo:"Preparación cavitaria",
-        sub:"Eliminar lo enfermo, conservar lo sano.",
-        intro:"La preparación moderna es <b>mínimamente invasiva</b>: se elimina tejido infectado, no todo el tejido afectado.",
-        alerta:"<b>Nunca dirijas aire directo sobre la dentina expuesta.</b> La dentina no es un tejido inerte: sus túbulos están llenos de fluido en contacto con las prolongaciones de los odontoblastos. El aire deseca los túbulos y provoca un movimiento brusco de ese fluido hacia afuera, que estimula las fibras nerviosas del complejo pulpo-dentinario — ese es el mecanismo hidrodinámico del dolor. La desecación repetida puede aspirar los núcleos de los odontoblastos hacia los túbulos y provocar su muerte celular, además de inflamación pulpar y sensibilidad postoperatoria. En técnica adhesiva hay un daño adicional: sobre-secar colapsa la red de colágeno desmineralizada e impide que el adhesivo la infiltre, lo que reduce la fuerza de unión y favorece la filtración marginal. Seca con algodón o con aire indirecto y suave, dejando la dentina <b>húmeda pero sin encharcar</b>.",
-        items:[
-          { t:"Acceso a la lesión con fresa adecuada y refrigeración constante", img:"res_acceso_fresa.webp" },
-          "Eliminar dentina infectada (blanda, desorganizada)",
-          "Conservar dentina afectada remineralizable en zona pulpar",
-          "Verificar la eliminación con detector de caries o criterio táctil",
-          "Revisar y biselar márgenes de esmalte según el material a usar",
+          "Verificar antecedentes médicos y alergias",
+          "Seleccionar la técnica anestésica adecuada al diente"
+        ]},
+      { t:"Verificar la anestesia antes de colocar la grapa",
+        d:"No basta con preguntar si siente el labio dormido. Comprueba la zona donde va a asentar la grapa, que es encía y no diente." },
+      { t:"Colocar dique de hule con grapa apropiada", img:"res_aislamiento.webp",
+        d:"Selecciona la grapa según el diente y verifica que asiente en el cuello, estable y sin balancear.",
+        alerta:"Si el paciente no está bien anestesiado, la grapa va a <b>incomodar o doler</b>, porque en muchas ocasiones retrae parte de la encía. Esa retracción suele ser <b>reversible</b>.<br><br>Explícale antes de colocarla que va a <b>sentir presión</b>. Un paciente advertido tolera; un paciente sorprendido se mueve." },
+      { t:"Confirmar que el campo esté listo",
+        lista:[
+          "Campo seco y sin filtración de saliva",
+          "Diente completamente accesible",
+          "Dientes vecinos protegidos si vas a instrumentar cerca"
+        ]}
+    ],
+    materiales:[
+      "Anestésico y jeringa carpule",
+      "Dique de hule, arco y grapas",
+      "Perforadora y pinza portagrapas",
+      "Hilo dental para asentar el dique"
+    ],
+    alerta:"Sin aislamiento adecuado la adhesión falla. La humedad es el enemigo número uno de la resina."
+  },
+  {
+    id:"op_cavidad", n:3, icono:"⚙️", titulo:"Preparación cavitaria",
+    sub:"Eliminar lo enfermo, conservar lo sano.",
+    intro:"El principio es de mínima intervención: se elimina solo lo que no puede repararse. Cada milímetro de estructura sana que conservas es resistencia que el diente no va a tener que pedirle a la resina.",
+    items:[
+      { t:"Acceso a la lesión con fresa adecuada", img:"res_acceso_fresa.webp",
+        d:"Con refrigeración constante desde el primer contacto con el diente.",
+        alerta:"<b>Por qué la refrigeración no es opcional.</b><br><br>La fresa girando a alta velocidad genera <b>calor por fricción</b>. Ese calor atraviesa el esmalte y la dentina y <b>llega a la pulpa</b>, aunque tu fresa nunca se acerque a ella.<br><br>La pulpa es un tejido conectivo dentro de una cámara rígida: no puede expandirse. Al calentarse se inflama, y como no tiene a dónde crecer, la propia presión estrangula su circulación.<br><br>El resultado es una <b>pulpitis irreversible por daño térmico directo</b>. Un diente que llegó con una caries superficial y sale necesitando endodoncia, por algo que no tuvo nada que ver con la caries.<br><br>Y lo peor: no lo vas a notar en el momento. El paciente regresa días después con dolor espontáneo, y para entonces ya no hay marcha atrás.<br><br>Refrigeración abundante, presión intermitente y fresas en buen estado. Una fresa desgastada corta menos y calienta más." },
+      { t:"Eliminar dentina infectada y conservar la afectada",
+        d:"La <b>infectada</b> es blanda, desorganizada y se retira con cucharilla. La <b>afectada</b> es firme, puede estar pigmentada y es remineralizable: se conserva, sobre todo en la zona pulpar.<br><br>El criterio es la <b>consistencia, no el color</b>. Dentina oscura pero dura se queda." },
+      { t:"Verificar y refinar la preparación",
+        lista:[
+          "Comprobar la eliminación con detector de caries o criterio táctil",
+          "Revisar y biselar márgenes de esmalte según el material",
           "Eliminar prismas de esmalte sin soporte dentinario",
-          "Verificar que no queden socavados que impidan la restauración",
-          { t:"Limpiar la cavidad antes de continuar", img:"res_cavidad_limpia.webp" }
-        ],
-        materiales:[
-          "🔧 Pieza de mano de alta velocidad (con refrigeración)",
-          "🔧 Pieza de baja velocidad y contra-ángulo",
-          "💎 Fresa de diamante de bola — apertura y desgaste de esmalte",
-          "💎 Fresa troncocónica — conformar paredes y ángulos cavitarios",
-          "💎 Fresa cilíndrica — retenciones",
-          "💎 Fresa de cono invertido — pisos y retenciones",
-          "⚙️ Fresas de carburo — remoción de dentina cariada",
-          "Excavador o cucharilla de dentina afilada",
-          "Detector de caries",
-          "Godete",
-          "Algodón en rollos y torundas"
-        ],
-        nota:"La forma de la cavidad la dicta la lesión y el material, no un diseño rígido preestablecido."
-      },
-      {
-        id:"op_proteccion", n:4, icono:"🛡️", titulo:"Protección dentino-pulpar",
-        sub:"Cuidar la pulpa según la profundidad.",
-        intro:"La decisión depende de la <b>proximidad pulpar</b>. No toda cavidad requiere base ni recubrimiento.",
-        items:[
-          { t:"Evaluar la profundidad real de la cavidad", img:"res_profundidad.webp" },
-          "Cavidad superficial o media: puede no requerir recubrimiento",
-          "Cavidad profunda: recubrimiento indirecto en la zona más profunda",
-          "Exposición pulpar: valorar recubrimiento directo o tratamiento pulpar",
-          { t:"Aplicar el material solo donde se necesita, sin cubrir márgenes adhesivos", img:"res_proteccion.webp" },
-          { t:"Verificar el fraguado antes de continuar", img:"res_fraguado_liner.webp" }
-        ],
-        materiales:[
-          "Hidróxido de calcio (tipo Dycal) o MTA",
-          "Ionómero de vidrio para base",
-          "Aplicadores de Dycal",
-          "Espátula de cemento",
-          "Godete o loseta de vidrio",
-          "Lámpara de fotocurado"
-        ],
-        nota:"Cubrir toda la cavidad con base reduce la superficie de adhesión disponible. Menos es más."
-      },
-      {
-        id:"op_restauracion", n:5, icono:"🧱", titulo:"Restauración",
-        sub:"Reconstruir forma y función.",
-        intro:"Aquí se recupera la anatomía. Una restauración sin anatomía correcta genera interferencias oclusales.",
-        items:[
-          "Colocar matriz y cuña para restablecer el punto de contacto",
-          { t:"Grabado ácido según protocolo del sistema adhesivo", img:"res_grabado.webp" },
-          { t:"Aplicar adhesivo y fotopolimerizar el tiempo indicado", img:"res_adhesivo.webp" },
-          { t:"Colocar el material en incrementos para controlar la contracción", img:"res_incrementos.webp" },
-          { t:"Fotopolimerizar cada incremento por separado", img:"res_fotocurado.webp" },
-          "Reproducir la anatomía oclusal: cúspides, surcos y fosas",
-          { t:"Verificar el punto de contacto interproximal con hilo dental",
-        d:"El hilo debe entrar con una resistencia clara y salir sin desgarrarse. Si pasa de corrido, el punto quedó abierto y hay que rehacerlo: no se corrige puliendo. Este es también el momento de revisar que la anatomía reproduzca las cúspides de trabajo y respete las de balance." },
-          "Retirar matriz y revisar excesos cervicales"
-        ],
-        materiales:[
-          "🧪 Ácido grabador al 37%",
-          "🖌️ Microbrush (aplicador de primer y adhesivo)",
-          "Sistema adhesivo",
-          "Matriz metálica o transparente y portamatriz",
-          "Cuñas de madera o plástico",
-          "Resina compuesta (varios tonos y opacidades)",
-          "Espátula de teflón para resina",
-          "Godete",
-          "Algodón",
-          "Lámpara de fotopolimerización",
-          "Protector ocular naranja",
-          "Hilo dental",
-          "Para amalgama: portamalgamas, bruñidor, Hollenback, cleoid-discoide"
-        ],
-        nota:"Un punto de contacto deficiente causa impactación alimentaria y patología periodontal a mediano plazo."
-      },
-      {
-        id:"op_acabado", n:6, icono:"✨", titulo:"Acabado y pulido",
-        sub:"La superficie determina la longevidad.",
-        intro:"Una restauración rugosa acumula placa, se pigmenta y provoca inflamación gingival.",
-        items:[
-          "Eliminar excesos con fresas de acabado y refrigeración",
-          "Definir surcos y anatomía secundaria",
-          { t:"Pulir con secuencia de discos, gomas o pastas según el material", img:"res_pulido.webp" },
-          "Revisar márgenes con explorador: no debe haber escalones",
-          "Verificar ausencia de excesos cervicales con radiografía si aplica",
-          { t:"Comprobar el pulido con aire e iluminación tangencial", img:"res_acabado_final.webp" }
-        ],
-        materiales:[
-          "Fresas de acabado de grano fino (12-30 hojas)",
-          "Fresa de flama para acabado estético",
-          "Discos de pulido de secuencia decreciente",
-          "Gomas y puntas de silicona",
-          "Tiras de pulido interproximal",
-          "Pasta de pulido con cepillo o fieltro",
-          "Hilo dental"
-        ],
-        nota:"El escalón marginal que no se siente hoy es la caries secundaria del año que viene."
-      },
-      {
-        id:"op_oclusion", n:7, icono:"🦷", titulo:"Ajuste oclusal",
-        sub:"Aquí se conecta con Oclusión.",
-        intro:"Una restauración alta genera trauma oclusal, dolor a la percusión y puede desencadenar sintomatología de ATM. <b>Este paso no es opcional.</b>",
-        alerta:"Nunca termines una restauración sin <b>papel articular</b> y sin verificar el <b>punto de contacto con hilo dental</b>. Son dos minutos que evitan un paciente con dolor, una impactación alimentaria o una interferencia que termine en la ATM. Aquí es donde la oclusión deja de ser teoría y se vuelve clínica.",
-        items:[
-          "Retirar el aislamiento antes de verificar la oclusión",
-          { t:"Marcar contactos en máxima intercuspidación con papel articular", img:"res_oclusion_marcas.webp" },
-          "Verificar que los contactos sean simultáneos y bilaterales",
-          "Comprobar movimientos de lateralidad: lado de trabajo y de balance",
-          "Eliminar interferencias en el lado de balance",
-          "Verificar el movimiento de protrusión",
-          "Ajustar y volver a pulir toda superficie desgastada",
-          "Confirmar con el paciente que 'siente igual' al morder"
-        ],
-        materiales:[
-          "🔴 Papel articular de dos colores (rojo y azul)",
-          "🔴 Pinza de Miller",
-          "Fresas de ajuste oclusal (piedra o diamante fino)",
-          "Gomas de pulido para repulir lo ajustado",
-          "🔴 Hilo dental para verificar el punto de contacto"
-        ],
-        nota:"Preguntar al paciente si siente el diente alto NO sustituye al papel articular, pero tampoco lo ignores: la propiocepción periodontal detecta hasta 20 micras."
-      },
-      {
-        id:"op_control", n:8, icono:"📆", titulo:"Indicaciones y control",
-        sub:"El tratamiento no termina al levantar al paciente.",
-        intro:"El control permite detectar a tiempo lo que no se ve el mismo día.",
-        items:[
-          "Indicaciones post-operatorias claras y por escrito",
-          "Advertir sobre sensibilidad transitoria y cuándo consultar",
-          "Reforzar técnica de higiene en la zona restaurada",
-          "Abordar la causa: dieta, higiene, riesgo de caries",
-          "Registrar el procedimiento completo en el expediente",
-          "Programar cita de control",
-          { t:"En el control: verificar oclusión, contacto, sensibilidad y márgenes", img:"res_control.webp" }
-        ],
-        materiales:[
-          "Formato de indicaciones post-operatorias",
-          "Expediente clínico",
-          "Agenda para cita de control",
-          "Material didáctico de higiene"
-        ],
-        nota:"Restaurar sin controlar la causa garantiza que la lesión regrese. La operatoria trata el efecto, no la enfermedad."
-      }
+          "Verificar que no queden socavados que impidan la restauración"
+        ]},
+      { t:"Limpiar la cavidad antes de continuar",
+        d:"Restos de dentina y detritus interfieren con el adhesivo. Lava y seca sin desecar." }
+    ],
+    materiales:[
+      "Fresas redondas y de fisura",
+      "Cucharillas de dentina",
+      "Detector de caries",
+      "Pieza de alta y baja velocidad"
+    ],
+    alerta:"Eliminar más de lo necesario debilita el diente para siempre. No hay forma de reponer estructura sana."
+  },
+  {
+    id:"op_proteccion", n:4, icono:"🩹", titulo:"Protección dentino-pulpar",
+    sub:"Solo cuando hace falta.",
+    intro:"No toda cavidad necesita recubrimiento. Colocarlo por costumbre reduce la superficie de adhesión sin darle ningún beneficio al paciente.",
+    items:[
+      { t:"Evaluar la profundidad real de la cavidad", img:"res_profundidad.webp",
+        d:"Con la cavidad limpia y seca, valora cuánta dentina queda sobre la pulpa." },
+      { t:"Decidir según la profundidad",
+        lista:[
+          "Superficial o media: puede no requerir recubrimiento",
+          "Profunda: recubrimiento indirecto solo en la zona más profunda",
+          "Exposición pulpar: valorar recubrimiento directo o tratamiento pulpar"
+        ]},
+      { t:"Aplicar el material solo en la base", img:"res_proteccion.webp",
+        d:"Únicamente en el punto más profundo, sobre el asta pulpar. Nunca sobre márgenes ni paredes: ahí necesitas esmalte y dentina libres para adherir." },
+      { t:"Verificar que cubra solo la base y no las paredes", img:"res_fraguado_liner.webp",
+        d:"Si el material subió por las paredes, retíralo antes de grabar. Un margen contaminado es una filtración anunciada." }
+    ],
+    materiales:[
+      "Hidróxido de calcio o ionómero de vidrio",
+      "Aplicador de bolita o jeringa",
+      "Espátula pequeña"
+    ],
+    nota:"Menos recubrimiento y mejor sellado suele dar mejor resultado que cubrirlo todo."
+  },
+  {
+    id:"op_restauracion", n:5, icono:"🔷", titulo:"Restauración",
+    sub:"Adhesión, incrementos y anatomía.",
+    intro:"Aquí se decide si la restauración dura años o meses. La técnica adhesiva no admite atajos: cada paso tiene su tiempo y su razón.",
+    items:[
+      { t:"Colocar matriz y cuña si la lesión es interproximal",
+        d:"Solo si involucra la superficie proximal. En una cavidad estrictamente oclusal no hace falta, y colocarla estorba más de lo que ayuda." },
+      { t:"Grabado ácido según protocolo", img:"res_grabado.webp",
+        d:"Ácido ortofosfórico al 32-37%. Esmalte 15 a 30 segundos, dentina 15 como máximo. Sobregrabar dentina colapsa el colágeno y empeora la adhesión." },
+      { t:"Aplicar adhesivo y fotopolimerizar", img:"res_adhesivo.webp",
+        d:"Frota el adhesivo el tiempo que indique el fabricante, evapora el solvente con aire suave y fotocura. Un adhesivo mal evaporado deja burbujas." },
+      { t:"Colocar el material en incrementos", img:"res_incrementos.webp",
+        d:"Capas de 2 mm como máximo, oblicuas, evitando unir paredes opuestas. Es lo que controla el estrés de contracción." },
+      { t:"Fotopolimerizar cada incremento por separado", img:"res_fotocurado.webp",
+        d:"Lámpara cerca y perpendicular. Si el incremento es más grueso de lo debido, la base queda sin curar aunque la superficie se sienta dura." },
+      { t:"Reproducir la anatomía y verificar el punto de contacto",
+        d:"Talla cúspides, surcos y fosas: no es estética, es función. Después pasa hilo dental por interproximal: debe entrar con resistencia clara y salir sin desgarrarse. Si pasa de corrido, el punto quedó abierto y hay que rehacerlo, no pulirlo." },
+      { t:"Retirar dique y grapa, y verificar por interproximal",
+        d:"Con el aislamiento fuera, revisa la zona interproximal en busca de excesos o escalones. Un exceso ahí genera retención de alimento y filtración.",
+        profe:"Antes de seguir, dale un momento al paciente. Lleva un buen rato con la boca abierta y con la grapa puesta. Un minuto de descanso, que trague y cierre, y sigues con un paciente que colabora en vez de uno que ya se quiere ir." }
+    ],
+    materiales:[
+      "Ácido grabador y sistema adhesivo",
+      "Resina compuesta en varios tonos",
+      "Matriz y cuñas si es interproximal",
+      "Lámpara de fotocurado",
+      "Espátulas de resina e hilo dental"
     ]
   },
-
+  {
+    id:"op_acabado", n:6, icono:"✨", titulo:"Acabado y pulido",
+    sub:"Lo que evita pigmentación y placa.",
+    intro:"Una restauración rugosa retiene placa, se pigmenta y sus márgenes se degradan antes. El pulido no es cosmético.",
+    items:[
+      { t:"Dar forma definitiva",
+        lista:[
+          "Eliminar excesos con fresas de acabado y refrigeración",
+          "Definir surcos y anatomía secundaria"
+        ]},
+      { t:"Pulir con la secuencia completa", img:"res_pulido.webp",
+        d:"Discos, gomas o pastas según el material, de mayor a menor granulometría. Saltarse pasos deja rayado que se pigmenta." },
+      { t:"Verificar el acabado", img:"res_acabado_final.webp",
+        lista:[
+          "Revisar márgenes con explorador: no debe haber escalones",
+          "Verificar ausencia de excesos con radiografía si aplica",
+          "Comprobar el pulido con aire e iluminación tangencial"
+        ]}
+    ],
+    materiales:[
+      "Fresas de acabado multihojas",
+      "Discos de pulido",
+      "Gomas y pastas de pulido",
+      "Tiras de pulido interproximal"
+    ]
+  },
+  {
+    id:"op_oclusion", n:7, icono:"⚖️", titulo:"Ajuste oclusal",
+    sub:"Azul primero, rojo después.",
+    intro:"Esta es la etapa que convierte una obturación en una restauración. El orden importa: <b>el azul siempre va primero</b>, porque las marcas rojas solo tienen sentido cuando los contactos céntricos ya están estables.",
+    items:[
+      { t:"Dejar descansar al paciente y secar las superficies",
+        d:"El aislamiento ya se retiró. Deja que cierre, trague y descanse un momento antes de verificar: un paciente cansado no ocluye igual y vas a ajustar sobre una mordida falsa." },
+      { t:"Papel azul: cerrar en máxima intercuspidación", img:"res_oclusion_marcas.webp",
+        d:"Varias veces, con cierre firme. El azul registra la <b>oclusión estática</b>: los topes de carga vertical." },
+      { t:"Leer el azul",
+        d:"Buscas <b>puntos pequeños y definidos</b> en fosas centrales y sobre las cúspides de soporte. Una manchota extensa indica contacto excesivo.<br><br>Cuando el contacto es muy fuerte aparece un halo azul con un <b>centro claro</b>: ese centro es lo que realmente está cargando." },
+      { t:"Ajustar solo el centro claro de los halos",
+        d:"Desgasta únicamente el centro blanco, no toda la coloración azul. Si eliminas el halo completo, quitas un contacto que sí debía existir.<br><br>Meta: contactos <b>simultáneos y bilaterales</b>." },
+      { t:"Papel rojo: lateralidades y protrusiva",
+        d:"Ahora sí. Pide movimientos de lateralidad derecha, izquierda y protrusión. El rojo registra la <b>oclusión dinámica</b>." },
+      { t:"Leer el rojo",
+        d:"Tres criterios:<br><br>• <b>Rojo sobre azul</b>: elimina solo el rojo. El azul es el tope céntrico que sostiene la dimensión vertical.<br>• <b>Estrías rojas en posteriores</b>: no son aceptables. Indican vertientes cuspídeas defectuosas o mala morfología oclusal.<br>• <b>Rojo aislado en anteriores</b>: es la <b>guía anterior</b> y es deseable. Desocluye los posteriores y los protege. Nunca la elimines sin analizarla." },
+      { t:"Cerrar el ajuste",
+        lista:[
+          "Eliminar interferencias del lado de balance",
+          "Volver a pulir toda superficie desgastada",
+          "Confirmar con el paciente que siente igual al morder"
+        ]}
+    ],
+    materiales:[
+      "Papel articular azul y rojo",
+      "Pinza de Miller",
+      "Fresas de ajuste fino",
+      "Gomas de pulido"
+    ],
+    alerta:"Las marcas no deben caer en crestas marginales, en vertientes cuspídeas ni sobre el margen de la restauración. En crestas marginales astillan y favorecen impactación; en vertientes generan fuerzas laterales; sobre el margen aumentan el riesgo de fractura.",
+    nota:"Deben caer en fosas centrales y en cúspides de soporte: palatinas superiores y vestibulares inferiores."
+  },
+  {
+    id:"op_control", n:8, icono:"📅", titulo:"Indicaciones y control",
+    sub:"Lo que decide si el diente vuelve a cariarse.",
+    intro:"Termina el procedimiento, empieza el tratamiento. Lo que pase en los meses siguientes depende más de esta etapa que de la resina que usaste.",
+    items:[
+      { t:"Dar indicaciones postoperatorias claras",
+        d:"Por escrito. Advierte sobre sensibilidad transitoria, qué es normal, cuánto puede durar y en qué casos debe consultar antes de la cita de control." },
+      { t:"Abordar la causa: dieta, higiene y riesgo de caries",
+        profe:"Puedes hacer la mejor restauración de tu generación y ese diente volverá a cariarse si el paciente sigue haciendo lo mismo. Restaurar es tratar la lesión; cambiar el hábito es tratar la enfermedad.<br><br>Es incómodo, toma tiempo y muchos colegas lo omiten porque no se cobra. Pero es responsabilidad tuya como profesional de la salud, no del paciente que no sabe. Preguntar por la dieta, revisar la técnica de cepillado y explicar el riesgo individual toma cinco minutos, y es lo único de toda la consulta que puede evitar la siguiente.<br><br>El que solo obtura, tapa agujeros. El que además educa, trata pacientes." },
+      { t:"Cerrar el caso", img:"res_control.webp",
+        lista:[
+          "Reforzar la técnica de higiene en la zona restaurada",
+          "Registrar el procedimiento completo en el expediente",
+          "Anotar material, tono y lote utilizados",
+          "Programar cita de control",
+          "En el control: verificar oclusión, contacto, sensibilidad y márgenes"
+        ]}
+    ],
+    materiales:[
+      "Formato de indicaciones postoperatorias",
+      "Expediente clínico",
+      "Material didáctico de higiene"
+    ]
+  }
+    ]
+  },
   foto: {
     nombre: "Serie fotográfica clínica",
     matTitulo: "Equipo necesario",
@@ -4230,6 +4284,32 @@ function cambiarArticulador(id, origen){
 function txtItem(x){ return (x && typeof x === 'object') ? x.t : x; }
 function detItem(x){ return (x && typeof x === 'object' && x.d) ? x.d : ''; }
 function imgItem(x){ return (x && typeof x === 'object' && x.img) ? x.img : ''; }
+function listaItem(x){ return (x && typeof x === 'object' && x.lista) ? x.lista : null; }
+function alertaItem(x){ return (x && typeof x === 'object' && x.alerta) ? x.alerta : ''; }
+function profeItem(x){ return (x && typeof x === 'object' && x.profe) ? x.profe : ''; }
+
+/* Tarjeta del avatar con un mensaje del catedrático */
+function notaProfe(txt){
+  return `<div class="profe-card">
+      <div class="profe-cab">
+        <img class="js-avatar profe-ava" src="" alt="">
+        <div class="profe-quien"><b>Nota del Dr. Alvarado</b><small>Te la deja Mikes Molares</small></div>
+      </div>
+      <div class="profe-txt">${txt}</div>
+    </div>`;
+}
+
+/* Casillas de una lista dentro de un paso */
+function toggleLista(etapaId, paso, i){
+  const clave = etapaId + '_l' + paso;
+  const r = leerRuta();
+  r[clave] = r[clave] || [];
+  const pos = r[clave].indexOf(i);
+  if(pos >= 0) r[clave].splice(pos,1); else r[clave].push(i);
+  guardarRuta(r);
+  const el = $('lchk' + etapaId + '_' + paso + '_' + i);
+  if(el) el.parentElement.classList.toggle('on', pos < 0);
+}
 
 function itemsEtapa(e){
   if(rutaActual !== 'montaje') return e.items;
@@ -4257,6 +4337,46 @@ const ETIQUETA_RUTA = {
 /* -------- ¿Qué pasa si no lo hago? --------
    Consecuencias clínicas de omitir un paso crítico. Se abre desde la etapa. */
 const CONSECUENCIAS = {
+  op_cavidad: {
+    boton: "¿Qué pasa si comunico con la cámara pulpar?",
+    sub: "Qué hacer, en orden, si expones la pulpa",
+    ico: "🩸",
+    titulo: "Exposición pulpar",
+    intro: "Te va a pasar. Le pasa a todos, incluidos los que llevan veinte años. Lo que distingue a un buen clínico no es que nunca exponga una pulpa, sino lo que hace en los siguientes cinco minutos.",
+    bloques: [
+      { t:"Primero: detente y avisa", ico:"🛑", items:[
+        "<b>Deja de instrumentar.</b> No sigas “a ver si con un poco más se resuelve”. No se resuelve.",
+        "<b>Avisa de inmediato al Dr. o Dra. responsable de la clínica.</b> No al final del procedimiento, no cuando ya lo tapaste: <b>en ese momento</b>.",
+        "No es para que te regañen. Es parte del procedimiento: la decisión de qué hacer con una pulpa expuesta no le corresponde a un estudiante tomarla solo.",
+        "Ocultarlo es lo único verdaderamente imperdonable. Un diente expuesto y no reportado es un paciente que va a volver con dolor y sin explicación en su expediente.",
+        "<b>Mantén el aislamiento.</b> Es lo único que hace viable un recubrimiento directo. Si retiras el dique, contaminas la exposición y cierras esa puerta."
+      ]},
+      { t:"Mientras llega tu profesor", ico:"🩹", items:[
+        "<b>No laves con agua a presión</b> sobre la pulpa expuesta ni frotes con nada.",
+        "Controla la hemorragia con una <b>torunda estéril</b> humedecida en suero fisiológico o clorhexidina, con presión suave.",
+        "<b>Observa el sangrado</b>, porque es tu mejor indicador pronóstico: cuánto tarda en ceder, de qué color es y qué tan abundante.",
+        "No apliques nada más hasta que valoren juntos el caso."
+      ]},
+      { t:"Qué se va a valorar", ico:"🔬", items:[
+        "<b>Tamaño</b> de la exposición: menor a 1 mm tiene mejor pronóstico.",
+        "<b>Origen</b>: mecánica, al instrumentar en dentina sana, tiene mejor pronóstico que la cariosa, donde la pulpa ya venía contaminada.",
+        "<b>Hemorragia</b>: roja brillante y que cede en pocos minutos es buen signo. Oscura, abundante o que no cede sugiere pulpa comprometida.",
+        "<b>Antecedentes</b>: si el paciente ya refería dolor espontáneo o nocturno, la pulpa ya estaba en pulpitis irreversible antes de que tú entraras.",
+        "<b>Edad</b>: el paciente joven tiene mayor capacidad de reparación."
+      ]},
+      { t:"Los dos caminos posibles", ico:"🔀", items:[
+        "<b>Recubrimiento pulpar directo</b>: exposición pequeña, mecánica, en campo aislado, con hemorragia que cede y sin antecedente de dolor espontáneo. Se coloca el material biocompatible, se sella y se controla.",
+        "<b>Endodoncia</b>: exposición amplia, cariosa, hemorragia que no cede, o antecedente de pulpitis irreversible. Insistir con un recubrimiento aquí solo retrasa lo inevitable y le cuesta otra cita al paciente."
+      ]},
+      { t:"Y no importa cuál se elija", ico:"📝", items:[
+        "<b>Regístralo en el expediente</b>: momento en que ocurrió, tamaño aproximado, características del sangrado, material colocado y quién supervisó.",
+        "<b>Explícaselo al paciente</b> con palabras suyas, no con tecnicismos. Tiene derecho a saber qué pasó en su boca.",
+        "<b>Programa control</b> y dile qué signos deben hacerlo volver antes.",
+        "Un expediente completo te protege a ti y le da continuidad al tratamiento."
+      ]}
+    ],
+    cierre: "Exponer una pulpa no te hace mal estudiante. Ocultarlo sí. Avisa, documenta y explica: eso es lo que se espera de un profesional de la salud, y es lo que se te va a evaluar."
+  },
   op_restauracion: {
     titulo: "Punto de contacto, cúspides y anatomía",
     intro: "Estos tres puntos son los que más se descuidan por prisa y los que más problemas generan después. Ninguno se arregla puliendo: se arregla rehaciendo.",
@@ -4305,17 +4425,19 @@ function abrirConsecuencias(id){
     <div class="cq-intro">${c.intro}</div>
     ${bloques}
     <div class="cq-cierre">${c.cierre}</div>`;
+  const enMP = $('modoPractica') && $('modoPractica').classList.contains('activo');
   abrirSubScreen(pantallaAnterior, c.titulo, cuerpo);
+  if(enMP) $('subScreen').classList.add('sobre-mp');
 }
 
 function botonConsecuencias(id){
-  return CONSECUENCIAS[id]
-    ? `<button class="cq-btn" onclick="abrirConsecuencias('${id}')">
-         <span class="cq-btn-ico">⚠️</span>
-         <span class="cq-btn-txt"><b>¿Qué pasa si no lo hago?</b><small>Consecuencias clínicas de omitir estos pasos</small></span>
-         <span class="cq-btn-flecha">›</span>
-       </button>`
-    : '';
+  const c = CONSECUENCIAS[id];
+  if(!c) return '';
+  return `<button class="cq-btn" onclick="abrirConsecuencias('${id}')">
+       <span class="cq-btn-ico">${c.ico || '⚠️'}</span>
+       <span class="cq-btn-txt"><b>${c.boton || '¿Qué pasa si no lo hago?'}</b><small>${c.sub || 'Consecuencias clínicas de omitir estos pasos'}</small></span>
+       <span class="cq-btn-flecha">›</span>
+     </button>`;
 }
 
 let rutaActual = "caso";
@@ -4453,12 +4575,14 @@ function abrirModoPractica(cual){
   document.body.classList.add('mp-abierto');
   pedirWakeLock();
   pintarModoPractica();
+  actualizarFab();
 }
 function cerrarModoPractica(){
   const cap = $('modoPractica');
   if(cap) cap.classList.remove('activo');
   document.body.classList.remove('mp-abierto');
   soltarWakeLock();
+  actualizarFab();
   pararCrono();
   if($('inicioScreen') && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
@@ -4509,6 +4633,7 @@ function mpFinal(){
       <div class="mp-final-ico">🎉</div>
       <div class="mp-final-t">Práctica completada</div>
       <div class="mp-final-s">Terminaste <b>${RUTAS[mpRuta].nombre}</b>. Tu avance quedó guardado.</div>
+      ${notaProfe('Seguir una ruta completa no te hace mejor clínico por sí solo, pero te da algo que sí importa: un criterio ordenado. Con el tiempo dejarás de necesitar la lista, porque los pasos van a estar en tu cabeza.<br><br>Mientras tanto, seguirla es la diferencia entre trabajar con método y trabajar de memoria.')}
       <button class="mp-btn primario" onclick="cerrarModoPractica()">Salir del modo práctica</button>
       <button class="mp-btn" onclick="mpEtapa=0;mpPaso=-1;pintarModoPractica()">Volver al inicio de la ruta</button>
     </div>`;
@@ -4569,10 +4694,20 @@ function pintarModoPractica(){
       <div class="mp-paso-num">Paso ${mpPaso+1} de ${pasos.length}</div>
       <div class="mp-paso">${txtItem(pasos[mpPaso])}</div>
       ${imgItem(pasos[mpPaso]) ? `<button class="mp-img" onclick="ampliarImagen('${imgItem(pasos[mpPaso])}','${txtItem(pasos[mpPaso]).replace(/'/g,'')}')">
-          <img src="${imgItem(pasos[mpPaso])}" alt="Referencia de encuadre: ${txtItem(pasos[mpPaso])}" loading="lazy">
+          <img src="${imgItem(pasos[mpPaso])}" alt="Referencia: ${txtItem(pasos[mpPaso])}" loading="lazy">
           <span class="mp-img-lupa">Toca para ampliar</span>
         </button>` : ''}
       ${detItem(pasos[mpPaso]) ? `<div class="mp-det">${detItem(pasos[mpPaso])}</div>` : ''}
+      ${alertaItem(pasos[mpPaso]) ? `<div class="mp-alerta paso">⚠️ ${alertaItem(pasos[mpPaso])}</div>` : ''}
+      ${listaItem(pasos[mpPaso]) ? (function(){
+          const L = listaItem(pasos[mpPaso]);
+          const marc = (leerRuta()[e.id+'_l'+mpPaso]) || [];
+          return `<div class="mp-lista">${L.map((t,i)=>`
+            <button class="mp-lista-i${marc.includes(i)?' on':''}" onclick="toggleLista('${e.id}',${mpPaso},${i})">
+              <span class="mp-chk" id="lchk${e.id}_${mpPaso}_${i}"></span><span>${t}</span>
+            </button>`).join('')}</div>`;
+        })() : ''}
+      ${profeItem(pasos[mpPaso]) ? notaProfe(profeItem(pasos[mpPaso])) : ''}
       ${hechos.includes(mpPaso) ? '<div class="mp-yahecho">✓ Ya lo marcaste antes</div>' : ''}
       ${mpPaso === pasos.length-1 ? botonConsecuencias(e.id) : ''}
       ${mpPaso === pasos.length-1 && notaEtapa(e) ? `<div class="mp-nota">💡 ${notaEtapa(e)}</div>` : ''}
@@ -4794,7 +4929,9 @@ function abrirRuta(origen, abierta, cual){
     const items = listaItems.map((x,i)=>`
       <button class="ruta-item" onclick="toggleItemRuta('${e.id}',${i})">
         <span class="ruta-chk${marcados.includes(i)?' on':''}" id="rutaChk${e.id}_${i}"></span>
-        <span>${txtItem(x)}${detItem(x) ? `<em class="ruta-det">${detItem(x)}</em>` : ''}</span>
+        <span>${txtItem(x)}${detItem(x) ? `<em class="ruta-det">${detItem(x)}</em>` : ''}${
+          listaItem(x) ? `<em class="ruta-sublista">${listaItem(x).map(t=>`<i>${t}</i>`).join('')}</em>` : ''}${
+          alertaItem(x) ? `<em class="ruta-alerta">⚠️ ${alertaItem(x)}</em>` : ''}</span>
         ${imgItem(x) ? `<img class="ruta-thumb" src="${imgItem(x)}" alt="" loading="lazy">` : ''}
       </button>`).join('');
 
@@ -4827,6 +4964,7 @@ function abrirRuta(origen, abierta, cual){
             <div class="mat-titulo" style="margin-top:.7rem">✅ Pasos del procedimiento</div>
             ${items}
             ${(rutaActual==='montaje' && (e.id==='marco'||e.id==='msup')) ? selectorArticulador(origen) : ''}
+            ${listaItems.filter(x=>profeItem(x)).map(x=>notaProfe(profeItem(x))).join('')}
             ${botonConsecuencias(e.id)}
             ${notaEtapa(e) ? `<div class="ruta-nota">💡 ${notaEtapa(e)}</div>` : ''}
           </div>` : ''}
@@ -5072,20 +5210,30 @@ function closeAllMenus(){
 /* ================= SUBPANTALLAS ================= */
 let pantallaAnterior = 'chat'; // 'chat' o 'admin', a dónde regresar
 
+/* El avatar de consulta se muestra si hay subpantalla o Modo Práctica abiertos */
+function actualizarFab(){
+  const fab = $('consultaFab');
+  if(!fab) return;
+  const enSub = $('subScreen') && $('subScreen').classList.contains('show');
+  const enMP  = $('modoPractica') && $('modoPractica').classList.contains('activo');
+  fab.classList.toggle('visible', !!(enSub || enMP));
+  // En Modo Práctica sube, para no taparse con el botón de siguiente
+  fab.classList.toggle('alto', !!enMP && !enSub);
+}
+
 function abrirSubScreen(origen, titulo, html){
   pantallaAnterior = origen;
   closeAllMenus();
   $('subScreenTitle').textContent = titulo;
   $('subScreenBody').innerHTML = html;
   $('subScreen').classList.add('show');
-  const fab = $('consultaFab');
-  if(fab) fab.classList.add('visible');
+  actualizarFab();
 }
 function cerrarSubScreen(){
   $('subScreen').classList.remove('show');
+  $('subScreen').classList.remove('sobre-mp');
   cerrarConsulta();
-  const fab = $('consultaFab');
-  if(fab) fab.classList.remove('visible');
+  actualizarFab();
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
@@ -5211,6 +5359,18 @@ const GLOSARIO = [
   d:"Aumento de volumen durante el endurecimiento. En yeso depende del tipo: <b>tipo II</b> alrededor de 0.3%, <b>tipo III</b> entre 0.15 y 0.20%, <b>tipo IV</b> cerca de 0.10%.<br><br>Menor expansión significa mayor precisión, y por eso los troqueles se hacen en tipo IV."},
  {g:"Comportamiento", t:"Relación agua/polvo", kw:["relacion agua polvo","agua polvo","proporcion","dosificacion"],
   d:"Proporción entre líquido y polvo de la mezcla. Es el factor que <b>más determina</b> las propiedades finales.<br><br>Más agua de la indicada baja la resistencia de forma drástica y alarga el fraguado. Es el error más común y el más costoso: se pesa el polvo y se mide el agua, nunca a ojo."},
+ {g:"Diagnóstico", t:"Radiopaco", kw:["radiopaco","radiopacidad","se ve blanco en la radiografia"],
+  d:"Estructura que <b>frena los rayos X</b> y por eso aparece <b>blanca o clara</b> en la radiografía.<br><br>Son radiopacos el esmalte, la dentina, el hueso, las restauraciones metálicas y los materiales con carga de bario.<br><br>Regla para no confundirte: mientras más denso el tejido, más blanco se ve."},
+ {g:"Diagnóstico", t:"Radiolúcido", kw:["radiolucido","radiolucidez","se ve negro en la radiografia","zona oscura"],
+  d:"Estructura que <b>deja pasar los rayos X</b> y aparece <b>oscura o negra</b> en la radiografía.<br><br>Son radiolúcidos la pulpa, el ligamento periodontal, las lesiones de caries y las lesiones periapicales.<br><br>⚠️ Una <b>imagen radiolúcida periapical</b> es un hallazgo de alarma: indica pérdida ósea por proceso inflamatorio o infeccioso. Ante ella se descarta la operatoria convencional, porque ese diente requiere endodoncia."},
+ {g:"Diagnóstico", t:"Pulpitis reversible", kw:["pulpitis reversible","pulpa inflamada reversible","dolor provocado"],
+  d:"Inflamación pulpar que <b>cede al retirar el estímulo</b> y de la que la pulpa puede recuperarse.<br><br>Características:<br>• Dolor <b>provocado</b>, casi siempre por frío o dulce<br>• <b>Corta duración</b>: segundos, desaparece al quitar el estímulo<br>• <b>Localizable</b>: el paciente señala el diente<br>• No hay dolor espontáneo ni nocturno<br><br>Manejo: eliminar la causa y restaurar. La pulpa se recupera. <b>Sí es caso de operatoria.</b>"},
+ {g:"Diagnóstico", t:"Pulpitis irreversible", kw:["pulpitis irreversible","dolor espontaneo","dolor nocturno","despierta de noche"],
+  d:"Inflamación pulpar que <b>ya no se recupera</b> aunque elimines la causa.<br><br>Características:<br>• Dolor <b>espontáneo</b>, sin estímulo que lo provoque<br>• <b>Prolongado</b>: persiste minutos u horas después de retirar el estímulo<br>• Frecuentemente <b>nocturno</b>, despierta al paciente<br>• Puede ser <b>difuso o irradiado</b>: el paciente no ubica bien el diente<br>• A veces cede con frío, lo que orienta al cuadro purulento<br><br>Manejo: <b>endodoncia</b>. Restaurar sin tratar la pulpa condena el diente y al paciente a volver con más dolor."},
+ {g:"Diagnóstico", t:"Necrosis pulpar", kw:["necrosis pulpar","pulpa necrotica","diente muerto","necrosis"],
+  d:"<b>Muerte del tejido pulpar</b>. Es el desenlace de una pulpitis irreversible no tratada o de un traumatismo.<br><br>Características:<br>• Ausencia de respuesta a pruebas de <b>vitalidad</b><br>• Puede ser <b>asintomática</b>, y esa es la trampa<br>• Cambio de <b>coloración</b> de la corona, hacia grisáceo<br>• Si evoluciona a periodontitis apical: dolor a la percusión e <b>imagen radiolúcida periapical</b><br>• Puede aparecer fístula<br><br>Manejo: <b>endodoncia</b> o extracción según el pronóstico. Nunca operatoria convencional."},
+ {g:"Diagnóstico", t:"Preguntas para diferenciar el dolor pulpar", kw:["preguntas de dolor","interrogatorio de dolor","como diferenciar pulpitis","diagnostico diferencial pulpar"],
+  d:"Cinco preguntas que ordenan el diagnóstico:<br><br>1. <b>¿Duele solo o necesita algo que lo provoque?</b> Espontáneo apunta a irreversible.<br>2. <b>¿Cuánto dura?</b> Segundos, reversible. Minutos u horas, irreversible.<br>3. <b>¿Te despierta en la noche?</b> Nocturno apunta a irreversible.<br>4. <b>¿Puedes señalar el diente?</b> Localizado orienta a pulpar; difuso o irradiado, a irreversible avanzado.<br>5. <b>¿Con qué mejora?</b> Si mejora con frío, sospecha cuadro purulento.<br><br>Complétalas con pruebas de vitalidad, percusión y radiografía. Con eso decides si el caso es tuyo o va a endodoncia."},
  {g:"Oclusión", t:"Cúspides de trabajo", kw:["cuspides de trabajo","cuspide de trabajo","cuspides de soporte","cuspides centricas","cuspides funcionales"],
   d:"También llamadas <b>cúspides de soporte</b>, céntricas o funcionales. Son las que mantienen la dimensión vertical y reciben la carga.<br><br>• En el <b>maxilar</b>: las <b>palatinas</b><br>• En la <b>mandíbula</b>: las <b>vestibulares</b><br><br>Ocluyen contra fosas y rebordes marginales del antagonista. Son más redondeadas y voluminosas, porque están hechas para soportar carga y no para cortar.<br><br>Regla para recordarlo: las de soporte son las que quedan <b>hacia adentro arriba y hacia afuera abajo</b>."},
  {g:"Oclusión", t:"Cúspides de balance", kw:["cuspides de balance","cuspide de balance","cuspides no centricas","cuspides de corte","cuspides guia"],
