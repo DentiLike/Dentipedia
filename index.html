@@ -490,9 +490,8 @@ body.mp-abierto{overflow:hidden}
   border-radius:14px; padding:.85rem .9rem; margin:.9rem 0}
 .profe-cab{display:flex; align-items:center; gap:.6rem; margin-bottom:.6rem}
 .profe-ava{width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid var(--teal); flex:0 0 auto}
-.profe-quien{display:flex; flex-direction:column; line-height:1.3; min-width:0}
-.profe-quien b{font-family:'Fredoka'; font-size:.88rem; color:var(--azul-osc); font-weight:600}
-.profe-quien small{font-size:.68rem; color:var(--gris)}
+.profe-quien{display:flex; align-items:center; line-height:1.3; min-width:0}
+.profe-quien b{font-family:'Fredoka'; font-size:.92rem; color:var(--azul-osc); font-weight:600}
 .profe-txt{font-size:.82rem; color:var(--tinta); line-height:1.7}
 .profe-txt b{color:var(--azul-osc)}
 /* ---- Listas dentro de un paso ---- */
@@ -4292,8 +4291,8 @@ function profeItem(x){ return (x && typeof x === 'object' && x.profe) ? x.profe 
 function notaProfe(txt){
   return `<div class="profe-card">
       <div class="profe-cab">
-        <img class="js-avatar profe-ava" src="" alt="">
-        <div class="profe-quien"><b>Nota del Dr. Alvarado</b><small>Te la deja Mikes Molares</small></div>
+        <img class="profe-ava" src="${AVATAR_B64}" alt="">
+        <div class="profe-quien"><b>Nota del Dr. Alvarado</b></div>
       </div>
       <div class="profe-txt">${txt}</div>
     </div>`;
