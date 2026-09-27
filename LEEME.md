@@ -3,6 +3,12 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+## Cambios v57 — Casos en 2 pasos
+
+- Cada caso pregunta primero **diagnóstico** y después **tratamiento**.
+- Opciones menos obvias (distractores clínicos reales).
+- Resolución completa al final del segundo paso.
+
 ## Cambios v56 — Simulador de casos clínicos
 
 - Nueva sección **Simulador de casos clínicos** (botón al inicio + menú).

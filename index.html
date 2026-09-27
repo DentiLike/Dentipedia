@@ -1798,258 +1798,484 @@ const NIVELES = [
 /* Banco de preguntas por nivel — todas verificables contra el material del
    Tema 1 cargado por el Dr. Alvarado. Sin contenido inventado. */
 
+
 /* ===== SIMULADOR DE CASOS CLÍNICOS ===== */
 const CASOS = {
   basico: [
     {
       id: "b1",
-      titulo: "Contacto prematuro después de una resina",
-      contexto: "Paciente de 32 años. Hace 3 días le colocaron una resina en el 26. Refiere que 'ese diente le estorba' al cerrar y tiene molestia en el masetero del mismo lado.",
-      hallazgos: "Al cierre en RC hay un contacto único y prematuro en la resina del 26. Deslizamiento de ~1 mm hacia MIC. Palpación: masetero derecho sensible. Apertura normal, sin ruidos articulares.",
-      pregunta: "¿Cuál es el diagnóstico más probable y la primera conducta?",
-      opciones: [
-        "Desplazamiento discal → férula de reposicionamiento",
-        "Contacto prematuro iatrogénico (Clase III de Morris / supraoclusión) → ajustar la resina y reevaluar",
-        "Bruxismo primario → férula de estabilización nocturna de inmediato",
-        "Capsulitis → AINEs y reposo mandibular 2 semanas"
+      titulo: "Molestia al cerrar tras una resina",
+      contexto: "Paciente de 32 años. Hace 3 días le colocaron una resina en el 26. Refiere que 'ese diente le estorba' al cerrar y tiene molestia en el masetero del mismo lado. No había tenido problemas antes de la restauración.",
+      hallazgos: "Al cierre guiado hacia RC hay un contacto único en la resina del 26; desde ahí desliza ~1 mm hasta MIC. Palpación: masetero derecho sensible. Apertura 45 mm, sin ruidos articulares. Resto de la oclusión sin cambios respecto a su historia.",
+      pasos: [
+        {
+          pregunta: "¿Cuál es el diagnóstico más probable?",
+          opciones: [
+            "Desplazamiento discal con reducción derecho",
+            "Contacto prematuro por restauración en supraoclusión (relación vertical aumentada)",
+            "Capsulitis de ATM derecha secundaria a bruxismo de inicio súbito",
+            "Dolor miofascial primario del masetero sin causa oclusal"
+          ],
+          correcta: 1,
+          explicacion: "El dato clave es la relación temporal: el síntoma aparece justo después de la resina y hay un prematuro localizado en esa restauración. Eso orienta a iatrogenia (Morris III / vertical aumentada), no a un trastorno discal ni a un miofascial 'primario'."
+        },
+        {
+          pregunta: "¿Cuál es la primera conducta más adecuada?",
+          opciones: [
+            "Férula de reposicionamiento anterior 24 h durante 3 meses",
+            "AINEs 10 días y reevaluar sin tocar la resina",
+            "Identificar el prematuro con papel de articular y reducir la resina hasta contactos simultáneos; reevaluar músculo en días",
+            "Tallado selectivo de caninos para 'desprogramar' y aliviar el masetero"
+          ],
+          correcta: 2,
+          explicacion: "Si la causa es una restauración alta, el tratamiento de primera línea es corregirla. No se inicia terapia de TTM compleja ni tallados en otros dientes mientras el prematuro iatrogénico siga presente."
+        }
       ],
-      correcta: 1,
-      explicacion: "Es una causa clásica de relación vertical aumentada (Morris III): restauración alta. La conducta es identificar y corregir la iatrogenia, no iniciar terapia de TTM compleja.",
-      resolucion: "Se marca con papel de articular el prematuro, se reduce la resina hasta contactos simultáneos y se verifica en protrusiva y lateralidad. En 48 h la molestia maseterina cede. Control en 1 semana."
+      resolucion: "Se marca el prematuro, se reduce la resina hasta contactos múltiples y se verifica protrusiva y lateralidad. En 48 h cede la molestia maseterina. Control en 1 semana: asintomático."
     },
     {
       id: "b2",
-      titulo: "Clic asintomático de larga evolución",
-      contexto: "Mujer de 24 años. Clic en ATM izquierda desde los 18 años. Sin dolor, sin limitación de apertura, sin bloqueos. Consulta porque 'escuchó que el clic hay que operarlo'.",
-      hallazgos: "Apertura 48 mm. Clic recíproco izquierdo reproducible. Sin dolor a la palpación muscular ni articular. Oclusión estable, sin interferencias evidentes.",
-      pregunta: "Según Okeson, ¿qué le indicas?",
-      opciones: [
-        "Férula de reposicionamiento anterior 3 meses",
-        "Cirugía de disco porque el clic no se cura solo",
-        "Observación y control; muchos desplazamientos con reducción asintomáticos no requieren tratamiento",
-        "Tallado selectivo para 'eliminar el clic'"
+      titulo: "Clic de años sin otros síntomas",
+      contexto: "Mujer de 24 años. Clic en ATM izquierda desde los 18 años. Sin dolor, sin limitación, sin bloqueos. Consulta porque le dijeron que 'todo clic hay que tratarlo o se traba'.",
+      hallazgos: "Apertura 48 mm. Clic recíproco izquierdo reproducible. Sin dolor a la palpación muscular ni articular. Oclusión estable. No refiere episodios de bloqueo.",
+      pasos: [
+        {
+          pregunta: "¿Qué interpretas clínicamente?",
+          opciones: [
+            "Desplazamiento discal sin reducción intermitente que requiere férula urgente",
+            "Desplazamiento discal con reducción, asintomático, sin datos de progresión actual",
+            "Crepitación por cambio degenerativo precoz",
+            "Luxación condilar recurrente"
+          ],
+          correcta: 1,
+          explicacion: "Clic recíproco + apertura normal + sin dolor = desplazamiento con reducción. La ausencia de limitación y de bloqueos habla en contra de sin reducción o luxación. La crepitación es otro tipo de ruido."
+        },
+        {
+          pregunta: "¿Qué le propones?",
+          opciones: [
+            "Férula de reposicionamiento anterior de entrada para 'recapturar el disco'",
+            "Cirugía artroscópica preventiva",
+            "Observación, educación (evitar boqueadas forzadas) y control; no tratar solo el ruido",
+            "Tallado oclusal para eliminar el clic"
+          ],
+          correcta: 2,
+          explicacion: "Okeson: no se trata el clic por sí solo. Si no hay dolor ni disfunción, la observación es válida. Reposicionamiento y cirugía no están indicados solo por el ruido."
+        }
       ],
-      correcta: 2,
-      explicacion: "Okeson: no se trata el ruido por sí solo. Si no hay dolor ni disfunción, la observación es válida. El reposicionamiento y la cirugía no están indicados solo por el clic.",
-      resolucion: "Se explica la naturaleza del desplazamiento con reducción, se da higiene articular (evitar boqueadas amplias) y control anual. No se indica férula ni cirugía."
+      resolucion: "Se explica el significado del clic, se dan medidas de higiene articular y control anual. No se indica férula ni cirugía."
     },
     {
       id: "b3",
-      titulo: "Facets y dolor matutino",
-      contexto: "Hombre de 40 años. Dolor maseterino al despertar. Niega dolor diurno. Su pareja refiere que 'rechina los dientes de noche'.",
-      hallazgos: "Facetas brillantes en caninos y premolares que coinciden entre arcadas. Hipertrofia maseterina bilateral. Apertura normal. Sin clic. Interferencia leve de balance derecha.",
-      pregunta: "¿Cuál es el plan inicial más coherente?",
-      opciones: [
-        "Tallado selectivo inmediato de la interferencia de balance",
-        "Férula de estabilización nocturna + educación sobre bruxismo y control del estrés",
-        "Férula de reposicionamiento porque hay facetas",
-        "Ortodoncia para 'corregir la causa del bruxismo'"
+      titulo: "Dolor al despertar y facetas",
+      contexto: "Hombre de 40 años. Dolor maseterino al despertar que mejora a media mañana. Su pareja refiere rechinar nocturno. No tiene dolor al masticar durante el día.",
+      hallazgos: "Facetas brillantes en caninos y premolares que coinciden entre arcadas. Hipertrofia maseterina bilateral. Apertura normal, sin clic. Hay una interferencia leve de balance derecha.",
+      pasos: [
+        {
+          pregunta: "¿Cuál es el diagnóstico orientativo principal?",
+          opciones: [
+            "Artritis inflamatoria de ATM",
+            "Dolor muscular asociado a bruxismo nocturno (con signos de sobrecarga oclusal)",
+            "Desplazamiento discal bilateral sin reducción",
+            "Neuralgia del trigémino atípica"
+          ],
+          correcta: 1,
+          explicacion: "El patrón matutino + rechazo nocturno + facetas + hipertrofia orienta a bruxismo nocturno con sobrecarga muscular. No hay datos de artritis, bloqueo ni neuralgia."
+        },
+        {
+          pregunta: "¿Plan inicial más coherente?",
+          opciones: [
+            "Eliminar de inmediato la interferencia de balance con tallado selectivo amplio",
+            "Férula de estabilización nocturna, educación sobre parafunción y reevaluación; el ajuste oclusal definitivo se valora cuando haya estabilidad",
+            "Férula de reposicionamiento porque existen facetas",
+            "Ortodoncia para 'corregir la causa del bruxismo'"
+          ],
+          correcta: 1,
+          explicacion: "Terapia reversible primero. Tallar en pleno periodo de hiperactividad es un error frecuente. La interferencia se documenta y se reevalúa después."
+        }
       ],
-      correcta: 1,
-      explicacion: "Bruxismo nocturno con dolor muscular: terapia reversible primero (férula de estabilización tipo Michigan). El ajuste oclusal definitivo se valora cuando el sistema está estable, no en caliente.",
-      resolucion: "Se coloca férula de estabilización de cobertura total, contactos uniformes en RC, guía anterior y canina. Control a los 15 días: dolor matutino casi desaparece. Se mantiene uso nocturno."
+      resolucion: "Férula de estabilización (cobertura total, contactos en RC, guía anterior/canina). A los 15 días el dolor matutino casi desaparece. Se mantiene uso nocturno y se pospone cualquier tallado."
     },
     {
       id: "b4",
-      titulo: "¿Angle o Morris?",
-      contexto: "En clínica un compañero dice: 'este paciente es Clase IV, hay que tratarlo'. El paciente tiene oclusión cruzada posterior derecha y al cerrar la mandíbula se desvía hacia ese lado.",
-      hallazgos: "Relación molar: Clase I de Angle bilateral. Al cierre desde RC, desviación lateroprotrusiva hacia la derecha por contactos en la cruzada posterior.",
-      pregunta: "¿Qué clasificación aplica y qué implica?",
-      opciones: [
-        "Clase IV de Angle → ortodoncia obligatoria",
-        "Clase IV de Morris (latero-protrusiva) → describe la desviación por obstáculo; el tratamiento depende del daño y de los criterios de oclusión óptima",
-        "Clase II de Morris → deslizamiento posterior",
-        "No es ninguna clase porque es Clase I de Angle"
+      titulo: "Desviación al cerrar y 'Clase IV'",
+      contexto: "En el laboratorio un compañero dice: 'es Clase IV, hay que tratarlo ya'. El paciente tiene cruzada posterior derecha y al cerrar la mandíbula se desvía hacia ese lado. No refiere dolor.",
+      hallazgos: "Relación molar: Clase I de Angle bilateral. Desde RC, al cierre, desviación lateroprotrusiva hacia la derecha relacionada con contactos en la cruzada. Sin dolor muscular ni articular hoy.",
+      pasos: [
+        {
+          pregunta: "¿Qué clasificación describe mejor el hallazgo funcional?",
+          opciones: [
+            "Clase IV de Angle",
+            "Clase II de Morris (retrusiva)",
+            "Clase IV de Morris (latero-protrusiva) por obstáculo en la cruzada; Angle sigue siendo I",
+            "Clase III de Angle porque la mandíbula 'se adelanta' al desviar"
+          ],
+          correcta: 2,
+          explicacion: "Angle solo tiene I–II–III (relación molar). Aquí el molar es Clase I. La desviación por obstáculo es Morris IV. Confundir ambas es el error clásico."
+        },
+        {
+          pregunta: "¿Qué implica para el tratamiento?",
+          opciones: [
+            "Toda Clase IV de Morris obliga a cirugía",
+            "El número de clase no dicta el tratamiento: se decide según daño, adaptación y criterios de oclusión funcional óptima",
+            "Hay que tallar todos los molares del lado derecho en la primera cita",
+            "Como es Angle I, se ignora la desviación siempre"
+          ],
+          correcta: 1,
+          explicacion: "Okeson no trata 'números de clase'. Se trata el daño y se busca una oclusión tolerable. Un paciente adaptado y asintomático no se interviene igual que uno con dolor o desgaste activo."
+        }
       ],
-      correcta: 1,
-      explicacion: "Angle solo tiene I–II–III (relación molar). Morris IV describe la desviación lateroprotrusiva por obstáculo (aquí la cruzada). El tratamiento no lo dicta el número de clase, sino daño + oclusión funcional.",
-      resolucion: "Se documenta: Angle I + Morris IV (desviación por cruzada). Se evalúa si hay dolor, facetas o sobrecarga. Si está adaptado y asintomático, se informa y se controla; si hay daño, se planifica corrección de la cruzada y/o terapia oclusal."
+      resolucion: "Se documenta Angle I + Morris IV. Sin dolor ni daño activo: información y control. Si en el seguimiento aparecen facetas o síntomas, se planifica corrección de la cruzada y/o terapia oclusal."
     },
     {
       id: "b5",
-      titulo: "Primera visita con dolor preauricular",
-      contexto: "Paciente de 29 años. Dolor preauricular izquierdo de 10 días, aumenta al masticar. Niega traumatismo. No ha usado férula ni ha tenido tratamientos dentales recientes.",
-      hallazgos: "Apertura 42 mm con dolor al final. Palpación: polo lateral de cóndilo izquierdo sensible. Músculos sin dolor significativo. Oclusión sin prematuros evidentes.",
-      pregunta: "¿Orientación diagnóstica inicial?",
-      opciones: [
-        "Dolor miofascial del masetero → solo fisioterapia",
-        "Probable capsulitis/sinovitis o sobrecarga articular local → reposo relativo, dieta blanda, AINE si procede, reevaluar oclusión y parafunción",
-        "Desplazamiento sin reducción → férula de reposicionamiento ya",
-        "Neuralgia del trigémino → interconsulta neurológica urgente"
+      titulo: "Dolor preauricular de 10 días",
+      contexto: "Paciente de 29 años. Dolor preauricular izquierdo de 10 días, aumenta al masticar y al abrir del todo. Niega traumatismo y tratamientos dentales recientes.",
+      hallazgos: "Apertura 42 mm con dolor al final del movimiento. Polo lateral del cóndilo izquierdo sensible. Músculos masticatorios sin dolor relevante. Sin clic. Sin prematuro evidente en un primer barrido oclusal.",
+      pasos: [
+        {
+          pregunta: "¿Orientación diagnóstica más probable?",
+          opciones: [
+            "Dolor miofascial del masetero con referido a oído",
+            "Proceso inflamatorio local de la ATM (capsulitis/sinovitis o sobrecarga capsular)",
+            "Desplazamiento discal sin reducción establecido",
+            "Otitis media; el problema no es dental ni articular"
+          ],
+          correcta: 1,
+          explicacion: "Dolor localizado en la articulación, mecánico (aumenta con función), con poca componente muscular y sin limitación marcada de bloqueo, orienta a inflamación capsular/sinovial más que a miofascial puro o a sin reducción."
+        },
+        {
+          pregunta: "¿Primera línea de manejo?",
+          opciones: [
+            "Férula de reposicionamiento anterior inmediata",
+            "Reposo relativo mandibular, dieta blanda, analgesia antiinflamatoria si procede, y reevaluación de oclusión/parafunción en días",
+            "Tallado selectivo amplio en la primera visita",
+            "Antibiótico de amplio espectro por posible infección articular"
+          ],
+          correcta: 1,
+          explicacion: "Inflamación aguda: medidas reversibles y control. No saltar a reposicionamiento ni a ajuste irreversible sin más datos."
+        }
       ],
-      correcta: 1,
-      explicacion: "Dolor localizado en la articulación, agravado por función, con poca componente muscular sugiere proceso inflamatorio capsular/sinovial. Primero medidas reversibles y reevaluación; no saltar a reposicionamiento sin datos de disco.",
-      resolucion: "Se indica dieta blanda, evitar chicle y boqueadas, AINE corto plazo. Control a 10 días: dolor cedió. Se investiga parafunción y se considera férula de estabilización si hay bruxismo."
+      resolucion: "Dieta blanda, evitar chicle y bostezo forzado, AINE corto plazo. A los 10 días el dolor cedió. Se indaga bruxismo y se considera férula de estabilización si hay parafunción."
     }
   ],
   intermedio: [
     {
       id: "i1",
-      titulo: "Clic que 'desapareció' y ahora no abre",
-      contexto: "Mujer de 35 años. Hace años tenía clic derecho. Desde hace 5 días el clic ya no se oye y no puede abrir bien la boca. Dolor al intentar abrir.",
-      hallazgos: "Apertura máxima 28 mm. Desviación hacia la derecha al abrir. Sin clic. Dolor en ATM derecha al forzar apertura. Antecedente de clic recíproco.",
-      pregunta: "¿Qué ocurrió y cuál es el manejo inicial?",
-      opciones: [
-        "Mejoró el clic → alta",
-        "Progresión a desplazamiento discal sin reducción (bloqueo cerrado) → terapia reversible: control de dolor, física suave, posible férula; evitar forzar",
-        "Luxación → reducción manual inmediata en silla",
-        "Anquilosis → cirugía"
+      titulo: "El clic se fue y ya no abre igual",
+      contexto: "Mujer de 35 años. Durante años tuvo clic derecho. Desde hace 5 días 'ya no hace ruido', pero no puede abrir bien y duele al intentarlo.",
+      hallazgos: "Apertura máxima 28 mm. Desviación hacia la derecha al abrir. Sin clic. Dolor en ATM derecha al forzar. Antecedente claro de clic recíproco.",
+      pasos: [
+        {
+          pregunta: "¿Qué interpretas?",
+          opciones: [
+            "Mejoría espontánea del desplazamiento con reducción",
+            "Progresión a desplazamiento discal sin reducción (bloqueo cerrado)",
+            "Anquilosis ósea de instauración en 5 días",
+            "Contractura aislada del digástrico derecho"
+          ],
+          correcta: 1,
+          explicacion: "Desaparición del clic + limitación de apertura + desviación al lado afectado es el patrón clásico de paso a sin reducción. No es una mejoría."
+        },
+        {
+          pregunta: "¿Manejo inicial más razonable?",
+          opciones: [
+            "Reducción manual forzada en silla y alta el mismo día",
+            "Control del dolor, medidas físicas suaves, evitar forzar la apertura; férula de estabilización según tolerancia; reevaluación seriada",
+            "Cirugía de disco en la primera semana",
+            "Tallado selectivo para 'liberar el cóndilo'"
+          ],
+          correcta: 1,
+          explicacion: "Fase aguda de bloqueo cerrado: enfoque reversible. Forzar, tallar o operar de entrada no es la secuencia de Okeson."
+        }
       ],
-      correcta: 1,
-      explicacion: "La desaparición del clic + limitación de apertura + desviación al lado afectado = progresión a sin reducción. No es mejoría. Manejo inicial reversible según Okeson.",
-      resolucion: "Se confirma bloqueo cerrado. Analgesia, ejercicios de apertura controlados, férula de estabilización (no reposicionamiento forzado en agudo). A las 3 semanas apertura 38 mm con menos dolor. Se reevalúa oclusión y hábitos."
+      resolucion: "Analgesia, ejercicios controlados, férula de estabilización. A las 3 semanas apertura 38 mm con menos dolor. Se reevalúan hábitos y oclusión en frío."
     },
     {
       id: "i2",
-      titulo: "Interferencia de balance y abfracciones",
-      contexto: "Paciente de 45 años. Abfracciones cervicales en premolares superiores derechos. Facetas en el lado izquierdo. Sin dolor articular intenso; molestia muscular ocasional.",
-      hallazgos: "En lateralidad izquierda hay contacto en el lado derecho (balance). Guía canina izquierda insuficiente. Facetas coincidentes en trabajo izquierdo.",
-      pregunta: "¿Qué relación hay entre los hallazgos y qué harías?",
-      opciones: [
-        "Las abfracciones son solo por cepillado horizontal → solo cambiar técnica de higiene",
-        "Fuerzas laterales por interferencia de balance y/o guía insuficiente → documentar, control de parafunción, valorar ajuste o férula; no tallar en caliente si hay hiperactividad",
-        "Siempre cirugía de caninos",
-        "Ignorar la interferencia porque no hay dolor fuerte hoy"
+      titulo: "Abfracciones de un lado y facetas del otro",
+      contexto: "Paciente de 45 años. Abfracciones cervicales en premolares superiores derechos. Facetas en el lado izquierdo. Molestia muscular ocasional, sin bloqueos.",
+      hallazgos: "En lateralidad izquierda contacta también el lado derecho (balance). Guía canina izquierda pobre. Facetas coincidentes en el lado de trabajo izquierdo.",
+      pasos: [
+        {
+          pregunta: "¿Qué relaciona mejor los hallazgos?",
+          opciones: [
+            "Solo cepillado horizontal agresivo; la oclusión no interviene",
+            "Sobrecarga lateral: interferencia de balance y/o guía de trabajo insuficiente, compatible con abfracciones y facetas",
+            "Desplazamiento discal derecho activo",
+            "Exceso de dimensión vertical por erupción pasiva generalizada"
+          ],
+          correcta: 1,
+          explicacion: "Abfracciones + facetas + contacto de balance apuntan a fuerzas laterales lesivas. El cepillado puede contribuir, pero no explica el patrón oclusal."
+        },
+        {
+          pregunta: "¿Secuencia terapéutica más prudente?",
+          opciones: [
+            "Tallado inmediato y amplio de todos los contactos de balance",
+            "Documentar, controlar parafunción (férula de estabilización si hay hiperactividad), y decidir ajuste fino cuando el sistema esté estable",
+            "Reposicionamiento anterior 6 meses",
+            "Extraer premolares con abfracción"
+          ],
+          correcta: 1,
+          explicacion: "La interferencia de balance es relevante, pero tallar en caliente con posible hiperactividad es riesgoso. Reversible primero, ajuste después."
+        }
       ],
-      correcta: 1,
-      explicacion: "Abfracciones y facetas orientan a sobrecarga lateral. La interferencia de balance es la más lesiva. Conducta: diagnóstico completo, terapia reversible si hay hiperactividad, luego decidir ajuste.",
-      resolucion: "Se registra interferencia de balance derecha. Férula de estabilización 6 semanas. Al estabilizar, se elimina la interferencia con tallado selectivo mínimo y se refuerza guía canina en la férula de mantenimiento nocturno."
+      resolucion: "Férula 6 semanas. Al ceder la molestia muscular, se elimina el contacto de balance con tallado mínimo y se refuerza la guía en el lado de trabajo."
     },
     {
       id: "i3",
-      titulo: "Pérdida de posteriores y dimensión vertical",
-      contexto: "Hombre de 58 años. Perdió molares inferiores izquierdos hace años. Mastica solo del lado derecho. Llega con dolor en ATM izquierda y aspecto de tercio inferior disminuido.",
-      hallazgos: "Colapso posterior izquierdo. Facetas y desgaste en el lado de trabajo derecho. Cóndilo izquierdo sensible. Posible Morris V (vertical disminuida).",
-      pregunta: "¿Enfoque terapéutico prioritario?",
-      opciones: [
-        "Solo AINEs",
-        "Restaurar soporte posterior (prótesis) + control de sobrecarga del lado de trabajo; valorar férula mientras se planifica la rehabilitación",
-        "Férula de reposicionamiento definitiva de por vida",
-        "Extracciones del lado derecho para 'equilibrar'"
+      titulo: "Sin molares de un lado",
+      contexto: "Hombre de 58 años. Perdió molares inferiores izquierdos hace años. Mastica casi solo del lado derecho. Dolor en ATM izquierda y aspecto de tercio inferior disminuido.",
+      hallazgos: "Colapso posterior izquierdo. Desgaste mayor en el lado de trabajo derecho. Cóndilo izquierdo sensible a la palpación. Sin clic claro.",
+      pasos: [
+        {
+          pregunta: "¿Qué problema funcional predomina?",
+          opciones: [
+            "Solo artrosis primaria independiente de la oclusión",
+            "Pérdida de soporte posterior (vertical disminuida) con masticación unilateral y sobrecarga del lado contralateral / ATM del lado edéntulo",
+            "Clase III esquelética no diagnosticada",
+            "Anquilosis fibrosa bilateral"
+          ],
+          correcta: 1,
+          explicacion: "El patrón de pérdida posterior + unilateralidad + dolor en el lado sin soporte encaja con colapso vertical y sobrecarga compensatoria (Morris V como marco descriptivo)."
+        },
+        {
+          pregunta: "¿Prioridad terapéutica?",
+          opciones: [
+            "Solo AINEs crónicos",
+            "Restituir soporte posterior (prótesis) y proteger de la sobrecarga; férula o provisional mientras se planifica la rehabilitación",
+            "Férula de reposicionamiento de por vida sin rehabilitar",
+            "Extraer el lado derecho para simetrizar"
+          ],
+          correcta: 1,
+          explicacion: "Hay que devolver soporte y dejar de masticar sobre un solo lado. La férula puede ayudar de forma temporal, pero no sustituye la rehabilitación del sector edéntulo."
+        }
       ],
-      correcta: 1,
-      explicacion: "Pérdida de soporte posterior (Morris V) + masticación unilateral sobrecarga el lado contrario y puede afectar la ATM del lado edéntulo. Hay que devolver soporte y proteger.",
-      resolucion: "Férula provisional / prótesis provisional para recuperar DVO y soporte. Luego prótesis definitiva. Dolor articular cede al dejar de sobrecargar un solo lado."
+      resolucion: "Provisional / prótesis para recuperar soporte y DVO. El dolor articular mejora al repartir la función. Luego prótesis definitiva."
     },
     {
       id: "i4",
-      titulo: "Dolor referido que 'parece dental'",
-      contexto: "Paciente insiste en que le duele el 26. Ya le hicieron endodoncia del 26 en otro consultorio 'por si acaso' y el dolor sigue.",
-      hallazgos: "26 sin signos de fracaso endodóntico. Palpación del masetero profundo y pterigoideo reproduce el dolor 'del 26'. Punto gatillo en masetero.",
-      pregunta: "¿Diagnóstico y conducta?",
-      opciones: [
-        "Repetir la endodoncia",
-        "Dolor miofascial con referido a diente → tratar el músculo (punto gatillo, fisioterapia, control de parafunción), no más tratamiento dental del 26 sin evidencia",
-        "Extraer el 26",
-        "Antibiótico de amplio espectro"
+      titulo: "Duele el 26 (ya endodonciado)",
+      contexto: "El paciente insiste en que el dolor es del 26. En otro consultorio le hicieron endodoncia 'por si acaso' y el dolor continúa igual.",
+      hallazgos: "26 sin signos de fracaso endodóntico ni infección. La palpación del masetero profundo reproduce el dolor que él localiza en el 26. Punto gatillo claro.",
+      pasos: [
+        {
+          pregunta: "¿Diagnóstico más probable?",
+          opciones: [
+            "Fracaso endodóntico oculto que exige apicectomía",
+            "Dolor miofascial con referido a territorio dentario",
+            "Sinusitis maxilar derecha",
+            "Neuropatía del alveolar superior posterior"
+          ],
+          correcta: 1,
+          explicacion: "Si la palpación muscular reproduce el síntoma y el diente está en orden, el origen es muscular referido, no pulpar."
+        },
+        {
+          pregunta: "¿Qué haces?",
+          opciones: [
+            "Repetir la endodoncia",
+            "Tratar el músculo (punto gatillo, fisioterapia, control de parafunción) y evitar más tratamiento dental del 26 sin evidencia",
+            "Extraer el 26",
+            "Antibiótico de amplio espectro 14 días"
+          ],
+          correcta: 1,
+          explicacion: "El tratamiento sigue al diagnóstico: músculo, no más odontología en un diente ya tratado sin datos de patología."
+        }
       ],
-      correcta: 1,
-      explicacion: "El dolor referido miofascial imita odontalgia. Si la palpación muscular reproduce el síntoma y el diente está en orden, el tratamiento es muscular.",
-      resolucion: "Se explica el mecanismo de referido. Técnica de spray-and-stretch / presión en punto gatillo, férula nocturna, higiene postural. El 'dolor del 26' desaparece en 2 semanas."
+      resolucion: "Educación sobre dolor referido, manejo del punto gatillo, férula nocturna si hay bruxismo. El 'dolor del 26' cede en ~2 semanas."
     },
     {
       id: "i5",
-      titulo: "Férula de reposicionamiento mal indicada",
-      contexto: "Paciente llega con férula anterior de reposicionamiento colocada hace 8 meses 'por un clic'. Ahora tiene mordida abierta posterior y no puede ocluir los molares.",
-      hallazgos: "Solo contactan anteriores. Posteriores sin contacto. Historia de clic que ya no está. Uso continuo de férula de reposicionamiento.",
-      pregunta: "¿Qué pasó y qué haces?",
-      opciones: [
-        "Es el resultado deseado → dejar la férula para siempre",
-        "Efecto adverso del uso prolongado de reposicionamiento (extrusión/intrusión relativa) → suspender reposicionamiento, estabilizar con férula de cobertura total o rehabilitación, nunca dejar reposicionamiento indefinido sin control",
-        "Colocar otra férula más gruesa adelante",
-        "Ortodoncia inmediata sin diagnóstico"
+      titulo: "Férula que 'adelanta' desde hace meses",
+      contexto: "Llega con férula de reposicionamiento anterior colocada hace 8 meses por un clic. Ahora solo contacta con los dientes de adelante y no logra ocluir molares.",
+      hallazgos: "Contacto exclusivamente anterior. Posteriores sin contacto. El clic ya no está. Uso casi continuo de la férula de reposicionamiento.",
+      pasos: [
+        {
+          pregunta: "¿Qué ha ocurrido?",
+          opciones: [
+            "Resultado terapéutico ideal y estable",
+            "Cambio oclusal adverso por uso prolongado de reposicionamiento (mordida abierta posterior)",
+            "Erupción espontánea solo de anteriores",
+            "Fractura condilar no diagnosticada"
+          ],
+          correcta: 1,
+          explicacion: "Okeson advierte que el reposicionamiento prolongado puede producir mordida abierta posterior. No es un desenlace deseable rutinario."
+        },
+        {
+          pregunta: "¿Conducta?",
+          opciones: [
+            "Dejar la misma férula indefinidamente",
+            "Suspender el reposicionamiento, estabilizar (férula de cobertura total o rehabilitación/ortodoncia según el caso) y no repetir reposicionamiento sin control estricto",
+            "Aumentar el grosor anterior de la férula",
+            "Tallar todos los anteriores hasta lograr contacto posterior inmediato en silla"
+          ],
+          correcta: 1,
+          explicacion: "Hay que detener el mecanismo que generó el cambio y estabilizar. El tallado agresivo de anteriores en la misma cita no es el plan reflexivo."
+        }
       ],
-      correcta: 1,
-      explicacion: "Okeson advierte: reposicionamiento prolongado puede causar mordida abierta posterior irreversible. Uso limitado y con controles. Aquí hay que estabilizar y planificar recuperación de contactos posteriores.",
-      resolucion: "Se retira el reposicionamiento. Férula de estabilización a la nueva posición o rehabilitación/ortodoncia según el caso. Se documenta el iatrogenismo y se evita repetir la indicación incorrecta."
+      resolucion: "Se retira el reposicionamiento. Se planifica estabilización y recuperación de contactos posteriores. Se documenta el efecto adverso."
     }
   ],
   avanzado: [
     {
       id: "a1",
-      titulo: "Dolor crónico + bruxismo + interferencias",
-      contexto: "Mujer de 42 años. 4 años de dolor facial bilateral. Múltiples ajustes oclusales previos sin mejoría sostenida. Bruxismo diurno y nocturno. Ansiedad.",
-      hallazgos: "Dolor muscular generalizado (maseteros, temporales, cervicales). Puntos gatillo. Facetas extensas. Varias interferencias. ATM sin bloqueo. Ya le tallaron caninos 'para desocluir'.",
-      pregunta: "¿Qué error de enfoque es el más importante a corregir?",
-      opciones: [
-        "Faltó tallar más molares",
-        "Se trató la oclusión de forma irreversible antes de controlar el componente muscular y central (parafunción/estrés); Okeson: reversible primero, oclusión definitiva cuando haya estabilidad",
-        "Debió operarse el disco desde el inicio",
-        "Solo faltaba una férula de reposicionamiento"
+      titulo: "Años de dolor y muchos tallados",
+      contexto: "Mujer de 42 años. Cuatro años de dolor facial bilateral. Varios ajustes oclusales previos sin mejoría sostenida. Bruxismo diurno y nocturno. Ansiedad. Pide 'que le terminen de cuadrar la mordida'.",
+      hallazgos: "Dolor muscular difuso (maseteros, temporales, cervicales), puntos gatillo, facetas extensas, interferencias residuales. ATM sin bloqueo. Caninos ya muy tallados en tratamientos previos.",
+      pasos: [
+        {
+          pregunta: "¿Qué problema de enfoque arrastra el caso?",
+          opciones: [
+            "Faltó un tallado aún más agresivo de molares",
+            "Se priorizó la corrección oclusal irreversible antes de controlar el componente muscular y la parafunción/factores centrales",
+            "Debió operarse el disco en el primer año",
+            "El diagnóstico real es solo neuralgia y la oclusión no importa"
+          ],
+          correcta: 1,
+          explicacion: "Patrón de dolor muscular crónico + parafunción. Los tallados repetidos sin estabilizar el sistema suelen fracasar y pueden empeorar la guía."
+        },
+        {
+          pregunta: "¿Cómo reordenas el plan?",
+          opciones: [
+            "Nueva sesión larga de tallado selectivo total",
+            "Pausar ajustes irreversibles; férula de estabilización, fisioterapia, higiene de sueño y manejo de estrés; reevaluar oclusión solo con el sistema más estable",
+            "Reposicionamiento anterior continuo 12 meses",
+            "Rehabilitación fija completa en una semana"
+          ],
+          correcta: 1,
+          explicacion: "Okeson: reversible y control del factor etiológico primero; oclusión definitiva después, si aún es necesaria."
+        }
       ],
-      correcta: 1,
-      explicacion: "El patrón es mialgia crónica / miofascial + parafunción. Ajustes repetidos sin controlar el factor central suelen fracasar. Priorizar educación, férula de estabilización, manejo de estrés/sueño; reevaluar oclusión después.",
-      resolucion: "Se detienen los tallados. Programa: férula estabilización, fisioterapia, higiene de sueño, interconsulta si ansiedad severa. A los 3 meses el dolor bajó 60 %. Solo entonces se revisa si queda alguna interferencia residual relevante."
+      resolucion: "Se detienen los tallados. Férula, fisioterapia y medidas de sueño/estrés. A los 3 meses el dolor bajó de forma importante. Solo entonces se revisa si queda alguna interferencia clínicamente relevante."
     },
     {
       id: "a2",
-      titulo: "Bloqueo cerrado unilateral y decisión de férula",
-      contexto: "Hombre de 31 años. Bloqueo cerrado izquierdo de 3 semanas. Apertura 26 mm. Dolor moderado. Quiere 'que le pongan la férula que empuja la mandíbula adelante' porque lo leyó en internet.",
-      hallazgos: "Desplazamiento sin reducción izquierdo. Sin inflamación aguda severa. Oclusión: deslizamiento céntrico 1 mm. No hay evidencia de que la posición adelantada se mantenga estable sin férula.",
-      pregunta: "¿Qué decides respecto al reposicionamiento?",
-      opciones: [
-        "Reposicionamiento anterior inmediato y uso 24 h durante 1 año",
-        "Valorar si hay indicación real (dolor/disfunción reciente, posibilidad de recaptura); si se usa, tiempo limitado y controles estrictos; muchas veces se inicia con estabilización + física",
-        "Cirugía de disco en la primera visita",
-        "Tallado selectivo para 'abrir el bloqueo'"
+      titulo: "Bloqueo y la férula que 'empuja hacia adelante'",
+      contexto: "Hombre de 31 años. Bloqueo cerrado izquierdo de 3 semanas. Apertura 26 mm. Pidió explícitamente 'la férula que empuja la mandíbula adelante' porque lo leyó en internet.",
+      hallazgos: "Patrón de desplazamiento sin reducción izquierdo. Inflamación no severa. Deslizamiento céntrico ~1 mm. No hay evidencia de que una posición adelantada se mantenga estable sin aparato.",
+      pasos: [
+        {
+          pregunta: "Sobre el reposicionamiento anterior en este momento, ¿qué es más exacto?",
+          opciones: [
+            "Está indicado en todo bloqueo cerrado de forma automática",
+            "No es automático: se valora según dolor, tiempo de evolución y posibilidad real de beneficio; si se usa, es por tiempo limitado y con controles",
+            "Debe usarse 24 h al día durante al menos un año",
+            "Sustituye siempre a la fisioterapia y a la estabilización"
+          ],
+          correcta: 1,
+          explicacion: "El reposicionamiento es una herramienta selectiva, no un protocolo universal de bloqueo. Tiene riesgos oclusales si se prolonga."
+        },
+        {
+          pregunta: "¿Qué plan le ofreces de entrada?",
+          opciones: [
+            "Reposicionamiento 24 h y control en 6 meses",
+            "Manejo conservador del dolor y la función, férula de estabilización según tolerancia, y decisión informada sobre reposicionamiento solo si hay indicación clara",
+            "Cirugía de disco esta semana",
+            "Tallado selectivo para desbloquear"
+          ],
+          correcta: 1,
+          explicacion: "Se prioriza lo reversible y se evita prometer que 'empujar hacia adelante' resuelve todo bloqueo."
+        }
       ],
-      correcta: 1,
-      explicacion: "El reposicionamiento no es automático en todo bloqueo. Indicación selectiva, tiempo limitado, riesgo de cambios oclusales. Alternativa frecuente: estabilización + medidas conservadoras.",
-      resolucion: "Se inicia manejo conservador y férula de estabilización. A las 6 semanas apertura 35 mm. No se forzó reposicionamiento prolongado. Se documentó el consentimiento sobre límites del tratamiento."
+      resolucion: "Estabilización + medidas conservadoras. A las 6 semanas apertura 35 mm. No se impuso reposicionamiento prolongado. Consentimiento documentado sobre límites."
     },
     {
       id: "a3",
-      titulo: "Rehabilitación extensa: ¿dónde montar?",
-      contexto: "Paciente que requiere rehabilitación de dos arcadas. Tiene deslizamiento céntrico de 2 mm y antecedentes de dolor muscular que hoy está controlado con férula.",
-      hallazgos: "RC localizable. MIC actual con interferencias de balance. DVO vertical aceptable. Músculos actualmente sin dolor.",
-      pregunta: "¿Principio de Okeson para el montaje y diseño oclusal?",
-      opciones: [
-        "Montar en MIC habitual y copiar las interferencias 'porque está adaptado'",
-        "Organizar la oclusión en relación céntrica (o muy próxima), con criterios de oclusión funcional óptima: contactos estables, guía anterior, sin interferencias de balance",
-        "Aumentar DVO 6 mm por protocolo fijo",
-        "Dejar solo contactos en anteriores"
+      titulo: "Rehabilitación de dos arcadas",
+      contexto: "Paciente que necesita rehabilitación extensa. Tuvo dolor muscular; hoy está controlado con férula. Presenta deslizamiento céntrico de ~2 mm e interferencias de balance en la MIC actual.",
+      hallazgos: "RC localizable y reproducible. DVO aceptable. Músculos actualmente sin dolor. MIC habitual con contactos de balance.",
+      pasos: [
+        {
+          pregunta: "¿Qué principio guía el diseño oclusal de la rehabilitación?",
+          opciones: [
+            "Copiar la MIC habitual con sus interferencias porque 'está adaptado'",
+            "Organizar la oclusión en RC (o muy próxima) con criterios de oclusión funcional óptima: contactos estables, guía anterior, sin interferencias de balance",
+            "Aumentar la DVO 6 mm por protocolo fijo en todos los casos",
+            "Dejar solo contactos anteriores para 'proteger la ATM'"
+          ],
+          correcta: 1,
+          explicacion: "En rehabilitaciones extensas Okeson orienta a una oclusión organizada según criterios del Cap. 5, no a perpetuar contactos lesivos."
+        },
+        {
+          pregunta: "¿Secuencia práctica?",
+          opciones: [
+            "Definitivos directos en boca sin provisional",
+            "Montaje con arco facial y RC → encerado/provisionales con los criterios → ajuste fino → definitivos",
+            "Solo articulador de bisagra simple sin registro de arco facial",
+            "Reposicionamiento anterior como oclusión definitiva de la prótesis"
+          ],
+          correcta: 1,
+          explicacion: "La provisionalización permite probar la oclusión organizada antes de comprometer materiales definitivos."
+        }
       ],
-      correcta: 1,
-      explicacion: "En rehabilitaciones extensas Okeson orienta a una oclusión organizada en RC con los criterios del Cap. 5, no a perpetuar interferencias lesivas.",
-      resolucion: "Arco facial + montaje en RC. Encerado con contactos posteriores axiales, guía anterior y canina, sin balance. Provisionalización y ajuste fino antes de definitivos."
+      resolucion: "Montaje en RC, encerado con contactos axiales posteriores, guía anterior/canina y sin balance. Provisionales bien ajustados; luego definitivos."
     },
     {
       id: "a4",
-      titulo: "Trauma y cóndilo",
-      contexto: "Adolescente con traumatismo mandibular hace 10 días. Dolor en ATM derecha, limitación, mordida abierta posterior del mismo lado de aparición reciente.",
-      hallazgos: "Apertura limitada. Contacto solo en anteriores; lado derecho posterior sin contacto. Radiografía/TC: sospecha de cambios condilares. No es un simple prematuro de resina.",
-      pregunta: "¿Conducta correcta?",
-      opciones: [
-        "Tallar los anteriores para cerrar la mordida abierta",
-        "No hacer ajuste oclusal agresivo; valorar fractura/contusión condilar, control interconsulta, medidas de soporte; el cambio oclusal puede ser secundario al trauma",
-        "Férula de reposicionamiento fuerte hacia atrás",
-        "Extracciones de premolares"
+      titulo: "Mordida abierta posterior tras un golpe",
+      contexto: "Adolescente con traumatismo mandibular hace 10 días. Dolor en ATM derecha, limitación y mordida abierta posterior de ese lado de aparición reciente.",
+      hallazgos: "Apertura limitada. Contacto preferente anterior; laterales posteriores derechos sin contacto. Imagen pendiente/sospechosa de compromiso condilar. No hay restauración reciente alta.",
+      pasos: [
+        {
+          pregunta: "¿Qué NO debes asumir?",
+          opciones: [
+            "Que toda mordida abierta posterior aguda post-trauma es un simple prematuro dental a tallar",
+            "Que puede haber contusión o fractura condilar con cambio oclusal secundario",
+            "Que el tallado irreversible de anteriores debe esperar al diagnóstico",
+            "Que el control imagenológico importa"
+          ],
+          correcta: 0,
+          explicacion: "Post-trauma, el cambio oclusal puede ser articular. Tallar anteriores 'para cerrar' sin diagnóstico puede ser un error grave."
+        },
+        {
+          pregunta: "¿Conducta correcta?",
+          opciones: [
+            "Tallar anteriores en la primera visita hasta lograr contacto molar",
+            "Evitar ajuste oclusal agresivo; completar diagnóstico (imagen), manejo de soporte del trauma y reevaluación oclusal diferida",
+            "Férula que empuje el cóndilo hacia atrás con fuerza",
+            "Extracciones de premolares inmediatas"
+          ],
+          correcta: 1,
+          explicacion: "Primero causa articular/traumática; la oclusión se reevalúa cuando haya claridad diagnóstica y estabilidad."
+        }
       ],
-      correcta: 1,
-      explicacion: "Mordida abierta posterior aguda post-trauma orienta a causa articular/condilar, no a 'sobrebite' dental primario. Evitar tallados irreversibles hasta diagnóstico imagenológico y estabilización.",
-      resolucion: "TC: contusión condilar sin desplazamiento quirúrgico. Manejo conservador, control de oclusión en el tiempo. No se tallaron anteriores. La oclusión se reevaluó a los 2–3 meses."
+      resolucion: "TC: contusión condilar sin indicación quirúrgica. Manejo conservador. No se tallaron anteriores. Reevaluación oclusal a los 2–3 meses."
     },
     {
       id: "a5",
-      titulo: "Caso mixto: músculo + disco + expectativa del paciente",
-      contexto: "Paciente con clic, dolor maseterino, bruxismo y una interferencia de balance. Pide 'que le cuadren todos los dientes en una sola cita' y 'que le quiten el clic para siempre'.",
-      hallazgos: "Desplazamiento con reducción, dolor muscular local, interferencia de balance, facetas. Expectativa de solución total e inmediata.",
-      pregunta: "¿Cómo ordenas el plan y la comunicación?",
-      opciones: [
-        "En una cita: tallado total + reposicionamiento + promesa de que el clic no volverá",
-        "Explicar límites (el clic puede persistir), priorizar control muscular y parafunción con férula de estabilización, reevaluar interferencia después; no prometer eliminación garantizada del ruido",
-        "Solo ortodoncia express",
-        "Rechazar al paciente sin explicación"
+      titulo: "Clic + músculo + interferencia + 'arrégleme todo hoy'",
+      contexto: "Paciente con clic, dolor maseterino, bruxismo e interferencia de balance. Pide que en una sola cita 'le cuadren los dientes y le quiten el clic para siempre'.",
+      hallazgos: "Desplazamiento con reducción, dolor muscular local, facetas, interferencia de balance. Expectativa de solución total e inmediata.",
+      pasos: [
+        {
+          pregunta: "¿Cómo conceptualizas el caso?",
+          opciones: [
+            "Un solo problema: la interferencia; eliminarla cura todo",
+            "Caso mixto multifactorial (disco + músculo + parafunción + oclusión); el clic no es el único criterio de éxito",
+            "Indicación quirúrgica de disco de entrada",
+            "Problema exclusivamente psicológico"
+          ],
+          correcta: 1,
+          explicacion: "Hay varios factores concurrentes. Reducirlo todo al tallado o a 'quitar el clic' es un marco incompleto."
+        },
+        {
+          pregunta: "¿Cómo ordenas plan y comunicación?",
+          opciones: [
+            "Tallado total + reposicionamiento + promesa de que el clic no volverá",
+            "Educar sobre límites (el clic puede persistir), priorizar control muscular y parafunción con estabilización, reevaluar la interferencia después; no garantizar la desaparición del ruido",
+            "Ortodoncia express sin fase reversible",
+            "Alta sin tratamiento porque es 'solo bruxismo'"
+          ],
+          correcta: 1,
+          explicacion: "Expectativas realistas + terapia por etapas. El éxito se mide más por dolor y función que por silencio articular absoluto."
+        }
       ],
-      correcta: 1,
-      explicacion: "Caso mixto multifactorial. Okeson: expectativas realistas, terapia por etapas, reversible primero. El clic no siempre desaparece y no es el único criterio de éxito.",
-      resolucion: "Sesión de educación. Férula estabilización, control de bruxismo diurno (alerta de apretamiento). A las 8 semanas menos dolor; el clic sigue pero no molesta. Se ajusta la interferencia de balance de forma conservadora. Alta parcial con controles."
+      resolucion: "Educación, férula de estabilización, control del apretamiento diurno. A las 8 semanas menos dolor; el clic sigue pero no molesta. Ajuste conservador de la interferencia de balance. Controles."
     }
   ]
 };
 
 const CASOS_NIVELES = [
-  { id: "basico", nombre: "Básico", desc: "Iatrogenia, clic asintomático, bruxismo simple, Angle vs Morris" },
+  { id: "basico", nombre: "Básico", desc: "Iatrogenia, clic asintomático, bruxismo, Angle vs Morris, dolor articular inicial" },
   { id: "intermedio", nombre: "Intermedio", desc: "Bloqueo cerrado, balance, DVO, dolor referido, férulas mal indicadas" },
   { id: "avanzado", nombre: "Avanzado", desc: "Crónicos, rehabilitación en RC, trauma condilar, casos mixtos" }
 ];
@@ -2074,20 +2300,20 @@ function abrirSimuladorCasos(origen){
 function renderCasosHome(){
   const prog = leerProgresoCasos();
   let html = `<div class="casos-intro">
-    <p>Resuelve casos de maloclusión y TTM como en clínica: lee el caso, elige la conducta y llega a la <b>resolución</b>.</p>
-    <p class="casos-hint">5 casos por nivel · Basado en criterios de Okeson</p>
+    <p>Cada caso tiene <b>dos pasos</b>: primero el <b>diagnóstico</b>, luego el <b>tratamiento</b>. Al final verás la resolución completa.</p>
+    <p class="casos-hint">5 casos por nivel · Criterios Okeson</p>
   </div>`;
   CASOS_NIVELES.forEach(n => {
     const lista = CASOS[n.id] || [];
-    const ok = lista.filter(c => prog[c.id] && prog[c.id].correcto).length;
+    const ok = lista.filter(c => prog[c.id] && prog[c.id].completo).length;
     html += `<button class="caso-nivel-card" onclick="renderCasosLista('${n.id}')">
       <span class="caso-nivel-nom">${n.nombre}</span>
       <span class="caso-nivel-desc">${n.desc}</span>
-      <span class="caso-nivel-prog">${ok}/${lista.length} resueltos</span>
+      <span class="caso-nivel-prog">${ok}/${lista.length} completados</span>
     </button>`;
   });
   const total = Object.values(CASOS).flat().length;
-  const hechos = Object.values(prog).filter(x=>x && x.correcto).length;
+  const hechos = Object.values(prog).filter(x=>x && x.completo).length;
   html += `<div class="casos-total">Progreso global: <b>${hechos}/${total}</b></div>`;
   html += `<button class="casos-volver" onclick="mostrarInicio()">← Volver al inicio</button>`;
   $('subScreenBody').innerHTML = html;
@@ -2101,8 +2327,8 @@ function renderCasosLista(nivelId){
     <h3 class="casos-lista-tit">${n.nombre}</h3>`;
   lista.forEach((c,i) => {
     const st = prog[c.id];
-    const badge = st && st.correcto ? '✓' : (st ? '○' : '');
-    html += `<button class="caso-item ${st&&st.correcto?'ok':''}" onclick="abrirCaso('${nivelId}',${i})">
+    const badge = st && st.completo ? '✓' : (st && st.paso > 0 ? '…' : '');
+    html += `<button class="caso-item ${st&&st.completo?'ok':''}" onclick="abrirCaso('${nivelId}',${i})">
       <span class="caso-num">${i+1}</span>
       <span class="caso-tit">${c.titulo}</span>
       <span class="caso-badge">${badge}</span>
@@ -2114,16 +2340,23 @@ function renderCasosLista(nivelId){
 function abrirCaso(nivelId, idx){
   const c = CASOS[nivelId][idx];
   if(!c) return;
-  window._casoActual = { nivelId, idx, c };
+  window._casoActual = { nivelId, idx, c, paso: 0, aciertos: 0 };
+  pintarPasoCaso();
+}
+
+function pintarPasoCaso(){
+  const { nivelId, idx, c, paso } = window._casoActual;
+  const p = c.pasos[paso];
+  const esDx = paso === 0;
   let html = `<button class="casos-volver" onclick="renderCasosLista('${nivelId}')">← Lista</button>
     <div class="caso-card">
-      <div class="caso-etiqueta">${CASOS_NIVELES.find(x=>x.id===nivelId).nombre} · Caso ${idx+1}</div>
+      <div class="caso-etiqueta">${CASOS_NIVELES.find(x=>x.id===nivelId).nombre} · Caso ${idx+1} · Paso ${paso+1}/2: ${esDx ? 'Diagnóstico' : 'Tratamiento'}</div>
       <h3>${c.titulo}</h3>
       <div class="caso-bloque"><b>Contexto</b><p>${c.contexto}</p></div>
       <div class="caso-bloque"><b>Hallazgos</b><p>${c.hallazgos}</p></div>
-      <div class="caso-bloque"><b>${c.pregunta}</b></div>
+      <div class="caso-bloque"><b>${p.pregunta}</b></div>
       <div class="caso-ops" id="casoOps">`;
-  c.opciones.forEach((op,i) => {
+  p.opciones.forEach((op,i) => {
     html += `<button class="caso-op" onclick="responderCaso(${i})">${op}</button>`;
   });
   html += `</div>
@@ -2133,29 +2366,50 @@ function abrirCaso(nivelId, idx){
 }
 
 function responderCaso(eleccion){
-  const { nivelId, idx, c } = window._casoActual;
-  const ok = eleccion === c.correcta;
-  const prog = leerProgresoCasos();
-  prog[c.id] = { correcto: ok, intento: (prog[c.id]&&prog[c.id].intento||0)+1 };
-  guardarProgresoCasos(prog);
+  const act = window._casoActual;
+  const { nivelId, idx, c, paso } = act;
+  const p = c.pasos[paso];
+  const ok = eleccion === p.correcta;
+  if(ok) act.aciertos = (act.aciertos||0) + 1;
 
   const ops = document.querySelectorAll('.caso-op');
   ops.forEach((btn,i) => {
     btn.disabled = true;
-    if(i === c.correcta) btn.classList.add('correcta');
+    if(i === p.correcta) btn.classList.add('correcta');
     if(i === eleccion && !ok) btn.classList.add('incorrecta');
   });
 
   const fb = $('casoFeedback');
   fb.style.display = 'block';
-  fb.innerHTML = `
-    <div class="caso-res-${ok?'ok':'bad'}">${ok ? '✓ Conducta correcta' : '✗ No es la mejor conducta'}</div>
-    <p><b>Explicación:</b> ${c.explicacion}</p>
-    <div class="caso-resolucion"><b>Resolución del caso</b><p>${c.resolucion}</p></div>
-    <button class="caso-sig" onclick="renderCasosLista('${nivelId}')">Volver a la lista</button>
-    ${idx < CASOS[nivelId].length-1 ? `<button class="caso-sig prim" onclick="abrirCaso('${nivelId}',${idx+1})">Siguiente caso →</button>` : ''}
-  `;
+
+  if(paso === 0){
+    // After diagnosis → go to treatment
+    fb.innerHTML = `
+      <div class="caso-res-${ok?'ok':'bad'}">${ok ? '✓ Diagnóstico correcto' : '✗ Revisa el razonamiento'}</div>
+      <p><b>Explicación:</b> ${p.explicacion}</p>
+      <button class="caso-sig prim" onclick="avanzarPasoCaso()">Continuar al tratamiento →</button>
+    `;
+  } else {
+    // After treatment → full resolution
+    const prog = leerProgresoCasos();
+    const completoOk = act.aciertos >= 2;
+    prog[c.id] = { completo: true, aciertos: act.aciertos, paso: 2 };
+    guardarProgresoCasos(prog);
+    fb.innerHTML = `
+      <div class="caso-res-${ok?'ok':'bad'}">${ok ? '✓ Tratamiento correcto' : '✗ No es la mejor conducta'}</div>
+      <p><b>Explicación:</b> ${p.explicacion}</p>
+      <div class="caso-resolucion"><b>Resolución del caso</b><p>${c.resolucion}</p></div>
+      <p class="casos-hint">Aciertos en este caso: ${act.aciertos}/2</p>
+      <button class="caso-sig" onclick="renderCasosLista('${nivelId}')">Volver a la lista</button>
+      ${idx < CASOS[nivelId].length-1 ? `<button class="caso-sig prim" onclick="abrirCaso('${nivelId}',${idx+1})">Siguiente caso →</button>` : ''}
+    `;
+  }
   fb.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function avanzarPasoCaso(){
+  window._casoActual.paso = 1;
+  pintarPasoCaso();
 }
 
 
