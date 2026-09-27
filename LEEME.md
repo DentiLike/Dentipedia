@@ -2,9 +2,37 @@
 
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
+
+## Cambios v56 — Simulador de casos clínicos
+
+- Nueva sección **Simulador de casos clínicos** (botón al inicio + menú).
+- 15 casos: 5 básico, 5 intermedio, 5 avanzado.
+- Flujo: contexto → hallazgos → decisión → explicación → **resolución del caso**.
+- Progreso guardado en el dispositivo del alumno.
+- Temas: iatrogenia, clic asintomático, bruxismo, Angle vs Morris, bloqueo cerrado, interferencia de balance, dolor referido, férulas mal indicadas, casos crónicos y rehabilitación (criterios Okeson).
+
+## Cambios v55 (mejoras completas Okeson)
+
+### Nuevos materiales
+- **Tema 12 · Criterios de oclusión funcional óptima (Okeson Cap. 5)**: contactos en cierre, guía anterior, lateralidad, oclusión mutuamente protegida, checklist clínico.
+- **Ficha Angle vs Morris vs Okeson**: tabla comparativa de 1 página para eliminar la confusión de clases.
+- **Ficha Diagnóstico TTM (Okeson)**: secuencia historia → exploración → clasificación músculo/articulación → tratamiento; qué NO hacer; checklist de férula.
+
+### Glosario (67 términos)
+- Sinónimos unificados: interferencia de balance = no trabajo; oclusión funcional óptima = mutuamente protegida.
+- Nuevos: co-contracción protectora, dolor miofascial, función de grupo, terapia reversible.
+
+### Cuestionarios (536 preguntas)
+- Casos clínicos cortos (clic asintomático, dolor + interferencia, qué es FALSO según Okeson).
+- Preguntas de errores comunes (férulas, Angle vs Morris).
+
+### Service Worker
+- `dentipedia-v55`
+
+
 ---
 
-## Cambios v53–v54 (revisión Okeson)
+## Cambios v53–v55 (revisión Okeson)
 
 - **Glosario ampliado** (+11 términos clave de Okeson):
   - Oclusión mutuamente protegida

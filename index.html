@@ -705,6 +705,42 @@ body.mp-abierto{overflow:hidden}
 .inst-nota{font-size:.76rem; color:var(--gris); background:var(--azul-claro); padding:.55rem .7rem; border-radius:10px; line-height:1.5}
 .inst-ok{font-size:2.4rem; margin-bottom:.3rem}
 .modal-btn{margin-top:1rem; width:100%; background:var(--azul); color:#fff; font-weight:700; font-size:.9rem; padding:.8rem; border-radius:12px}
+
+/* Simulador de casos clínicos */
+.ini-btn-caso{ grid-column: 1 / -1; background: linear-gradient(135deg,#2b6cb0,#1a365d); color:#fff !important; }
+.ini-btn-caso span{ filter:none; }
+.casos-intro{ padding:12px 4px 8px; font-size:14px; color:#4a5568; line-height:1.45; }
+.casos-hint{ font-size:12px; color:#718096; margin-top:4px; }
+.caso-nivel-card{ display:block; width:100%; text-align:left; border:1px solid #e2e8f0; border-radius:12px; padding:14px 16px; margin:8px 0; background:#fff; cursor:pointer; }
+.caso-nivel-card:active{ background:#ebf8ff; }
+.caso-nivel-nom{ display:block; font-weight:700; color:#1a365d; font-size:16px; }
+.caso-nivel-desc{ display:block; font-size:12px; color:#718096; margin-top:2px; }
+.caso-nivel-prog{ display:block; font-size:12px; color:#2b6cb0; margin-top:6px; font-weight:600; }
+.casos-total{ text-align:center; font-size:13px; color:#4a5568; margin:12px 0; }
+.casos-volver{ background:none; border:none; color:#2b6cb0; font-size:14px; padding:8px 0; cursor:pointer; }
+.casos-lista-tit{ margin:8px 0 12px; color:#1a365d; }
+.caso-item{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin:6px 0; background:#fff; cursor:pointer; }
+.caso-item.ok{ border-color:#9ae6b4; background:#f0fff4; }
+.caso-num{ width:28px; height:28px; border-radius:50%; background:#edf2f7; display:flex; align-items:center; justify-content:center; font-weight:700; color:#2b6cb0; flex-shrink:0; }
+.caso-tit{ flex:1; font-size:14px; color:#2d3748; }
+.caso-badge{ color:#38a169; font-weight:700; }
+.caso-card{ padding:8px 4px 24px; }
+.caso-etiqueta{ font-size:11px; color:#718096; text-transform:uppercase; letter-spacing:.04em; }
+.caso-card h3{ color:#1a365d; margin:6px 0 12px; font-size:18px; }
+.caso-bloque{ margin:10px 0; font-size:14px; line-height:1.45; color:#2d3748; }
+.caso-bloque b{ color:#1a365d; }
+.caso-ops{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.caso-op{ text-align:left; padding:12px 14px; border-radius:10px; border:1px solid #cbd5e0; background:#fff; font-size:13.5px; line-height:1.35; cursor:pointer; color:#2d3748; }
+.caso-op:disabled{ opacity:.95; cursor:default; }
+.caso-op.correcta{ border-color:#38a169; background:#f0fff4; }
+.caso-op.incorrecta{ border-color:#e53e3e; background:#fff5f5; }
+.caso-feedback{ margin-top:16px; padding:14px; border-radius:12px; background:#f7fafc; border:1px solid #e2e8f0; font-size:14px; line-height:1.45; }
+.caso-res-ok{ color:#276749; font-weight:700; margin-bottom:8px; }
+.caso-res-bad{ color:#c53030; font-weight:700; margin-bottom:8px; }
+.caso-resolucion{ margin-top:12px; padding:12px; background:#ebf8ff; border-radius:8px; border-left:3px solid #2b6cb0; }
+.caso-sig{ margin:8px 8px 0 0; padding:10px 16px; border-radius:8px; border:1px solid #cbd5e0; background:#fff; cursor:pointer; font-size:14px; }
+.caso-sig.prim{ background:#2b6cb0; color:#fff; border-color:#2b6cb0; }
+
 </style>
 </head>
 <body>
@@ -743,6 +779,7 @@ body.mp-abierto{overflow:hidden}
         <button class="dropdown-item" onclick="elegirModoPractica('inicio')">▶️ Modo Práctica</button>
         <button class="dropdown-item" onclick="abrirRuta('inicio')">🧭 Step by Dent</button>
         <button class="dropdown-item" onclick="irAlQuiz()">📝 Quiz de repaso</button>
+        <button class="dropdown-item" onclick="abrirSimuladorCasos('inicio')">🩺 Simulador de casos clínicos</button>
         <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
         <button class="dropdown-item" onclick="abrirMisCalificaciones('inicio')">📊 Mis calificaciones</button>
         <div class="dropdown-sep"></div>
@@ -1049,6 +1086,7 @@ function pintarInicio(){
       <button class="ini-btn" onclick="abrirBiblioteca('inicio','lab')"><span>🧪</span>Laboratorio</button>
       <button class="ini-btn" onclick="irAlQuiz()"><span>📝</span>Quiz</button>
       <button class="ini-btn" onclick="abrirFechas('inicio')"><span>📅</span>Calendario</button>
+      <button class="ini-btn ini-btn-caso" onclick="abrirSimuladorCasos()"><span>🩺</span>Casos clínicos</button>
     </div>
     <div class="ini-avance">
       <div class="ini-avance-top"><span>Tu avance en ${RUTAS[rutaActual].nombre}</span><b>${pctR}%</b></div>
@@ -1759,6 +1797,368 @@ const NIVELES = [
 
 /* Banco de preguntas por nivel — todas verificables contra el material del
    Tema 1 cargado por el Dr. Alvarado. Sin contenido inventado. */
+
+/* ===== SIMULADOR DE CASOS CLÍNICOS ===== */
+const CASOS = {
+  basico: [
+    {
+      id: "b1",
+      titulo: "Contacto prematuro después de una resina",
+      contexto: "Paciente de 32 años. Hace 3 días le colocaron una resina en el 26. Refiere que 'ese diente le estorba' al cerrar y tiene molestia en el masetero del mismo lado.",
+      hallazgos: "Al cierre en RC hay un contacto único y prematuro en la resina del 26. Deslizamiento de ~1 mm hacia MIC. Palpación: masetero derecho sensible. Apertura normal, sin ruidos articulares.",
+      pregunta: "¿Cuál es el diagnóstico más probable y la primera conducta?",
+      opciones: [
+        "Desplazamiento discal → férula de reposicionamiento",
+        "Contacto prematuro iatrogénico (Clase III de Morris / supraoclusión) → ajustar la resina y reevaluar",
+        "Bruxismo primario → férula de estabilización nocturna de inmediato",
+        "Capsulitis → AINEs y reposo mandibular 2 semanas"
+      ],
+      correcta: 1,
+      explicacion: "Es una causa clásica de relación vertical aumentada (Morris III): restauración alta. La conducta es identificar y corregir la iatrogenia, no iniciar terapia de TTM compleja.",
+      resolucion: "Se marca con papel de articular el prematuro, se reduce la resina hasta contactos simultáneos y se verifica en protrusiva y lateralidad. En 48 h la molestia maseterina cede. Control en 1 semana."
+    },
+    {
+      id: "b2",
+      titulo: "Clic asintomático de larga evolución",
+      contexto: "Mujer de 24 años. Clic en ATM izquierda desde los 18 años. Sin dolor, sin limitación de apertura, sin bloqueos. Consulta porque 'escuchó que el clic hay que operarlo'.",
+      hallazgos: "Apertura 48 mm. Clic recíproco izquierdo reproducible. Sin dolor a la palpación muscular ni articular. Oclusión estable, sin interferencias evidentes.",
+      pregunta: "Según Okeson, ¿qué le indicas?",
+      opciones: [
+        "Férula de reposicionamiento anterior 3 meses",
+        "Cirugía de disco porque el clic no se cura solo",
+        "Observación y control; muchos desplazamientos con reducción asintomáticos no requieren tratamiento",
+        "Tallado selectivo para 'eliminar el clic'"
+      ],
+      correcta: 2,
+      explicacion: "Okeson: no se trata el ruido por sí solo. Si no hay dolor ni disfunción, la observación es válida. El reposicionamiento y la cirugía no están indicados solo por el clic.",
+      resolucion: "Se explica la naturaleza del desplazamiento con reducción, se da higiene articular (evitar boqueadas amplias) y control anual. No se indica férula ni cirugía."
+    },
+    {
+      id: "b3",
+      titulo: "Facets y dolor matutino",
+      contexto: "Hombre de 40 años. Dolor maseterino al despertar. Niega dolor diurno. Su pareja refiere que 'rechina los dientes de noche'.",
+      hallazgos: "Facetas brillantes en caninos y premolares que coinciden entre arcadas. Hipertrofia maseterina bilateral. Apertura normal. Sin clic. Interferencia leve de balance derecha.",
+      pregunta: "¿Cuál es el plan inicial más coherente?",
+      opciones: [
+        "Tallado selectivo inmediato de la interferencia de balance",
+        "Férula de estabilización nocturna + educación sobre bruxismo y control del estrés",
+        "Férula de reposicionamiento porque hay facetas",
+        "Ortodoncia para 'corregir la causa del bruxismo'"
+      ],
+      correcta: 1,
+      explicacion: "Bruxismo nocturno con dolor muscular: terapia reversible primero (férula de estabilización tipo Michigan). El ajuste oclusal definitivo se valora cuando el sistema está estable, no en caliente.",
+      resolucion: "Se coloca férula de estabilización de cobertura total, contactos uniformes en RC, guía anterior y canina. Control a los 15 días: dolor matutino casi desaparece. Se mantiene uso nocturno."
+    },
+    {
+      id: "b4",
+      titulo: "¿Angle o Morris?",
+      contexto: "En clínica un compañero dice: 'este paciente es Clase IV, hay que tratarlo'. El paciente tiene oclusión cruzada posterior derecha y al cerrar la mandíbula se desvía hacia ese lado.",
+      hallazgos: "Relación molar: Clase I de Angle bilateral. Al cierre desde RC, desviación lateroprotrusiva hacia la derecha por contactos en la cruzada posterior.",
+      pregunta: "¿Qué clasificación aplica y qué implica?",
+      opciones: [
+        "Clase IV de Angle → ortodoncia obligatoria",
+        "Clase IV de Morris (latero-protrusiva) → describe la desviación por obstáculo; el tratamiento depende del daño y de los criterios de oclusión óptima",
+        "Clase II de Morris → deslizamiento posterior",
+        "No es ninguna clase porque es Clase I de Angle"
+      ],
+      correcta: 1,
+      explicacion: "Angle solo tiene I–II–III (relación molar). Morris IV describe la desviación lateroprotrusiva por obstáculo (aquí la cruzada). El tratamiento no lo dicta el número de clase, sino daño + oclusión funcional.",
+      resolucion: "Se documenta: Angle I + Morris IV (desviación por cruzada). Se evalúa si hay dolor, facetas o sobrecarga. Si está adaptado y asintomático, se informa y se controla; si hay daño, se planifica corrección de la cruzada y/o terapia oclusal."
+    },
+    {
+      id: "b5",
+      titulo: "Primera visita con dolor preauricular",
+      contexto: "Paciente de 29 años. Dolor preauricular izquierdo de 10 días, aumenta al masticar. Niega traumatismo. No ha usado férula ni ha tenido tratamientos dentales recientes.",
+      hallazgos: "Apertura 42 mm con dolor al final. Palpación: polo lateral de cóndilo izquierdo sensible. Músculos sin dolor significativo. Oclusión sin prematuros evidentes.",
+      pregunta: "¿Orientación diagnóstica inicial?",
+      opciones: [
+        "Dolor miofascial del masetero → solo fisioterapia",
+        "Probable capsulitis/sinovitis o sobrecarga articular local → reposo relativo, dieta blanda, AINE si procede, reevaluar oclusión y parafunción",
+        "Desplazamiento sin reducción → férula de reposicionamiento ya",
+        "Neuralgia del trigémino → interconsulta neurológica urgente"
+      ],
+      correcta: 1,
+      explicacion: "Dolor localizado en la articulación, agravado por función, con poca componente muscular sugiere proceso inflamatorio capsular/sinovial. Primero medidas reversibles y reevaluación; no saltar a reposicionamiento sin datos de disco.",
+      resolucion: "Se indica dieta blanda, evitar chicle y boqueadas, AINE corto plazo. Control a 10 días: dolor cedió. Se investiga parafunción y se considera férula de estabilización si hay bruxismo."
+    }
+  ],
+  intermedio: [
+    {
+      id: "i1",
+      titulo: "Clic que 'desapareció' y ahora no abre",
+      contexto: "Mujer de 35 años. Hace años tenía clic derecho. Desde hace 5 días el clic ya no se oye y no puede abrir bien la boca. Dolor al intentar abrir.",
+      hallazgos: "Apertura máxima 28 mm. Desviación hacia la derecha al abrir. Sin clic. Dolor en ATM derecha al forzar apertura. Antecedente de clic recíproco.",
+      pregunta: "¿Qué ocurrió y cuál es el manejo inicial?",
+      opciones: [
+        "Mejoró el clic → alta",
+        "Progresión a desplazamiento discal sin reducción (bloqueo cerrado) → terapia reversible: control de dolor, física suave, posible férula; evitar forzar",
+        "Luxación → reducción manual inmediata en silla",
+        "Anquilosis → cirugía"
+      ],
+      correcta: 1,
+      explicacion: "La desaparición del clic + limitación de apertura + desviación al lado afectado = progresión a sin reducción. No es mejoría. Manejo inicial reversible según Okeson.",
+      resolucion: "Se confirma bloqueo cerrado. Analgesia, ejercicios de apertura controlados, férula de estabilización (no reposicionamiento forzado en agudo). A las 3 semanas apertura 38 mm con menos dolor. Se reevalúa oclusión y hábitos."
+    },
+    {
+      id: "i2",
+      titulo: "Interferencia de balance y abfracciones",
+      contexto: "Paciente de 45 años. Abfracciones cervicales en premolares superiores derechos. Facetas en el lado izquierdo. Sin dolor articular intenso; molestia muscular ocasional.",
+      hallazgos: "En lateralidad izquierda hay contacto en el lado derecho (balance). Guía canina izquierda insuficiente. Facetas coincidentes en trabajo izquierdo.",
+      pregunta: "¿Qué relación hay entre los hallazgos y qué harías?",
+      opciones: [
+        "Las abfracciones son solo por cepillado horizontal → solo cambiar técnica de higiene",
+        "Fuerzas laterales por interferencia de balance y/o guía insuficiente → documentar, control de parafunción, valorar ajuste o férula; no tallar en caliente si hay hiperactividad",
+        "Siempre cirugía de caninos",
+        "Ignorar la interferencia porque no hay dolor fuerte hoy"
+      ],
+      correcta: 1,
+      explicacion: "Abfracciones y facetas orientan a sobrecarga lateral. La interferencia de balance es la más lesiva. Conducta: diagnóstico completo, terapia reversible si hay hiperactividad, luego decidir ajuste.",
+      resolucion: "Se registra interferencia de balance derecha. Férula de estabilización 6 semanas. Al estabilizar, se elimina la interferencia con tallado selectivo mínimo y se refuerza guía canina en la férula de mantenimiento nocturno."
+    },
+    {
+      id: "i3",
+      titulo: "Pérdida de posteriores y dimensión vertical",
+      contexto: "Hombre de 58 años. Perdió molares inferiores izquierdos hace años. Mastica solo del lado derecho. Llega con dolor en ATM izquierda y aspecto de tercio inferior disminuido.",
+      hallazgos: "Colapso posterior izquierdo. Facetas y desgaste en el lado de trabajo derecho. Cóndilo izquierdo sensible. Posible Morris V (vertical disminuida).",
+      pregunta: "¿Enfoque terapéutico prioritario?",
+      opciones: [
+        "Solo AINEs",
+        "Restaurar soporte posterior (prótesis) + control de sobrecarga del lado de trabajo; valorar férula mientras se planifica la rehabilitación",
+        "Férula de reposicionamiento definitiva de por vida",
+        "Extracciones del lado derecho para 'equilibrar'"
+      ],
+      correcta: 1,
+      explicacion: "Pérdida de soporte posterior (Morris V) + masticación unilateral sobrecarga el lado contrario y puede afectar la ATM del lado edéntulo. Hay que devolver soporte y proteger.",
+      resolucion: "Férula provisional / prótesis provisional para recuperar DVO y soporte. Luego prótesis definitiva. Dolor articular cede al dejar de sobrecargar un solo lado."
+    },
+    {
+      id: "i4",
+      titulo: "Dolor referido que 'parece dental'",
+      contexto: "Paciente insiste en que le duele el 26. Ya le hicieron endodoncia del 26 en otro consultorio 'por si acaso' y el dolor sigue.",
+      hallazgos: "26 sin signos de fracaso endodóntico. Palpación del masetero profundo y pterigoideo reproduce el dolor 'del 26'. Punto gatillo en masetero.",
+      pregunta: "¿Diagnóstico y conducta?",
+      opciones: [
+        "Repetir la endodoncia",
+        "Dolor miofascial con referido a diente → tratar el músculo (punto gatillo, fisioterapia, control de parafunción), no más tratamiento dental del 26 sin evidencia",
+        "Extraer el 26",
+        "Antibiótico de amplio espectro"
+      ],
+      correcta: 1,
+      explicacion: "El dolor referido miofascial imita odontalgia. Si la palpación muscular reproduce el síntoma y el diente está en orden, el tratamiento es muscular.",
+      resolucion: "Se explica el mecanismo de referido. Técnica de spray-and-stretch / presión en punto gatillo, férula nocturna, higiene postural. El 'dolor del 26' desaparece en 2 semanas."
+    },
+    {
+      id: "i5",
+      titulo: "Férula de reposicionamiento mal indicada",
+      contexto: "Paciente llega con férula anterior de reposicionamiento colocada hace 8 meses 'por un clic'. Ahora tiene mordida abierta posterior y no puede ocluir los molares.",
+      hallazgos: "Solo contactan anteriores. Posteriores sin contacto. Historia de clic que ya no está. Uso continuo de férula de reposicionamiento.",
+      pregunta: "¿Qué pasó y qué haces?",
+      opciones: [
+        "Es el resultado deseado → dejar la férula para siempre",
+        "Efecto adverso del uso prolongado de reposicionamiento (extrusión/intrusión relativa) → suspender reposicionamiento, estabilizar con férula de cobertura total o rehabilitación, nunca dejar reposicionamiento indefinido sin control",
+        "Colocar otra férula más gruesa adelante",
+        "Ortodoncia inmediata sin diagnóstico"
+      ],
+      correcta: 1,
+      explicacion: "Okeson advierte: reposicionamiento prolongado puede causar mordida abierta posterior irreversible. Uso limitado y con controles. Aquí hay que estabilizar y planificar recuperación de contactos posteriores.",
+      resolucion: "Se retira el reposicionamiento. Férula de estabilización a la nueva posición o rehabilitación/ortodoncia según el caso. Se documenta el iatrogenismo y se evita repetir la indicación incorrecta."
+    }
+  ],
+  avanzado: [
+    {
+      id: "a1",
+      titulo: "Dolor crónico + bruxismo + interferencias",
+      contexto: "Mujer de 42 años. 4 años de dolor facial bilateral. Múltiples ajustes oclusales previos sin mejoría sostenida. Bruxismo diurno y nocturno. Ansiedad.",
+      hallazgos: "Dolor muscular generalizado (maseteros, temporales, cervicales). Puntos gatillo. Facetas extensas. Varias interferencias. ATM sin bloqueo. Ya le tallaron caninos 'para desocluir'.",
+      pregunta: "¿Qué error de enfoque es el más importante a corregir?",
+      opciones: [
+        "Faltó tallar más molares",
+        "Se trató la oclusión de forma irreversible antes de controlar el componente muscular y central (parafunción/estrés); Okeson: reversible primero, oclusión definitiva cuando haya estabilidad",
+        "Debió operarse el disco desde el inicio",
+        "Solo faltaba una férula de reposicionamiento"
+      ],
+      correcta: 1,
+      explicacion: "El patrón es mialgia crónica / miofascial + parafunción. Ajustes repetidos sin controlar el factor central suelen fracasar. Priorizar educación, férula de estabilización, manejo de estrés/sueño; reevaluar oclusión después.",
+      resolucion: "Se detienen los tallados. Programa: férula estabilización, fisioterapia, higiene de sueño, interconsulta si ansiedad severa. A los 3 meses el dolor bajó 60 %. Solo entonces se revisa si queda alguna interferencia residual relevante."
+    },
+    {
+      id: "a2",
+      titulo: "Bloqueo cerrado unilateral y decisión de férula",
+      contexto: "Hombre de 31 años. Bloqueo cerrado izquierdo de 3 semanas. Apertura 26 mm. Dolor moderado. Quiere 'que le pongan la férula que empuja la mandíbula adelante' porque lo leyó en internet.",
+      hallazgos: "Desplazamiento sin reducción izquierdo. Sin inflamación aguda severa. Oclusión: deslizamiento céntrico 1 mm. No hay evidencia de que la posición adelantada se mantenga estable sin férula.",
+      pregunta: "¿Qué decides respecto al reposicionamiento?",
+      opciones: [
+        "Reposicionamiento anterior inmediato y uso 24 h durante 1 año",
+        "Valorar si hay indicación real (dolor/disfunción reciente, posibilidad de recaptura); si se usa, tiempo limitado y controles estrictos; muchas veces se inicia con estabilización + física",
+        "Cirugía de disco en la primera visita",
+        "Tallado selectivo para 'abrir el bloqueo'"
+      ],
+      correcta: 1,
+      explicacion: "El reposicionamiento no es automático en todo bloqueo. Indicación selectiva, tiempo limitado, riesgo de cambios oclusales. Alternativa frecuente: estabilización + medidas conservadoras.",
+      resolucion: "Se inicia manejo conservador y férula de estabilización. A las 6 semanas apertura 35 mm. No se forzó reposicionamiento prolongado. Se documentó el consentimiento sobre límites del tratamiento."
+    },
+    {
+      id: "a3",
+      titulo: "Rehabilitación extensa: ¿dónde montar?",
+      contexto: "Paciente que requiere rehabilitación de dos arcadas. Tiene deslizamiento céntrico de 2 mm y antecedentes de dolor muscular que hoy está controlado con férula.",
+      hallazgos: "RC localizable. MIC actual con interferencias de balance. DVO vertical aceptable. Músculos actualmente sin dolor.",
+      pregunta: "¿Principio de Okeson para el montaje y diseño oclusal?",
+      opciones: [
+        "Montar en MIC habitual y copiar las interferencias 'porque está adaptado'",
+        "Organizar la oclusión en relación céntrica (o muy próxima), con criterios de oclusión funcional óptima: contactos estables, guía anterior, sin interferencias de balance",
+        "Aumentar DVO 6 mm por protocolo fijo",
+        "Dejar solo contactos en anteriores"
+      ],
+      correcta: 1,
+      explicacion: "En rehabilitaciones extensas Okeson orienta a una oclusión organizada en RC con los criterios del Cap. 5, no a perpetuar interferencias lesivas.",
+      resolucion: "Arco facial + montaje en RC. Encerado con contactos posteriores axiales, guía anterior y canina, sin balance. Provisionalización y ajuste fino antes de definitivos."
+    },
+    {
+      id: "a4",
+      titulo: "Trauma y cóndilo",
+      contexto: "Adolescente con traumatismo mandibular hace 10 días. Dolor en ATM derecha, limitación, mordida abierta posterior del mismo lado de aparición reciente.",
+      hallazgos: "Apertura limitada. Contacto solo en anteriores; lado derecho posterior sin contacto. Radiografía/TC: sospecha de cambios condilares. No es un simple prematuro de resina.",
+      pregunta: "¿Conducta correcta?",
+      opciones: [
+        "Tallar los anteriores para cerrar la mordida abierta",
+        "No hacer ajuste oclusal agresivo; valorar fractura/contusión condilar, control interconsulta, medidas de soporte; el cambio oclusal puede ser secundario al trauma",
+        "Férula de reposicionamiento fuerte hacia atrás",
+        "Extracciones de premolares"
+      ],
+      correcta: 1,
+      explicacion: "Mordida abierta posterior aguda post-trauma orienta a causa articular/condilar, no a 'sobrebite' dental primario. Evitar tallados irreversibles hasta diagnóstico imagenológico y estabilización.",
+      resolucion: "TC: contusión condilar sin desplazamiento quirúrgico. Manejo conservador, control de oclusión en el tiempo. No se tallaron anteriores. La oclusión se reevaluó a los 2–3 meses."
+    },
+    {
+      id: "a5",
+      titulo: "Caso mixto: músculo + disco + expectativa del paciente",
+      contexto: "Paciente con clic, dolor maseterino, bruxismo y una interferencia de balance. Pide 'que le cuadren todos los dientes en una sola cita' y 'que le quiten el clic para siempre'.",
+      hallazgos: "Desplazamiento con reducción, dolor muscular local, interferencia de balance, facetas. Expectativa de solución total e inmediata.",
+      pregunta: "¿Cómo ordenas el plan y la comunicación?",
+      opciones: [
+        "En una cita: tallado total + reposicionamiento + promesa de que el clic no volverá",
+        "Explicar límites (el clic puede persistir), priorizar control muscular y parafunción con férula de estabilización, reevaluar interferencia después; no prometer eliminación garantizada del ruido",
+        "Solo ortodoncia express",
+        "Rechazar al paciente sin explicación"
+      ],
+      correcta: 1,
+      explicacion: "Caso mixto multifactorial. Okeson: expectativas realistas, terapia por etapas, reversible primero. El clic no siempre desaparece y no es el único criterio de éxito.",
+      resolucion: "Sesión de educación. Férula estabilización, control de bruxismo diurno (alerta de apretamiento). A las 8 semanas menos dolor; el clic sigue pero no molesta. Se ajusta la interferencia de balance de forma conservadora. Alta parcial con controles."
+    }
+  ]
+};
+
+const CASOS_NIVELES = [
+  { id: "basico", nombre: "Básico", desc: "Iatrogenia, clic asintomático, bruxismo simple, Angle vs Morris" },
+  { id: "intermedio", nombre: "Intermedio", desc: "Bloqueo cerrado, balance, DVO, dolor referido, férulas mal indicadas" },
+  { id: "avanzado", nombre: "Avanzado", desc: "Crónicos, rehabilitación en RC, trauma condilar, casos mixtos" }
+];
+
+function leerProgresoCasos(){
+  try { return JSON.parse(localStorage.getItem('mm_casos')||'{}'); } catch(e){ return {}; }
+}
+function guardarProgresoCasos(p){
+  try { localStorage.setItem('mm_casos', JSON.stringify(p)); } catch(e){}
+}
+
+function abrirSimuladorCasos(origen){
+  if(origen) try{ toggleHdrMenu(origen); }catch(e){}
+  pantallaAnterior = 'inicio';
+  $('inicioScreen').classList.remove('show');
+  $('chatScreen').classList.remove('show');
+  $('subScreen').classList.add('show');
+  $('subScreenTitle').textContent = 'Simulador de casos clínicos';
+  renderCasosHome();
+}
+
+function renderCasosHome(){
+  const prog = leerProgresoCasos();
+  let html = `<div class="casos-intro">
+    <p>Resuelve casos de maloclusión y TTM como en clínica: lee el caso, elige la conducta y llega a la <b>resolución</b>.</p>
+    <p class="casos-hint">5 casos por nivel · Basado en criterios de Okeson</p>
+  </div>`;
+  CASOS_NIVELES.forEach(n => {
+    const lista = CASOS[n.id] || [];
+    const ok = lista.filter(c => prog[c.id] && prog[c.id].correcto).length;
+    html += `<button class="caso-nivel-card" onclick="renderCasosLista('${n.id}')">
+      <span class="caso-nivel-nom">${n.nombre}</span>
+      <span class="caso-nivel-desc">${n.desc}</span>
+      <span class="caso-nivel-prog">${ok}/${lista.length} resueltos</span>
+    </button>`;
+  });
+  const total = Object.values(CASOS).flat().length;
+  const hechos = Object.values(prog).filter(x=>x && x.correcto).length;
+  html += `<div class="casos-total">Progreso global: <b>${hechos}/${total}</b></div>`;
+  html += `<button class="casos-volver" onclick="mostrarInicio()">← Volver al inicio</button>`;
+  $('subScreenBody').innerHTML = html;
+}
+
+function renderCasosLista(nivelId){
+  const n = CASOS_NIVELES.find(x=>x.id===nivelId);
+  const lista = CASOS[nivelId] || [];
+  const prog = leerProgresoCasos();
+  let html = `<button class="casos-volver" onclick="renderCasosHome()">← Niveles</button>
+    <h3 class="casos-lista-tit">${n.nombre}</h3>`;
+  lista.forEach((c,i) => {
+    const st = prog[c.id];
+    const badge = st && st.correcto ? '✓' : (st ? '○' : '');
+    html += `<button class="caso-item ${st&&st.correcto?'ok':''}" onclick="abrirCaso('${nivelId}',${i})">
+      <span class="caso-num">${i+1}</span>
+      <span class="caso-tit">${c.titulo}</span>
+      <span class="caso-badge">${badge}</span>
+    </button>`;
+  });
+  $('subScreenBody').innerHTML = html;
+}
+
+function abrirCaso(nivelId, idx){
+  const c = CASOS[nivelId][idx];
+  if(!c) return;
+  window._casoActual = { nivelId, idx, c };
+  let html = `<button class="casos-volver" onclick="renderCasosLista('${nivelId}')">← Lista</button>
+    <div class="caso-card">
+      <div class="caso-etiqueta">${CASOS_NIVELES.find(x=>x.id===nivelId).nombre} · Caso ${idx+1}</div>
+      <h3>${c.titulo}</h3>
+      <div class="caso-bloque"><b>Contexto</b><p>${c.contexto}</p></div>
+      <div class="caso-bloque"><b>Hallazgos</b><p>${c.hallazgos}</p></div>
+      <div class="caso-bloque"><b>${c.pregunta}</b></div>
+      <div class="caso-ops" id="casoOps">`;
+  c.opciones.forEach((op,i) => {
+    html += `<button class="caso-op" onclick="responderCaso(${i})">${op}</button>`;
+  });
+  html += `</div>
+      <div id="casoFeedback" class="caso-feedback" style="display:none"></div>
+    </div>`;
+  $('subScreenBody').innerHTML = html;
+}
+
+function responderCaso(eleccion){
+  const { nivelId, idx, c } = window._casoActual;
+  const ok = eleccion === c.correcta;
+  const prog = leerProgresoCasos();
+  prog[c.id] = { correcto: ok, intento: (prog[c.id]&&prog[c.id].intento||0)+1 };
+  guardarProgresoCasos(prog);
+
+  const ops = document.querySelectorAll('.caso-op');
+  ops.forEach((btn,i) => {
+    btn.disabled = true;
+    if(i === c.correcta) btn.classList.add('correcta');
+    if(i === eleccion && !ok) btn.classList.add('incorrecta');
+  });
+
+  const fb = $('casoFeedback');
+  fb.style.display = 'block';
+  fb.innerHTML = `
+    <div class="caso-res-${ok?'ok':'bad'}">${ok ? '✓ Conducta correcta' : '✗ No es la mejor conducta'}</div>
+    <p><b>Explicación:</b> ${c.explicacion}</p>
+    <div class="caso-resolucion"><b>Resolución del caso</b><p>${c.resolucion}</p></div>
+    <button class="caso-sig" onclick="renderCasosLista('${nivelId}')">Volver a la lista</button>
+    ${idx < CASOS[nivelId].length-1 ? `<button class="caso-sig prim" onclick="abrirCaso('${nivelId}',${idx+1})">Siguiente caso →</button>` : ''}
+  `;
+  fb.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+
 const QUIZ = {
   atm: {
     facil: [
@@ -2057,6 +2457,9 @@ const QUIZ = {
       {q:"¿Qué es la oclusión mutuamente protegida?", ops:["Cuando todos los dientes contactan al mismo tiempo en cualquier movimiento","Posteriores protegen a anteriores en cierre; anteriores (guía) protegen a posteriores en excursiones","Solo los caninos contactan en todas las posiciones","Una oclusión sin ninguna interferencia de ningún tipo"], correcta:1, explicacion:"Es el esquema funcional ideal (Okeson): en máxima intercuspidación los posteriores reciben la carga axial y protegen a los anteriores; en protrusiva y lateralidad la guía anterior/canina desocluye los posteriores y los protege de fuerzas laterales."},
       {q:"¿Cuándo una fuerza oclusal se considera lesiva?", ops:["Siempre que exista una interferencia","Cuando supera la capacidad de adaptación de los tejidos y produce daño","Solo si el paciente tiene bruxismo","Solo si hay movilidad dentaria"], correcta:1, explicacion:"Okeson enfatiza la capacidad de adaptación. La misma interferencia puede ser tolerada por un paciente y lesiva para otro. Lo que define lo lesivo es el daño (dolor, facetas patológicas, movilidad, reabsorción, etc.), no la mera presencia del contacto."},
       {q:"¿Cómo se diferencian las facetas de desgaste fisiológicas de las patológicas?", ops:["Las fisiológicas solo aparecen en anteriores","Las patológicas son planas, brillantes, coinciden entre arcadas y se asocian a sobrecarga o bruxismo","Las fisiológicas siempre duelen","No hay diferencia, todas son patológicas"], correcta:1, explicacion:"Cierto grado de atrición es normal con la edad. Las facetas patológicas son extensas, brillantes, coinciden cuando se llevan los modelos a la posición de contacto y suelen acompañarse de otros signos de sobrecarga."},
+      {q:"Paciente de 28 años con clic recíproco asintomático desde hace 3 años, sin dolor ni limitación. ¿Cuál es la conducta más coherente con Okeson?", ops:["Férula de reposicionamiento anterior inmediata","Ajuste oclusal para eliminar el clic","Observación y control; muchos clics asintomáticos no requieren tratamiento","Tallado selectivo de caninos"], correcta:2, explicacion:"Okeson: no todo clic se trata. Si no hay dolor ni disfunción, la observación es válida. El reposicionamiento y el ajuste irreversible no están indicados solo por el ruido."},
+      {q:"Paciente con dolor maseterino matutino y facetas brillantes coincidentes. La oclusión tiene una interferencia de balance. ¿Qué es lo PRIMERO que debes hacer?", ops:["Eliminar de inmediato la interferencia de balance con tallado","Colocar férula de estabilización y controlar la parafunción, luego reevaluar","Indicar ortodoncia para Clase I","Reposicionar la mandíbula con férula anterior"], correcta:1, explicacion:"Terapia reversible primero (férula + control de bruxismo). El tallado definitivo se valora cuando el sistema está estable. Ajustar en caliente con dolor e hiperactividad es un error frecuente."},
+      {q:"¿Cuál de estas afirmaciones es FALSA según Okeson?", ops:["La interferencia de balance es la más lesiva de las interferencias","Toda interferencia oclusal debe eliminarse aunque el paciente esté asintomático","La capacidad de adaptación explica por qué no todos desarrollan TTM","La férula de estabilización es terapia reversible de primera línea"], correcta:1, explicacion:"FALSA: no toda interferencia asintomática exige eliminación. Okeson enfatiza daño + adaptación, no la morfología perfecta a toda costa."},
 ]
   },
   clases: {
@@ -2112,6 +2515,8 @@ const QUIZ = {
       {q:"El principal error que invalida esta clasificación en la práctica es:", ops:["Utilizar cera rosa en lugar de silicona para el registro", "Montar el modelo inferior antes que el superior", "Omitir el arco facial y usar valores promedio", "Registrar sin desprogramar al paciente"], correcta:3,explicacion:"Sin desprogramación se registra la posición habitual creyendo que es céntrica, y todo el análisis falla."},
       {q:"¿Cuál es la diferencia fundamental entre la clasificación de Angle y la de Morris?", ops:["Angle es funcional y Morris es morfológica","Angle describe la relación molar anteroposterior; Morris describe la dirección de la desviación mandibular al cerrar","Ambas describen lo mismo con distintos nombres","Angle solo se usa en ortodoncia y Morris solo en prótesis"], correcta:1, explicacion:"Angle (Clases I-II-III) es morfológica y se basa en los primeros molares. Morris (Clases I-V) es funcional y describe hacia dónde desvían los obstáculos a la mandíbula. Comparten números pero no son lo mismo. Okeson no utiliza la clasificación de Morris."},
       {q:"Un alumno dice: 'el paciente es Clase IV'. ¿Qué debes preguntar de inmediato?", ops:["¿De Angle o de Morris?","¿Es unilateral o bilateral?","¿Tiene dolor articular?","¿Qué tipo de férula necesita?"], correcta:0, explicacion:"Siempre hay que especificar la clasificación. Clase IV de Morris es latero-protrusiva; Angle solo llega a Clase III. La ambigüedad es un error frecuente en exámenes y en clínica."},
+      {q:"En un examen te preguntan la 'Clase IV' de un paciente. ¿Qué debes aclarar antes de responder?", ops:["Si es unilateral o bilateral","Si es de Angle o de Morris (Angle solo llega a III)","Si tiene dolor o solo ruido","Si necesita férula o ajuste"], correcta:1, explicacion:"Angle: I, II, III. Morris: I a V. Clase IV solo existe en Morris (latero-protrusiva). No aclararlo es un error clásico."},
+      {q:"Un paciente Clase I de Angle presenta interferencia de balance y dolor muscular. Según Okeson, ¿qué es más relevante para el tratamiento?", ops:["Corregir la Clase I a una relación 'más ideal'","La presencia de daño (dolor) y la interferencia lesiva, no la clase de Angle","Indicar cirugía ortognática","Ignorar la interferencia porque es Clase I"], correcta:1, explicacion:"La clase de Angle no define el tratamiento del TTM. Importan el daño, la adaptación y los criterios de oclusión funcional óptima."},
 ]
   },
   atmtrast: {
@@ -2377,8 +2782,9 @@ const QUIZ = {
       {q:"El plano de mordida posterior se indica en casos que requieren:", ops:["Protección del sector anterior en pacientes con desgaste incisal", "Cambios importantes de dimensión vertical o posición mandibular", "Desoclusión inmediata de los dientes posteriores en excéntricos", "Estabilización tras la retirada de aparatología ortodóncica"], correcta:1,explicacion:"Es una indicación específica y de uso corto y controlado."},
       {q:"La verificación de la férula debe repetirse en cada control porque:", ops:["El paciente puede modificar su patrón de uso entre citas", "El acrílico absorbe agua y modifica su volumen con el tiempo", "El desgaste y los cambios dentarios modifican los contactos", "La retención disminuye por deformación de las zonas retentivas"], correcta:2,explicacion:"Sin reajuste, la férula puede dejar de cumplir sus criterios."},
       {q:"Al diseñar la guía anterior de la férula se busca que:", ops:["Reproduzca exactamente la guía anterior propia del paciente", "Permita desoclusión sin generar interferencia ni sobrecarga anterior", "Sea lo más pronunciada posible para asegurar la desoclusión", "Quede plana para permitir libertad en todos los movimientos"], correcta:1,explicacion:"Debe desocluir con una inclinación que no sobrecargue los anteriores."},
-      {q:"El criterio que define si una férula está cumpliendo su función es:", ops:["La adherencia del paciente al uso indicado cada noche", "La ausencia de marcas de desgaste sobre su superficie", "La estabilidad y retención mantenidas entre controles", "La mejoría objetiva de signos y síntomas en controles seriados"], correcta:3,explicacion:"Se evalúa con parámetros medibles, no solo con la percepción."}
-    ]
+      {q:"El criterio que define si una férula está cumpliendo su función es:", ops:["La adherencia del paciente al uso indicado cada noche", "La ausencia de marcas de desgaste sobre su superficie", "La estabilidad y retención mantenidas entre controles", "La mejoría objetiva de signos y síntomas en controles seriados"], correcta:3,explicacion:"Se evalúa con parámetros medibles, no solo con la percepción."},
+      {q:"¿Cuál es un error frecuente al indicar férulas?", ops:["Usar estabilización (Michigan) en bruxismo con dolor muscular","Colocar reposicionamiento anterior a todo paciente con clic, aunque sea asintomático","Controlar la férula con papel de articular en citas de seguimiento","Buscar contactos uniformes en RC en la férula de estabilización"], correcta:1, explicacion:"El reposicionamiento no está indicado solo por la presencia de clic. Muchos clics no se tratan; el reposicionamiento exige indicación precisa y controles estrictos por riesgo de mordida abierta posterior."},
+]
   },
 };
 
@@ -5437,6 +5843,18 @@ const GLOSARIO = [
   d:"Clasificación <b>funcional</b> (no de Angle) que describe cómo los obstáculos físicos desvían la mandíbula al cerrar. Proviene de H.G. Morris / Martínez Ross. <b>No es de Okeson</b>.<br><br>• <b>Clase I</b> – Relación protrusiva<br>• <b>Clase II</b> – Relación retrusiva<br>• <b>Clase III</b> – Relación vertical aumentada (supraoclusión)<br>• <b>Clase IV</b> – Relación latero-protrusiva (desviaciones laterales)<br>• <b>Clase V</b> – Relación vertical disminuida (pérdida de soporte posterior o desgaste)<br><br>⚠️ <b>Angle</b> = relación molar anteroposterior (I, II, III).<br><b>Morris</b> = dirección de la desviación mandibular por obstáculos (I a V).<br>Son clasificaciones distintas que comparten números. Siempre especifica de cuál hablas."},
  {g:"Clasificaciones", t:"Clasificación de Angle (Clases I-II-III)", kw:["angle","clase i angle","clase ii angle","clase iii angle","relacion molar"],
   d:"Clasificación <b>morfológica</b> de la relación anteroposterior de las arcadas basada en los primeros molares permanentes (Edward Angle).<br><br>• <b>Clase I</b>: cúspide mesiovestibular del 1er molar superior ocluye en el surco mesiovestibular del 1er molar inferior (relación normal).<br>• <b>Clase II</b>: molar inferior más distal → mandíbula retrasada. División 1 (incisivos proinclinados) y División 2 (centrales retroinclinados + sobremordida profunda).<br>• <b>Clase III</b>: molar inferior más mesial → mandíbula adelantada.<br><br>No describe desviaciones funcionales al cerrar (eso es Morris)."},
+ {g:"Oclusión", t:"Oclusión funcional óptima", kw:["oclusion funcional optima","oclusion optima","criterios de oclusion optima","okson criterios"],
+  d:"Conjunto de criterios biomecánicos de Okeson (Cap. 5) que definen una oclusión tolerable para el sistema:<br>• Contactos estables y simultáneos en cierre (fuerzas axiales)<br>• Guía anterior que desocluye posteriores en protrusiva<br>• Guía canina o de grupo en lateralidad, sin interferencia de balance<br>• Ausencia de fuerzas lesivas que superen la capacidad de adaptación<br><br><b>Sinónimos en la literatura:</b> oclusión mutuamente protegida, oclusión orgánica (término más antiguo). En este curso priorizamos “funcional óptima / mutuamente protegida”."},
+ {g:"Oclusión", t:"Interferencia de balance (no trabajo)", kw:["interferencia de balance","lado de balance","lado de no trabajo","interferencia de no trabajo","balance interference"],
+  d:"Contacto oclusal en el <b>lado opuesto</b> al que se dirige el movimiento de lateralidad.<br><br>Es la interferencia considerada <b>más lesiva</b> porque está cerca del fulcro articular y aparece cuando el sistema ya está cargado. Sinónimo: interferencia del lado de no trabajo.<br><br>Okeson: debe eliminarse cuando produce daño; no toda interferencia asintomática exige ajuste inmediato."},
+ {g:"Oclusión", t:"Función de grupo", kw:["funcion de grupo","función de grupo","group function"],
+  d:"En lateralidad, varios dientes del lado de trabajo (canino + premolares ± molares) mantienen contacto y desocluyen el lado de balance.<br><br>Es una alternativa aceptable a la guía canina pura cuando el canino no puede soportar solo la carga (periodonto comprometido, ausencias). Okeson la considera válida si no hay interferencia de balance."},
+ {g:"Diagnóstico", t:"Co-contracción protectora", kw:["co-contraccion","cocontraccion","co contraccion protectora","protective co-contraction"],
+  d:"Respuesta muscular normal ante una amenaza (dolor, fractura, infección): los músculos se contraen de forma coordinada para limitar el movimiento y proteger la estructura. Es el primer nivel de los trastornos musculares en la secuencia de Okeson. Si el estímulo cesa, desaparece; si se cronifica, puede evolucionar a dolor muscular local."},
+ {g:"Diagnóstico", t:"Dolor miofascial", kw:["dolor miofascial","miofascial","puntos gatillo","trigger points"],
+  d:"Trastorno muscular caracterizado por <b>puntos gatillo</b> (zonas hiperirritables en el músculo) que, al palparse, reproducen dolor <b>referido</b> a una zona distinta del origen.<br><br>Es distinto del dolor muscular local (dolor solo en el sitio de palpación, sin referido). Okeson lo sitúa en la secuencia de trastornos musculares después del dolor muscular local."},
+ {g:"Tratamiento", t:"Terapia reversible", kw:["terapia reversible","tratamiento reversible","primera linea"],
+  d:"Cualquier intervención que se puede retirar dejando al paciente como estaba: educación, control de hábitos, fisioterapia, fármacos de corto plazo, <b>férulas oclusales</b>.<br><br>Okeson insiste en agotar la terapia reversible antes de pasar a tallado selectivo, ortodoncia o rehabilitación irreversible."},
 ];
 
 /* Busca un término del glosario. Devuelve la entrada o null. */
@@ -5725,7 +6143,10 @@ const RECURSOS = {
   tema8:     { url: PDF_TEMA8,    label:"Tema 8 · Trastornos musculares", file:"Tema8_Trastornos_Musculares.pdf" },
   tema9:     { url: PDF_TEMA9,    label:"Tema 9 · Hábitos parafuncionales", file:"Tema9_Habitos_Parafuncionales.pdf" },
   tema10:    { url: PDF_ARTICULADOR, label:"Tema 10 · Articulador",       file:"Guia_Articulador_Semiajustable.pdf" },
-  tema11:    { url: PDF_TEMA11,   label:"Tema 11 · Férulas oclusales",    file:"Tema11_Ferulas_Oclusales.pdf" }
+  tema11:    { url: PDF_TEMA11,   label:"Tema 11 · Férulas oclusales",    file:"Tema11_Ferulas_Oclusales.pdf" },
+  tema12:     { url: "Tema12_Criterios_Oclusion_Optima_Okeson.pdf", label:"Tema 12 · Criterios oclusión óptima (Okeson)", file:"Tema12_Criterios_Oclusion_Optima_Okeson.pdf" },
+  ficha_angle: { url: "Ficha_Angle_Morris_Okeson.pdf", label:"Ficha · Angle vs Morris vs Okeson", file:"Ficha_Angle_Morris_Okeson.pdf" },
+  ficha_dx:    { url: "Ficha_Diagnostico_TTM_Okeson.pdf", label:"Ficha · Diagnóstico TTM (Okeson)", file:"Ficha_Diagnostico_TTM_Okeson.pdf" }
 };
 
 /* -------- ENTREGAS: fechas límite de prácticas y proyectos --------
