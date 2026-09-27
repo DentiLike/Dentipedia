@@ -2,6 +2,23 @@
 
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
+---
+
+## Cambios v53–v54 (revisión Okeson)
+
+- **Glosario ampliado** (+11 términos clave de Okeson):
+  - Oclusión mutuamente protegida
+  - Guía anterior / Guía canina
+  - Fuerza lesiva
+  - Facetas de desgaste
+  - Relación Céntrica (RC) y ORC
+  - Dimensión Vertical de Oclusión (DVO)
+  - Interferencia oclusal
+  - Clasificación de Morris (Clases I-V) y Angle (I-II-III) con advertencia clara de que son distintas
+- **Tema 6 actualizado**: se refuerza que Morris ≠ Angle ≠ Okeson, se explica por qué aparecen “clase 4 y 5”, y se vincula con el enfoque de Okeson (capacidad de adaptación y fuerzas lesivas).
+- Service Worker actualizado a `dentipedia-v54` (los alumnos recibirán la nueva versión al refrescar).
+
+
 
 ---
 
