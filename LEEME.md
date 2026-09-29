@@ -3,6 +3,22 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+## Cambios v60 — Leer PDF en la app
+
+- Botón **Leer PDF** en biblioteca / sesión (ya no solo descargar).
+- Visor integrado con barra: Volver · Descargar · Abrir en otra pestaña.
+- Si el celular no muestra el PDF en el marco, el alumno usa **Abrir**.
+
+## Cambios v59 — Offline forzado / arranque rápido
+
+- Service Worker en **2 capas**: shell (app) + datos (PDFs/fotos).
+- Instalación **uno a uno** (ya no falla todo el caché si un PDF no baja).
+- Navegación **cache-first**: abre offline de inmediato con datos guardados.
+- Precarga de contenido en segundo plano tras instalar.
+- Banner “Sin conexión · Usando datos guardados”.
+- `storage.persist()` para que el sistema no borre el caché.
+- Registro del SW al inicio (no espera al evento `load`).
+
 ## Cambios v58 — Diagnóstico TTM (Okeson)
 
 - **Tema 13 · Diagnóstico de TTM**: diferencial músculo vs ATM (tabla de 7 criterios), clasificación completa, secuencia clínica y qué NO hacer.

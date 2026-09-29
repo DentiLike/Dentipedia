@@ -3081,7 +3081,7 @@ function bloqueProximaSesion(){
       <div class="inicio-label">${cuando ? cuando + ' · ' : ''}PRÓXIMA SESIÓN</div>
       <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
       <div class="inicio-tema">${prox.tema}</div>
-      ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 Descargar PDF · ${doc.label}</a>` : ''}
+      ${doc ? `<div class="inicio-doc-row"><button type="button" class="inicio-doc leer" onclick="abrirPdf('${doc.url}','${String(doc.label).replace(/'/g,\"\\\'")}')">📖 Leer PDF · ${doc.label}</button><a class="inicio-doc bajar" href="${doc.url}" download="${doc.file}">↓ Descargar</a></div>` : ''}
     </div>`;
 }
 
@@ -6283,7 +6283,7 @@ const FICHAS = [
 
 <p class="fi-nota">💡 El modelo se vacía en <b>yeso tipo III</b>; el montaje y el zócalo van en <b>tipo II</b>, más blando y fácil de recortar.</p>
 
-<a class="fi-descarga" href="Guia_Articulador_Semiajustable.pdf" download>📄 Descargar la guía completa en PDF</a>
+<div class="fi-pdf-actions"><button type="button" class="fi-descarga leer" onclick="abrirPdf('Guia_Articulador_Semiajustable.pdf','Guía del articulador')">📖 Leer guía en la app</button><a class="fi-descarga" href="Guia_Articulador_Semiajustable.pdf" download>📄 Descargar PDF</a></div>
 `
 },
 {
@@ -6344,6 +6344,43 @@ const FICHAS = [
 `
 }
 ];
+
+
+/* ===== Visor PDF integrado (sin forzar descarga) ===== */
+function abrirPdf(url, titulo){
+  if(!url) return;
+  const destino = (typeof destinoBiblio !== 'undefined' && destinoBiblio)
+    ? destinoBiblio
+    : ((typeof pantallaAnterior !== 'undefined' && pantallaAnterior) ? pantallaAnterior : 'inicio');
+  const nombre = titulo || 'Documento PDF';
+  const safe = String(nombre).replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  const cuerpo = `
+    <div class="pdf-toolbar">
+      <button type="button" class="pdf-tool" onclick="cerrarSubScreen()">← Volver</button>
+      <span class="pdf-tool-tit">${safe}</span>
+      <a class="pdf-tool" href="${url}" download>↓ Descargar</a>
+      <a class="pdf-tool" href="${url}" target="_blank" rel="noopener">↗ Abrir</a>
+    </div>
+    <div class="pdf-frame-wrap">
+      <iframe class="pdf-frame" src="${url}#toolbar=1&navpanes=0&view=FitH" title="${safe}"></iframe>
+      <p class="pdf-hint">Si la vista queda en blanco (pasa en algunos celulares), toca <b>Abrir</b> o <b>Descargar</b>.</p>
+    </div>`;
+  if(typeof abrirSubScreen === 'function'){
+    abrirSubScreen(destino, nombre, cuerpo);
+    setTimeout(function(){
+      var wrap = document.querySelector('.pdf-frame-wrap');
+      var frame = document.querySelector('.pdf-frame');
+      if(wrap && frame){
+        var top = wrap.getBoundingClientRect().top;
+        var h = Math.max(280, window.innerHeight - top - 12);
+        wrap.style.height = h + 'px';
+        frame.style.height = (h - 36) + 'px';
+      }
+    }, 60);
+  } else {
+    window.open(url, '_blank');
+  }
+}
 
 function abrirFicha(origen, id){
   const f = FICHAS.find(x=>x.id===id);
@@ -6723,9 +6760,14 @@ function sesionCard(f, proxIso){
           <span class="rec-ico">📖</span>
           <span class="rec-txt"><b>Leer en la app</b><small>${tm.corto} · ${tm.chip}</small></span>
         </button>` : ''}
-      ${doc ? `<a class="rec-btn bajar" href="${doc.url}" download="${doc.file}">
+      ${doc ? `<button type="button" class="rec-btn leer" onclick="abrirPdf('${doc.url}','${String(doc.label).replace(/'/g,\"\\\'")}')">
+          <span class="rec-ico">📖</span>
+          <span class="rec-txt"><b>Leer PDF</b><small>${doc.label}</small></span>
+          <span class="rec-flecha">›</span>
+        </button>
+        <a class="rec-btn bajar" href="${doc.url}" download="${doc.file}">
           <span class="rec-ico">📄</span>
-          <span class="rec-txt"><b>Descargar PDF</b><small>${doc.label}</small></span>
+          <span class="rec-txt"><b>Descargar</b><small>${doc.file}</small></span>
           <span class="rec-flecha">↓</span>
         </a>` : ''}
       ${fi ? `<button class="rec-btn ficha" onclick="abrirFicha('${destinoBiblio}','${f.fichaId}')">
@@ -6944,11 +6986,78 @@ document.addEventListener('DOMContentLoaded', actualizarEstadoInstalar);
 // Manifest embebido (data URI) para que el navegador pueda ofrecer instalación
 // Registrar el service worker (archivo real sw.js — necesario para que
 // Android ofrezca instalar la app y para que funcione sin internet)
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+
+<script>
+/* Dentipedia offline bootstrap v59 */
+(function(){
+  // Indicador offline (banner mínimo)
+  function ensureBanner(){
+    if(document.getElementById('mmOfflineBan')) return document.getElementById('mmOfflineBan');
+    var b=document.createElement('div');
+    b.id='mmOfflineBan';
+    b.setAttribute('role','status');
+    b.style.cssText='display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#744210;color:#fff;text-align:center;font:600 13px/1.3 system-ui,sans-serif;padding:8px 12px;box-shadow:0 2px 8px rgba(0,0,0,.2)';
+    b.textContent='Sin conexión · Usando datos guardados en el dispositivo';
+    document.body.appendChild(b);
+    return b;
+  }
+  function syncOnline(){
+    var b=ensureBanner();
+    if(navigator.onLine){ b.style.display='none'; }
+    else { b.style.display='block'; }
+  }
+  window.addEventListener('online', syncOnline);
+  window.addEventListener('offline', syncOnline);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', syncOnline);
+  else syncOnline();
+
+  if(!('serviceWorker' in navigator)) return;
+
+  // Registrar lo antes posible (no esperar 'load')
+  var regPromise = navigator.serviceWorker.register('sw.js', { scope: './' }).catch(function(){ return null; });
+
+  // Pedir almacenamiento persistente (evita que el SO borre el caché)
+  if(navigator.storage && navigator.storage.persist){
+    navigator.storage.persist().catch(function(){});
+  }
+
+  regPromise.then(function(reg){
+    if(!reg) return;
+    // Forzar precarga de PDFs/fotos en segundo plano
+    function precache(){
+      if(!navigator.serviceWorker.controller) return;
+      try{
+        var mc = new MessageChannel();
+        navigator.serviceWorker.controller.postMessage('PRECACHE_DATA', [mc.port2]);
+      }catch(e){}
+    }
+    if(navigator.serviceWorker.controller) precache();
+    else navigator.serviceWorker.addEventListener('controllerchange', function once(){
+      navigator.serviceWorker.removeEventListener('controllerchange', once);
+      precache();
+    });
+
+    // Si hay SW esperando, activarlo
+    if(reg.waiting) reg.waiting.postMessage('SKIP_WAITING');
+    reg.addEventListener('updatefound', function(){
+      var nw = reg.installing;
+      if(!nw) return;
+      nw.addEventListener('statechange', function(){
+        if(nw.state==='installed' && navigator.serviceWorker.controller){
+          nw.postMessage('SKIP_WAITING');
+        }
+      });
+    });
   });
-}
+
+  // Tras claim, recargar una sola vez para tomar el SW nuevo
+  var refreshing=false;
+  navigator.serviceWorker.addEventListener('controllerchange', function(){
+    if(refreshing) return;
+    // No recargar en el primer control (evitar loop); solo si ya había controller
+    if(!navigator.serviceWorker.controller) return;
+  });
+})();
 </script>
 </body>
 </html>
