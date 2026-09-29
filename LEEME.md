@@ -3,6 +3,13 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+## Cambios v58 — Diagnóstico TTM (Okeson)
+
+- **Tema 13 · Diagnóstico de TTM**: diferencial músculo vs ATM (tabla de 7 criterios), clasificación completa, secuencia clínica y qué NO hacer.
+- Integrado desde presentación Okeson 6.ª (historia, end-feel, maloclusión aguda, inflamatorios, hipomovilidad).
+- Glosario: end-feel, deflexión, retrodiscitis.
+- Quiz: preguntas nuevas de diferencial y miofascial vs dolor local.
+
 ## Cambios v57 — Casos en 2 pasos
 
 - Cada caso pregunta primero **diagnóstico** y después **tratamiento**.

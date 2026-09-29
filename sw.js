@@ -1,7 +1,7 @@
 /* Mike Molares — Service Worker
    Sube la versión (CACHE) cada vez que publiques cambios,
    así los alumnos reciben la actualización en vez de la copia vieja. */
-const CACHE = 'dentipedia-v57';
+const CACHE = 'dentipedia-v58';
 
 const BASE = self.registration.scope;
 const ARCHIVOS = [
@@ -57,7 +57,8 @@ const ARCHIVOS = [
   './Tema2_Fotografia_Clinica.pdf',
   './Tema12_Criterios_Oclusion_Optima_Okeson.pdf',
   './Ficha_Angle_Morris_Okeson.pdf',
-  './Ficha_Diagnostico_TTM_Okeson.pdf'
+  './Ficha_Diagnostico_TTM_Okeson.pdf',
+  './Tema13_Diagnostico_TTM_Okeson.pdf'
 ];
 
 self.addEventListener('install', evento => {

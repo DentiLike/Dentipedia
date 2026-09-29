@@ -2823,8 +2823,10 @@ const QUIZ = {
       {q:"La palpación intraoral de la coronoides se usa para explorar:", ops:["Pterigoideo lateral inferior", "Tendón del temporal", "Pterigoideo medial en su inserción superior", "Masetero profundo en su porción anterior"], correcta:1,explicacion:"Es la vía de acceso a la inserción del temporal."},
       {q:"El registro de la apertura máxima debe incluir:", ops:["La distancia entre bordes incisales sin ajuste alguno", "La medición desde la comisura hasta el borde incisal inferior", "La distancia interincisal más el resalte vertical", "El promedio de tres mediciones consecutivas del paciente"], correcta:2,explicacion:"Sumar el overbite da la apertura real del movimiento mandibular."},
       {q:"Ante limitación de apertura con causa muscular, a diferencia de la discal, se espera:", ops:["Un tope duro que no cede a la manipulación suave", "Desviación mandibular persistente hacia el lado afectado", "Que la apertura mejore con maniobras de estiramiento suave", "Ausencia de dolor a la palpación de los músculos elevadores"], correcta:2,explicacion:"El tope muscular es elástico y cede parcialmente; el discal es un tope duro."},
-      {q:"El enfoque actual del manejo de los trastornos temporomandibulares privilegia:", ops:["Terapias conservadoras y reversibles como primera línea", "Ajuste oclusal temprano para eliminar el factor causal", "Artroscopia diagnóstica en casos con dolor persistente", "Rehabilitación protésica para estabilizar la posición mandibular"], correcta:0,explicacion:"La mayoría responde a manejo conservador, con buen pronóstico."}
-    ]
+      {q:"El enfoque actual del manejo de los trastornos temporomandibulares privilegia:", ops:["Terapias conservadoras y reversibles como primera línea", "Ajuste oclusal temprano para eliminar el factor causal", "Artroscopia diagnóstica en casos con dolor persistente", "Rehabilitación protésica para estabilizar la posición mandibular"], correcta:0,explicacion:"La mayoría responde a manejo conservador, con buen pronóstico."},
+      {q:"En el diagnóstico diferencial músculo vs ATM, un end-feel duro con apertura de 25–30 mm orienta más a:", ops:["Dolor muscular local","Desplazamiento discal sin reducción (bloqueo cerrado)","Co-contracción protectora","Contractura miostática indolora"], correcta:1, explicacion:"Okeson: limitación 25–30 mm con end-feel duro es típica de bloqueo discal. El muscular suele dar end-feel blando."},
+      {q:"Un dolor que fluctúa en ciclos (días buenos y malos) sin trauma inicial claro es más compatible con:", ops:["Fractura condilar","Trastorno muscular relacionado con estrés/parafunción","Anquilosis ósea","Luxación crónica fija"], correcta:1, explicacion:"Los trastornos musculares suelen ser cíclicos y vinculados a estrés emocional; los articulares por trauma tienden a ser más constantes desde el evento."},
+]
   },
 
   musculares: {
@@ -2877,8 +2879,10 @@ const QUIZ = {
       {q:"La termoterapia en dolor muscular actúa:", ops:["Bloqueando la transmisión nociceptiva a nivel periférico", "Reduciendo el edema intramuscular por vasoconstricción", "Aumentando el flujo y reduciendo la tensión", "Desactivando directamente las bandas tensas del músculo"], correcta:2,explicacion:"Mejora la circulación local y facilita la relajación."},
       {q:"En pacientes con dolor muscular y apnea del sueño, la conducta incluye:", ops:["Interconsulta médica antes de indicar dispositivos", "Indicar de inmediato una férula de avance mandibular", "Contraindicar cualquier dispositivo intraoral nocturno", "Tratar primero el dolor y posponer el estudio del sueño"], correcta:0,explicacion:"Algunos dispositivos pueden ser inadecuados sin valoración del trastorno respiratorio."},
       {q:"El registro de la intensidad del dolor con escala numérica permite:", ops:["Determinar el origen muscular o articular del cuadro", "Establecer el pronóstico del tratamiento desde la primera cita", "Objetivar la evolución entre controles", "Comparar la respuesta entre distintos pacientes del mismo diagnóstico"], correcta:2,explicacion:"Convierte un síntoma subjetivo en un dato comparable."},
-      {q:"Ante dolor muscular con signos neurológicos asociados, lo indicado es:", ops:["Derivar para valoración neurológica", "Intensificar la fisioterapia y reevaluar en dos semanas", "Suspender la férula y prescribir antiinflamatorios", "Solicitar resonancia magnética de ambas articulaciones"], correcta:0,explicacion:"Los signos neurológicos exigen descartar patología fuera del ámbito odontológico."}
-    ]
+      {q:"Ante dolor muscular con signos neurológicos asociados, lo indicado es:", ops:["Derivar para valoración neurológica", "Intensificar la fisioterapia y reevaluar en dos semanas", "Suspender la férula y prescribir antiinflamatorios", "Solicitar resonancia magnética de ambas articulaciones"], correcta:0,explicacion:"Los signos neurológicos exigen descartar patología fuera del ámbito odontológico."},
+      {q:"¿Qué distingue al dolor miofascial del dolor muscular local?", ops:["Solo el miofascial duele con la función","El miofascial tiene puntos gatillo que reproducen dolor referido","El dolor muscular local siempre tiene crepitación","No hay diferencia clínica"], correcta:1, explicacion:"Okeson: el rasgo del miofascial es el punto gatillo con dolor referido. El dolor muscular local duele en el sitio de palpación, sin referido."},
+      {q:"La co-contracción protectora se caracteriza por:", ops:["Dolor intenso en reposo y fiebre","Movimiento reducido, sin dolor en reposo, dolor con la función y sensación de cansancio muscular","Clic recíproco obligatorio","End-feel duro a 20 mm"], correcta:1, explicacion:"Es una respuesta protectora del SNC: limita el movimiento, no duele en reposo y se nota con la función."},
+]
   },
   habitos: {
     facil: [
@@ -6109,6 +6113,12 @@ const GLOSARIO = [
   d:"Trastorno muscular caracterizado por <b>puntos gatillo</b> (zonas hiperirritables en el músculo) que, al palparse, reproducen dolor <b>referido</b> a una zona distinta del origen.<br><br>Es distinto del dolor muscular local (dolor solo en el sitio de palpación, sin referido). Okeson lo sitúa en la secuencia de trastornos musculares después del dolor muscular local."},
  {g:"Tratamiento", t:"Terapia reversible", kw:["terapia reversible","tratamiento reversible","primera linea"],
   d:"Cualquier intervención que se puede retirar dejando al paciente como estaba: educación, control de hábitos, fisioterapia, fármacos de corto plazo, <b>férulas oclusales</b>.<br><br>Okeson insiste en agotar la terapia reversible antes de pasar a tallado selectivo, ortodoncia o rehabilitación irreversible."},
+ {g:"Diagnóstico", t:"End-feel (sensación final de apertura)", kw:["end feel","end-feel","sensacion final","tope de apertura"],
+  d:"Sensación que percibe el clínico al final de la apertura pasiva o asistida.<br><br>• <b>Duro</b>: tope mecánico (p. ej. disco que bloquea) → típico de desplazamiento sin reducción.<br>• <b>Blando</b>: el dolor o la tensión muscular detienen el movimiento → típico de trastorno muscular o inflamación dolorosa.<br><br>Es un criterio clave del diferencial músculo vs ATM (Okeson)."},
+ {g:"Diagnóstico", t:"Deflexión mandibular", kw:["deflexion","deflexión","desviacion al abrir"],
+  d:"Desplazamiento de la línea media mandibular hacia un lado al abrir, <b>sin retorno</b> a la línea media en apertura máxima. En bloqueo cerrado unilateral, la deflexión es hacia el lado afectado."},
+ {g:"Diagnóstico", t:"Retrodiscitis", kw:["retrodiscitis","tejido retrodiscal inflamado"],
+  d:"Inflamación del tejido retrodiscal. Dolor constante en el área articular que aumenta con el movimiento y al apretar. El edema puede desplazar ligeramente el cóndilo y producir maloclusión aguda (desoclusión posterior del mismo lado)."},
 ];
 
 /* Busca un término del glosario. Devuelve la entrada o null. */
@@ -6399,6 +6409,7 @@ const RECURSOS = {
   tema10:    { url: PDF_ARTICULADOR, label:"Tema 10 · Articulador",       file:"Guia_Articulador_Semiajustable.pdf" },
   tema11:    { url: PDF_TEMA11,   label:"Tema 11 · Férulas oclusales",    file:"Tema11_Ferulas_Oclusales.pdf" },
   tema12:     { url: "Tema12_Criterios_Oclusion_Optima_Okeson.pdf", label:"Tema 12 · Criterios oclusión óptima (Okeson)", file:"Tema12_Criterios_Oclusion_Optima_Okeson.pdf" },
+  tema13:     { url: "Tema13_Diagnostico_TTM_Okeson.pdf", label:"Tema 13 · Diagnóstico TTM (Okeson)", file:"Tema13_Diagnostico_TTM_Okeson.pdf" },
   ficha_angle: { url: "Ficha_Angle_Morris_Okeson.pdf", label:"Ficha · Angle vs Morris vs Okeson", file:"Ficha_Angle_Morris_Okeson.pdf" },
   ficha_dx:    { url: "Ficha_Diagnostico_TTM_Okeson.pdf", label:"Ficha · Diagnóstico TTM (Okeson)", file:"Ficha_Diagnostico_TTM_Okeson.pdf" }
 };
