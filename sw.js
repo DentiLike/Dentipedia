@@ -1,9 +1,9 @@
-/* Dentipedia — Service Worker v60
+/* Dentipedia — Service Worker v62
    Estrategia: shell primero (arranca offline), contenido en segundo plano.
    Sube CACHE cada vez que publiques. */
-const CACHE = 'dentipedia-v60';
-const CACHE_SHELL = 'dentipedia-shell-v60';
-const CACHE_DATA = 'dentipedia-data-v60';
+const CACHE = 'dentipedia-v62';
+const CACHE_SHELL = 'dentipedia-shell-v62';
+const CACHE_DATA = 'dentipedia-data-v62';
 
 const BASE = self.registration.scope;
 

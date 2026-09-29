@@ -3081,7 +3081,7 @@ function bloqueProximaSesion(){
       <div class="inicio-label">${cuando ? cuando + ' · ' : ''}PRÓXIMA SESIÓN</div>
       <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
       <div class="inicio-tema">${prox.tema}</div>
-      ${doc ? `<div class="inicio-doc-row"><button type="button" class="inicio-doc leer" onclick="abrirPdf('${doc.url}','${String(doc.label).replace(/'/g,\"\\\'")}')">📖 Leer PDF · ${doc.label}</button><a class="inicio-doc bajar" href="${doc.url}" download="${doc.file}">↓ Descargar</a></div>` : ''}
+      ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 Descargar PDF · ${doc.label}</a>` : ''}
     </div>`;
 }
 
@@ -5952,7 +5952,7 @@ const CRONOGRAMA = [
   {iso:"2026-09-17", sem:6,  fecha:"17 Sep · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Generalidades y toma de registros. Inicio de montaje en articulador semiajustable.", temaId:"articulador", fichaId:"articulador", doc:"tema10"},
   {iso:"2026-09-22", sem:7,  fecha:"22 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Clasificación de relaciones patológicas (Clases I a V).", temaId:"clases", doc:"tema6"},
   {iso:"2026-09-24", sem:7,  fecha:"24 Sep · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Primera Evaluación Parcial (examen, revisión de tareas y articuladores)."},
-  {iso:"2026-09-29", sem:8,  fecha:"29 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos de la ATM. Alteraciones articulares.", temaId:"atmtrast", doc:"tema7"},
+  {iso:"2026-09-29", sem:8,  fecha:"29 Sep · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos de la ATM. Diagnóstico y alteraciones articulares (Okeson).", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-01", sem:8,  fecha:"01 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Exposición con interrogatorio: imágenes de ATM y diagnóstico.", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-06", sem:9,  fecha:"06 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos articulares (continuación). Inflamatorios, subluxación.", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-08", sem:9,  fecha:"08 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis documental sobre trastornos inflamatorios de la ATM.", temaId:"atmtrast", doc:"tema7"},
@@ -6283,7 +6283,7 @@ const FICHAS = [
 
 <p class="fi-nota">💡 El modelo se vacía en <b>yeso tipo III</b>; el montaje y el zócalo van en <b>tipo II</b>, más blando y fácil de recortar.</p>
 
-<div class="fi-pdf-actions"><button type="button" class="fi-descarga leer" onclick="abrirPdf('Guia_Articulador_Semiajustable.pdf','Guía del articulador')">📖 Leer guía en la app</button><a class="fi-descarga" href="Guia_Articulador_Semiajustable.pdf" download>📄 Descargar PDF</a></div>
+<a class="fi-descarga" href="Guia_Articulador_Semiajustable.pdf" download>📄 Descargar la guía completa en PDF</a>
 `
 },
 {
@@ -6352,8 +6352,8 @@ function abrirPdf(url, titulo){
   const destino = (typeof destinoBiblio !== 'undefined' && destinoBiblio)
     ? destinoBiblio
     : ((typeof pantallaAnterior !== 'undefined' && pantallaAnterior) ? pantallaAnterior : 'inicio');
-  const nombre = titulo || 'Documento PDF';
-  const safe = String(nombre).replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  const nombre = (titulo && String(titulo)) || 'Documento PDF';
+  const safe = String(nombre).replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   const cuerpo = `
     <div class="pdf-toolbar">
       <button type="button" class="pdf-tool" onclick="cerrarSubScreen()">← Volver</button>
@@ -6760,14 +6760,10 @@ function sesionCard(f, proxIso){
           <span class="rec-ico">📖</span>
           <span class="rec-txt"><b>Leer en la app</b><small>${tm.corto} · ${tm.chip}</small></span>
         </button>` : ''}
-      ${doc ? `<button type="button" class="rec-btn leer" onclick="abrirPdf('${doc.url}','${String(doc.label).replace(/'/g,\"\\\'")}')">
-          <span class="rec-ico">📖</span>
-          <span class="rec-txt"><b>Leer PDF</b><small>${doc.label}</small></span>
-          <span class="rec-flecha">›</span>
-        </button>
+      ${doc ? `
         <a class="rec-btn bajar" href="${doc.url}" download="${doc.file}">
           <span class="rec-ico">📄</span>
-          <span class="rec-txt"><b>Descargar</b><small>${doc.file}</small></span>
+          <span class="rec-txt"><b>Descargar PDF</b><small>${doc.label}</small></span>
           <span class="rec-flecha">↓</span>
         </a>` : ''}
       ${fi ? `<button class="rec-btn ficha" onclick="abrirFicha('${destinoBiblio}','${f.fichaId}')">
@@ -6984,11 +6980,10 @@ document.addEventListener('DOMContentLoaded', actualizarEstadoInstalar);
 
 
 // Manifest embebido (data URI) para que el navegador pueda ofrecer instalación
-// Registrar el service worker (archivo real sw.js — necesario para que
-// Android ofrezca instalar la app y para que funcione sin internet)
-
+// Service worker se registra en el bloque siguiente.
+</script>
 <script>
-/* Dentipedia offline bootstrap v59 */
+/* Dentipedia offline bootstrap v60 */
 (function(){
   // Indicador offline (banner mínimo)
   function ensureBanner(){
