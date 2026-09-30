@@ -1,9 +1,9 @@
-/* Dentipedia — Service Worker v64
+/* Dentipedia — Service Worker v66
    Estrategia: shell primero (arranca offline), contenido en segundo plano.
    Sube CACHE cada vez que publiques. */
-const CACHE = 'dentipedia-v64';
-const CACHE_SHELL = 'dentipedia-shell-v64';
-const CACHE_DATA = 'dentipedia-data-v64';
+const CACHE = 'dentipedia-v66';
+const CACHE_SHELL = 'dentipedia-shell-v66';
+const CACHE_DATA = 'dentipedia-data-v66';
 
 const BASE = self.registration.scope;
 
@@ -31,52 +31,10 @@ const SHELL = [
 
 /* Contenido: PDFs, fotos, recursos (se cachean en segundo plano) */
 const DATA = [
-  './Tema1_Anatomia_ATM.pdf',
-  './Tema2_Fotografia_Clinica.pdf',
-  './Tema3_Interferencias_RC_OC.pdf',
-  './Tema4_Trabajo_Balance.pdf',
-  './Tema5_Oclusion_Patologica.pdf',
-  './Tema6_Clases_Relaciones_Patologicas.pdf',
-  './Tema7_Trastornos_ATM.pdf',
-  './Tema8_Trastornos_Musculares.pdf',
-  './Tema9_Habitos_Parafuncionales.pdf',
-  './Tema11_Ferulas_Oclusales.pdf',
-  './Tema12_Criterios_Oclusion_Optima_Okeson.pdf',
-  './Tema13_Diagnostico_TTM_Okeson.pdf',
-  './Ficha_Angle_Morris_Okeson.pdf',
-  './Ficha_Diagnostico_TTM_Okeson.pdf',
-  './Guia_Articulador_Semiajustable.pdf',
-  './Manual_Practicas_Oclusion.pdf',
-  './Syllabus_Oclusion_2026_V4.pdf',
-  './foto01_frente_reposo.webp',
-  './foto02_frente_sonrisa.webp',
-  './foto03_tres_cuartos_der.webp',
-  './foto04_perfil_der.webp',
-  './foto05_tres_cuartos_izq.webp',
-  './foto06_perfil_izq.webp',
-  './foto07_frontal_oclusion.webp',
-  './foto08_oclusal_sup.webp',
-  './foto09_oclusal_inf.webp',
-  './foto10_lateral_der.webp',
-  './foto11_lateral_izq.webp',
-  './foto12_sobremordida.webp',
-  './res_acabado_final.webp',
-  './res_acceso_fresa.webp',
-  './res_adhesivo.webp',
-  './res_aislamiento.webp',
-  './res_cavidad_limpia.webp',
-  './res_control.webp',
-  './res_dx_exploracion.webp',
-  './res_dx_radiografia.webp',
-  './res_fotocurado.webp',
-  './res_fraguado_liner.webp',
-  './res_grabado.webp',
-  './res_incrementos.webp',
-  './res_oclusion_marcas.webp',
-  './res_profundidad.webp',
-  './res_proteccion.webp',
-  './res_pulido.webp',
-  './og-dentipedia.jpg'
+  // Vacío a propósito: los PDFs e imágenes NO se precargan.
+  // Cada archivo se guarda en caché solo cuando el alumno lo abre,
+  // así la app no satura los datos móviles en la primera carga.
+  // (El fetch de assets ya cachea al vuelo lo que se use.)
 ];
 
 function url(path) {
@@ -103,8 +61,7 @@ self.addEventListener('install', (evento) => {
     await cacheOneByOne(CACHE_SHELL, SHELL);
     // Activar de inmediato
     await self.skipWaiting();
-    // 2) Contenido en segundo plano (no bloquea la instalación)
-    cacheOneByOne(CACHE_DATA, DATA).catch(() => {});
+    // 2) Ya no precargamos PDFs ni imágenes: se guardan al usarse.
   })());
 });
 
@@ -114,8 +71,6 @@ self.addEventListener('activate', (evento) => {
     const keys = await caches.keys();
     await Promise.all(keys.filter(k => !keep.has(k)).map(k => caches.delete(k)));
     await self.clients.claim();
-    // Reintentar datos si faltó algo en install
-    cacheOneByOne(CACHE_DATA, DATA).catch(() => {});
   })());
 });
 

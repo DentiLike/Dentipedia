@@ -47,9 +47,11 @@
     <input type="text" id="inNombre" placeholder="Tu nombre" autocomplete="name" onkeydown="if(event.key==='Enter')entrarChat()">
     <input type="text" id="inCodigo" placeholder="Código del grupo" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key==='Enter')entrarChat()">
         <button class="login-btn" id="btnEntrar" onclick="entrarChat()">Entrar</button>
-    <div class="login-privacidad">🔒 Tu nombre y tu avance se guardan <b>solo en este dispositivo</b>. No se envía nada a ningún servidor.</div>
+    <div class="login-privacidad">🔒 Tu nombre y tu avance se guardan en tu dispositivo y se sincronizan con el aula del <b>Dr. Alvarado</b> para dar seguimiento a tu progreso. No compartimos tus datos con terceros.</div>
   </div>
   <div class="login-foot"><img class="js-logo" src="" alt="Universidad Cuauhtémoc" style="height:36px;display:block;margin:0 auto .6rem;border-radius:6px;background:#fff;padding:4px 8px">Materia: Oclusión · Universidad Cuauhtémoc · Dr. Miguel Alvarado</div>
+  <button class="login-docente" onclick="abrirPanelDocente('login')">🔒 Acceso docente</button>
+  <div class="sync-pill" id="syncPill" onclick="reintentarSync()"><span class="sync-dot"></span><span id="syncTxt">Conectando…</span></div>
 </div>
 
 <!-- ===== PANTALLA 2: CHAT ===== -->
@@ -80,7 +82,6 @@
         <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
         <button class="dropdown-item" onclick="abrirBuzon('inicio')">💡 Buzón de sugerencias</button>
         <button class="dropdown-item" onclick="abrirAyuda('inicio')">❓ Ayuda</button>
-        <button class="dropdown-item" onclick="abrirPanelDocente('inicio')">🔒 Panel docente</button>
         <button class="dropdown-item danger" onclick="salir()">🚪 Salir</button>
       </div>
     </div>
@@ -3466,6 +3467,18 @@ function cerrarSubScreen(){
   actualizarFab();
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
+
+function pintarSync(estado){
+  const pill=document.getElementById('syncPill'), txt=document.getElementById('syncTxt');
+  if(!pill||!txt) return;
+  pill.className='sync-pill '+estado;
+  txt.textContent = estado==='ok'?'Sincronizado':estado==='off'?'Sin conexión · toca para reintentar':'Conectando…';
+}
+function reintentarSync(){
+  pintarSync('conectando');
+  iniciarFirebase().then(ok=>{ pintarSync(ok?'ok':'off'); if(ok&&typeof ALUMNO!=='undefined'&&ALUMNO) fbRegistrarAlumno(ALUMNO); });
+}
+window.addEventListener('DOMContentLoaded', reintentarSync);
 
 /* ================= BUZÓN DE SUGERENCIAS (alumno) ================= */
 function abrirBuzon(origen){

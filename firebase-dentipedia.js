@@ -45,11 +45,13 @@ async function iniciarFirebase(){
     FB.auth = firebase.auth();
     FB.listo = true;
     FB.online = true;
+    if(typeof pintarSync==='function') pintarSync('ok');
     return true;
   }catch(e){
     // Sin conexión la app sigue funcionando con localStorage
     FB.listo = true;
     FB.online = false;
+    if(typeof pintarSync==='function') pintarSync('off');
     return false;
   }
 }

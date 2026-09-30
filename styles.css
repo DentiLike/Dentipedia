@@ -759,3 +759,13 @@ body.mp-abierto{overflow:hidden}
 .pd-msg{background:#fff;border:1px solid var(--borde);border-radius:11px;padding:.75rem .85rem;margin-bottom:.55rem}
 .pd-msg-txt{font-size:.85rem;color:var(--tinta);line-height:1.6}
 .pd-msg-fecha{font-size:.68rem;color:var(--gris-claro);margin-top:.4rem;text-align:right}
+
+/* ===== Acceso docente e indicador de sync (login) ===== */
+.login-docente{display:block;margin:1rem auto 0;background:none;border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.85);font-size:.8rem;font-weight:600;padding:.5rem 1.1rem;border-radius:20px}
+.login-docente:active{background:rgba(255,255,255,.12)}
+.sync-pill{display:inline-flex;align-items:center;gap:.4rem;margin:1rem auto 0;background:rgba(255,255,255,.12);padding:.35rem .75rem;border-radius:20px;font-size:.72rem;color:rgba(255,255,255,.8);cursor:pointer}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#facc15;flex:0 0 auto}
+.sync-pill.ok .sync-dot{background:#4ade80}
+.sync-pill.off .sync-dot{background:#f87171}
+.sync-pill.conectando .sync-dot{background:#facc15;animation:syncBlink 1s infinite}
+@keyframes syncBlink{50%{opacity:.3}}
