@@ -785,3 +785,42 @@ body.mp-abierto{overflow:hidden}
 .ver-btn{width:100%;background:var(--azul);color:#fff;font-family:'Fredoka';font-size:.9rem;padding:.75rem;border-radius:12px}
 .ver-btn:disabled{opacity:.6}
 .ver-nota{font-size:.72rem;color:var(--gris);text-align:center;margin-top:.5rem;line-height:1.5}
+
+/* ===== Asistencia por fecha, lista del grupo y porcentajes ===== */
+.pd-tab{font-size:.78rem;padding:.55rem .2rem}
+.pd-meses{display:flex;gap:.35rem;margin-bottom:.6rem}
+.pd-mes{flex:1;background:#fff;border:1.5px solid var(--borde);border-radius:9px;padding:.45rem;font-size:.78rem;font-weight:700;color:var(--gris)}
+.pd-mes.on{background:var(--teal-claro);border-color:var(--teal);color:var(--teal-osc)}
+.pd-fechas{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.8rem}
+.pd-fecha{background:#fff;border:1.5px solid var(--borde);border-radius:9px;padding:.45rem .6rem;font-size:.78rem;font-weight:700;color:var(--tinta);position:relative}
+.pd-fecha.on{background:var(--azul);border-color:var(--azul);color:#fff}
+.pd-fecha.reg::after{content:'';position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.pd-reg{color:var(--ok);font-weight:700}
+.pd-acciones{display:flex;gap:.4rem;margin-bottom:.6rem}
+.pd-mini{background:#fff;border:1px solid var(--borde);border-radius:8px;padding:.35rem .7rem;font-size:.75rem;font-weight:700;color:var(--azul)}
+.pd-asis-nom{display:flex;flex-direction:column;line-height:1.3}
+.pd-asis-nom small{font-size:.66rem;color:var(--gris)}
+.pd-asis-cuenta{text-align:center;font-size:.8rem;font-weight:700;color:var(--azul-osc);margin:.6rem 0 0}
+.pd-enlaces{display:flex;flex-direction:column;gap:.3rem;margin-top:1rem;align-items:center}
+.pd-link{background:none;color:var(--azul);font-size:.8rem;font-weight:700;padding:.4rem}
+.pd-input{width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.6rem .8rem;font-family:inherit;font-size:.88rem;margin-bottom:.6rem;background:#f8fafc}
+.pd-check{display:flex;gap:.5rem;align-items:flex-start;font-size:.78rem;color:var(--gris);margin-top:.6rem;line-height:1.4}
+.pd-asis-nota code{background:#eef2f6;padding:.1rem .35rem;border-radius:5px;font-size:.72rem}
+.pd-tabla-wrap{overflow-x:auto;margin-bottom:.8rem;border:1px solid var(--borde);border-radius:10px;-webkit-overflow-scrolling:touch}
+.pd-tabla{border-collapse:collapse;width:100%;min-width:430px;font-size:.74rem}
+.pd-tabla th{background:var(--azul-claro);color:var(--azul-osc);font-size:.66rem;padding:.45rem .3rem;text-align:center;font-weight:800}
+.pd-tabla td{padding:.3rem .25rem;border-top:1px solid var(--borde);text-align:center;color:var(--tinta)}
+.pd-tabla .pd-nom{text-align:left;min-width:118px;max-width:130px;position:sticky;left:0;background:#fff;font-size:.68rem;line-height:1.25;padding-left:.45rem}
+.pd-tabla th.pd-nom{background:var(--azul-claro)}
+.pd-num{width:46px;border:1px solid var(--borde);border-radius:6px;padding:.3rem .15rem;font-size:.76rem;text-align:center;font-family:inherit;background:#fff}
+.pd-pesos td{background:#fffbeb}
+.pd-pesos .pd-nom{background:#fffbeb;font-weight:800}
+.pd-suma{font-weight:800;font-size:.72rem}
+.pd-suma.ok{color:var(--ok)}
+.pd-suma.mal{color:#dc2626}
+.pd-auto{color:var(--gris);font-weight:700}
+.pd-total{font-weight:800;color:var(--azul-osc);font-family:'Fredoka';font-size:.85rem}
+.pd-hoja-nom{text-align:left;position:sticky;left:0;background:#fff;font-size:.68rem;min-width:118px;max-width:130px;padding-left:.45rem;line-height:1.25}
+.pd-h-ok{color:var(--ok);font-weight:800}
+.pd-h-fa{color:#dc2626;font-weight:800}
+.pd-h-no{color:var(--gris-claro)}

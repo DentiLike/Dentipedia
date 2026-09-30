@@ -85,6 +85,7 @@
           <div class="dropdown-cab">👨‍🏫 Docente</div>
           <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
           <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
+          <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
           <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
           <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
           <div class="dropdown-sep"></div>
@@ -130,6 +131,15 @@
         <button class="dropdown-item" onclick="abrirMisCalificaciones('chat')">📊 Mis calificaciones</button>
         <div class="dropdown-sep"></div>
         <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
+        <div class="dropdown-docente" style="display:none">
+          <div class="dropdown-cab">👨‍🏫 Docente</div>
+          <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
+          <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
+          <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
+          <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
+          <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
+          <div class="dropdown-sep"></div>
+        </div>
         <button class="dropdown-item" onclick="abrirAyuda('chat')">❓ Ayuda</button>
         <button class="dropdown-item danger" onclick="salir()">🚪 Salir</button>
       </div>
@@ -3476,7 +3486,7 @@ function cerrarSubScreen(){
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
-const APP_VERSION = 'v69';
+const APP_VERSION = 'v70';
 
 async function leerVersionGuardada(){
   try{
@@ -3669,6 +3679,7 @@ async function pintarPanel(vista){
     <div class="pd-tabs">
       <button class="pd-tab ${vista==='resumen'?'on':''}" onclick="pintarPanel('resumen')">Alumnos</button>
       <button class="pd-tab ${vista==='asistencia'?'on':''}" onclick="pintarPanel('asistencia')">Asistencia</button>
+      <button class="pd-tab ${vista==='porcentaje'?'on':''}" onclick="pintarPanel('porcentaje')">Porcentaje</button>
       <button class="pd-tab ${vista==='buzon'?'on':''}" onclick="pintarPanel('buzon')">Buzón</button>
     </div>`;
   const cont = document.getElementById('subScreenBody');
@@ -3676,6 +3687,7 @@ async function pintarPanel(vista){
 
   if(vista==='resumen')     await panelAlumnos();
   else if(vista==='asistencia') await panelAsistencia();
+  else if(vista==='porcentaje') await panelPorcentaje();
   else if(vista==='buzon')  await panelBuzon();
 }
 
@@ -3723,39 +3735,296 @@ async function verAlumno(id){
     ${filas}`;
 }
 
-let asistenciaSel = {};
+/* ================= GRUPO · ASISTENCIA · PORCENTAJES (docente) ================= */
+const PD = {
+  grupo: [], asist: {}, calif: {},
+  pond: { laboratorio:25, participacion:25, asistencia:25, examen:25 },
+  mes: null, fecha: null, presentes: {}, errorLectura: false
+};
+const MESES_ES = {'01':'Enero','02':'Febrero','03':'Marzo','04':'Abril','05':'Mayo','06':'Junio',
+  '07':'Julio','08':'Agosto','09':'Septiembre','10':'Octubre','11':'Noviembre','12':'Diciembre'};
+
+function esc(t){
+  return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function hoyLocalISO(){
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+/* Días de clase (martes y jueves) desde octubre, tomados del calendario del curso, sin festivos */
+function fechasDeClase(){
+  return CRONOGRAMA.filter(c=>c.iso && c.iso >= '2026-10-01' && c.tipo !== 'Festivo').map(c=>c.iso);
+}
+function mesDe(iso){ return iso.slice(0,7); }
+function nombreMes(ym){ return MESES_ES[ym.slice(5,7)] || ym; }
+function etiquetaFecha(iso){
+  const d = new Date(iso + 'T12:00:00');
+  return ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][d.getDay()] + ' ' + d.getDate();
+}
+function fechaLargaPD(iso){
+  const d = new Date(iso + 'T12:00:00');
+  return ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'][d.getDay()] + ' ' +
+         d.getDate() + ' de ' + nombreMes(mesDe(iso)).toLowerCase();
+}
+function numPD(x){ return (x === null || x === undefined || x === '' || isNaN(x)) ? 0 : +x; }
+function fmtPD(n){ return (n === null || n === undefined || isNaN(n)) ? '—' : String(Math.round(n*10)/10); }
+
+async function pdCargarDatos(){
+  const r = await Promise.all([fbLeerGrupo(), fbLeerAsistencias(), fbLeerCalificaciones(), fbLeerPonderacion()]);
+  PD.errorLectura = (r[0] === null || r[1] === null);
+  PD.grupo = r[0] || [];
+  PD.asist = {};
+  (r[1] || []).forEach(x=>{ PD.asist[x.fecha] = x.presentes || []; });
+  PD.calif = r[2] || {};
+  if(r[3]) PD.pond = Object.assign({}, PD.pond, r[3]);
+}
+function pdMsgReglas(){
+  return '<div class="pd-vacio">No se pudieron leer los datos.<br><br>Lo más probable: faltan publicar las <b>reglas de Firestore</b> actualizadas (Firestore Database › Reglas), o no hay conexión.</div>';
+}
+function pdMsgSinGrupo(){
+  return '<div class="pd-vacio">Primero carga la lista del grupo en la pestaña <b>Asistencia</b>.</div>';
+}
+
+/* ---------- Importar la lista del grupo ---------- */
+function pdParsearLista(texto){
+  const ok = [], mal = [], vistos = {};
+  String(texto).split(/\r?\n/).forEach(l=>{
+    const t = l.trim();
+    if(!t) return;
+    const m = t.match(/^([A-Za-z]\d{6,9})[\s;,|\t-]+(.+)$/);
+    if(m){
+      const mat = m[1].toUpperCase();
+      if(vistos[mat]) return;
+      vistos[mat] = true;
+      ok.push({ matricula: mat, nombre: m[2].trim().replace(/\s+/g,' ').replace(/[;,|]+$/,'').toUpperCase() });
+    }else mal.push(t);
+  });
+  return { ok: ok, mal: mal };
+}
+
+function pdMostrarImportador(){
+  const cont = document.getElementById('pdCuerpo');
+  const existe = PD.grupo.length > 0;
+  const grupo = existe ? (PD.grupo[0].grupo || '') : '054B';
+  const previo = PD.grupo.map(a=>a.matricula + ' ' + a.nombre).join('\n');
+  cont.innerHTML =
+    (existe ? '<button class="pd-volver" onclick="pintarPanel(\'asistencia\')">‹ Volver a la asistencia</button>' : '') +
+    '<div class="pd-sub">' + (existe ? 'Editar lista del grupo' : 'Cargar lista del grupo') + '</div>' +
+    '<div class="pd-asis-nota">Escribe o pega una línea por alumno: <b>matrícula</b> y <b>nombre</b>. Se guarda solo el texto, no la foto.<br><code>A00000000 APELLIDO APELLIDO NOMBRE</code></div>' +
+    '<input id="impGrupo" class="pd-input" value="' + esc(grupo) + '" placeholder="Grupo (ej. 054B)">' +
+    '<textarea id="impTexto" class="buzon-area" rows="12" placeholder="A00000000 APELLIDO APELLIDO NOMBRE">' + esc(previo) + '</textarea>' +
+    (existe ? '<label class="pd-check"><input type="checkbox" id="impReemplazar"> Reemplazar la lista actual (quita a quien no aparezca aquí)</label>' : '') +
+    '<button class="pd-guardar" onclick="pdImportar()">Guardar lista</button>' +
+    '<div class="pd-asis-msg" id="impMsg"></div>';
+}
+
+async function pdImportar(){
+  const msg = document.getElementById('impMsg');
+  const r = pdParsearLista(document.getElementById('impTexto').value);
+  const grupo = (document.getElementById('impGrupo').value || '').trim().toUpperCase();
+  if(!r.ok.length){ msg.className = 'pd-asis-msg err'; msg.textContent = 'No encontré ninguna línea con matrícula y nombre.'; return; }
+  const chk = document.getElementById('impReemplazar');
+  msg.className = 'pd-asis-msg'; msg.textContent = 'Guardando…';
+  const res = await fbGuardarGrupo(r.ok, grupo, !!(chk && chk.checked));
+  if(!res.ok){
+    msg.className = 'pd-asis-msg err';
+    msg.textContent = 'No se pudo guardar (' + res.motivo + '). Revisa que las reglas de Firestore estén publicadas.';
+    return;
+  }
+  if(r.mal.length) alert('Se guardaron ' + r.ok.length + ' alumnos. No entendí estas líneas:\n\n' + r.mal.join('\n'));
+  await pintarPanel('asistencia');
+}
+
+/* ---------- Asistencia ---------- */
 async function panelAsistencia(){
   const cont = document.getElementById('pdCuerpo');
-  const hoy = new Date().toISOString().slice(0,10);
-  const lista = await fbListaAlumnos();
-  const previa = await fbLeerAsistencia(hoy);
-  asistenciaSel = {};
-  if(previa && previa.presentes) previa.presentes.forEach(n=>asistenciaSel[n]=true);
-  if(!lista.length){ cont.innerHTML = '<div class="pd-vacio">No hay alumnos para pasar lista.</div>'; return; }
-  const filas = lista.map(a=>`
-    <button class="pd-asis ${asistenciaSel[a.id]?'on':''}" id="asis_${a.id}" onclick="toggleAsis('${a.id}')">
-      <span class="pd-asis-chk"></span><span>${a.nombre}</span>
-    </button>`).join('');
-  cont.innerHTML = `
-    <div class="pd-sub">Asistencia de hoy · ${hoy}</div>
-    <div class="pd-asis-nota">Marca a los presentes y guarda. Puedes ayudarte de la última conexión de cada alumno.</div>
-    ${filas}
-    <button class="pd-guardar" onclick="guardarAsis('${hoy}')">Guardar asistencia</button>
-    <div class="pd-asis-msg" id="asisMsg"></div>`;
-}
-function toggleAsis(id){
-  asistenciaSel[id] = !asistenciaSel[id];
-  const el = document.getElementById('asis_'+id);
-  if(el) el.classList.toggle('on', asistenciaSel[id]);
-}
-async function guardarAsis(fecha){
-  const presentes = Object.keys(asistenciaSel).filter(k=>asistenciaSel[k]);
-  const ok = await fbGuardarAsistencia(fecha, presentes);
-  const msg = document.getElementById('asisMsg');
-  if(msg){
-    msg.className = 'pd-asis-msg ' + (ok?'ok':'err');
-    msg.textContent = ok ? `✓ Guardada: ${presentes.length} presentes.` : 'No se pudo guardar.';
+  await pdCargarDatos();
+  if(PD.errorLectura){ cont.innerHTML = pdMsgReglas(); return; }
+  if(!PD.grupo.length){ pdMostrarImportador(); return; }
+  const fechas = fechasDeClase();
+  if(!PD.fecha || fechas.indexOf(PD.fecha) < 0){
+    const hoy = hoyLocalISO();
+    const pasadas = fechas.filter(f=>f <= hoy);
+    PD.fecha = pasadas.length ? pasadas[pasadas.length-1] : fechas[0];
   }
+  PD.mes = mesDe(PD.fecha);
+  pdSeleccionarFecha(PD.fecha);
+}
+
+function pdSeleccionarFecha(iso){
+  PD.fecha = iso;
+  PD.mes = mesDe(iso);
+  PD.presentes = {};
+  (PD.asist[iso] || []).forEach(m=>{ PD.presentes[m] = true; });
+  pdPintarAsistencia();
+}
+function pdMes(ym){
+  const primera = fechasDeClase().filter(f=>mesDe(f) === ym)[0];
+  if(primera) pdSeleccionarFecha(primera);
+}
+function pdFecha(iso){ pdSeleccionarFecha(iso); }
+
+function pdPintarAsistencia(){
+  const cont = document.getElementById('pdCuerpo');
+  const fechas = fechasDeClase();
+  const meses = fechas.map(mesDe).filter((m,i,a)=>a.indexOf(m) === i);
+  const tabsMes = meses.map(m=>'<button class="pd-mes ' + (m === PD.mes ? 'on' : '') + '" onclick="pdMes(\'' + m + '\')">' + nombreMes(m) + '</button>').join('');
+  const chips = fechas.filter(f=>mesDe(f) === PD.mes).map(f=>
+    '<button class="pd-fecha ' + (f === PD.fecha ? 'on ' : '') + (PD.asist[f] ? 'reg' : '') + '" onclick="pdFecha(\'' + f + '\')">' + etiquetaFecha(f) + '</button>').join('');
+  const filas = PD.grupo.map(a=>
+    '<button class="pd-asis ' + (PD.presentes[a.matricula] ? 'on' : '') + '" id="asis_' + a.matricula + '" onclick="toggleAsis(\'' + a.matricula + '\')">' +
+    '<span class="pd-asis-chk"></span><span class="pd-asis-nom">' + esc(a.nombre) + '<small>' + esc(a.matricula) + '</small></span></button>').join('');
+  const n = PD.grupo.filter(a=>PD.presentes[a.matricula]).length;
+  cont.innerHTML =
+    '<div class="pd-meses">' + tabsMes + '</div>' +
+    '<div class="pd-fechas">' + chips + '</div>' +
+    '<div class="pd-sub">Clase del ' + fechaLargaPD(PD.fecha) + (PD.asist[PD.fecha] ? ' · <span class="pd-reg">ya registrada</span>' : '') + '</div>' +
+    '<div class="pd-acciones"><button class="pd-mini" onclick="pdTodos(true)">Todos presentes</button><button class="pd-mini" onclick="pdTodos(false)">Limpiar</button></div>' +
+    filas +
+    '<div class="pd-asis-cuenta" id="asisCuenta">' + n + ' presentes de ' + PD.grupo.length + '</div>' +
+    '<button class="pd-guardar" onclick="guardarAsis()">Guardar asistencia</button>' +
+    '<div class="pd-asis-msg" id="asisMsg"></div>' +
+    '<div class="pd-enlaces"><button class="pd-link" onclick="pdVerHoja()">📋 Ver hoja de ' + nombreMes(PD.mes).toLowerCase() + '</button>' +
+    '<button class="pd-link" onclick="pdMostrarImportador()">✏️ Editar lista del grupo</button></div>';
+}
+
+function toggleAsis(mat){
+  PD.presentes[mat] = !PD.presentes[mat];
+  const el = document.getElementById('asis_' + mat);
+  if(el) el.classList.toggle('on', !!PD.presentes[mat]);
+  const c = document.getElementById('asisCuenta');
+  if(c) c.textContent = PD.grupo.filter(a=>PD.presentes[a.matricula]).length + ' presentes de ' + PD.grupo.length;
+}
+function pdTodos(valor){
+  PD.grupo.forEach(a=>{ PD.presentes[a.matricula] = valor; });
+  pdPintarAsistencia();
+}
+
+async function guardarAsis(){
+  const presentes = PD.grupo.filter(a=>PD.presentes[a.matricula]).map(a=>a.matricula);
+  const msg = document.getElementById('asisMsg');
+  if(msg){ msg.className = 'pd-asis-msg'; msg.textContent = 'Guardando…'; }
+  const ok = await fbGuardarAsistencia(PD.fecha, presentes);
+  if(ok){ PD.asist[PD.fecha] = presentes; pdPintarAsistencia(); }
+  const m2 = document.getElementById('asisMsg');
+  if(m2){
+    m2.className = 'pd-asis-msg ' + (ok ? 'ok' : 'err');
+    m2.textContent = ok ? '✓ Guardada: ' + presentes.length + ' presentes de ' + PD.grupo.length + '.' : 'No se pudo guardar. Revisa tu conexión y las reglas de Firestore.';
+  }
+}
+
+function pdVerHoja(){
+  const cont = document.getElementById('pdCuerpo');
+  const fechas = fechasDeClase().filter(f=>mesDe(f) === PD.mes);
+  const cab = fechas.map(f=>'<th>' + etiquetaFecha(f) + '</th>').join('');
+  const filas = PD.grupo.map(a=>'<tr><td class="pd-hoja-nom">' + esc(a.nombre) + '</td>' + fechas.map(f=>{
+    if(!PD.asist[f]) return '<td class="pd-h-no">·</td>';
+    return PD.asist[f].indexOf(a.matricula) >= 0 ? '<td class="pd-h-ok">✓</td>' : '<td class="pd-h-fa">✗</td>';
+  }).join('') + '</tr>').join('');
+  cont.innerHTML =
+    '<button class="pd-volver" onclick="pdPintarAsistencia()">‹ Volver a pasar lista</button>' +
+    '<div class="pd-sub">Hoja de ' + nombreMes(PD.mes).toLowerCase() + '</div>' +
+    '<div class="pd-asis-nota">✓ presente · ✗ falta · · sin registrar</div>' +
+    '<div class="pd-tabla-wrap"><table class="pd-tabla"><thead><tr><th class="pd-nom">Alumno</th>' + cab + '</tr></thead><tbody>' + filas + '</tbody></table></div>';
+}
+
+/* ---------- Porcentajes ---------- */
+function pctAsistencia(mat){
+  const fechas = Object.keys(PD.asist);
+  if(!fechas.length) return null;
+  const pres = fechas.filter(f=>PD.asist[f].indexOf(mat) >= 0).length;
+  return pres / fechas.length * 100;
+}
+function pdTotal(mat){
+  const c = PD.calif[mat] || {};
+  const w = PD.pond;
+  return (numPD(c.laboratorio)*numPD(w.laboratorio) + numPD(c.participacion)*numPD(w.participacion) +
+          numPD(pctAsistencia(mat))*numPD(w.asistencia) + numPD(c.examen)*numPD(w.examen)) / 100;
+}
+
+async function panelPorcentaje(){
+  const cont = document.getElementById('pdCuerpo');
+  await pdCargarDatos();
+  if(PD.errorLectura){ cont.innerHTML = pdMsgReglas(); return; }
+  if(!PD.grupo.length){ cont.innerHTML = pdMsgSinGrupo(); return; }
+  const w = PD.pond;
+  const inp = (id, val)=>'<input type="number" inputmode="decimal" min="0" max="100" step="any" class="pd-num" id="' + id + '" value="' + (val === null || val === undefined ? '' : val) + '">';
+  const filasPeso = '<tr class="pd-pesos"><td class="pd-nom">Ponderación %</td>' +
+    ['laboratorio','participacion','asistencia','examen'].map(k=>
+      '<td><input type="number" inputmode="decimal" min="0" max="100" step="any" class="pd-num" id="w_' + k + '" value="' + w[k] + '" oninput="pdRecalcularTodo()"></td>').join('') +
+    '<td id="pdSuma" class="pd-suma"></td></tr>';
+  const filas = PD.grupo.map(a=>{
+    const c = PD.calif[a.matricula] || {};
+    const m = a.matricula;
+    return '<tr><td class="pd-nom">' + esc(a.nombre) + '</td>' +
+      '<td>' + inp('lab_' + m, c.laboratorio).replace('>', ' oninput="pdRecalcular(\'' + m + '\')">') + '</td>' +
+      '<td>' + inp('par_' + m, c.participacion).replace('>', ' oninput="pdRecalcular(\'' + m + '\')">') + '</td>' +
+      '<td class="pd-auto" id="as_' + m + '">' + fmtPD(pctAsistencia(m)) + '</td>' +
+      '<td>' + inp('exa_' + m, c.examen).replace('>', ' oninput="pdRecalcular(\'' + m + '\')">') + '</td>' +
+      '<td class="pd-total" id="to_' + m + '">' + fmtPD(pdTotal(m)) + '</td></tr>';
+  }).join('');
+  cont.innerHTML =
+    '<div class="pd-sub">Porcentajes del grupo ' + esc(PD.grupo[0].grupo || '') + '</div>' +
+    '<div class="pd-tabla-wrap"><table class="pd-tabla"><thead><tr><th class="pd-nom">Alumno</th><th>Laboratorio</th><th>Participación</th><th>Asistencia</th><th>Examen</th><th>Total</th></tr></thead><tbody>' +
+    filasPeso + filas + '</tbody></table></div>' +
+    '<div class="pd-asis-nota">Captura laboratorio, participación y examen de 0 a 100. La <b>asistencia</b> se calcula sola con la lista (sobre las ' + Object.keys(PD.asist).length + ' clases registradas). Los campos vacíos cuentan como 0. La ponderación inicial es 25% para cada uno: <b>ajústala a tu criterio</b> (debe sumar 100).</div>' +
+    '<button class="pd-guardar" onclick="pdGuardarPorcentajes()">Guardar porcentajes</button>' +
+    '<div class="pd-asis-msg" id="pctMsg"></div>';
+  pdRecalcularTodo();
+}
+
+function pdLeerPonderacion(){
+  ['laboratorio','participacion','asistencia','examen'].forEach(k=>{
+    const el = document.getElementById('w_' + k);
+    if(el) PD.pond[k] = el.value === '' ? 0 : +el.value;
+  });
+}
+function pdLeerFila(mat){
+  const lee = id=>{
+    const el = document.getElementById(id + mat);
+    if(!el || el.value === '') return null;
+    return Math.max(0, Math.min(100, +el.value));
+  };
+  PD.calif[mat] = { laboratorio: lee('lab_'), participacion: lee('par_'), examen: lee('exa_') };
+}
+function pdRecalcular(mat){
+  pdLeerPonderacion();
+  pdLeerFila(mat);
+  const t = document.getElementById('to_' + mat);
+  if(t) t.textContent = fmtPD(pdTotal(mat));
+}
+function pdRecalcularTodo(){
+  pdLeerPonderacion();
+  PD.grupo.forEach(a=>{
+    pdLeerFila(a.matricula);
+    const t = document.getElementById('to_' + a.matricula);
+    if(t) t.textContent = fmtPD(pdTotal(a.matricula));
+  });
+  const suma = ['laboratorio','participacion','asistencia','examen'].reduce((s,k)=>s + numPD(PD.pond[k]), 0);
+  const el = document.getElementById('pdSuma');
+  if(el){
+    const ok = Math.abs(suma - 100) < 0.01;
+    el.textContent = fmtPD(suma) + '%';
+    el.className = 'pd-suma ' + (ok ? 'ok' : 'mal');
+  }
+}
+
+async function pdGuardarPorcentajes(){
+  const msg = document.getElementById('pctMsg');
+  pdRecalcularTodo();
+  const suma = ['laboratorio','participacion','asistencia','examen'].reduce((s,k)=>s + numPD(PD.pond[k]), 0);
+  if(Math.abs(suma - 100) > 0.01){
+    msg.className = 'pd-asis-msg err';
+    msg.textContent = 'La ponderación suma ' + fmtPD(suma) + '%. Debe sumar 100%.';
+    return;
+  }
+  msg.className = 'pd-asis-msg'; msg.textContent = 'Guardando…';
+  const mapa = {};
+  PD.grupo.forEach(a=>{ mapa[a.matricula] = PD.calif[a.matricula] || { laboratorio:null, participacion:null, examen:null }; });
+  const r1 = await fbGuardarPonderacion(PD.pond);
+  const r2 = await fbGuardarCalificaciones(mapa);
+  if(r1.ok && r2.ok){ msg.className = 'pd-asis-msg ok'; msg.textContent = '✓ Porcentajes guardados.'; }
+  else{ msg.className = 'pd-asis-msg err'; msg.textContent = 'No se pudo guardar (' + (r1.motivo || r2.motivo) + '). Revisa las reglas de Firestore.'; }
 }
 
 async function panelBuzon(){
