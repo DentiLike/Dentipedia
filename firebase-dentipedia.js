@@ -138,24 +138,35 @@ async function fbEnviarSugerencia(texto){
 async function fbLoginDocente(){
   if(!FB.online) { alert('No hay conexión con el servidor.'); return null; }
   const prov = new firebase.auth.GoogleAuthProvider();
-  // En móvil el popup falla seguido; la redirección es más confiable.
-  const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  if(esMovil){
-    try{
-      sessionStorage.setItem('mm_login_docente','1');   // recordar que veníamos del login
-      await FB.auth.signInWithRedirect(prov);
-      return null; // la página se recarga; el resultado se recoge al volver
-    }catch(e){ alert('No se pudo abrir Google.'); return null; }
-  }
-  // Escritorio: popup
+  prov.setCustomParameters({ prompt: 'select_account' });
+  // IMPORTANTE: la ventana emergente debe abrirse directo desde el toque del usuario,
+  // sin ningún 'await' antes. La redirección falla en este dominio (ver nota abajo).
   try{
     const res = await FB.auth.signInWithPopup(prov);
     return validarDocente(res.user);
   }catch(e){
-    if(e.code !== 'auth/popup-closed-by-user') alert('No se pudo iniciar sesión.');
+    const c = e && e.code;
+    if(c === 'auth/popup-closed-by-user' || c === 'auth/cancelled-popup-request') return null;
+    if(c === 'auth/popup-blocked'){
+      // Último recurso: algunos navegadores integrados bloquean popups.
+      try{
+        sessionStorage.setItem('mm_login_docente','1');
+        await FB.auth.signInWithRedirect(prov);
+        return null;
+      }catch(e2){ alert('No se pudo abrir Google (' + (e2.code||'error') + ').'); return null; }
+    }
+    if(c === 'auth/unauthorized-domain'){
+      alert('Este dominio no está autorizado en Firebase (Authentication > Configuración > Dominios autorizados).');
+      return null;
+    }
+    alert('No se pudo iniciar sesión (' + (c || 'error desconocido') + ').');
     return null;
   }
 }
+
+/* NOTA: signInWithRedirect pierde la sesión al volver cuando la app vive en un dominio
+   distinto al authDomain (firebaseapp.com): el navegador bloquea el almacenamiento de
+   terceros y el usuario regresa sin sesión y sin error. Por eso se usa popup. */
 
 async function validarDocente(user){
   const correo = (user.email||'').toLowerCase();

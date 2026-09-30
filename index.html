@@ -3476,6 +3476,69 @@ function cerrarSubScreen(){
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
+const APP_VERSION = 'v69';
+
+async function leerVersionGuardada(){
+  try{
+    if(!window.caches) return null;
+    const ks = await caches.keys();
+    const nums = ks.map(k=>/^dentipedia-(?:shell-|data-)?v(\d+)$/.exec(k)).filter(Boolean).map(r=>+r[1]);
+    return nums.length ? 'v' + Math.max.apply(null, nums) : null;
+  }catch(e){ return null; }
+}
+
+async function pintarVersion(){
+  const box = document.getElementById('ayudaVersion');
+  if(!box) return;
+  const guardada = await leerVersionGuardada();
+  let estado;
+  if(!guardada){
+    estado = '<span class="ver-ok">Sin copia guardada todavía (primera carga)</span>';
+  }else if(guardada === APP_VERSION){
+    estado = '<span class="ver-ok">✓ Coinciden: estás en la versión más reciente cargada</span>';
+  }else{
+    estado = '<span class="ver-aviso">⚠ El navegador tiene guardada la ' + guardada + '. Toca "Actualizar la app".</span>';
+  }
+  box.innerHTML =
+    '<div class="ver-fila"><span>Versión de la app</span><b>' + APP_VERSION + '</b></div>' +
+    '<div class="ver-fila"><span>Copia guardada en este dispositivo</span><b>' + (guardada || '—') + '</b></div>' +
+    '<div class="ver-estado">' + estado + '</div>' +
+    '<button class="ver-btn" id="btnActualizar" onclick="refrescarApp()">🔄 Actualizar la app</button>' +
+    '<div class="ver-nota">Descarga de nuevo la app. <b>No borra</b> tu avance ni tu sesión.</div>';
+}
+
+/* Fuerza la descarga de la versión nueva: refresca la copia HTTP de los archivos,
+   borra las copias guardadas por la app, desregistra el service worker y recarga. */
+async function refrescarApp(){
+  if(!navigator.onLine){
+    alert('Necesitas internet para actualizar. Sin conexión, la app sigue funcionando con la versión que ya tienes.');
+    return;
+  }
+  const btn = document.getElementById('btnActualizar');
+  if(btn){ btn.disabled = true; btn.textContent = 'Actualizando…'; }
+  try{
+    const base = ['./','index.html','styles.css','data-temas.js','data-quiz.js','data-casos.js',
+                  'data-glosario.js','firebase-dentipedia.js','sw.js','manifest.json'];
+    await Promise.all(base.map(u=>fetch(u,{cache:'reload'}).catch(()=>null)));
+    if('serviceWorker' in navigator){
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r=>r.unregister()));
+    }
+    if(window.caches){
+      const ks = await caches.keys();
+      await Promise.all(ks.map(k=>caches.delete(k)));
+    }
+  }catch(e){}
+  location.replace(location.pathname + '?r=' + Date.now());
+}
+
+/* Limpia el ?r=... de la dirección después de actualizar */
+window.addEventListener('DOMContentLoaded', ()=>{
+  if(/[?&]r=\d+/.test(location.search) && history.replaceState){
+    history.replaceState(null, '', location.pathname);
+  }
+});
+
 function pintarSync(estado){
   const pill=document.getElementById('syncPill'), txt=document.getElementById('syncTxt');
   if(!pill||!txt) return;
@@ -3513,12 +3576,18 @@ function activarModoDocente(esDoc){
 
 /* Entrar como docente: una sola vez. Después Firebase recuerda la sesión. */
 async function entrarComoDocente(){
-  const nota = $('syncTxt');
-  if(nota) nota.textContent = 'Abriendo Google…';
-  const ok = await iniciarFirebase();
-  if(!ok){ alert('No hay conexión para iniciar sesión.'); return; }
-  const user = await fbLoginDocente();   // en escritorio abre popup; en móvil redirige
+  // Si Firebase aún no cargó, se espera; en ese caso hay que volver a tocar el botón
+  // (el navegador solo permite abrir la ventana de Google justo al tocar).
+  if(!(FB && FB.online)){
+    pintarSync('conectando');
+    const ok = await iniciarFirebase();
+    if(!ok){ alert('No hay conexión para iniciar sesión.'); return; }
+    alert('Listo, ya hay conexión. Toca "Entrar como docente" otra vez.');
+    return;
+  }
+  const user = await fbLoginDocente();   // abre la ventana de Google al instante
   if(user){ activarModoDocente(true); }
+  else pintarSync('ok');
 }
 
 function salirDocente(){
@@ -3716,7 +3785,10 @@ function abrirAyuda(origen){
     <p>Mike solo responde con el material que el Dr. Alvarado ha cargado. Si algo no está cubierto, te lo va a decir claramente y te va a sugerir preguntarle directamente al Dr. Alvarado en clase.</p>
     <h3>Contacto</h3>
     <p>Dudas administrativas, de calificación oficial o del curso: consulta directamente con el Dr. Miguel Alvarado, catedrático de Oclusión.</p>
+    <h3>Versión</h3>
+    <div id="ayudaVersion" class="ver-box">Leyendo versión…</div>
   `);
+  pintarVersion();
 }
 
 function abrirCalendario(origen){

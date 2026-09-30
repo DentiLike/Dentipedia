@@ -774,3 +774,14 @@ body.mp-abierto{overflow:hidden}
 .dropdown-docente{background:#eaf3fa;border-radius:10px;margin:.3rem .2rem;padding:.2rem 0}
 .dropdown-docente .dropdown-cab{color:#095287;font-weight:700}
 .dropdown-docente .dropdown-item{color:#063a61}
+
+/* ===== Versión y actualizar (Ayuda) ===== */
+.ver-box{background:#f8fafc;border:1px solid var(--borde);border-radius:12px;padding:.8rem .9rem}
+.ver-fila{display:flex;justify-content:space-between;align-items:center;font-size:.83rem;color:var(--tinta);padding:.3rem 0;border-bottom:1px dashed var(--borde)}
+.ver-fila b{font-family:'Fredoka';color:var(--azul-osc);font-size:.95rem}
+.ver-estado{font-size:.78rem;line-height:1.5;margin:.6rem 0}
+.ver-ok{color:var(--ok)}
+.ver-aviso{color:#b45309;font-weight:700}
+.ver-btn{width:100%;background:var(--azul);color:#fff;font-family:'Fredoka';font-size:.9rem;padding:.75rem;border-radius:12px}
+.ver-btn:disabled{opacity:.6}
+.ver-nota{font-size:.72rem;color:var(--gris);text-align:center;margin-top:.5rem;line-height:1.5}
