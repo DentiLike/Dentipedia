@@ -78,7 +78,9 @@
         <div class="dropdown-sep"></div>
         <button class="dropdown-item" onclick="mostrarChat()">💬 Preguntar a Mikes Molares</button>
         <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
+        <button class="dropdown-item" onclick="abrirBuzon('inicio')">💡 Buzón de sugerencias</button>
         <button class="dropdown-item" onclick="abrirAyuda('inicio')">❓ Ayuda</button>
+        <button class="dropdown-item" onclick="abrirPanelDocente('inicio')">🔒 Panel docente</button>
         <button class="dropdown-item danger" onclick="salir()">🚪 Salir</button>
       </div>
     </div>
@@ -190,6 +192,7 @@
 <script src="data-quiz.js"></script>
 <script src="data-casos.js"></script>
 <script src="data-glosario.js"></script>
+<script src="firebase-dentipedia.js"></script>
 <script>
 // Avatar y logo van embebidos UNA sola vez aquí (no en cada <img>) para que
 // funcionen sin servidor (ej. al abrir el HTML directo desde Descargas en el celular)
@@ -279,6 +282,7 @@ function entrarChat(){
   }
   ALUMNO = {nombre: nombreInput, id: idDesdeNombre(nombreInput), rol: ROL_APP};
   localStorage.setItem('mm_alumno', JSON.stringify(ALUMNO));
+  iniciarFirebase().then(ok=>{ if(ok) fbRegistrarAlumno(ALUMNO); });
   enrutar();
 }
 
@@ -296,6 +300,9 @@ function entrarChat(){
   const g = localStorage.getItem('mm_alumno');
   if(g){ try{ ALUMNO = JSON.parse(g); }catch(e){} }
 })();
+window.addEventListener('DOMContentLoaded', ()=>{
+  if(ALUMNO){ iniciarFirebase().then(ok=>{ if(ok) fbRegistrarAlumno(ALUMNO); }); }
+});
 
 function enrutar(){
   mostrarInicio();
@@ -3400,6 +3407,9 @@ function guardarResultado(resultado){
   historial.push(resultado);
   localStorage.setItem('mm_resultados', JSON.stringify(historial));
 
+  // 1b) y en Firebase, para el seguimiento del Dr. Alvarado
+  if(typeof fbGuardarResultado === 'function') fbGuardarResultado(resultado);
+
   // 2) si hay webhook configurado, se manda también al Google Sheet del Dr. Alvarado
   if(SHEET_WEBHOOK_URL){
     fetch(SHEET_WEBHOOK_URL, {
@@ -3455,6 +3465,173 @@ function cerrarSubScreen(){
   cerrarConsulta();
   actualizarFab();
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
+}
+
+/* ================= BUZÓN DE SUGERENCIAS (alumno) ================= */
+function abrirBuzon(origen){
+  const cuerpo = `
+    <div class="buzon-intro">
+      <div class="buzon-ico">💡</div>
+      <div class="buzon-t">Este buzón es anónimo de verdad</div>
+      <div class="buzon-d">Cuéntanos qué mejorarías de la clase, qué te está costando, o cualquier idea que pueda aportar. <b>No guardamos quién lo escribe.</b> Tu honestidad ayuda a que la materia sea mejor para todos.</div>
+    </div>
+    <textarea id="buzonTexto" class="buzon-area" rows="6" maxlength="1500"
+      placeholder="Escribe aquí tu sugerencia, duda o idea..."></textarea>
+    <button class="buzon-enviar" onclick="enviarBuzon()">Enviar de forma anónima</button>
+    <div class="buzon-nota" id="buzonNota"></div>`;
+  abrirSubScreen(origen || pantallaAnterior, 'Buzón de sugerencias', cuerpo);
+  iniciarFirebase();
+}
+
+async function enviarBuzon(){
+  const ta = $('buzonTexto'); const nota = $('buzonNota');
+  if(!ta) return;
+  const txt = ta.value.trim();
+  if(txt.length < 4){ nota.textContent = 'Escribe un poco más para poder enviarlo.'; nota.className='buzon-nota err'; return; }
+  const btn = document.querySelector('.buzon-enviar');
+  if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+  const r = await fbEnviarSugerencia(txt);
+  if(r.ok){
+    ta.value = '';
+    nota.className = 'buzon-nota ok';
+    nota.innerHTML = '✓ Gracias. Tu mensaje llegó de forma anónima.';
+    if(btn){ btn.textContent = 'Enviado ✓'; }
+  }else{
+    nota.className = 'buzon-nota err';
+    nota.textContent = r.motivo === 'sin conexión'
+      ? 'No hay conexión ahora. Intenta de nuevo con internet.'
+      : 'No se pudo enviar. Intenta otra vez.';
+    if(btn){ btn.disabled = false; btn.textContent = 'Enviar de forma anónima'; }
+  }
+}
+
+/* ================= PANEL DOCENTE ================= */
+function abrirPanelDocente(origen){
+  abrirSubScreen(origen || pantallaAnterior, 'Panel docente', `
+    <div class="pd-login">
+      <div class="pd-login-ico">🔒</div>
+      <div class="pd-login-t">Acceso exclusivo del docente</div>
+      <div class="pd-login-d">Esta sección muestra el seguimiento de los alumnos y está protegida. Entra con tu cuenta de Google autorizada.</div>
+      <button class="pd-login-btn" onclick="loginPanel()">Entrar con Google</button>
+      <div class="pd-login-nota" id="pdNota"></div>
+    </div>`);
+  iniciarFirebase();
+}
+
+async function loginPanel(){
+  const nota = $('pdNota');
+  if(nota){ nota.textContent = 'Abriendo Google...'; }
+  const ok = await iniciarFirebase();
+  if(!ok){ if(nota) nota.textContent = 'Sin conexión con el servidor.'; return; }
+  const user = await fbLoginDocente();
+  if(user) pintarPanel('resumen');
+}
+
+async function pintarPanel(vista){
+  const tabs = `
+    <div class="pd-tabs">
+      <button class="pd-tab ${vista==='resumen'?'on':''}" onclick="pintarPanel('resumen')">Alumnos</button>
+      <button class="pd-tab ${vista==='asistencia'?'on':''}" onclick="pintarPanel('asistencia')">Asistencia</button>
+      <button class="pd-tab ${vista==='buzon'?'on':''}" onclick="pintarPanel('buzon')">Buzón</button>
+    </div>`;
+  const cont = document.getElementById('subScreenBody');
+  if(cont) cont.innerHTML = tabs + '<div id="pdCuerpo" class="pd-cuerpo"><div class="pd-cargando">Cargando...</div></div>';
+
+  if(vista==='resumen')     await panelAlumnos();
+  else if(vista==='asistencia') await panelAsistencia();
+  else if(vista==='buzon')  await panelBuzon();
+}
+
+function fechaCorta(ts){
+  if(!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('es-MX',{day:'2-digit',month:'short'}) + ' ' +
+         d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+}
+
+async function panelAlumnos(){
+  const cont = document.getElementById('pdCuerpo');
+  const lista = await fbListaAlumnos();
+  if(!lista.length){ cont.innerHTML = '<div class="pd-vacio">Aún no hay alumnos registrados.</div>'; return; }
+  const filas = lista.map(a=>{
+    const uq = a.ultimoQuiz ? `${a.ultimoQuiz.porcentaje}% · ${a.ultimoQuiz.tema.split('·')[0].trim()}` : 'sin quizzes';
+    return `<button class="pd-alumno" onclick="verAlumno('${a.id}')">
+        <div class="pd-alumno-info">
+          <b>${a.nombre}</b>
+          <small>Última vez: ${fechaCorta(a.ultimaConexion)} · ${a.conexiones||1} entradas</small>
+        </div>
+        <div class="pd-alumno-quiz">${uq}</div>
+      </button>`;
+  }).join('');
+  cont.innerHTML = `<div class="pd-total">${lista.length} alumnos registrados</div>${filas}`;
+}
+
+async function verAlumno(id){
+  const cont = document.getElementById('pdCuerpo');
+  cont.innerHTML = '<div class="pd-cargando">Cargando...</div>';
+  const quizzes = await fbQuizzesDe(id);
+  const lista = await fbListaAlumnos();
+  const a = lista.find(x=>x.id===id) || {nombre:id};
+  const filas = quizzes.length
+    ? quizzes.map(q=>`<div class="pd-quiz-row ${q.aprobado?'ok':'no'}">
+        <span class="pd-quiz-tema">${q.tema}</span>
+        <span class="pd-quiz-pct">${q.porcentaje}%</span>
+        <span class="pd-quiz-fecha">${fechaCorta(q.fecha)}</span>
+      </div>`).join('')
+    : '<div class="pd-vacio">Este alumno aún no ha resuelto quizzes.</div>';
+  cont.innerHTML = `
+    <button class="pd-volver" onclick="pintarPanel('resumen')">‹ Volver a la lista</button>
+    <div class="pd-alumno-cab">${a.nombre}</div>
+    <div class="pd-sub">Historial de quizzes</div>
+    ${filas}`;
+}
+
+let asistenciaSel = {};
+async function panelAsistencia(){
+  const cont = document.getElementById('pdCuerpo');
+  const hoy = new Date().toISOString().slice(0,10);
+  const lista = await fbListaAlumnos();
+  const previa = await fbLeerAsistencia(hoy);
+  asistenciaSel = {};
+  if(previa && previa.presentes) previa.presentes.forEach(n=>asistenciaSel[n]=true);
+  if(!lista.length){ cont.innerHTML = '<div class="pd-vacio">No hay alumnos para pasar lista.</div>'; return; }
+  const filas = lista.map(a=>`
+    <button class="pd-asis ${asistenciaSel[a.id]?'on':''}" id="asis_${a.id}" onclick="toggleAsis('${a.id}')">
+      <span class="pd-asis-chk"></span><span>${a.nombre}</span>
+    </button>`).join('');
+  cont.innerHTML = `
+    <div class="pd-sub">Asistencia de hoy · ${hoy}</div>
+    <div class="pd-asis-nota">Marca a los presentes y guarda. Puedes ayudarte de la última conexión de cada alumno.</div>
+    ${filas}
+    <button class="pd-guardar" onclick="guardarAsis('${hoy}')">Guardar asistencia</button>
+    <div class="pd-asis-msg" id="asisMsg"></div>`;
+}
+function toggleAsis(id){
+  asistenciaSel[id] = !asistenciaSel[id];
+  const el = document.getElementById('asis_'+id);
+  if(el) el.classList.toggle('on', asistenciaSel[id]);
+}
+async function guardarAsis(fecha){
+  const presentes = Object.keys(asistenciaSel).filter(k=>asistenciaSel[k]);
+  const ok = await fbGuardarAsistencia(fecha, presentes);
+  const msg = document.getElementById('asisMsg');
+  if(msg){
+    msg.className = 'pd-asis-msg ' + (ok?'ok':'err');
+    msg.textContent = ok ? `✓ Guardada: ${presentes.length} presentes.` : 'No se pudo guardar.';
+  }
+}
+
+async function panelBuzon(){
+  const cont = document.getElementById('pdCuerpo');
+  const msgs = await fbLeerSugerencias();
+  if(!msgs.length){ cont.innerHTML = '<div class="pd-vacio">No hay mensajes en el buzón.</div>'; return; }
+  const filas = msgs.map(m=>`
+    <div class="pd-msg">
+      <div class="pd-msg-txt">${(m.texto||'').replace(/</g,'&lt;')}</div>
+      <div class="pd-msg-fecha">${fechaCorta(m.fecha)}</div>
+    </div>`).join('');
+  cont.innerHTML = `<div class="pd-sub">${msgs.length} mensajes anónimos</div>
+    <div class="pd-msg-aviso">Estos mensajes no tienen autor. No es posible saber quién los escribió.</div>${filas}`;
 }
 
 function abrirAyuda(origen){
