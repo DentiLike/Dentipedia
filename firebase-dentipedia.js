@@ -46,6 +46,7 @@ async function iniciarFirebase(){
     FB.listo = true;
     FB.online = true;
     if(typeof pintarSync==='function') pintarSync('ok');
+    if(typeof fbVigilarDocente==='function') fbVigilarDocente();
     return true;
   }catch(e){
     // Sin conexión la app sigue funcionando con localStorage
@@ -136,20 +137,50 @@ async function fbEnviarSugerencia(texto){
 
 async function fbLoginDocente(){
   if(!FB.online) { alert('No hay conexión con el servidor.'); return null; }
+  const prov = new firebase.auth.GoogleAuthProvider();
+  // En móvil el popup falla seguido; la redirección es más confiable.
+  const esMovil = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if(esMovil){
+    try{
+      sessionStorage.setItem('mm_login_docente','1');   // recordar que veníamos del login
+      await FB.auth.signInWithRedirect(prov);
+      return null; // la página se recarga; el resultado se recoge al volver
+    }catch(e){ alert('No se pudo abrir Google.'); return null; }
+  }
+  // Escritorio: popup
   try{
-    const prov = new firebase.auth.GoogleAuthProvider();
     const res = await FB.auth.signInWithPopup(prov);
-    const correo = (res.user.email||'').toLowerCase();
-    if(!DOCENTES.includes(correo)){
-      await FB.auth.signOut();
-      alert('Esta cuenta no tiene acceso al panel docente.');
-      return null;
-    }
-    return res.user;
+    return validarDocente(res.user);
   }catch(e){
     if(e.code !== 'auth/popup-closed-by-user') alert('No se pudo iniciar sesión.');
     return null;
   }
+}
+
+async function validarDocente(user){
+  const correo = (user.email||'').toLowerCase();
+  if(!DOCENTES.includes(correo)){
+    await FB.auth.signOut();
+    alert('Esta cuenta ('+correo+') no tiene acceso al panel docente.');
+    return null;
+  }
+  return user;
+}
+
+/* Al volver de la redirección de Google, recoge el resultado. */
+async function fbRecogerRedirect(){
+  if(!FB.online) return null;
+  try{
+    const res = await FB.auth.getRedirectResult();
+    if(res && res.user){
+      const ok = await validarDocente(res.user);
+      if(ok && sessionStorage.getItem('mm_login_docente')){
+        sessionStorage.removeItem('mm_login_docente');
+        return ok;
+      }
+    }
+  }catch(e){}
+  return null;
 }
 
 async function fbLogoutDocente(){
@@ -159,6 +190,16 @@ async function fbLogoutDocente(){
 function fbEsDocente(){
   const u = FB.auth && FB.auth.currentUser;
   return !!(u && DOCENTES.includes((u.email||'').toLowerCase()));
+}
+
+/* Vigila la sesión: si el docente ya entró antes, Firebase lo recuerda
+   y esto se dispara solo al abrir la app, activando el modo docente. */
+function fbVigilarDocente(){
+  if(!FB.online || !FB.auth) return;
+  FB.auth.onAuthStateChanged(user=>{
+    const esDoc = !!(user && DOCENTES.includes((user.email||'').toLowerCase()));
+    if(typeof activarModoDocente === 'function') activarModoDocente(esDoc);
+  });
 }
 
 /* Lista de alumnos con su avance, para el panel. */

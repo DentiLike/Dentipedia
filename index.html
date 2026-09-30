@@ -50,7 +50,7 @@
     <div class="login-privacidad">🔒 Tu nombre y tu avance se guardan en tu dispositivo y se sincronizan con el aula del <b>Dr. Alvarado</b> para dar seguimiento a tu progreso. No compartimos tus datos con terceros.</div>
   </div>
   <div class="login-foot"><img class="js-logo" src="" alt="Universidad Cuauhtémoc" style="height:36px;display:block;margin:0 auto .6rem;border-radius:6px;background:#fff;padding:4px 8px">Materia: Oclusión · Universidad Cuauhtémoc · Dr. Miguel Alvarado</div>
-  <button class="login-docente" onclick="abrirPanelDocente('login')">🔒 Acceso docente</button>
+  <button class="login-docente" onclick="entrarComoDocente()">🔒 Entrar como docente</button>
   <div class="sync-pill" id="syncPill" onclick="reintentarSync()"><span class="sync-dot"></span><span id="syncTxt">Conectando…</span></div>
 </div>
 
@@ -81,6 +81,14 @@
         <button class="dropdown-item" onclick="mostrarChat()">💬 Preguntar a Mikes Molares</button>
         <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
         <button class="dropdown-item" onclick="abrirBuzon('inicio')">💡 Buzón de sugerencias</button>
+        <div class="dropdown-docente" style="display:none">
+          <div class="dropdown-cab">👨‍🏫 Docente</div>
+          <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
+          <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
+          <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
+          <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
+          <div class="dropdown-sep"></div>
+        </div>
         <button class="dropdown-item" onclick="abrirAyuda('inicio')">❓ Ayuda</button>
         <button class="dropdown-item danger" onclick="salir()">🚪 Salir</button>
       </div>
@@ -3476,7 +3484,54 @@ function pintarSync(estado){
 }
 function reintentarSync(){
   pintarSync('conectando');
-  iniciarFirebase().then(ok=>{ pintarSync(ok?'ok':'off'); if(ok&&typeof ALUMNO!=='undefined'&&ALUMNO) fbRegistrarAlumno(ALUMNO); });
+  iniciarFirebase().then(async ok=>{
+    pintarSync(ok?'ok':'off');
+    if(ok && typeof ALUMNO!=='undefined' && ALUMNO) fbRegistrarAlumno(ALUMNO);
+    // Recoge el regreso de Google (redirección en móvil)
+    if(ok && typeof fbRecogerRedirect==='function'){ await fbRecogerRedirect(); }
+    // El vigilante fbVigilarDocente() activará el modo docente si ya hay sesión.
+  });
+}
+
+/* Enciende o apaga las funciones docentes en el menú. Lo llama Firebase
+   automáticamente al detectar (o perder) la sesión del docente. */
+let MODO_DOCENTE = false;
+function activarModoDocente(esDoc){
+  MODO_DOCENTE = !!esDoc;
+  document.querySelectorAll('.dropdown-docente').forEach(el=>{
+    el.style.display = esDoc ? 'block' : 'none';
+  });
+  // Si estabas en el login y ya se reconoció tu sesión, pasa al inicio
+  if(esDoc){
+    const login = $('loginScreen');
+    if(login && login.style.display !== 'none'){
+      if(!ALUMNO){ ALUMNO = {nombre:'Docente', id:'docente', rol:'docente'}; }
+      enrutar();
+    }
+  }
+}
+
+/* Entrar como docente: una sola vez. Después Firebase recuerda la sesión. */
+async function entrarComoDocente(){
+  const nota = $('syncTxt');
+  if(nota) nota.textContent = 'Abriendo Google…';
+  const ok = await iniciarFirebase();
+  if(!ok){ alert('No hay conexión para iniciar sesión.'); return; }
+  const user = await fbLoginDocente();   // en escritorio abre popup; en móvil redirige
+  if(user){ activarModoDocente(true); }
+}
+
+function salirDocente(){
+  fbLogoutDocente();
+  activarModoDocente(false);
+  alert('Cerraste la sesión de docente. La app vuelve a modo alumno.');
+}
+
+/* Abre el panel en la vista pedida desde el menú. */
+function verPanel(vista){
+  if(typeof closeAllMenus==='function') closeAllMenus();
+  abrirSubScreen(pantallaAnterior || 'inicio', 'Panel docente', '<div class="pd-cargando">Cargando…</div>');
+  pintarPanel(vista || 'resumen');
 }
 window.addEventListener('DOMContentLoaded', reintentarSync);
 
