@@ -824,3 +824,10 @@ body.mp-abierto{overflow:hidden}
 .pd-h-ok{color:var(--ok);font-weight:800}
 .pd-h-fa{color:#dc2626;font-weight:800}
 .pd-h-no{color:var(--gris-claro)}
+
+/* ===== Menú ⋮ con desplazamiento (ya no se sale de la pantalla) ===== */
+.dropdown{max-height:calc(var(--vh, 100vh) - 140px);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.docente-toggle{font-weight:800;color:#063a61}
+.dd-flecha{margin-left:auto;transition:transform .2s}
+.docente-abierto .dd-flecha{transform:rotate(180deg)}
+.docente-items{border-top:1px solid #cfe3f2;margin-top:.2rem;padding-top:.2rem}

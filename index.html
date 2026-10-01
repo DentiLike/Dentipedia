@@ -82,12 +82,14 @@
         <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
         <button class="dropdown-item" onclick="abrirBuzon('inicio')">💡 Buzón de sugerencias</button>
         <div class="dropdown-docente" style="display:none">
-          <div class="dropdown-cab">👨‍🏫 Docente</div>
-          <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
-          <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
-          <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
-          <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
-          <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
+          <button class="dropdown-item docente-toggle" onclick="toggleDocenteMenu(event)">👨‍🏫 Docente <span class="dd-flecha">▾</span></button>
+          <div class="docente-items" style="display:none">
+            <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
+            <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
+            <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
+            <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
+            <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
+          </div>
           <div class="dropdown-sep"></div>
         </div>
         <button class="dropdown-item" onclick="abrirAyuda('inicio')">❓ Ayuda</button>
@@ -132,12 +134,14 @@
         <div class="dropdown-sep"></div>
         <button class="dropdown-item js-instalar" onclick="instalarApp()">📲 Instalar en el celular</button>
         <div class="dropdown-docente" style="display:none">
-          <div class="dropdown-cab">👨‍🏫 Docente</div>
-          <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
-          <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
-          <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
-          <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
-          <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
+          <button class="dropdown-item docente-toggle" onclick="toggleDocenteMenu(event)">👨‍🏫 Docente <span class="dd-flecha">▾</span></button>
+          <div class="docente-items" style="display:none">
+            <button class="dropdown-item" onclick="verPanel('resumen')">👥 Ver alumnos</button>
+            <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
+            <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
+            <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
+            <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
+          </div>
           <div class="dropdown-sep"></div>
         </div>
         <button class="dropdown-item" onclick="abrirAyuda('chat')">❓ Ayuda</button>
@@ -362,12 +366,34 @@ function ocultarGlobo(){
   const g = $('fabGlobo');
   if(g) g.classList.remove('visible');
 }
-function mostrarGlobo(texto){
+function mostrarGlobo(texto, accion){
   const g = $('fabGlobo');
   if(!g) return;
   g.innerHTML = texto + '<span class="globo-x" onclick="event.stopPropagation();ocultarGlobo()">✕</span>';
+  // Por defecto el globo abre el chat rápido; el aviso del buzón abre el buzón.
+  g.onclick = (accion === 'buzon')
+    ? function(){ ocultarGlobo(); abrirBuzon('inicio'); }
+    : function(){ abrirConsulta(); };
   g.classList.add('visible');
-  setTimeout(ocultarGlobo, 9000);
+  clearTimeout(window._globoT);
+  window._globoT = setTimeout(ocultarGlobo, accion === 'buzon' ? 12000 : 9000);
+}
+
+/* Mike avisa del buzón anónimo: máximo 3 sesiones, y deja de avisar en cuanto
+   el alumno lo abre. No aparece al docente ni si hay otra cosa abierta. */
+function avisarBuzon(){
+  try{
+    if(typeof MODO_DOCENTE !== 'undefined' && MODO_DOCENTE) return;
+    if(localStorage.getItem('mm_buzon_visto')) return;
+    const n = +(localStorage.getItem('mm_buzon_avisos') || 0);
+    if(n >= 3) return;
+    const ini = $('inicioScreen'), sub = $('subScreen'), mp = $('modoPractica');
+    if(!ini || !ini.classList.contains('show')) return;
+    if(sub && sub.classList.contains('show')) return;
+    if(mp && mp.classList.contains('activo')) return;
+    localStorage.setItem('mm_buzon_avisos', String(n + 1));
+    mostrarGlobo('💡 Tengo un <b>buzón de sugerencias anónimo</b> para que le digas al Dr. Alvarado qué mejorarías de la clase. <u>Tócame</u> y te llevo.', 'buzon');
+  }catch(e){}
 }
 
 function pintarInicio(){
@@ -432,6 +458,7 @@ function pintarInicio(){
       msg = `${nombre}, ojo: ${u.txt.toLowerCase()} para entregar. Tócame si tienes dudas.`;
     }
     setTimeout(()=>mostrarGlobo(msg), 1100);
+    setTimeout(avisarBuzon, 11000);   // después del saludo, cuando el primer globo ya se fue
   }
 }
 
@@ -880,6 +907,9 @@ function enviarPregunta(){
     // Orden: saludo → contenido del temario → logística del curso → no sé
     const social = respuestaSocial(val);
     if(social){ agregarBot(social); return; }
+
+    const buzon = respuestaBuzon(val);
+    if(buzon){ agregarBot(buzon); return; }
 
     const resp = buscarRespuesta(val);
     if(resp){
@@ -3000,7 +3030,7 @@ function burbujaConsulta(quien, html){
 }
 
 function saludoConsulta(){
-  const sug = ['Fraguado','Alginato','Polimerización','Grabado ácido','Relación céntrica'];
+  const sug = ['Fraguado','Alginato','Polimerización','Grabado ácido','Relación céntrica','Buzón de sugerencias'];
   burbujaConsulta('bot',
     `¿Alguna duda o algún término que no entiendas? Escríbelo y te lo explico aquí mismo, sin que pierdas tu lugar. 🦷` +
     `<div class="cons-chips">${sug.map(t=>
@@ -3032,6 +3062,8 @@ function enviarConsulta(){
 function responderConsulta(val){
   const soc = respuestaSocial(val);
   if(soc) return soc;
+  const buzon = respuestaBuzon(val);
+  if(buzon) return buzon;
   const resp = buscarRespuesta(val);
   if(resp) return resp;
   const logi = respuestaLogistica(val);
@@ -3486,7 +3518,7 @@ function cerrarSubScreen(){
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
-const APP_VERSION = 'v70';
+const APP_VERSION = 'v71';
 
 async function leerVersionGuardada(){
   try{
@@ -3600,6 +3632,20 @@ async function entrarComoDocente(){
   else pintarSync('ok');
 }
 
+/* Despliega o pliega las opciones de docente dentro del menú (vienen plegadas
+   para que el menú no se alargue). */
+function toggleDocenteMenu(ev){
+  if(ev && ev.stopPropagation) ev.stopPropagation();
+  const btn = ev && ev.currentTarget;
+  const bloque = btn && btn.parentElement;
+  if(!bloque) return;
+  const items = bloque.querySelector('.docente-items');
+  if(!items) return;
+  const abre = items.style.display === 'none';
+  items.style.display = abre ? 'block' : 'none';
+  bloque.classList.toggle('docente-abierto', abre);
+}
+
 function salirDocente(){
   fbLogoutDocente();
   activarModoDocente(false);
@@ -3615,7 +3661,25 @@ function verPanel(vista){
 window.addEventListener('DOMContentLoaded', reintentarSync);
 
 /* ================= BUZÓN DE SUGERENCIAS (alumno) ================= */
+/* Si preguntan por sugerencias, quejas, el buzón o cómo mejorar la clase. Se evalúa
+   ANTES que el temario para que "mejorar la clase" no caiga en el tema de Clases I a V. */
+function respuestaBuzon(pregunta){
+  const q = normalizar(pregunta);
+  if(!/(sugerencia|sugerir|sugiero|buzon|anonim|queja|reclamo|mejorar (la|el|esta|esa) (clase|materia|curso)|mejorar las clases|feedback)/.test(q)) return null;
+  return `💡 <b>Buzón de sugerencias anónimo</b><br><br>` +
+    `Es un espacio para decirle al Dr. Alvarado, sin poner tu nombre, <b>qué mejorarías de la clase</b>: lo que te está costando, lo que te gustaría que cambiara o cualquier idea que aporte.<br><br>` +
+    `<b>Es anónimo de verdad:</b> no guardamos quién lo escribe. Su finalidad no es evaluar a nadie, sino <b>mejorar la materia para todo el grupo</b>.<br><br>` +
+    `Lo encuentras también en el menú ⋮ → 💡 Buzón de sugerencias.` +
+    `<div class="cons-chips"><button class="cons-chip" onclick="abrirBuzonDesdeChat()">💡 Abrir el buzón</button></div>`;
+}
+function abrirBuzonDesdeChat(){
+  if(typeof cerrarConsulta === 'function') cerrarConsulta();
+  const chat = $('chatScreen');
+  abrirBuzon(chat && chat.classList.contains('show') ? 'chat' : 'inicio');
+}
+
 function abrirBuzon(origen){
+  try{ localStorage.setItem('mm_buzon_visto', '1'); }catch(e){}
   const cuerpo = `
     <div class="buzon-intro">
       <div class="buzon-ico">💡</div>
@@ -4046,12 +4110,15 @@ function abrirAyuda(origen){
     <p>Mike es el <b>auxiliar académico</b> del Dr. Miguel Alvarado. Te ayuda a repasar el material de clase y a practicar con quizzes a tu ritmo, las veces que quieras y sin que cuente para calificación.</p><p>El <b>Dr. Alvarado está para ayudarte</b> con tus dudas, tanto de Oclusión como de odontología general. Mike es un apoyo para estudiar; tu profesor es quien resuelve el fondo.</p>
     <h3>¿Cómo usar Mikes Molares?</h3>
     <ul>
-      <li>Escribe tu duda sobre el Tema 1 (Anatomía del sistema estomatognático y ATM) directo en el chat.</li>
-      <li>Toca el botón "📘 Tema 1" para ver un resumen guiado del contenido cargado.</li>
+      <li>Escribe tu duda sobre cualquiera de los temas del curso, o un término (fraguado, abfracción, papel articular…), directo en el chat.</li>
+      <li>Toca uno de los botones de tema (T1, T2…) para ver un resumen guiado del contenido.</li>
       <li>Toca "📝 Quiz de repaso" para practicar con preguntas del tema.</li>
     </ul>
     <h3>¿Qué pasa si Mike no sabe algo?</h3>
     <p>Mike solo responde con el material que el Dr. Alvarado ha cargado. Si algo no está cubierto, te lo va a decir claramente y te va a sugerir preguntarle directamente al Dr. Alvarado en clase.</p>
+    <h3>💡 Buzón de sugerencias anónimo</h3>
+    <p>Es un espacio para decirle al Dr. Alvarado, sin poner tu nombre, <b>qué mejorarías de la clase</b>: lo que te cuesta, lo que cambiarías o cualquier idea que aporte. <b>No guardamos quién lo escribe.</b> Su finalidad es mejorar la materia para todo el grupo.</p>
+    <button class="buzon-enviar" onclick="abrirBuzon('${origen}')">Abrir el buzón</button>
     <h3>Contacto</h3>
     <p>Dudas administrativas, de calificación oficial o del curso: consulta directamente con el Dr. Miguel Alvarado, catedrático de Oclusión.</p>
     <h3>Versión</h3>
