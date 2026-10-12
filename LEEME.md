@@ -3,6 +3,13 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+## Cambios v72 — Recorrido docente (dolor miofascial)
+
+- Nuevo archivo `Recorrido_Dolor_Miofascial_Docentes.html` (9 pasos + mapa, autocontenido).
+- Botón **🔒 Recorrido docente** en la sesión del 13 Oct (junto a Leer en la app / Descargar PDF); solo aparece con sesión de docente.
+- Ojo: el archivo está en el repo público; el candado es de interfaz, no de seguridad.
+- Estilos del visor integrado (barra Volver/Abrir) que faltaban.
+
 ## Cambios v60 — Leer PDF en la app
 
 - Botón **Leer PDF** en biblioteca / sesión (ya no solo descargar).

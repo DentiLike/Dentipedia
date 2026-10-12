@@ -687,6 +687,7 @@ function bloqueProximaSesion(){
       <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
       <div class="inicio-tema">${prox.tema}</div>
       ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 Descargar PDF · ${doc.label}</a>` : ''}
+      ${(MODO_DOCENTE && prox.recorrido && RECORRIDOS[prox.recorrido]) ? `<a class="inicio-doc" href="#" onclick="abrirRecorrido('${prox.recorrido}');return false;">🔒 Recorrido docente · ${RECORRIDOS[prox.recorrido].label}</a>` : ''}
     </div>`;
 }
 
@@ -3518,7 +3519,7 @@ function cerrarSubScreen(){
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
-const APP_VERSION = 'v71';
+const APP_VERSION = 'v72';
 
 async function leerVersionGuardada(){
   try{
@@ -4161,7 +4162,7 @@ const CRONOGRAMA = [
   {iso:"2026-10-01", sem:8,  fecha:"01 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Exposición con interrogatorio: imágenes de ATM y diagnóstico.", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-06", sem:9,  fecha:"06 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos articulares (continuación). Inflamatorios, subluxación.", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-08", sem:9,  fecha:"08 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis documental sobre trastornos inflamatorios de la ATM.", temaId:"atmtrast", doc:"tema7"},
-  {iso:"2026-10-13", sem:10, fecha:"13 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"V. Trastornos musculares. Dolor local, mioespasmos, dolor miofacial.", temaId:"musculares", doc:"tema8"},
+  {iso:"2026-10-13", sem:10, fecha:"13 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"V. Trastornos musculares. Dolor local, mioespasmos, dolor miofacial.", temaId:"musculares", doc:"tema8", recorrido:"dolor_miofascial"},
   {iso:"2026-10-15", sem:10, fecha:"15 Oct · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Segunda Evaluación Parcial (examen, tareas, reportes)."},
   {iso:"2026-10-20", sem:11, fecha:"20 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VI. Hábitos parafuncionales. Bruxismo, apretamiento, deglución típica/atípica.", temaId:"habitos", doc:"tema9"},
   {iso:"2026-10-22", sem:11, fecha:"22 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Revisión de pacientes en clínica: signos de hábitos parafuncionales.", temaId:"habitos", doc:"tema9"},
@@ -4410,6 +4411,37 @@ const FICHAS = [
 }
 ];
 
+
+/* ===== Recorridos guiados SOLO DOCENTE (archivos HTML autocontenidos) ===== */
+const RECORRIDOS = {
+  dolor_miofascial: { url:'Recorrido_Dolor_Miofascial_Docentes.html', label:'Del dolor al dolor miofascial', sub:'Recorrido de 9 pasos · solo docentes' }
+};
+function abrirRecorrido(id){
+  const r = RECORRIDOS[id];
+  if(!r || !MODO_DOCENTE) return;
+  const destino = (typeof destinoBiblio !== 'undefined' && destinoBiblio) ? destinoBiblio : 'inicio';
+  const cuerpo = `
+    <div class="pdf-toolbar">
+      <button type="button" class="pdf-tool" onclick="cerrarSubScreen()">← Volver</button>
+      <span class="pdf-tool-tit">🔒 ${r.label}</span>
+      <a class="pdf-tool" href="${r.url}" target="_blank" rel="noopener">↗ Abrir</a>
+    </div>
+    <div class="pdf-frame-wrap">
+      <iframe class="pdf-frame" src="${r.url}" title="${r.label}"></iframe>
+    </div>`;
+  abrirSubScreen(destino, 'Recorrido docente', cuerpo);
+  { const fab = $('consultaFab'); if(fab) fab.classList.remove('visible'); } // el avatar taparía el botón Siguiente
+  setTimeout(function(){
+    var wrap = document.querySelector('.pdf-frame-wrap');
+    var frame = document.querySelector('.pdf-frame');
+    if(wrap && frame){
+      var top = wrap.getBoundingClientRect().top;
+      var h = Math.max(280, window.innerHeight - top - 8);
+      wrap.style.height = h + 'px';
+      frame.style.height = h + 'px';
+    }
+  }, 60);
+}
 
 /* ===== Visor PDF integrado (sin forzar descarga) ===== */
 function abrirPdf(url, titulo){
@@ -4815,12 +4847,13 @@ function sesionCard(f, proxIso){
   const doc = f.doc ? RECURSOS[f.doc] : null;
   const tm = f.temaId ? TEMAS[f.temaId] : null;
   const fi = f.fichaId ? FICHAS.find(x=>x.id===f.fichaId) : null;
+  const rc = (MODO_DOCENTE && f.recorrido) ? RECORRIDOS[f.recorrido] : null;
   return `<div class="sesion-card${claseDestacado}">
     ${esProxima ? `<span class="sesion-proxima-badge">PRÓXIMA SESIÓN${textoCuando(f.iso)?' · '+textoCuando(f.iso):''}</span>` : ''}
     <div class="sesion-fecha">Semana ${f.sem} · ${f.fecha}</div>
     <span class="sesion-badge badge-${badgeClase}">${f.tipo}</span>
     <div class="sesion-tema">${f.tema}</div>
-    ${(doc || tm || fi) ? `<div class="sesion-recursos">
+    ${(doc || tm || fi || rc) ? `<div class="sesion-recursos">
       ${tm ? `<button class="rec-btn leer" onclick="abrirMaterialTema('${destinoBiblio}','${f.temaId}')">
           <span class="rec-ico">📖</span>
           <span class="rec-txt"><b>Leer en la app</b><small>${tm.corto} · ${tm.chip}</small></span>
@@ -4831,6 +4864,10 @@ function sesionCard(f, proxIso){
           <span class="rec-txt"><b>Descargar PDF</b><small>${doc.label}</small></span>
           <span class="rec-flecha">↓</span>
         </a>` : ''}
+      ${rc ? `<button class="rec-btn docente" onclick="abrirRecorrido('${f.recorrido}')">
+          <span class="rec-ico">🔒</span>
+          <span class="rec-txt"><b>Recorrido docente</b><small>${rc.label} · solo docentes</small></span>
+        </button>` : ''}
       ${fi ? `<button class="rec-btn ficha" onclick="abrirFicha('${destinoBiblio}','${f.fichaId}')">
           <span class="rec-ico">${fi.icono}</span>
           <span class="rec-txt"><b>Ficha de consulta</b><small>${fi.titulo}</small></span>

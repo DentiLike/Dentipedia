@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Del dolor al dolor miofascial · Dentipedia</title>
+<style>
+:root{
+  --navy:#063a61; --blue:#095287; --blue2:#1b6fae; --sky:#eaf3fb; --sky2:#d5e7f6;
+  --teal:#23807e; --tealbg:#e5f3f2; --amber:#9a4a07; --amberbg:#fff4e0;
+  --red:#b3261e; --redbg:#fdecea; --green:#1b7a45; --greenbg:#e7f5ed;
+  --ink:#1a2733; --mute:#56677a; --line:#cddbea; --bg:#f4f8fc; --card:#ffffff;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:17px/1.62 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-text-size-adjust:100%}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px}
+
+/* Encabezado */
+.top{background:linear-gradient(180deg,var(--navy),var(--blue));color:#fff;padding:18px 0 14px}
+.brand{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;opacity:.85;margin:0 0 4px}
+.top h1{font-size:clamp(1.28rem,4.4vw,1.85rem);line-height:1.22;margin:0 0 4px;font-weight:700}
+.top .sub{margin:0;font-size:.88rem;opacity:.88}
+.badge{display:inline-block;margin-top:8px;font-size:.74rem;font-weight:600;background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:2px 10px}
+
+/* Progreso */
+.progress{position:sticky;top:0;z-index:20;background:rgba(244,248,252,.96);backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--line);padding:10px 0 8px}
+.bar{height:9px;background:var(--sky2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue2),var(--blue));
+  border-radius:99px;transition:width .35s ease}
+.pmeta{display:flex;justify-content:space-between;font-size:.82rem;color:var(--mute);margin-top:5px;font-weight:600}
+.dots{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.dots button{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--mute);
+  font-size:.8rem;font-weight:700;padding:0;line-height:1}
+.dots button.done{background:var(--sky);border-color:var(--blue2);color:var(--blue)}
+.dots button.now{background:var(--blue);border-color:var(--blue);color:#fff}
+.dots button.map{width:auto;border-radius:99px;padding:0 11px}
+
+/* Tarjeta de paso */
+main{padding:18px 0 110px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 24px;
+  box-shadow:0 1px 2px rgba(6,58,97,.05),0 6px 18px rgba(6,58,97,.05);animation:in .28s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.kick{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+.chip{background:var(--blue);color:#fff;font-size:.78rem;font-weight:700;border-radius:99px;padding:3px 12px;letter-spacing:.03em}
+.phase{font-size:.8rem;color:var(--mute);font-weight:600}
+h2{font-size:clamp(1.35rem,4.6vw,1.75rem);line-height:1.25;color:var(--navy);margin:4px 0 14px}
+h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.09em;color:var(--blue);margin:22px 0 6px;font-weight:700}
+p{margin:0 0 10px}
+.idea{background:var(--sky);border:1px solid var(--sky2);border-left:6px solid var(--blue);border-radius:10px;padding:13px 16px;margin-bottom:6px}
+.idea b{display:block;font-size:.76rem;text-transform:uppercase;letter-spacing:.09em;color:var(--blue);margin-bottom:3px}
+.idea p{margin:0;font-size:1.04rem;font-weight:600;color:var(--navy)}
+.analogy{background:var(--amberbg);border:1px solid #f0d9ae;border-radius:10px;padding:12px 16px;margin-top:18px}
+.analogy h3{color:var(--amber);margin:0 0 4px}
+.analogy p{margin:0}
+.flag{background:var(--redbg);border:1px solid #f2c4bf;border-left:6px solid var(--red);border-radius:10px;padding:10px 14px;margin:14px 0 4px;font-size:.96rem}
+.flag b{color:var(--red)}
+ul.l{margin:6px 0 10px;padding-left:1.15em} ul.l li{margin-bottom:5px}
+.note{font-size:.88rem;color:var(--mute)}
+
+figure.dg{margin:20px 0 6px;border:1px solid var(--line);border-radius:12px;background:#fbfdff;padding:10px 8px 6px}
+figure.dg figcaption{font-size:.76rem;text-transform:uppercase;letter-spacing:.09em;color:var(--blue);font-weight:700;padding:0 8px 4px}
+figure.dg svg{display:block;width:100%;height:auto;max-width:560px;margin:0 auto}
+
+.resumen{margin-top:20px;border-top:2px solid var(--sky2);padding-top:12px;font-size:1rem}
+.resumen b{color:var(--blue)}
+
+/* Tablas */
+.tw{overflow-x:auto;margin:8px 0 10px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:.93rem;min-width:520px;background:#fff}
+th,td{padding:8px 11px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--sky);color:var(--navy);font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:700;color:var(--navy);background:#fafcfe;white-space:nowrap}
+tr.hl td,td.hl{background:#f1f8ff}
+.tw.compact table{min-width:0}
+
+.drug{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:#fff}
+.drug h4{margin:0 0 4px;font-size:1rem;color:var(--navy)}
+.drug.ok{border-left:6px solid var(--green)} .drug.no{border-left:6px solid var(--red)} .drug.mid{border-left:6px solid var(--amber)}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;border-radius:99px;padding:1px 9px;margin-left:6px;vertical-align:middle}
+.tag.g{background:var(--greenbg);color:var(--green)} .tag.r{background:var(--redbg);color:var(--red)} .tag.a{background:var(--amberbg);color:var(--amber)}
+.motto{margin:16px 0 4px;text-align:center;font-weight:700;color:#fff;background:var(--navy);border-radius:10px;padding:12px 14px;font-size:1.08rem}
+.motto small{display:block;font-weight:400;opacity:.85;font-size:.84rem;margin-top:2px}
+
+/* Autoevaluación */
+.quiz{margin-top:24px;background:#f7fbff;border:1.5px solid var(--sky2);border-radius:12px;padding:16px 16px 14px}
+.quiz h3{margin:0 0 4px}
+.quiz .opt-note{font-size:.8rem;color:var(--mute);margin:0 0 10px}
+.qp{font-weight:600;color:var(--navy);margin-bottom:10px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);
+  border-radius:10px;padding:10px 12px;color:var(--ink);line-height:1.45;font-size:.97rem;transition:border-color .15s,background .15s}
+.opt:hover:not([disabled]){border-color:var(--blue2);background:var(--sky)}
+.opt .lt{flex:0 0 26px;height:26px;border-radius:50%;background:var(--sky);color:var(--blue);font-weight:700;font-size:.82rem;
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
+.opt[disabled]{cursor:default}
+.opt.right{border-color:var(--green);background:var(--greenbg)} .opt.right .lt{background:var(--green);color:#fff}
+.opt.wrong{border-color:var(--red);background:var(--redbg)} .opt.wrong .lt{background:var(--red);color:#fff}
+.opt.dim{opacity:.62}
+.fb{margin-top:10px;border-radius:10px;padding:11px 14px;font-size:.95rem}
+.fb.ok{background:var(--greenbg);border:1px solid #b9dfc9;color:#10502d}
+.fb.no{background:var(--redbg);border:1px solid #f2c4bf;color:#6e1a15}
+.fb b{display:block;margin-bottom:2px}
+
+/* Navegación inferior */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);border-top:1px solid var(--line);
+  padding:10px 0 calc(10px + env(safe-area-inset-bottom))}
+.nav .wrap{display:flex;gap:10px;justify-content:space-between}
+.btn{border-radius:10px;border:1.5px solid var(--blue);padding:11px 20px;font-weight:700;font-size:1rem;min-width:130px;transition:background .15s}
+.btn.pri{background:var(--blue);color:#fff} .btn.pri:hover{background:var(--navy)}
+.btn.sec{background:#fff;color:var(--blue)} .btn.sec:hover{background:var(--sky)}
+.btn[disabled]{opacity:.38;cursor:default}
+.btn.sm{padding:8px 14px;min-width:0;font-size:.9rem}
+
+/* Mapa */
+.maplead{color:var(--mute);margin-bottom:12px}
+.mapsvg{display:none}
+.mapsvg svg{width:100%;height:auto;display:block}
+.mapsvg g.node{cursor:pointer}
+.mapsvg g.node:hover rect{stroke-width:3}
+.mapsvg .band{font-size:13px;font-weight:700;fill:var(--blue);letter-spacing:.08em;text-transform:uppercase;text-anchor:start}
+.mapsvg text{font:14.5px "Segoe UI",system-ui,sans-serif;fill:var(--ink)}
+.mapsvg text.b{font-weight:700;fill:var(--navy)}
+.mapsvg .lab{font-size:12.5px;fill:var(--mute);font-style:italic}
+.maplist{display:block}
+.band-t{font-size:.78rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--blue);margin:16px 0 6px}
+.mnode{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--blue2);background:#fff;border-radius:10px;padding:9px 12px;color:var(--ink)}
+.mnode .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.88rem}
+.mnode b{display:block;color:var(--navy);line-height:1.25} .mnode span{font-size:.85rem;color:var(--mute)}
+.mnode.key{background:var(--tealbg);border-color:var(--teal)} .mnode.key .n{background:var(--teal)}
+.mnode.cl{background:var(--sky)}
+.down{text-align:center;color:var(--blue2);font-weight:700;line-height:1.1;font-size:1.2rem;margin:3px 0}
+.down small{display:block;font-size:.74rem;color:var(--mute);font-weight:400;font-style:italic}
+@media (min-width:760px){.mapsvg{display:block}.maplist{display:none}}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 6px;background:var(--sky);border:1px solid var(--sky2);border-radius:12px;padding:12px 16px}
+.score .big{font-size:1.5rem;font-weight:700;color:var(--navy)}
+.sumlist{counter-reset:s;list-style:none;padding:0;margin:8px 0 0}
+.sumlist li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+.sumlist li:last-child{border:0}
+.sumlist .n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--sky);color:var(--blue);font-weight:700;font-size:.8rem;display:flex;align-items:center;justify-content:center}
+.sumlist a{color:var(--navy);text-decoration:none;font-weight:700;cursor:pointer}
+.foot{font-size:.8rem;color:var(--mute);margin:20px 0 0;text-align:center}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* SVG de los pasos */
+svg text{font:14.5px "Segoe UI",system-ui,sans-serif;fill:var(--ink)}
+svg text.b{font-weight:700;fill:var(--navy)}
+svg text.cap{font-size:13.5px;fill:var(--mute)}
+svg text.sm{font-size:12.5px;fill:var(--mute)}
+svg text.x{fill:var(--red);font-weight:700}
+.bx rect{fill:#fff;stroke:var(--blue);stroke-width:1.6}
+.bx.main rect{fill:var(--sky);stroke-width:2.4}
+.bx.warn rect{fill:var(--amberbg);stroke:var(--amber)}
+.bx.teal rect{fill:var(--tealbg);stroke:var(--teal)}
+.bx.red rect{fill:var(--redbg);stroke:var(--red)}
+.bx.dash rect{stroke-dasharray:5 4;fill:#fff}
+.arr{stroke:var(--blue);stroke-width:2;fill:none}
+.arr.red{stroke:var(--red)} .arr.am{stroke:var(--amber)} .arr.dash{stroke-dasharray:6 5}
+.fibA{stroke:var(--blue);stroke-width:3;fill:none} .fibC{stroke:var(--teal);stroke-width:5;fill:none;stroke-dasharray:1 0}
+.zone{fill:#f3f8fd;stroke:var(--sky2);stroke-width:1.5;stroke-dasharray:6 5}
+
+@media (max-width:520px){
+  body{font-size:16.5px}
+  .card{padding:16px 14px 20px}
+  .btn{min-width:0;flex:1}
+  .dots{flex-wrap:nowrap;gap:5px}
+  .dots button{width:26px;height:26px;font-size:.74rem;flex:0 0 auto}
+  .dots button.map{padding:0 9px}
+  .top{padding:14px 0 12px}
+}
+@media print{
+  .progress,.nav{display:none} body{background:#fff} main{padding:0}
+  .card{box-shadow:none;border:0;padding:0}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#095287"/></marker>
+    <marker id="arwR" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b3261e"/></marker>
+    <marker id="arwA" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9a4a07"/></marker>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <p class="brand">Dentipedia · Aula Virtual de Oclusión · Universidad Cuauhtémoc</p>
+    <h1>Del dolor al dolor miofascial: entender paso a paso</h1>
+    <p class="sub">Recorrido guiado en 9 pasos, con mapa final</p>
+    <span class="badge">Solo docentes · material de estudio</span>
+  </div>
+</header>
+
+<div class="progress" role="navigation" aria-label="Progreso">
+  <div class="wrap">
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="9" aria-valuenow="1" id="barwrap"><i id="fill"></i></div>
+    <div class="pmeta"><span id="plbl"></span><span id="pct"></span></div>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<main class="wrap" id="stage" tabindex="-1" aria-live="polite"></main>
+
+<div class="nav">
+  <div class="wrap">
+    <button class="btn sec" id="prev" type="button">← Anterior</button>
+    <button class="btn pri" id="next" type="button">Siguiente →</button>
+  </div>
+</div>
+
+<noscript><div class="wrap"><p>Este recorrido necesita JavaScript habilitado.</p></div></noscript>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Ayudantes para los diagramas SVG ---------- */
+var LH = 18;
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function box(x,y,w,h,lines,cls){
+  var n = lines.length, y0 = y + h/2 - (n-1)*LH/2 + 5, t = "";
+  for(var i=0;i<n;i++){
+    var s = lines[i], b = s.charAt(0) === "*";
+    t += '<text x="'+(x+w/2)+'" y="'+(y0+i*LH)+'" text-anchor="middle"'+(b?' class="b"':'')+'>'+esc(b?s.slice(1):s)+'</text>';
+  }
+  return '<g class="bx '+(cls||"")+'"><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="10"/>'+t+'</g>';
+}
+function mk(c){ return c==="red"?"arwR":(c==="am"?"arwA":"arw"); }
+function arr(x1,y1,x2,y2,c){
+  c = c||"";
+  return '<line class="arr '+c+'" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" marker-end="url(#'+mk(c.split(" ")[0])+')"/>';
+}
+function pth(d,c){
+  c = c||"";
+  return '<path class="arr '+c+'" d="'+d+'" marker-end="url(#'+mk(c.split(" ")[0])+')"/>';
+}
+function txt(x,y,s,cls,anchor){
+  return '<text x="'+x+'" y="'+y+'" text-anchor="'+(anchor||"middle")+'"'+(cls?' class="'+cls+'"':'')+'>'+esc(s)+'</text>';
+}
+function svg(w,h,label,inner){
+  return '<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+esc(label)+'">'+inner+'</svg>';
+}
+
+/* ---------- Diagramas de cada paso ---------- */
+var DG = {};
+
+DG[1] = function(){
+  return svg(500,200,"Del estímulo potencialmente dañino al cerebro, que genera la alarma del dolor",
+    box(6,58,128,80,["Estímulo","potencialmente","dañino"]) +
+    arr(134,98,178,98) +
+    box(178,36,144,124,["*CEREBRO","evalúa contexto,","experiencia y","amenaza"],"main") +
+    arr(322,98,366,98) +
+    box(366,58,128,80,["*DOLOR","(alarma","protectora)"],"warn") +
+    txt(250,186,"Como la alarma de humo: avisa; no mide el incendio","cap")
+  );
+};
+
+DG[2] = function(){
+  return svg(500,222,"Estímulos mecánicos, térmicos y químicos activan al nociceptor, que genera una señal eléctrica",
+    '<rect class="zone" x="2" y="4" width="334" height="174" rx="14"/>' +
+    txt(12,22,"Tejido (músculo, diente, ATM)","sm","start") +
+    box(10,32,150,40,["*Mecánico","presión, estiramiento"]) +
+    box(10,82,150,40,["*Térmico","calor o frío extremos"]) +
+    box(10,132,150,40,["*Químico","H⁺, K⁺, bradicinina"]) +
+    arr(160,52,196,92) + arr(160,102,196,102) + arr(160,152,196,112) +
+    box(196,70,130,64,["*NOCICEPTOR","terminación","nerviosa libre"],"main") +
+    arr(336,102,372,102) +
+    box(372,70,122,64,["*Señal","eléctrica","al SNC"],"warn") +
+    txt(250,206,"Detecta peligro (amenaza); no “siente” dolor","cap")
+  );
+};
+
+DG[3] = function(){
+  return svg(500,246,"Fibras Aδ rápidas para dolor punzante y fibras C lentas para dolor sordo, ambas por el trigémino en la cara",
+    box(6,12,112,64,["*Fibras Aδ","mielínicas"]) +
+    txt(240,36,"rápida · 5–30 m/s","sm") +
+    '<path class="fibA" d="M118 44 H372" marker-end="url(#arw)"/>' +
+    box(376,12,118,64,["Dolor agudo,","punzante,","bien localizado"],"warn") +
+    box(6,98,112,64,["*Fibras C","amielínicas"],"teal") +
+    txt(240,122,"lenta · 0.5–2 m/s","sm") +
+    '<path class="fibC" d="M118 134 H364" marker-end="url(#arw)"/>' +
+    box(376,98,118,64,["Dolor sordo,","difuso, continuo","(el muscular)"],"warn") +
+    '<rect x="6" y="178" width="488" height="56" rx="10" fill="#eaf3fb" stroke="#d5e7f6"/>' +
+    txt(250,200,"En la cara viajan por el nervio trigémino (V par)","b") +
+    txt(250,222,"El dolor muscular viaja sobre todo por fibras C","cap")
+  );
+};
+
+DG[4] = function(){
+  return svg(500,236,"Vía del dolor: cara, núcleo espinal del trigémino, tálamo y corteza; el núcleo funciona como central telefónica",
+    box(4,52,104,74,["Cara, dientes,","músculos","y ATM"]) +
+    arr(108,89,128,89) +
+    box(128,52,116,74,["*Núcleo espinal","del trigémino","(relevo)"],"main") +
+    arr(244,89,264,89) +
+    box(264,52,104,74,["*Tálamo","(relevo","hacia arriba)"]) +
+    arr(368,89,392,89) +
+    box(392,52,104,74,["*Corteza","(percepción","y ubicación)"],"warn") +
+    '<rect x="86" y="8" width="200" height="26" rx="13" fill="#fdecea" stroke="#b3261e"/>' +
+    txt(186,26,"CLAVE: dolor referido","x") +
+    pth("M186 34 V52","red") +
+    pth("M186 126 V156","dash") +
+    box(40,156,420,64,["*Central telefónica: aquí llegan líneas de varias zonas","(músculo, diente, ATM, cuello) y comparten la misma salida."],"dash")
+  );
+};
+
+DG[5] = function(){
+  return svg(500,224,"Acetilcolina inicia la contracción, la acetilcolinesterasa la degrada y el ATP, que requiere oxígeno, permite la relajación",
+    box(4,8,150,66,["*Acetilcolina","(placa motora)","se libera"],"main") +
+    arr(154,41,176,41) +
+    box(176,8,150,66,["Ca²⁺ liberado;","se contrae","el sarcómero"]) +
+    arr(326,41,348,41) +
+    box(348,8,148,66,["*CONTRACCIÓN"],"warn") +
+    box(4,128,150,66,["*Acetilcolinesterasa","degrada la ACh","(termina la señal)"],"teal") +
+    arr(79,128,79,76,"am") +
+    box(176,128,150,66,["*ATP","necesita oxígeno","(O₂)"],"teal") +
+    arr(326,161,348,161) +
+    box(348,128,148,66,["*RELAJACIÓN"],"main") +
+    txt(250,214,"Sin ATP no hay relajación: el músculo queda “atorado”","cap")
+  );
+};
+
+DG[6] = function(){
+  return svg(500,262,"Círculo vicioso del punto gatillo: acetilcolina sostenida, sarcómeros contraídos, compresión capilar, isquemia, falta de ATP y ausencia de relajación",
+    box(4,8,150,66,["*ACh sostenida","en la placa","motora"],"warn") +
+    arr(154,41,176,41) +
+    box(176,8,150,66,["*Sarcómeros","contraídos","(banda tensa)"]) +
+    arr(326,41,348,41) +
+    box(348,8,148,66,["*Capilares","comprimidos"]) +
+    arr(422,74,422,128) +
+    box(348,128,148,66,["*Isquemia","(falta de O₂)"],"red") +
+    arr(348,161,326,161) +
+    box(176,128,150,66,["*Falta de ATP"],"red") +
+    arr(176,161,154,161) +
+    box(4,128,150,66,["*No relaja","la contracción","se perpetúa"],"red") +
+    arr(79,128,79,76) +
+    txt(250,98,"CRISIS ENERGÉTICA","b") +
+    txt(250,116,"círculo vicioso","cap") +
+    box(4,212,240,44,["*Activo: dolor espontáneo,","reconocido por el paciente"],"warn") +
+    box(256,212,240,44,["*Latente: sin dolor espontáneo;","duele solo al palpar"])
+  );
+};
+
+DG[7] = function(){
+  return svg(500,276,"La bradicinina activa el nociceptor, la PGE2 lo sensibiliza, H+ y K+ de la isquemia contribuyen y la sustancia P y el CGRP producen inflamación neurogénica",
+    box(6,6,150,68,["*Bradicinina","ACTIVA","directamente"],"warn") +
+    arr(110,74,190,102,"am") +
+    box(344,6,150,68,["*PGE₂","SENSIBILIZA","(sube el volumen)"],"teal") +
+    arr(400,74,310,102) +
+    box(175,100,150,64,["*NOCICEPTOR","umbral más bajo","(sensibilización)"],"main") +
+    box(6,196,150,60,["*H⁺ y K⁺","por la isquemia"],"red") +
+    arr(110,196,190,162,"red") +
+    box(300,190,196,72,["*Sustancia P y CGRP","→ mastocitos: histamina","y serotonina"],"warn") +
+    arr(300,164,356,190,"am") +
+    txt(430,92,"(vía COX)","sm")
+  );
+};
+
+DG[8] = function(){
+  return svg(500,254,"Convergencia de aferentes de músculo, diente, ATM y C1–C3 sobre la misma neurona de segundo orden; el cerebro confunde el origen",
+    box(6,8,150,38,["Músculo (masetero)"]) +
+    box(6,58,150,38,["Diente"]) +
+    box(6,108,150,38,["ATM"]) +
+    box(6,158,150,38,["Cervicales C1–C3"]) +
+    arr(156,27,214,92) + arr(156,77,214,100) + arr(156,127,214,112) + arr(156,177,214,122) +
+    box(214,76,100,60,["*Neurona","de 2.º orden"],"main") +
+    arr(314,106,350,106) +
+    box(350,66,144,80,["*Cerebro:","“¿de dónde","viene?”"],"warn") +
+    '<rect x="6" y="208" width="488" height="38" rx="19" fill="#fdecea" stroke="#b3261e"/>' +
+    txt(250,232,"Lo percibe donde NO está la fuente (molar, oído, sien)","x")
+  );
+};
+
+DG[9] = function(){
+  return svg(500,310,"Cascada del ácido araquidónico: los corticosteroides inhiben la fosfolipasa A2 y los AINE inhiben la COX; ninguno resuelve el punto gatillo",
+    box(150,6,200,38,["Fosfolípidos de membrana"]) +
+    arr(250,44,250,92) +
+    txt(236,72,"Fosfolipasa A₂","sm","end") +
+    txt(266,72,"✕ Corticosteroides","x","start") +
+    box(150,92,200,38,["*Ácido araquidónico"],"main") +
+    arr(250,130,250,178) +
+    txt(236,158,"COX-1 / COX-2","sm","end") +
+    txt(266,158,"✕ AINE","x","start") +
+    box(150,178,200,38,["*Prostaglandinas (PGE₂)"],"teal") +
+    arr(250,216,250,248) +
+    box(110,248,280,34,["Sensibilización del nociceptor"],"warn") +
+    txt(250,302,"Reducen la sensibilización; no liberan el punto gatillo","cap")
+  );
+};
+
+/* ---------- Contenido de los 9 pasos ---------- */
+var STEPS = [
+
+/* 1 */ {
+  title:"¿Qué es el dolor?",
+  phase:"A · La vía del dolor",
+  idea:"El dolor es una alarma protectora, no sinónimo de daño. Se percibe en el cerebro, no en el tejido.",
+  exp:[
+    "La definición vigente de la IASP lo describe como una experiencia sensorial y emocional desagradable asociada a daño tisular real o potencial. Dos palabras importan: <i>experiencia</i> y <i>potencial</i>.",
+    "Conviene separar dos cosas: la <b>nocicepción</b> (detectar y transmitir una señal de peligro) y el <b>dolor</b> (lo que el cerebro construye con esa señal, el contexto y la experiencia previa). Por eso puede haber dolor intenso con poca lesión, y lesión sin dolor.",
+    "Para el clínico, esto cambia la pregunta: no es solo <i>«¿dónde duele?»</i>, sino <i>«¿qué está activando la alarma y en qué parte de la vía?»</i>."
+  ],
+  ana:"Una alarma de humo puede sonar por una tostada quemada, y un incendio lento puede avanzar sin que suene. La alarma avisa; no mide el daño ni dice dónde está el fuego.",
+  dg:DG[1],
+  res:"El dolor es una alarma que el cerebro construye para proteger; no mide la lesión ni indica por sí solo dónde está el problema.",
+  q:{
+    p:"¿Cuál enunciado describe mejor al dolor?",
+    o:[
+      "Es la medida directa de cuánto daño hay en el tejido.",
+      "Se origina en el tejido lesionado y llega al cerebro ya formado.",
+      "Es una experiencia que el cerebro construye como señal de protección; puede haber dolor sin daño evidente y daño sin dolor.",
+      "Solo aparece cuando hay inflamación visible en la zona."
+    ],
+    ok:2,
+    why:[
+      "El dolor no es un medidor de daño: puede ser intenso con lesión mínima, o estar ausente con lesión importante.",
+      "En el tejido solo se detecta el estímulo (nocicepción); la experiencia del dolor se construye en el cerebro.",
+      null,
+      "No requiere inflamación visible; puede existir sin ningún signo local."
+    ],
+    exp:"El tejido detecta; el cerebro decide si eso duele. De ahí que localizar el dolor y localizar la causa no siempre sea lo mismo."
+  }
+},
+
+/* 2 */ {
+  title:"Nociceptores: los detectores de peligro",
+  phase:"A · La vía del dolor",
+  idea:"Los nociceptores son terminaciones nerviosas que detectan peligro mediante estímulos mecánicos, térmicos y químicos.",
+  exp:[
+    "Son <b>terminaciones nerviosas libres</b>, sin una estructura especializada, distribuidas en piel, mucosas, pulpa, periodonto, cápsula articular y músculo. Tienen un umbral alto: responden cuando el estímulo ya es potencialmente dañino.",
+    "Responden a tres tipos de estímulo:",
+    "<ul class='l'><li><b>Mecánico:</b> presión intensa, estiramiento o compresión.</li><li><b>Térmico:</b> calor o frío extremos.</li><li><b>Químico:</b> sustancias liberadas por el propio tejido (H⁺, K⁺, bradicinina, prostaglandinas).</li></ul>",
+    "En su membrana hay canales iónicos que convierten el estímulo en señal eléctrica; por ejemplo, el TRPV1 responde al calor nocivo y a los protones (H⁺). Esa señal es la que viaja hacia el sistema nervioso central."
+  ],
+  ana:"Piensa en los sensores de una casa: uno detecta vibración, otro temperatura y otro gas. Ninguno «apaga» el peligro; solo manda el aviso a la central.",
+  dg:DG[2],
+  res:"Los nociceptores son terminaciones libres que traducen estímulos mecánicos, térmicos y químicos en señales eléctricas de alerta.",
+  q:{
+    p:"¿Qué son los nociceptores?",
+    o:[
+      "Neuronas de la corteza que interpretan la intensidad del dolor.",
+      "Terminaciones nerviosas libres que detectan estímulos mecánicos, térmicos o químicos potencialmente dañinos.",
+      "Receptores que solo responden al calor extremo.",
+      "Células musculares que se contraen ante el daño."
+    ],
+    ok:1,
+    why:[
+      "La interpretación ocurre en el cerebro; los nociceptores están en la periferia.",
+      null,
+      "Responden a tres tipos de estímulo, no solo al térmico.",
+      "No son células musculares; son terminaciones de neuronas sensitivas."
+    ],
+    exp:"Detectan y traducen; no interpretan. Además, los estímulos químicos (como los del paso 7) explican por qué un tejido isquémico duele sin que nadie lo toque."
+  }
+},
+
+/* 3 */ {
+  title:"Conducción: fibras Aδ y fibras C",
+  phase:"A · La vía del dolor",
+  idea:"Aδ conduce rápido y produce dolor agudo y punzante; C conduce lento y produce dolor sordo. El dolor muscular viaja sobre todo por fibras C.",
+  exp:[
+    "<b>Fibras Aδ:</b> delgadas y mielínicas (≈ 5–30 m/s). Producen el «primer dolor»: agudo, punzante y bien localizado.",
+    "<b>Fibras C:</b> amielínicas y más lentas (≈ 0.5–2 m/s). Producen el «segundo dolor»: sordo, difuso, continuo y <i>mal localizado</i>. En músculo, los nociceptores corresponden a las fibras de los grupos III (Aδ) y IV (C), con predominio de estas últimas.",
+    "En la región orofacial, la información sensitiva viaja por el <b>nervio trigémino</b> (V par): los cuerpos neuronales están en el ganglio trigeminal y sus prolongaciones centrales entran al tronco encefálico.",
+    "Dato clínico: un dolor «sordo, difuso y que no sé dónde tengo» es el tipo de queja típico del dolor muscular, y su localización imprecisa prepara el terreno para el dolor referido (paso 8)."
+  ],
+  ana:"Dos caminos hacia la misma ciudad: una autopista de cuota (Aδ), rápida y directa, y un camino de terracería (C), lento y con mala señalización. El aviso llega por ambos, pero no con la misma claridad.",
+  dg:DG[3],
+  res:"Aδ avisa rápido y con precisión; C avisa lento y sin precisión, y es la vía principal del dolor muscular, que en la cara viaja por el trigémino.",
+  q:{
+    p:"Una paciente describe un dolor sordo, difuso y persistente en la mejilla que «no sabe ubicar». ¿Qué fibras predominan en esa sensación?",
+    o:[
+      "Fibras Aδ, que conducen el dolor agudo y bien localizado.",
+      "Fibras Aβ, que conducen tacto y presión suave.",
+      "Fibras motoras Aα, que inervan el músculo.",
+      "Fibras C, amielínicas y lentas."
+    ],
+    ok:3,
+    why:[
+      "Aδ da el dolor punzante y localizado, lo contrario de lo que describe.",
+      "Aβ conduce tacto y presión inocua; no es la vía nociceptiva principal.",
+      "Las fibras motoras llevan órdenes hacia el músculo; no son sensitivas.",
+      null
+    ],
+    exp:"Sordo, difuso y mal localizado es la firma de las fibras C, que son además las más relacionadas con el dolor muscular."
+  }
+},
+
+/* 4 */ {
+  title:"El centro de relevo: del núcleo espinal del trigémino a la corteza",
+  phase:"A · La vía del dolor",
+  idea:"La señal hace relevo en el núcleo espinal del trigémino, sube al tálamo y llega a la corteza. Este paso es la clave para entender el dolor referido.",
+  exp:[
+    "Las fibras nociceptivas de la cara entran al tronco encefálico y descienden por el tracto espinal del trigémino hasta el <b>núcleo espinal del trigémino</b> (en particular su porción caudal), equivalente al asta dorsal de la médula para la cara.",
+    "Ahí hacen sinapsis con la <b>neurona de segundo orden</b>. Esta cruza la línea media y asciende al <b>tálamo</b>, y de ahí la información se distribuye a la <b>corteza</b>, donde se localiza e interpreta el dolor y se le da su componente emocional.",
+    "Lo esencial: en ese primer relevo <b>confluyen aferentes de estructuras diferentes</b> (dientes, músculos, ATM y también los nervios cervicales superiores). Comparten las mismas neuronas de segundo orden."
+  ],
+  ana:"Una central telefónica: llegan líneas de muchas casas y todas salen por los mismos cables. Cuando suena el aviso, la operadora ya no sabe con certeza de cuál casa vino.",
+  flag:"<b>Paso clave:</b> si dos fuentes distintas comparten la neurona de segundo orden, el cerebro puede equivocarse de origen. Lo retomaremos en el paso 8.",
+  dg:DG[4],
+  res:"El núcleo espinal del trigémino es la central de relevo (→ tálamo → corteza) y, al reunir aferentes de varias zonas, es la base del dolor referido.",
+  q:{
+    p:"¿Por qué el núcleo espinal del trigémino es clave para entender el dolor referido?",
+    o:[
+      "Porque ahí se origina el impulso doloroso dentro del músculo.",
+      "Porque libera acetilcolina que sensibiliza al nociceptor.",
+      "Porque en él confluyen aferentes de varias estructuras sobre las mismas neuronas de segundo orden.",
+      "Porque es la región cortical que localiza el dolor."
+    ],
+    ok:2,
+    why:[
+      "El impulso nace en la periferia (nociceptor); el núcleo es un relevo central.",
+      "La acetilcolina actúa en la placa motora, no en este núcleo, y no sensibiliza nociceptores.",
+      null,
+      "La corteza es el destino final; el núcleo espinal es el primer relevo."
+    ],
+    exp:"La convergencia de varias fuentes en la misma neurona es lo que hace posible que el cerebro atribuya mal el origen."
+  }
+},
+
+/* 5 */ {
+  title:"Cómo se contrae y se relaja un músculo",
+  phase:"B · El músculo y el punto gatillo",
+  idea:"La acetilcolina inicia la contracción; la acetilcolinesterasa la termina; pero relajar exige ATP, y el ATP exige oxígeno.",
+  exp:[
+    "El impulso nervioso libera <b>acetilcolina (ACh)</b> en la <b>placa motora</b>. La ACh despolariza la fibra, se libera calcio del retículo sarcoplásmico y los sarcómeros se acortan (actina-miosina): el músculo se contrae.",
+    "La <b>acetilcolinesterasa</b> degrada la ACh en la hendidura sináptica en milisegundos, y así termina la orden de contraer.",
+    "Pero apagar la orden no basta para relajar. <b>Relajar es un proceso activo que gasta ATP</b>: se necesita para bombear el calcio de regreso al retículo y para que la miosina se suelte de la actina.",
+    "Y el ATP de una fibra en actividad sostenida depende de un buen flujo de sangre: <b>sin oxígeno no hay suficiente ATP</b>."
+  ],
+  ana:"Un candado de bicicleta: cerrarlo es fácil y rápido, pero para abrirlo necesitas la llave. El ATP es la llave; sin ella, el candado queda trabado (en el extremo, como la rigidez cadavérica, donde ya no se produce ATP).",
+  dg:DG[5],
+  res:"La ACh ordena contraer, la acetilcolinesterasa corta la orden y el ATP —que depende del oxígeno— es lo que permite relajar.",
+  q:{
+    p:"¿Qué ocurre en la fibra muscular si falta ATP?",
+    o:[
+      "La ACh deja de liberarse y el músculo queda flácido.",
+      "La miosina no puede soltarse de la actina y el músculo no se relaja.",
+      "La acetilcolinesterasa se activa en exceso y degrada la ACh antes de tiempo.",
+      "El sarcómero se relaja más rápido porque no gasta energía."
+    ],
+    ok:1,
+    why:[
+      "La liberación de ACh depende de la neurona; la falta de ATP afecta la relajación, no ese paso.",
+      null,
+      "La actividad de la acetilcolinesterasa no aumenta por falta de ATP.",
+      "Es al revés: relajar consume energía; sin ATP se dificulta."
+    ],
+    exp:"Contraer necesita señal; relajar necesita energía. Esa asimetría es el corazón del punto gatillo."
+  }
+},
+
+/* 6 */ {
+  title:"El punto gatillo: la «crisis energética»",
+  phase:"B · El músculo y el punto gatillo",
+  idea:"Una liberación sostenida de ACh mantiene sarcómeros contraídos, comprime los capilares y crea isquemia: sin ATP el músculo no relaja y el círculo se perpetúa.",
+  exp:[
+    "En la <b>hipótesis integrada</b> del punto gatillo (Simons y Travell), una zona de la placa motora libera ACh de forma excesiva y sostenida. Los sarcómeros de esa zona permanecen contraídos y forman la <b>banda tensa</b> con su nódulo palpable.",
+    "La contracción continua <b>comprime los capilares</b>. Resultado: <b>isquemia</b> local, menos oxígeno y <b>menos ATP</b>. Sin ATP el músculo no puede relajar; sigue contraído, comprime más y el círculo se repite: es la «crisis energética».",
+    "<b>Punto gatillo activo:</b> causa dolor espontáneo y reproduce la queja del paciente al palparlo. <b>Punto gatillo latente:</b> no duele de manera espontánea, pero sí al palparlo, y puede restringir el movimiento o convertirse en activo ante sobrecarga, bruxismo o estrés.",
+    "<span class='note'>Nota docente: es el modelo explicativo más aceptado, aunque sigue en investigación; conviene presentarlo como hipótesis de trabajo.</span>"
+  ],
+  ana:"Una manguera de jardín doblada: el agua (oxígeno) no pasa, el extremo se queda sin flujo y la parte doblada se atora más. Para desatorarla hay que quitar el doblez, no solo golpear la manguera.",
+  dg:DG[6],
+  res:"El punto gatillo es un círculo vicioso: ACh sostenida → contracción → isquemia → falta de ATP → no relaja → más contracción.",
+  q:{
+    p:"¿Qué distingue a un punto gatillo activo de uno latente?",
+    o:[
+      "El activo causa dolor espontáneo y reproduce la queja al palpar; el latente solo duele al palparlo.",
+      "El activo solo existe en el masetero; el latente, en el temporal.",
+      "El latente es el único que presenta banda tensa palpable.",
+      "El activo no duele a la palpación; el latente sí."
+    ],
+    ok:0,
+    why:[
+      null,
+      "Pueden presentarse en cualquier músculo; la diferencia no es de ubicación.",
+      "Ambos pueden presentar banda tensa; la diferencia es el dolor espontáneo.",
+      "Es al revés: el activo duele de forma espontánea y a la palpación."
+    ],
+    exp:"Un latente no se debe descartar: puede limitar el movimiento y activarse con sobrecarga o estrés."
+  }
+},
+
+/* 7 */ {
+  title:"Las sustancias del dolor y la sensibilización periférica",
+  phase:"B · El músculo y el punto gatillo",
+  idea:"La bradicinina activa al nociceptor; las prostaglandinas (PGE₂) lo sensibilizan: «suben el volumen». La isquemia aporta H⁺ y K⁺, y la sustancia P con el CGRP generan inflamación neurogénica.",
+  exp:[
+    "El tejido isquémico y dañado libera una «sopa» química alrededor de los nociceptores:",
+    "<ul class='l'><li><b>Bradicinina:</b> <i>activa directamente</i> al nociceptor.</li><li><b>Prostaglandinas (PGE₂):</b> <i>sensibilizan</i> (bajan el umbral); se forman a partir del ácido araquidónico por acción de la <b>COX</b>.</li><li><b>H⁺ y K⁺:</b> se acumulan por la isquemia y activan/sensibilizan los canales del nociceptor.</li><li><b>Sustancia P y CGRP:</b> el propio nociceptor los libera; producen <b>inflamación neurogénica</b> y hacen que los mastocitos liberen <b>histamina y serotonina</b>, que a su vez estimulan más al nociceptor.</li></ul>",
+    "El resultado es la <b>sensibilización periférica</b>: el nociceptor responde con estímulos más débiles y de forma más intensa. Clínicamente, el punto gatillo duele con una presión que antes era tolerable."
+  ],
+  ana:"El nociceptor es un timbre. La bradicinina es alguien que lo presiona. Las prostaglandinas no tocan el timbre: suben el volumen para que cualquier roce suene fuerte.",
+  dg:DG[7],
+  res:"Bradicinina activa, PGE₂ sensibiliza, H⁺/K⁺ vienen de la isquemia y sustancia P/CGRP perpetúan el proceso: todo baja el umbral del nociceptor.",
+  q:{
+    p:"¿Qué función tienen la bradicinina y la PGE₂ sobre el nociceptor?",
+    o:[
+      "La PGE₂ lo activa directamente; la bradicinina lo sensibiliza.",
+      "Ambas solo lo sensibilizan, ninguna lo activa.",
+      "La bradicinina lo activa directamente; la PGE₂ lo sensibiliza.",
+      "Ninguna actúa sobre él; actúan solo sobre el músculo."
+    ],
+    ok:2,
+    why:[
+      "Los papeles están invertidos: es la bradicinina la que activa.",
+      "La bradicinina sí activa directamente al nociceptor.",
+      null,
+      "Ambas actúan sobre el nociceptor, no solo sobre el músculo."
+    ],
+    exp:"Activar y sensibilizar son cosas distintas: la segunda explica por qué un AINE puede reducir el dolor sin eliminar el punto gatillo."
+  }
+},
+
+/* 8 */ {
+  title:"Dolor referido: cuando el cerebro se equivoca de lugar",
+  phase:"C · De la teoría a la clínica",
+  idea:"Aferentes de músculo, diente, ATM y C1–C3 convergen en la misma neurona de segundo orden. Con la sensibilización central, el cerebro confunde el origen.",
+  exp:[
+    "Por la <b>convergencia aferente</b> (paso 4), el cerebro recibe una señal de «algo duele» sin una etiqueta clara de procedencia. Ante la duda, la ubica en la región más frecuente o más representada: por ejemplo, un diente.",
+    "La <b>sensibilización central</b> lo agrava: las neuronas de segundo orden se vuelven hiperexcitables, amplían su campo receptivo y el dolor se «extiende» a zonas donde no hay lesión.",
+    "<b>Patrones frecuentes</b> (para memorizar):",
+    "<div class='tw'><table><thead><tr><th>Músculo con punto gatillo</th><th>Dolor referido a</th></tr></thead><tbody><tr><td class='k'>Masetero</td><td>Molares superiores e inferiores, oído y mandíbula</td></tr><tr><td class='k'>Temporal</td><td>Sien, dientes superiores y región detrás del ojo</td></tr><tr><td class='k'>Esternocleidomastoideo</td><td>Cara, oído y frente</td></tr><tr><td class='k'>Pterigoideo lateral</td><td>Seno maxilar y ATM</td></tr></tbody></table></div>",
+    "<b>Prueba clínica:</b> si el dolor es referido, <i>anestesiar el sitio donde duele no lo quita</i>; tratar la fuente (el punto gatillo) <i>sí</i> lo hace."
+  ],
+  ana:"Un solo timbre para varias puertas: suena, pero desde adentro no sabes cuál tocaron. Se abre la que se cree más probable, no necesariamente la correcta.",
+  motto:["Palpa antes de instrumentar","Antes de tratar un diente o una ATM, descarta la fuente muscular."],
+  dg:DG[8],
+  res:"El dolor referido nace de la convergencia en la neurona de segundo orden: el cerebro percibe el dolor donde no está la fuente.",
+  q:{
+    p:"Una paciente refiere dolor en un molar. El diente está sano y la anestesia local de ese diente no lo quita; al palpar el masetero se reproduce su dolor. ¿Cuál es la interpretación más probable?",
+    o:[
+      "Pulpitis irreversible que requiere tratamiento de conductos.",
+      "Anestesia insuficiente; se repite el bloqueo con más volumen.",
+      "Fractura radicular oculta que requiere extracción.",
+      "Dolor referido de un punto gatillo del masetero; hay que tratar la fuente."
+    ],
+    ok:3,
+    why:[
+      "Una pulpitis sí cedería con la anestesia del diente; aquí el diente está sano y el dolor no cede.",
+      "Si el dolor no cede con la anestesia, el problema no está en ese diente; repetir el bloqueo solo retrasa el diagnóstico.",
+      "Sin signos de fractura y con reproducción del dolor a la palpación muscular, esa conclusión no tiene sustento.",
+      null
+    ],
+    exp:"Dos datos lo delatan: la anestesia no quita el dolor y la palpación del músculo lo reproduce. Por eso: palpa antes de instrumentar."
+  }
+},
+
+/* 9 */ {
+  title:"Dolor miofascial: definición, diferencias y manejo",
+  phase:"C · De la teoría a la clínica",
+  idea:"Primero conservador y reversible: educación, calor, estiramiento, férula e infiltración del punto gatillo. Los AINE solo reducen la sensibilización y los corticosteroides no están indicados en el músculo.",
+  exp:[
+    "<b>Definición:</b> dolor muscular regional y crónico con <b>puntos gatillo</b> y <b>dolor referido</b>.",
+    "<b>¿En qué se diferencia de otros dolores musculares?</b>",
+    "<div class='tw'><table><thead><tr><th></th><th>Dolor muscular local</th><th>Mioespasmo</th><th>Dolor miofascial</th></tr></thead><tbody>" +
+      "<tr><td class='k'>Inicio y curso</td><td>Agudo, tras sobrecarga o uso</td><td>Agudo, súbito</td><td>Crónico, regional</td></tr>" +
+      "<tr><td class='k'>A la palpación</td><td>Sensibilidad difusa del músculo</td><td>Músculo rígido, endurecido y doloroso</td><td>Banda tensa con punto gatillo</td></tr>" +
+      "<tr><td class='k'>Dolor referido</td><td>No</td><td>No (dolor local)</td><td class='hl'><b>Sí</b>, al comprimir el punto</td></tr>" +
+      "<tr><td class='k'>Función</td><td>Dolor al usar el músculo</td><td>Limitación marcada del movimiento (apertura)</td><td>Dolor y limitación variables</td></tr>" +
+      "</tbody></table></div>",
+    "<b>Palpación:</b> presión digital de <b>1–2 kg</b> durante <b>2–5 s</b>, siempre <b>bilateral</b> y comparando ambos lados; se busca la banda tensa, el nódulo doloroso y si el dolor reproduce la queja o se refiere a otra zona.",
+    "<b>Manejo reversible (primera línea):</b>",
+    "<ul class='l'><li>Educación del paciente (qué es, factores que lo perpetúan).</li><li>Dieta blanda y reposo funcional.</li><li>Calor húmedo.</li><li>Estiramiento suave y progresivo.</li><li>Férula de estabilización (Michigan).</li><li>Infiltración del punto gatillo con <b>lidocaína sin vasoconstrictor</b> o <b>punción seca</b> (evita sumar vasoconstricción a un tejido ya isquémico).</li></ul>",
+    "<b>Fármacos: qué hacen y qué no hacen</b>",
+    "<div class='drug mid'><h4>AINE <span class='tag a'>solo adyuvante</span></h4><p>Inhiben la COX y disminuyen las prostaglandinas: reducen la <i>sensibilización</i> (paso 7), pero <b>no resuelven el punto gatillo</b>. <b>COX-1</b> es constitutiva (mucosa gástrica, plaquetas, riñón); <b>COX-2</b> se induce en la inflamación. Los no selectivos inhiben ambas (más riesgo gastrointestinal); los selectivos de COX-2 reducen ese riesgo, con consideraciones cardiovasculares.</p></div>" +
+    "<div class='drug no'><h4>Corticosteroides <span class='tag r'>no indicados en el músculo</span></h4><p>Inhiben la <b>fosfolipasa A₂</b>, es decir, la cascada desde el inicio. No se indican aquí porque el cuadro <b>no es primariamente inflamatorio</b>, son <b>miotóxicos</b> al inyectarse en el músculo y tienen <b>efectos sistémicos</b>. Sí tienen lugar en la <b>artritis o capsulitis de la ATM</b>.</p></div>"
+  ],
+  ana:"Un AINE es silenciar la alarma; el tratamiento del punto gatillo es apagar el fuego. Silenciarla alivia un rato, pero el fuego sigue. Es la misma alarma de humo del paso 1.",
+  dg:DG[9],
+  res:"Dolor miofascial = punto gatillo + dolor referido; se maneja primero de forma reversible y sobre la fuente, con los fármacos como apoyo y sin corticosteroides en el músculo.",
+  q:{
+    p:"Paciente con dolor miofascial masticatorio y puntos gatillo confirmados por palpación. ¿Qué plan es el más adecuado?",
+    o:[
+      "Infiltrar corticosteroide en el músculo para desinflamar.",
+      "Ajuste oclusal irreversible inmediato, antes de otra cosa.",
+      "AINE continuo como tratamiento principal, porque eliminan el punto gatillo.",
+      "Manejo reversible (educación, calor, estiramiento, férula, infiltración de lidocaína sin vasoconstrictor o punción seca) y AINE solo como apoyo."
+    ],
+    ok:3,
+    why:[
+      "Los corticosteroides son miotóxicos en el músculo y el cuadro no es primariamente inflamatorio.",
+      "Las intervenciones irreversibles no son de primera intención; primero se tratan la fuente y los factores perpetuantes de forma reversible.",
+      "Los AINE reducen la sensibilización, pero no resuelven el punto gatillo.",
+      null
+    ],
+    exp:"Se trata la fuente muscular, de forma reversible; el fármaco acompaña, no sustituye."
+  }
+}
+];
+
+/* ---------- Estado ---------- */
+var N = STEPS.length;            // 9
+var MAP = N;                     // índice de la pantalla del mapa
+var cur = 0;
+var ans = [];
+for(var a=0;a<N;a++) ans.push(null);
+
+var $stage = document.getElementById("stage");
+var $fill  = document.getElementById("fill");
+var $plbl  = document.getElementById("plbl");
+var $pct   = document.getElementById("pct");
+var $bar   = document.getElementById("barwrap");
+var $dots  = document.getElementById("dots");
+var $prev  = document.getElementById("prev");
+var $next  = document.getElementById("next");
+var LETTERS = ["A","B","C","D"];
+
+/* ---------- Render de un paso ---------- */
+function quizHTML(i){
+  var q = STEPS[i].q, sel = ans[i], h = "";
+  h += '<h3>Autoevaluación</h3>';
+  h += '<p class="opt-note">Responder es opcional: puedes avanzar sin contestar.</p>';
+  h += '<p class="qp">'+q.p+'</p><div class="opts" role="group" aria-label="Opciones">';
+  for(var k=0;k<q.o.length;k++){
+    var cls = "opt", dis = "";
+    if(sel !== null){
+      dis = " disabled";
+      if(k === q.ok) cls += " right";
+      else if(k === sel) cls += " wrong";
+      else cls += " dim";
+    }
+    h += '<button type="button" class="'+cls+'" data-q="'+i+'" data-o="'+k+'"'+dis+'><span class="lt">'+LETTERS[k]+'</span><span>'+q.o[k]+'</span></button>';
+  }
+  h += '</div><div class="fb'+(sel===null?'" hidden':(sel===q.ok?' ok"':' no"'))+' aria-live="polite">';
+  if(sel !== null){
+    if(sel === q.ok){
+      h += '<b>✔ Correcto.</b>' + q.exp;
+    } else {
+      h += '<b>✘ No exactamente.</b>' + q.why[sel] + ' <br>La respuesta correcta es la <b>'+LETTERS[q.ok]+'</b>. ' + q.exp;
+    }
+  }
+  h += '</div>';
+  return h;
+}
+
+function stepHTML(i){
+  var s = STEPS[i], h = "";
+  h += '<article class="card" aria-labelledby="ttl">';
+  h += '<div class="kick"><span class="chip">Paso '+(i+1)+' de '+N+'</span><span class="phase">'+s.phase+'</span></div>';
+  h += '<h2 id="ttl">'+s.title+'</h2>';
+  h += '<div class="idea"><b>Idea clave</b><p>'+s.idea+'</p></div>';
+  if(s.flag) h += '<div class="flag">'+s.flag+'</div>';
+  h += '<h3>Explicación sencilla</h3>';
+  for(var k=0;k<s.exp.length;k++){
+    var e = s.exp[k];
+    h += (e.charAt(0) === "<" && /^<(div|ul|span)/.test(e)) ? e : '<p>'+e+'</p>';
+  }
+  h += '<div class="analogy"><h3>Analogía cotidiana</h3><p>'+s.ana+'</p></div>';
+  if(s.motto) h += '<div class="motto">“'+s.motto[0]+'”<small>'+s.motto[1]+'</small></div>';
+  h += '<figure class="dg"><figcaption>Mini diagrama</figcaption>'+s.dg()+'</figure>';
+  h += '<p class="resumen"><b>Resumen de lo aprendido:</b> '+s.res+'</p>';
+  h += '<section class="quiz" id="quiz" aria-label="Autoevaluación del paso '+(i+1)+'">'+quizHTML(i)+'</section>';
+  h += '</article>';
+  return h;
+}
+
+/* ---------- Mapa completo ---------- */
+var SHORT = [
+  ["¿Qué es el dolor?","Alarma protectora"],
+  ["Nociceptores","Detectores de peligro"],
+  ["Conducción","Fibras Aδ y C · trigémino"],
+  ["Relevo central","Núcleo V → tálamo"],
+  ["Contracción","ACh · AChE · ATP"],
+  ["Punto gatillo","Crisis energética"],
+  ["Mediadores","Bradicinina · PGE₂ · CGRP"],
+  ["Dolor referido","Convergencia · “palpa antes”"],
+  ["Dolor miofascial","Definición y manejo"]
+];
+
+function mapSVG(){
+  var X = [16,246,476,706], W = 196, H = 80, HW = 98;
+  function nd(n,x,y,cls,extra){
+    var t = SHORT[n-1];
+    return '<g class="node" data-go="'+(n-1)+'" tabindex="0" role="link" aria-label="Ir al paso '+n+': '+t[0]+'">' +
+      '<g class="bx '+(cls||"")+'"><rect x="'+x+'" y="'+y+'" width="'+W+'" height="'+H+'" rx="12"/></g>' +
+      '<circle cx="'+(x+24)+'" cy="'+(y+26)+'" r="14" fill="#095287"/>' +
+      '<text x="'+(x+24)+'" y="'+(y+31)+'" text-anchor="middle" style="fill:#fff;font-weight:700">'+n+'</text>' +
+      '<text x="'+(x+46)+'" y="'+(y+31)+'" class="b">'+esc(t[0])+'</text>' +
+      '<text x="'+(x+14)+'" y="'+(y+60)+'" class="lab" style="font-style:normal">'+esc(t[1])+'</text>' +
+      (extra||"") + '</g>';
+  }
+  var s = '';
+  s += '<text class="band" x="16" y="22">A · La vía del dolor</text>';
+  s += '<text class="band" x="16" y="180">B · El músculo y el punto gatillo</text>';
+  s += '<text class="band" x="16" y="338">C · De la teoría a la clínica</text>';
+  s += nd(1,X[0],34,"") + nd(2,X[1],34,"") + nd(3,X[2],34,"") + nd(4,X[3],34,"main");
+  s += arr(X[0]+W,74,X[1],74) + arr(X[1]+W,74,X[2],74) + arr(X[2]+W,74,X[3],74);
+  s += nd(5,X[0],190,"teal") + nd(6,X[1],190,"teal") + nd(7,X[2],190,"teal");
+  s += arr(X[0]+W,230,X[1],230) + arr(X[1]+W,230,X[2],230);
+  s += pth("M"+(X[2]+HW)+" 190 C "+(X[2]+HW)+" 150, "+(X[1]+HW+20)+" 150, "+(X[1]+HW+20)+" 116","am dash");
+  s += '<text class="lab" x="'+(X[1]+250)+'" y="140" text-anchor="middle">activan y sensibilizan nociceptores</text>';
+  s += nd(8,X[2],346,"warn") + nd(9,X[1],346,"main");
+  s += arr(X[2],386,X[1]+W,386);
+  s += arr(X[2]+HW,270,X[2]+HW,346);
+  s += '<text class="lab" x="'+(X[2]+100)+'" y="316" text-anchor="start">fuente muscular</text>';
+  s += pth("M"+(X[3]+HW)+" 114 V386 H"+(X[2]+W+2),"");
+  s += '<text class="lab" x="'+(X[3]+98)+'" y="250" text-anchor="start">convergencia</text>';
+  s += '<text class="lab" x="'+(X[3]+98)+'" y="268" text-anchor="start">de aferentes</text>';
+  return svg(930,440,"Mapa completo: flujo que enlaza los nueve pasos, desde el nociceptor hasta el manejo del dolor miofascial", s);
+}
+
+function mapList(){
+  function item(n,cls){
+    var t = SHORT[n-1];
+    return '<button type="button" class="mnode '+(cls||"")+'" data-go="'+(n-1)+'"><span class="n">'+n+'</span><span><b>'+t[0]+'</b><span>'+t[1]+'</span></span></button>';
+  }
+  function dn(t){ return '<div class="down">↓'+(t?'<small>'+t+'</small>':'')+'</div>'; }
+  var h = '<div class="band-t">A · La vía del dolor</div>';
+  h += item(1)+dn()+item(2)+dn()+item(3)+dn()+item(4);
+  h += '<div class="band-t">B · El músculo y el punto gatillo</div>';
+  h += item(5,"key")+dn()+item(6,"key")+dn("sus productos químicos…")+item(7,"key");
+  h += dn("…activan y sensibilizan a los nociceptores (paso 2)");
+  h += '<div class="band-t">C · De la teoría a la clínica</div>';
+  h += item(8,"cl")+dn("la fuente muscular + la convergencia del paso 4")+item(9,"cl");
+  return h;
+}
+
+function mapHTML(){
+  var done = 0, ok = 0, i;
+  for(i=0;i<N;i++){ if(ans[i] !== null){ done++; if(ans[i] === STEPS[i].q.ok) ok++; } }
+  var h = '<article class="card" aria-labelledby="ttl">';
+  h += '<div class="kick"><span class="chip">Mapa completo</span><span class="phase">Cierre del recorrido</span></div>';
+  h += '<h2 id="ttl">Mapa completo: del dolor al dolor miofascial</h2>';
+  h += '<p class="maplead">Toca cualquier paso para volver a él. El recorrido completo: la <b>alarma</b> (1) la detectan los <b>nociceptores</b> (2), viaja por <b>fibras Aδ/C</b> (3) hasta la <b>central de relevo</b> (4). En el músculo, la <b>crisis energética</b> (5–6) genera las <b>sustancias del dolor</b> (7) que realimentan al nociceptor. La convergencia del paso 4 explica el <b>dolor referido</b> (8) y, con ello, el <b>diagnóstico y manejo</b> del dolor miofascial (9).</p>';
+  h += '<div class="mapsvg">'+mapSVG()+'</div><div class="maplist">'+mapList()+'</div>';
+  h += '<div class="score"><span class="big">'+ok+' / '+N+'</span><span>respuestas correctas · '+done+' de '+N+' preguntas contestadas</span></div>';
+  h += '<h3>Resúmenes de cada paso</h3><ol class="sumlist">';
+  for(i=0;i<N;i++){
+    h += '<li><span class="n">'+(i+1)+'</span><span><a data-go="'+i+'" tabindex="0" role="link">'+STEPS[i].title+'</a><br>'+STEPS[i].res+'</span></li>';
+  }
+  h += '</ol>';
+  h += '<div class="actions"><button type="button" class="btn sec sm" data-go="0">↺ Volver al paso 1</button>' +
+       '<button type="button" class="btn sec sm" data-reset="1">Reiniciar autoevaluación</button>' +
+       '<button type="button" class="btn sec sm" data-print="1">Imprimir / guardar PDF</button></div>';
+  h += '<p class="foot">Material de estudio para docentes · Dentipedia · Aula Virtual de Oclusión · Universidad Cuauhtémoc.<br>Para contrastar y profundizar: Okeson (<i>Tratamiento de oclusión y afecciones temporomandibulares</i>) y Travell &amp; Simons (<i>Dolor y disfunción miofascial</i>).</p>';
+  h += '</article>';
+  return h;
+}
+
+/* ---------- Progreso y navegación ---------- */
+function drawDots(){
+  var h = "";
+  for(var i=0;i<N;i++){
+    var c = (i === cur) ? "now" : (ans[i] !== null || i < cur ? "done" : "");
+    h += '<button type="button" class="'+c+'" data-go="'+i+'" aria-label="Paso '+(i+1)+': '+STEPS[i].title.replace(/"/g,"")+'"'+(i===cur?' aria-current="step"':'')+'>'+(i+1)+'</button>';
+  }
+  h += '<button type="button" class="map '+(cur===MAP?'now':'')+'" data-go="'+MAP+'" aria-label="Mapa completo">Mapa</button>';
+  $dots.innerHTML = h;
+}
+
+function render(scroll){
+  var onMap = (cur === MAP);
+  $stage.innerHTML = onMap ? mapHTML() : stepHTML(cur);
+  var pct = onMap ? 100 : Math.round(((cur+1)/N)*100);
+  $fill.style.width = pct + "%";
+  $plbl.textContent = onMap ? "Mapa completo" : "Paso "+(cur+1)+" de "+N+" · "+STEPS[cur].phase;
+  $pct.textContent = pct + " %";
+  $bar.setAttribute("aria-valuenow", onMap ? N : cur+1);
+  $prev.disabled = (cur === 0);
+  if(onMap){ $next.textContent = "Volver al inicio ↺"; }
+  else if(cur === N-1){ $next.textContent = "Ver mapa completo →"; }
+  else { $next.textContent = "Siguiente →"; }
+  drawDots();
+  document.title = (onMap ? "Mapa completo" : "Paso "+(cur+1)+": "+STEPS[cur].title) + " · Del dolor al dolor miofascial";
+  if(scroll !== false){ window.scrollTo(0,0); }
+}
+
+function go(i, noScroll){
+  cur = Math.max(0, Math.min(MAP, i));
+  render(!noScroll);
+  try{ history.replaceState(null,"", cur===MAP ? "#mapa" : "#paso-"+(cur+1)); }catch(e){}
+}
+
+$prev.addEventListener("click", function(){ go(cur-1); });
+$next.addEventListener("click", function(){ go(cur === MAP ? 0 : cur+1); });
+
+document.addEventListener("keydown", function(ev){
+  var t = ev.target, tag = t && t.tagName;
+  if(ev.key === "Enter" || ev.key === " "){
+    if(t && t.getAttribute && t.getAttribute("role") === "link" && t.hasAttribute("data-go")){
+      ev.preventDefault(); go(+t.getAttribute("data-go")); }
+    return;
+  }
+  if(tag === "INPUT" || tag === "TEXTAREA") return;
+  if(ev.key === "ArrowRight" && cur < MAP){ go(cur+1); }
+  else if(ev.key === "ArrowLeft" && cur > 0){ go(cur-1); }
+});
+
+$stage.addEventListener("click", function(ev){
+  var el = ev.target;
+  while(el && el !== $stage && !(el.getAttribute && (el.hasAttribute("data-o") || el.hasAttribute("data-go") || el.hasAttribute("data-reset") || el.hasAttribute("data-print")))){
+    el = el.parentNode;
+  }
+  if(!el || el === $stage) return;
+  if(el.hasAttribute("data-o")){
+    var qi = +el.getAttribute("data-q"), o = +el.getAttribute("data-o");
+    if(ans[qi] !== null) return;
+    ans[qi] = o;
+    var qz = document.getElementById("quiz");
+    if(qz){ qz.innerHTML = quizHTML(qi); }
+    drawDots();
+    var fb = qz && qz.querySelector(".fb");
+    if(fb && fb.scrollIntoView){ try{ fb.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){} }
+  } else if(el.hasAttribute("data-go")){
+    go(+el.getAttribute("data-go"));
+  } else if(el.hasAttribute("data-reset")){
+    for(var i=0;i<N;i++) ans[i] = null;
+    render(false);
+  } else if(el.hasAttribute("data-print")){
+    window.print();
+  }
+});
+$dots.addEventListener("click", function(ev){
+  var el = ev.target;
+  if(el && el.hasAttribute && el.hasAttribute("data-go")) go(+el.getAttribute("data-go"));
+});
+
+/* Inicio: respeta #paso-N / #mapa si viene en la dirección */
+var h0 = (location.hash || "").toLowerCase(), start = 0, m;
+if(h0 === "#mapa"){ start = MAP; }
+else if((m = /^#paso-(\d+)$/.exec(h0))){ start = Math.max(0, Math.min(N-1, (+m[1]) - 1)); }
+cur = start;
+render(false);
+
+})();
+</script>
+</body>
+</html>
