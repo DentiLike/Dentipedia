@@ -168,6 +168,18 @@ svg text.x{fill:var(--red);font-weight:700}
 .fibA{stroke:var(--blue);stroke-width:3;fill:none} .fibC{stroke:var(--teal);stroke-width:5;fill:none;stroke-dasharray:1 0}
 .zone{fill:#f3f8fd;stroke:var(--sky2);stroke-width:1.5;stroke-dasharray:6 5}
 
+
+/* Glosario emergente de abreviaturas */
+.g{border-bottom:1.5px dotted var(--blue2);cursor:help}
+.g:focus-visible{outline:2px solid var(--blue2);outline-offset:2px;border-radius:3px}
+tspan.g{text-decoration:underline dotted;text-decoration-color:#1b6fae;text-underline-offset:3px;cursor:help;border:0}
+#tip{position:fixed;z-index:60;display:none;max-width:min(330px,calc(100vw - 16px));background:var(--navy);color:#fff;
+  font-size:.9rem;line-height:1.45;padding:9px 12px;border-radius:10px;box-shadow:0 6px 20px rgba(6,58,97,.35);pointer-events:none}
+#tip b{color:#bfe3ff}
+.top .gh{margin:8px 0 0;font-size:.8rem;opacity:.9}
+.top .gh i{font-style:normal;border-bottom:1.5px dotted #fff}
+@media print{#tip{display:none!important}}
+
 @media (max-width:520px){
   body{font-size:16.5px}
   .card{padding:16px 14px 20px}
@@ -199,6 +211,7 @@ svg text.x{fill:var(--red);font-weight:700}
     <h1>Del dolor al dolor miofascial: entender paso a paso</h1>
     <p class="sub">Recorrido guiado en 9 pasos, con mapa final</p>
     <span class="badge">Solo docentes · material de estudio</span>
+    <p class="gh">Los términos con <i>subrayado punteado</i> (ACh, ATP, COX…) explican su significado al pasar el cursor o al tocarlos.</p>
   </div>
 </header>
 
@@ -717,6 +730,84 @@ var $prev  = document.getElementById("prev");
 var $next  = document.getElementById("next");
 var LETTERS = ["A","B","C","D"];
 
+/* ---------- Glosario emergente ---------- */
+var GL = {
+  "ACh":"Acetilcolina. Neurotransmisor que la neurona motora libera en la placa motora para ordenar la contracción del músculo.",
+  "AChE":"Acetilcolinesterasa. Enzima que degrada la acetilcolina en la hendidura sináptica y así termina la orden de contraer.",
+  "ATP":"Trifosfato de adenosina. La “moneda de energía” de la célula: el músculo la necesita para contraerse y, sobre todo, para relajarse.",
+  "AINE":"Antiinflamatorios no esteroideos (por ejemplo ibuprofeno, naproxeno, diclofenaco). Inhiben la COX y reducen las prostaglandinas.",
+  "COX":"Ciclooxigenasa. Enzima que convierte el ácido araquidónico en prostaglandinas. Existen dos isoformas: COX-1 y COX-2.",
+  "COX-1":"Ciclooxigenasa 1. Constitutiva: protege la mucosa gástrica y participa en la función plaquetaria y renal.",
+  "COX-2":"Ciclooxigenasa 2. Inducible: aumenta en los tejidos con inflamación y produce prostaglandinas que sensibilizan al nociceptor.",
+  "PGE₂":"Prostaglandina E₂. No activa por sí sola al nociceptor: baja su umbral (lo sensibiliza), como subir el volumen.",
+  "CGRP":"Péptido relacionado con el gen de la calcitonina. Neuropéptido que libera el nociceptor; causa vasodilatación y favorece la inflamación neurogénica.",
+  "SNC":"Sistema nervioso central: encéfalo y médula espinal (para la cara, también el tronco encefálico).",
+  "ATM":"Articulación temporomandibular.",
+  "TRPV1":"Canal iónico del nociceptor (receptor de potencial transitorio vaniloide 1). Se activa con calor nocivo (≈ 43 °C o más), con protones (H⁺) y con capsaicina.",
+  "IASP":"Asociación Internacional para el Estudio del Dolor (International Association for the Study of Pain).",
+  "H⁺":"Protones (iones hidrógeno). Al acumularse en el tejido isquémico lo vuelven ácido y activan a los nociceptores.",
+  "K⁺":"Ion potasio. Sale de las células dañadas o isquémicas y despolariza a los nociceptores.",
+  "Ca²⁺":"Ion calcio. Se libera del retículo sarcoplásmico y desencadena el deslizamiento actina-miosina (la contracción).",
+  "O₂":"Oxígeno. Necesario para producir ATP en cantidad suficiente.",
+  "Aδ":"“A delta”. Fibras nerviosas delgadas y mielínicas, de conducción rápida; transmiten el dolor agudo y punzante.",
+  "C1–C3":"Primeros tres segmentos cervicales (nervios C1 a C3). Sus aferentes convergen con las del trigémino en el mismo núcleo.",
+  "V par":"Quinto par craneal: el nervio trigémino.",
+  "m/s":"Metros por segundo (velocidad de conducción nerviosa)."
+};
+var GK = Object.keys(GL).sort(function(a,b){ return b.length - a.length; });
+var GRE = new RegExp("(^|[^\\p{L}\\p{N}_])(" + GK.map(function(k){ return k.replace(/[.*+?^${}()|[\]\\\/]/g,"\\$&"); }).join("|") + ")(?![\\p{L}\\p{N}])","gu");
+var SVGNS = "http://www.w3.org/2000/svg";
+
+function glosar(root){
+  if(!root) return;
+  var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), nodes = [], n;
+  while((n = w.nextNode())) nodes.push(n);
+  nodes.forEach(function(t){
+    var p = t.parentNode;
+    if(!p || (p.classList && p.classList.contains("g"))) return;
+    var s = t.nodeValue;
+    GRE.lastIndex = 0;
+    if(!GRE.test(s)) return;
+    GRE.lastIndex = 0;
+    var isSvg = (p.namespaceURI === SVGNS);
+    var frag = document.createDocumentFragment(), last = 0, m;
+    while((m = GRE.exec(s))){
+      var start = m.index + m[1].length;
+      if(start > last) frag.appendChild(document.createTextNode(s.slice(last, start)));
+      var el = isSvg ? document.createElementNS(SVGNS, "tspan") : document.createElement("span");
+      el.setAttribute("class", "g");
+      el.setAttribute("data-g", m[2]);
+      if(!isSvg) el.setAttribute("tabindex", "0");
+      el.textContent = m[2];
+      frag.appendChild(el);
+      last = start + m[2].length;
+    }
+    if(last < s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+    p.replaceChild(frag, t);
+  });
+}
+
+var tip = document.createElement("div");
+tip.id = "tip"; tip.setAttribute("role","tooltip");
+document.body.appendChild(tip);
+var tipPin = null;
+function hideTip(){ tip.style.display = "none"; tipPin = null; }
+function showTip(el){
+  var k = el.getAttribute("data-g"), d = GL[k];
+  if(!d) return;
+  tip.textContent = "";
+  var b = document.createElement("b"); b.textContent = k;
+  tip.appendChild(b); tip.appendChild(document.createTextNode(" · " + d));
+  tip.style.display = "block";
+  var r = el.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight;
+  var left = Math.max(8, Math.min(r.left + r.width/2 - tw/2, window.innerWidth - tw - 8));
+  var top = r.bottom + 8;
+  if(top + th > window.innerHeight - 78) top = r.top - th - 8;
+  if(top < 8) top = 8;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+function gTarget(ev){ var t = ev.target; return (t && t.closest) ? t.closest(".g") : null; }
+
 /* ---------- Render de un paso ---------- */
 function quizHTML(i){
   var q = STEPS[i].q, sel = ans[i], h = "";
@@ -863,6 +954,8 @@ function drawDots(){
 function render(scroll){
   var onMap = (cur === MAP);
   $stage.innerHTML = onMap ? mapHTML() : stepHTML(cur);
+  hideTip();
+  glosar($stage);
   var pct = onMap ? 100 : Math.round(((cur+1)/N)*100);
   $fill.style.width = pct + "%";
   $plbl.textContent = onMap ? "Mapa completo" : "Paso "+(cur+1)+" de "+N+" · "+STEPS[cur].phase;
@@ -910,6 +1003,7 @@ $stage.addEventListener("click", function(ev){
     ans[qi] = o;
     var qz = document.getElementById("quiz");
     if(qz){ qz.innerHTML = quizHTML(qi); }
+    glosar(qz);
     drawDots();
     var fb = qz && qz.querySelector(".fb");
     if(fb && fb.scrollIntoView){ try{ fb.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){} }
@@ -926,6 +1020,27 @@ $dots.addEventListener("click", function(ev){
   var el = ev.target;
   if(el && el.hasAttribute && el.hasAttribute("data-go")) go(+el.getAttribute("data-go"));
 });
+
+/* Eventos del glosario */
+$stage.addEventListener("mouseover", function(ev){ var g = gTarget(ev); if(g && !tipPin) showTip(g); });
+$stage.addEventListener("mouseout", function(ev){ if(gTarget(ev) && !tipPin) tip.style.display = "none"; });
+$stage.addEventListener("focusin", function(ev){ var g = gTarget(ev); if(g) showTip(g); });
+$stage.addEventListener("focusout", function(ev){ if(gTarget(ev) && !tipPin) tip.style.display = "none"; });
+$stage.addEventListener("click", function(ev){
+  var g = gTarget(ev);
+  if(!g) return;
+  ev.stopPropagation(); ev.preventDefault();
+  if(tipPin === g){ hideTip(); } else { tipPin = g; showTip(g); }
+}, true);
+document.addEventListener("click", function(ev){ if(!gTarget(ev)) hideTip(); });
+window.addEventListener("scroll", hideTip, {passive:true});
+document.addEventListener("keydown", function(ev){
+  if(ev.key === "Escape") hideTip();
+  if((ev.key === "Enter" || ev.key === " ") && ev.target && ev.target.classList && ev.target.classList.contains("g")){
+    ev.preventDefault(); ev.stopPropagation();
+    if(tipPin === ev.target){ hideTip(); } else { tipPin = ev.target; showTip(ev.target); }
+  }
+}, true);
 
 /* Inicio: respeta #paso-N / #mapa si viene en la dirección */
 var h0 = (location.hash || "").toLowerCase(), start = 0, m;

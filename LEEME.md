@@ -3,6 +3,10 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+## Cambios v73 — Glosario emergente en el recorrido docente
+
+- Abreviaturas y símbolos (ACh, AChE, ATP, COX, AINE, PGE₂, CGRP, ATM, SNC, H⁺, K⁺, Ca²⁺, Aδ…) con subrayado punteado: al pasar el cursor o tocar muestran su significado.
+
 ## Cambios v72 — Recorrido docente (dolor miofascial)
 
 - Nuevo archivo `Recorrido_Dolor_Miofascial_Docentes.html` (9 pasos + mapa, autocontenido).
