@@ -844,3 +844,7 @@ body.mp-abierto{overflow:hidden}
 .pdf-frame-wrap{width:100%}
 .pdf-frame{width:100%; border:1px solid var(--borde); border-radius:10px; background:#fff; display:block}
 .pdf-hint{font-size:.68rem; color:#64748b; margin:.4rem 0 0; text-align:center}
+
+.ini-btn-anam{grid-column:1 / -1; flex-direction:row !important; justify-content:flex-start !important; text-align:left; gap:.7rem !important; flex-wrap:wrap}
+.ini-btn-anam b{font-family:'Fredoka'; font-size:.95rem; color:var(--azul-osc); flex:1 1 60%}
+.ini-btn-anam small{flex:1 1 100%; margin-left:2.3rem; font-size:.68rem; color:var(--gris); font-weight:500; margin-top:-.45rem}

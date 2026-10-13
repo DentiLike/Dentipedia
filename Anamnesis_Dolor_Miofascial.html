@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="es-MX"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anamnesis y diagnóstico paso a paso del dolor miofascial</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#1d2733;overflow:hidden}
+body{font-family:Georgia,"Noto Serif","Times New Roman",serif;color:#1b2a3a}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center;background:#fff;box-shadow:0 0 40px rgba(0,0,0,.45);overflow:hidden}
+.slide{position:absolute;inset:0;padding:44px 64px 64px;display:none;flex-direction:column}
+.slide.active{display:flex}
+.hd{margin-bottom:22px;border-bottom:3px solid #0b3d6b;padding-bottom:12px}
+.kick{font-size:21px;letter-spacing:2px;text-transform:uppercase;color:#b5651d;font-weight:bold}
+h2{font-size:48px;color:#0b3d6b;line-height:1.1;margin-top:4px}
+.foot{position:absolute;left:64px;bottom:22px;font-size:16px;color:#7a8794;font-style:italic}
+.body{flex:1;min-height:0}
+.cols{display:grid;grid-template-columns:1fr 560px;gap:40px;flex:1;min-height:0}
+.main{display:flex;flex-direction:column;gap:22px;font-size:31px;line-height:1.36}
+.q{font-style:italic;color:#0b3d6b;font-size:35px;line-height:1.3;background:#f3f7fb;border-left:8px solid #0b3d6b;padding:14px 22px;border-radius:0 8px 8px 0}
+.q:before{content:"Pregunta: ";font-style:normal;font-weight:bold;font-size:19px;letter-spacing:1px;text-transform:uppercase;display:block;color:#5a7290;margin-bottom:2px}
+ul.l{padding-left:32px}ul.l li{margin:6px 0}
+.why{background:#fff4e5;border:2px solid #b5651d;border-radius:10px;padding:14px 22px;font-size:28px}
+.why b:first-child{color:#b5651d}
+.alert{background:#fdecec;border:2px solid #8a1c1c;border-radius:10px;padding:14px 22px;font-size:28px}
+.alert b:first-child{color:#8a1c1c}
+.cel{background:#eaf2fa;border:3px solid #0b3d6b;border-radius:14px;overflow:hidden;font-size:27px;line-height:1.38;align-self:start;box-shadow:6px 6px 0 #c9d9ea}
+.cel .t{background:#0b3d6b;color:#fff;font-weight:bold;font-size:25px;padding:12px 20px;display:flex;align-items:center;gap:12px}
+.cel .t:before{content:"";width:26px;height:26px;border-radius:50%;border:4px solid #f0b47a;background:radial-gradient(circle,#f0b47a 0 30%,transparent 32%);flex:none}
+.cel .c{padding:18px 24px}
+.cel p{margin-bottom:10px}.cel p:last-child{margin-bottom:0}
+.cel b{color:#0b3d6b}
+.f{opacity:0;transform:translateY(14px);transition:opacity .35s,transform .35s}
+.f.on{opacity:1;transform:none}
+g.f{transform:none}
+.box{border:2px solid #0b3d6b;border-radius:10px;background:#f3f7fb;padding:14px 20px}
+.box h3{color:#0b3d6b;font-size:27px;margin-bottom:6px}
+.key{background:#fff4e5;border-color:#b5651d}.key h3{color:#b5651d}
+.red{background:#fdecec;border-color:#8a1c1c}.red h3{color:#8a1c1c}
+.navy{background:#0b3d6b;color:#fff;border-color:#0b3d6b}.navy h3{color:#fff}
+/* title */
+.title{background:#0b3d6b;color:#fff;justify-content:center;padding:80px 120px}
+.title .line{width:140px;height:6px;background:#b5651d;margin:30px 0}
+.title h1{font-size:76px;line-height:1.1}
+.title .st{font-size:34px;color:#cfe0f1;font-style:italic}
+.title .tg{font-size:26px;color:#fff;margin-top:40px;letter-spacing:1px}
+.title .tg span{border:2px solid #6f95bb;border-radius:30px;padding:8px 22px;margin-right:12px;display:inline-block}
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:10px}
+.road .r{border:2px solid #0b3d6b;border-radius:12px;padding:18px 20px;background:#f3f7fb;min-height:215px}
+.road .n{display:inline-block;width:54px;height:54px;border-radius:50%;background:#0b3d6b;color:#fff;font-size:30px;font-weight:bold;text-align:center;line-height:54px;margin-bottom:10px}
+.road h3{font-size:31px;color:#0b3d6b;line-height:1.15}
+.road p{font-size:24px;color:#45566a;margin-top:6px;line-height:1.3}
+.road .r.k{background:#fff4e5;border-color:#b5651d}.road .r.k .n{background:#b5651d}
+.road .r.x{background:#fdecec;border-color:#8a1c1c}.road .r.x .n{background:#8a1c1c}
+/* chains */
+.chain{display:flex;flex-direction:column;gap:6px}
+.chain .s{border:2px solid #0b3d6b;background:#f3f7fb;border-radius:9px;padding:11px 18px;font-size:26px;line-height:1.25}
+.chain .s b{color:#0b3d6b}
+.chain .s.k{background:#fff4e5;border-color:#b5651d}.chain .s.k b{color:#b5651d}
+.chain .ar{text-align:center;color:#0b3d6b;font-size:22px;line-height:1}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.colh{font-size:24px;font-weight:bold;color:#8a1c1c;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+/* tiles */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tile{border:2px solid #0b3d6b;border-left-width:8px;border-radius:8px;padding:11px 18px;font-size:24px;line-height:1.3;background:#fff}
+.tile>b:first-child{color:#0b3d6b;display:block;font-size:26px}
+.tile.r{border-color:#8a1c1c;background:#fdecec}.tile.r>b:first-child{color:#8a1c1c}
+/* big numbers */
+.big{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.bn{border:2px solid #0b3d6b;border-radius:12px;text-align:center;padding:14px 10px;background:#f3f7fb}
+.bn .v{font-size:70px;font-weight:bold;color:#0b3d6b;line-height:1.05}
+.bn .u{font-size:25px;color:#33475c;line-height:1.25;margin-top:4px}
+.bn.k{background:#fff4e5;border-color:#b5651d}.bn.k .v{color:#b5651d}
+/* table */
+table.dx{width:100%;border-collapse:collapse;font-size:22.5px;line-height:1.24}
+table.dx th{background:#0b3d6b;color:#fff;text-align:left;padding:10px 14px;font-size:23px}
+table.dx td{border-bottom:1px solid #c9d6e3;padding:8px 14px;vertical-align:top}
+table.dx td:first-child{font-weight:bold;color:#0b3d6b;width:20%}
+table.dx tr.hl td{background:#fff4e5}
+table.dx tr.hl td:first-child{color:#b5651d}
+table.dx tr.f{transform:none}
+/* flow */
+.flow{position:relative;flex:1}
+.flow .n{position:absolute;border:2.5px solid #0b3d6b;border-radius:10px;background:#f3f7fb;padding:9px 14px;font-size:20px;line-height:1.24}
+.flow .n h4{font-size:22px;color:#0b3d6b;margin-bottom:4px}
+.flow .n.red{background:#fdecec;border-color:#8a1c1c}.flow .n.red h4{color:#8a1c1c}
+.flow .n.key{background:#fff4e5;border-color:#b5651d}.flow .n.key h4{color:#b5651d}
+.flow .n.navy{background:#0b3d6b;color:#fff}.flow .n.navy h4{color:#fff}
+.flow svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.flow svg text{font-family:Georgia,"Noto Serif",serif;font-size:20px;font-weight:bold}
+/* plan */
+.plan{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pc{border:2px solid #0b3d6b;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+.pc .h{background:#0b3d6b;color:#fff;padding:12px 16px;font-size:26px;font-weight:bold;line-height:1.2}
+.pc .h span{display:inline-block;background:#b5651d;border-radius:6px;padding:0 10px;margin-right:8px}
+.pc .a{padding:14px 18px;font-size:23.5px;line-height:1.32}
+.pc .z{margin-top:auto;background:#eaf2fa;border-top:2px dashed #0b3d6b;padding:12px 18px;font-size:22px;line-height:1.3}
+.pc .z i{display:block;font-style:normal;font-weight:bold;color:#0b3d6b;font-size:17px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+/* eva */
+.eva{display:grid;grid-template-columns:1fr 470px;gap:40px;align-items:start}
+.scale{display:flex;gap:6px;margin:16px 0 8px}
+.scale div{flex:1;height:72px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:bold;color:#fff;cursor:pointer;opacity:.45;transition:all .2s;border:3px solid transparent}
+.scale div.sel{opacity:1;transform:scale(1.12);border-color:#1b2a3a}
+.bands{display:grid;grid-template-columns:1fr 3fr 3fr 4fr;gap:6px;font-size:24px;text-align:center;font-weight:bold}
+.bands div{padding:6px 0;border-radius:6px}
+input[type=range]{width:100%;height:46px;accent-color:#0b3d6b;cursor:pointer;margin-top:18px}
+.readout{border:3px solid #0b3d6b;border-radius:16px;text-align:center;padding:20px}
+.readout .num{font-size:150px;font-weight:bold;line-height:1;color:#0b3d6b}
+.readout .cat{font-size:40px;font-weight:bold;margin-top:6px}
+.readout .hint{font-size:19px;color:#5a6b7d;margin-top:10px;font-style:italic}
+/* face */
+.facewrap{display:grid;grid-template-columns:600px 1fr;gap:36px;flex:1;min-height:0}
+.face svg{width:600px;height:640px}
+.mz{opacity:.18;transition:opacity .3s}
+.zz{opacity:0;transition:opacity .3s}
+svg[data-m="mas"] .m-mas,svg[data-m="tem"] .m-tem,svg[data-m="ecm"] .m-ecm,svg[data-m="ptl"] .m-ptl{opacity:.85}
+svg[data-m="mas"] .z-mas,svg[data-m="tem"] .z-tem,svg[data-m="ecm"] .z-ecm,svg[data-m="ptl"] .z-ptl{opacity:1}
+svg[data-m="all"] .mz{opacity:.6}svg[data-m="all"] .zz{opacity:.9}
+.legend{display:flex;flex-direction:column;gap:14px}
+.lg{border:2px solid #0b3d6b;border-radius:10px;padding:14px 20px;font-size:26px;line-height:1.3;cursor:pointer;background:#fff;transition:background .2s}
+.lg b{font-size:29px;display:block}
+.lg.cur{background:#fff4e5;border-color:#b5651d;box-shadow:5px 5px 0 #f1d3b3}
+.lg .sw{display:inline-block;width:18px;height:18px;border-radius:4px;margin-right:8px;vertical-align:-2px}
+/* dctmd */
+.sub3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sc{border:2px solid #0b3d6b;border-radius:12px;padding:12px 16px;text-align:center;background:#f3f7fb}
+.sc h3{font-size:27px;color:#0b3d6b;margin-bottom:4px}
+.sc p{font-size:23px;line-height:1.28}
+.sc svg{width:100%;height:120px}
+.sc.k{background:#fff4e5;border-color:#b5651d}.sc.k h3{color:#b5651d}
+/* closing */
+.perp .tile{font-size:21.5px;padding:7px 14px;line-height:1.25}.perp .tile>b:first-child{font-size:23px}.perp .tiles{gap:10px}.perp .cel{font-size:24px}
+.palpbig .v{font-size:52px!important;white-space:nowrap}.palpbig .u{font-size:22px!important}
+.closing{background:#0b3d6b;color:#fff;justify-content:center;align-items:center;text-align:center}
+.closing h1{font-size:92px;line-height:1.1}
+.closing .line{width:160px;height:6px;background:#b5651d;margin:34px auto}
+.closing p{font-size:32px;color:#cfe0f1;max-width:1150px;line-height:1.4;margin:0 auto}
+/* UI */
+#bar{position:fixed;left:0;top:0;height:6px;background:#b5651d;width:0;transition:width .3s;z-index:10}
+#ui{position:fixed;right:16px;bottom:14px;display:flex;gap:8px;align-items:center;z-index:10;font-family:Georgia,"Noto Serif",serif}
+#ui button{background:#0b3d6b;color:#fff;border:1px solid #6f95bb;border-radius:8px;width:44px;height:38px;font-size:18px;cursor:pointer;opacity:.75}
+#ui button:hover{opacity:1}
+#count{color:#fff;background:rgba(11,61,107,.85);border-radius:8px;padding:8px 12px;font-size:16px;min-width:76px;text-align:center}
+body.clean #ui,body.clean #bar{display:none}
+#help{position:fixed;left:50%;top:14px;transform:translateX(-50%);background:rgba(11,61,107,.92);color:#fff;padding:8px 16px;border-radius:8px;font-size:14px;font-family:Georgia,serif;z-index:10;transition:opacity 1s}#help.hide{opacity:0;pointer-events:none}
+body.clean #help{display:none}
+#rot{display:none;position:fixed;left:8px;right:8px;top:8px;background:#b5651d;color:#fff;font:14px/1.3 Georgia,serif;padding:8px 12px;border-radius:8px;z-index:20;text-align:center}
+@media (orientation:portrait) and (max-width:700px){#rot{display:block}}
+body.clean #rot{display:none!important}
+@media (orientation:portrait) and (max-width:700px){#help{display:none}}
+</style></head><body><div id="rot">↻ Gira el dispositivo en horizontal para leer mejor · desliza o toca para avanzar</div>
+<div id="bar"></div><div id="stage"><section class="slide title"><div class="kick" style="color:#f0b47a">Guía clínica · Odontología</div>
+<h1>Anamnesis y diagnóstico paso a paso del dolor miofascial</h1><div class="line"></div>
+<div class="st">Qué preguntar, qué explorar y qué está pasando a nivel celular</div>
+<div class="tg"><span>Historia clínica</span><span>Exploración</span><span>Diagnóstico</span><span>Plan</span></div></section><section class="slide"><div class="hd"><div class="kick">Hoja de ruta</div><h2>Ocho pasos, de la queja al plan</h2></div><div class="road"><div class="r f "><div class="n">1</div><h3>Datos generales y motivo</h3><p>En palabras del paciente</p></div><div class="r f "><div class="n">2</div><h3>Historia del dolor</h3><p>9 preguntas clave</p></div><div class="r f "><div class="n">3</div><h3>Factores perpetuantes</h3><p>Lo que mantiene el problema</p></div><div class="r f x"><div class="n">4</div><h3>Banderas rojas</h3><p>Descartar antes de diagnosticar</p></div><div class="r f "><div class="n">5</div><h3>Exploración clínica</h3><p>Inspección, movimientos, palpación</p></div><div class="r f k"><div class="n">6</div><h3>Diagnóstico</h3><p>DC/TMD y diferencial</p></div><div class="r f "><div class="n">7</div><h3>Del diagnóstico al plan</h3><p>Primero lo reversible</p></div><div class="r f "><div class="n">8</div><h3>Errores frecuentes</h3><p>Y el principio clínico</p></div></div><div class="why f" style="margin-top:26px">En cada paso: <b>a la izquierda</b>, qué preguntar o hacer y por qué; <b>a la derecha</b>, el panel <b>«¿Qué está pasando a nivel celular?»</b>.</div></section><section class="slide"><div class="hd"><div class="kick">Antes de empezar</div><h2>Dos mecanismos que guían toda la anamnesis</h2></div>
+<div class="two"><div><div class="colh">A. La vía del dolor orofacial</div><div class="chain">
+<div class="s f"><b>Nociceptor</b>: transduce el estímulo lesivo en potencial de acción</div><div class="ar f">▼</div>
+<div class="s f"><b>Fibras Aδ</b> (agudo, localizado) y <b>C</b> (sordo, difuso: el músculo) · nervio <b>trigémino</b></div><div class="ar f">▼</div>
+<div class="s k f"><b>Núcleo espinal del trigémino</b> (subnúcleo caudal): <b>convergencia</b> de músculo, diente, ATM y C1–C3</div><div class="ar f">▼</div>
+<div class="s f"><b>Tálamo → corteza</b>: el dolor es una <b>alarma interpretada en la corteza</b></div></div></div>
+<div><div class="colh">B. El punto gatillo: crisis energética</div><div class="chain">
+<div class="s f"><b>ACh sostenida</b> en la placa motora</div><div class="ar f">▼</div>
+<div class="s f">Sarcómeros contraídos = <b>banda tensa</b></div><div class="ar f">▼</div>
+<div class="s f">Compresión capilar → <b>isquemia</b> → déficit de <b>ATP</b></div><div class="ar f">▼</div>
+<div class="s k f">Sin ATP no hay relajación: <b>círculo vicioso</b>. Bradicinina, PGE2, H⁺/K⁺, sustancia P y CGRP sensibilizan al nociceptor</div></div></div></div>
+<div class="why f" style="margin-top:22px"><b>Idea central:</b> el <b>sitio</b> donde el paciente siente el dolor no siempre es la <b>fuente</b> que lo produce.</div></section><section class="slide"><div class="hd"><div class="kick">Paso 1</div><h2>Datos generales y motivo de consulta</h2></div>
+<div class="cols"><div class="main"><ul class="l f"><li>Edad, sexo, <b>ocupación</b> (horario, postura, pantallas)</li><li>Antecedentes médicos y <b>fármacos</b> (ISRS, estimulantes y cafeína se asocian a bruxismo)</li></ul>
+<div class="q f">«¿Qué es lo que le molesta? Cuénteme con sus propias palabras.»</div>
+<div class="f">Anótalo <b>entre comillas</b>: <i>«me duele la muela de abajo y el oído»</i>, no <i>«odontalgia y otalgia»</i>.</div>
+<div class="why f"><b>Por qué:</b> el paciente describe el <b>sitio</b>, no la <b>fuente</b>. Escribir «pulpitis» desde el inicio sesga el diagnóstico.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>Lo que relata el paciente es el <b>producto final cortical</b>: la corteza asigna una localización a la señal del tálamo y el sistema límbico le añade la carga emocional.</p><p>La queja puede ser real y estar «mal ubicada»: la percepción ocurre en el cerebro, no en el tejido.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.1 Localización</h2></div>
+<div class="cols"><div class="main"><div class="q f">«Con un solo dedo, señáleme dónde le duele.»</div>
+<ul class="l f"><li><b>Un dedo</b>, punto preciso → origen localizado (diente, ATM, mucosa)</li><li><b>Toda la mano</b>, «me duele todo esto» → dolor profundo, difuso, muscular</li><li>¿Unilateral o bilateral?</li></ul>
+<div class="why f"><b>Por qué:</b> la forma de señalar ya distingue un dolor superficial y localizado de uno profundo y referido.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p><b>Fibras Aδ</b> (mielinizadas): dolor bien localizado.</p><p>El músculo usa sobre todo <b>fibras C</b> (amielínicas), con campos receptivos amplios y alta <b>convergencia</b> central: el dolor es sordo y mal localizado.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.2 Inicio y evolución</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿Desde cuándo tiene el dolor? ¿Empezó de golpe o poco a poco? ¿Qué pasaba en su vida o qué tratamiento le hicieron cuando empezó?»</div>
+<ul class="l f"><li><b>Agudo</b> o <b>crónico (más de 3 meses)</b></li><li>Continuo, intermitente o por episodios; ¿va en aumento?</li></ul>
+<div class="why f"><b>Por qué:</b> el dolor crónico deja de ser solo una señal del tejido; cambian el pronóstico, el abordaje y la respuesta a fármacos.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>La estimulación nociceptiva sostenida aumenta la excitabilidad de la neurona de 2.º orden del <b>subnúcleo caudal</b>: <b>sensibilización central</b>.</p><p>Se amplían los campos receptivos y baja el umbral: el dolor persiste aunque disminuya el estímulo periférico.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.3 Carácter del dolor</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿Cómo es el dolor? ¿Sordo, como presión o peso? ¿Punzante o pulsátil, como latido? ¿Como toque eléctrico?»</div>
+<ul class="l f"><li><b>Sordo, opresivo, «cansancio»</b> → muscular</li><li><b>Punzante o pulsátil</b> → pulpa inflamada o componente vascular</li><li><b>Eléctrico, de segundos</b> → neuropático (neuralgia)</li></ul>
+<div class="why f"><b>Por qué:</b> la calidad del dolor es la «firma» del tipo de fibra y del tejido que lo genera.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>Dolor <b>sordo</b>: firma de las <b>fibras C</b>.</p><p><b>Pulsátil</b>: el pulso arterial sobre un tejido inflamado y poco distensible (pulpa).</p><p><b>Eléctrico</b>: descargas anómalas de la propia fibra nerviosa, no de un nociceptor activado.</p></div></aside></div></section><section class="slide" data-hook="eva"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.4 Intensidad: EVA / ENA de 0 a 10</h2></div>
+<div class="eva"><div>
+<div class="q">«Del 0 al 10, donde 0 es nada de dolor y 10 el peor dolor imaginable, ¿cuánto le duele ahora? ¿Y en su peor momento?»</div>
+<div class="scale" id="scale"></div>
+<div class="bands"><div style="background:#e6edf4;color:#33475c">0</div><div style="background:#dcefe0;color:#2e6b3a">1–3 · Leve</div><div style="background:#fbe5c8;color:#8f4e12">4–6 · Moderado</div><div style="background:#f6d0d0;color:#8a1c1c">7–10 · Severo</div></div>
+<input type="range" id="evaR" min="0" max="10" step="1" value="0" aria-label="Escala del dolor de 0 a 10">
+<div class="why" style="margin-top:16px;font-size:23px"><b>Registra:</b> EVA actual, máxima y mínima, e interferencia con comer, hablar, trabajar y dormir. Repite en cada cita.</div>
+</div><div><div class="readout"><div class="num" id="evaN">0</div><div class="cat" id="evaC">Sin dolor</div><div class="hint">Arrastra el control o haz clic en un número</div></div>
+<div class="cel" style="margin-top:20px"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c" style="font-size:21px">La intensidad no mide el daño de forma lineal: la señal se <b>modula</b> en el núcleo espinal del trigémino y se construye en corteza y sistema límbico. Ansiedad y mal sueño la amplifican.</div></div></div></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.5 Horario del dolor</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿A qué hora del día le duele más? ¿Al despertar o en la tarde?»</div>
+<ul class="l f"><li><b>Matutino</b>: al despertar, con rigidez que mejora en el día → <b>bruxismo del sueño</b></li><li><b>Vespertino</b>: aumenta conforme avanza el día → <b>apretamiento diurno</b> (estrés, concentración, postura)</li></ul>
+<div class="why f"><b>Por qué:</b> el horario delata cuándo ocurre la parafunción y orienta el tratamiento (por ejemplo, férula nocturna o control del hábito diurno).</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>Horas de contracción parafuncional mantienen comprimidos los capilares; se acumulan <b>H⁺, K⁺ y bradicinina</b>, y el músculo amanece isquémico y rígido.</p><p>El movimiento y el calor del día mejoran el flujo y «lavan» parte de esos metabolitos.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.6 Factores que agravan y que alivian</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿Qué lo empeora: masticar, hablar mucho, bostezar, el estrés? ¿Qué lo mejora: el reposo, el calor, algún medicamento?»</div>
+<div class="f">El dolor muscular <b>se modifica con la función</b> (masticar, abrir, apretar) y suele aliviarse con reposo y calor.</div>
+<div class="alert f"><b>Atención:</b> un dolor que <b>no cambia</b> con la función mandibular obliga a buscar otro origen.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>Masticar añade contracción a una <b>banda tensa</b> ya isquémica: más compresión capilar y más déficit de ATP.</p><p>El estrés eleva el tono muscular por vías límbicas.</p><p>El <b>calor</b> vasodilata: más O₂, más ATP, más relajación.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.7 Irradiación y dolor en sitios lejanos</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿El dolor se va hacia otro lado? ¿Le han dolido dientes sin encontrarle caries? ¿Le duele el oído? ¿Tiene dolor de cabeza, en la sien o detrás del ojo?»</div>
+<div class="f">Dibuja el área en un esquema facial y compárala después con los <b>patrones de referencia</b> de la exploración.</div>
+<div class="why f"><b>Por qué:</b> un dolor en dientes, oído o sien puede tener su <b>fuente</b> en un músculo.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p><b>Convergencia:</b> aferencias de músculos, dientes, ATM y raíces <b>C1–C3</b> llegan a la misma neurona de 2.º orden.</p><p>La corteza no distingue la fuente y proyecta el dolor a otro territorio: <b>dolor referido</b>.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.8 Síntomas asociados</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿Siente la mandíbula rígida o cansada? ¿Le cuesta abrir la boca? ¿Le truena la articulación? ¿Siente el oído tapado, zumbido o mareo?»</div>
+<ul class="l f"><li>Rigidez, fatiga mandibular, limitación de apertura</li><li>Ruidos de la ATM (chasquido, crepitación), bloqueos</li><li>Plenitud ótica, acúfenos, mareo: frecuentes, pero <b>descarta siempre patología ótica</b></li></ul></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p><b>Rigidez y fatiga:</b> sarcómeros acortados y crisis energética.</p><p><b>Limitación de apertura:</b> la banda tensa acorta el músculo y el dolor induce <b>co-contracción protectora</b>.</p><p><b>Síntomas óticos:</b> convergencia trigeminal y vecindad funcional de músculos inervados por V3.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 2 · Historia del dolor</div><h2>2.9 Tratamientos previos y respuesta</h2></div>
+<div class="cols"><div class="main"><div class="q f">«¿Qué le han hecho para este dolor? ¿Le hicieron endodoncias o extracciones? ¿Se le quitó? ¿Qué medicamentos ha tomado y cuánto le ayudaron?»</div>
+<div class="alert f"><b>Señal de alerta diagnóstica:</b> <b>endodoncias o extracciones sin alivio</b> apuntan a un dolor referido. Se trató el <b>sitio</b>, no la <b>fuente</b>.</div>
+<div class="f">Una respuesta <b>parcial</b> a los AINE es típica del dolor miofascial.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>Si el nociceptor activado está en el músculo, quitar el diente no cambia la entrada al núcleo espinal: <b>el dolor persiste</b>.</p><p>Los <b>AINE</b> inhiben la COX y bajan la PGE2, pero <b>no revierten</b> la ACh sostenida ni la crisis energética: alivian, no resuelven.</p></div></aside></div></section><section class="slide perp"><div class="hd"><div class="kick">Paso 3</div><h2>Factores contribuyentes y perpetuantes</h2></div><div class="cols" style="grid-template-columns:1fr 480px"><div class="main" style="gap:16px">
+<div class="q f" style="font-size:27px;padding:10px 20px">«¿Aprieta o rechina los dientes? ¿Masca chicle, se muerde las uñas? ¿Cómo duerme? ¿Cómo está su nivel de estrés?»</div>
+<div class="tiles"><div class="tile f"><b>Parafunciones</b>bruxismo del sueño, apretamiento diurno, chicle, onicofagia, morder objetos</div><div class="tile f"><b>Sueño</b>calidad, despertares, ronquido o apneas</div><div class="tile f"><b>Estrés y ansiedad</b>laboral, familiar, académico; estado de ánimo</div><div class="tile f"><b>Postura cervical y trabajo</b>cabeza adelantada, pantallas, teléfono entre hombro y oreja</div><div class="tile f"><b>Trauma</b>golpes, latigazo cervical, apertura prolongada</div><div class="tile f"><b>Dieta</b>alimentos duros, cafeína, alcohol</div><div class="tile f"><b>Oclusión y tratamientos recientes</b>restauraciones altas, prótesis, <b style='display:inline;font-size:inherit'>ortodoncia</b></div><div class="tile f"><b>Comorbilidades</b>fibromialgia, hipotiroidismo, déficit de vitamina D, B12 o hierro</div></div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p><b>Factor perpetuante</b> = todo lo que mantiene la <b>liberación sostenida de ACh</b> o impide que el músculo recupere su energía.</p><p>Hipotiroidismo y déficit de hierro, B12 o vitamina D: el músculo tolera peor la isquemia.</p><p>El mal sueño reduce la inhibición descendente y favorece la sensibilización central.</p><p><b>Si no corriges los perpetuantes, el punto gatillo regresa.</b></p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick" style="color:#8a1c1c">Paso 4</div><h2 style="color:#8a1c1c">Banderas rojas: descartar antes de diagnosticar</h2></div>
+<div class="tiles" style="gap:12px"><div class="tile r f"><b>Dolor nocturno constante</b>despierta al paciente y no se relaciona con la función</div><div class="tile r f"><b>Pérdida de peso</b>inexplicable, malestar general, antecedente de cáncer</div><div class="tile r f"><b>Parestesias o déficit neurológico</b>labio o mentón entumecido, debilidad facial, alteración visual</div><div class="tile r f"><b>Fiebre o aumento de volumen</b>eritema, adenopatías: infección o inflamación</div><div class="tile r f"><b>Trismus progresivo</b>infección de espacios, tumor</div><div class="tile r f"><b>No se reproduce con palpación</b>ni con la función: la fuente probablemente no es muscular</div><div class="tile r f"><b>Más de 50 años, cefalea nueva y claudicación mandibular</b>sospecha de arteritis de células gigantes: urgencia por riesgo de ceguera (VSG/PCR)</div><div class="tile r f"><b>Dolor mandibular izquierdo con el esfuerzo</b>opresión torácica, disnea, diaforesis: posible origen cardiaco, urgencias</div></div>
+<div class="box navy f" style="margin-top:18px;font-size:24px">Si aparece <b>cualquiera</b>, el diagnóstico de dolor miofascial queda en suspenso: <b>investiga o refiere</b>. La misma convergencia que permite que un músculo «imite» un dolor dental permite que el corazón, una arteria o un tumor se presenten como dolor orofacial.</div></section><section class="slide"><div class="hd"><div class="kick">Paso 5 · Exploración clínica</div><h2>5.1 Inspección y movimientos mandibulares</h2></div>
+<div class="cols"><div class="main"><ul class="l f" style="font-size:25px"><li><b>Inspección:</b> asimetrías, hipertrofia maseterina, facetas de desgaste, lengua festoneada, línea alba</li></ul>
+<div class="big f" style="grid-template-columns:1fr 1fr"><div class="bn"><div class="v">40–55 mm</div><div class="u">Apertura máxima normal<br>(interincisal + sobremordida)</div></div><div class="bn"><div class="v">~8–10 mm</div><div class="u">Lateralidades<br>y protrusión</div></div></div>
+<ul class="l f" style="font-size:25px"><li>Mide la apertura <b>sin dolor, máxima sin ayuda y asistida</b>: <i style="color:#0b3d6b">«¿Le duele? ¿Es su dolor de siempre?»</i></li><li>Trayectoria: recta, <b>desviación</b> (regresa a la línea media) o <b>deflexión</b> (no regresa)</li></ul>
+<div class="why f" style="font-size:23px"><b>Clave:</b> en el origen muscular, la apertura asistida gana unos milímetros con <b>tope blando</b>; un <b>tope duro</b> sugiere un obstáculo articular.</div></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>Las facetas, la línea alba y la lengua festoneada son <b>huellas de carga sostenida</b>: indican parafunción, pero no prueban dolor.</p><p>Los elevadores con bandas tensas no se alargan por completo, y estirarlos comprime más las zonas isquémicas.</p><p>La <b>co-contracción protectora</b> (SNC) limita el movimiento para evitar dolor.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 5 · Exploración clínica</div><h2>5.2 Palpación muscular estandarizada</h2></div>
+<div class="cols"><div class="main">
+<div class="big f palpbig"><div class="bn"><div class="v">1 kg</div><div class="u">músculos</div></div><div class="bn"><div class="v">0.5 kg</div><div class="u">ATM<br>(polo lateral)</div></div><div class="bn k"><div class="v">2 s</div><div class="u">¿dolor familiar?</div></div><div class="bn k"><div class="v">5 s</div><div class="u">¿dolor referido?</div></div></div>
+<div class="f" style="font-size:25px">Calibra tus dedos con una báscula. Siempre <b>bilateral</b> y comparativa:</div>
+<ul class="l f" style="font-size:25px;margin-top:-8px"><li><b>Masetero</b> (origen, cuerpo, inserción) · <b>temporal</b> (anterior, medio, posterior)</li><li><b>Pterigoideo medial</b> · <b>ECM</b> · <b>trapecio superior</b></li></ul>
+<div class="why f" style="font-size:24px"><b>Registra en cada sitio:</b> ¿duele? · <span style="font-style:italic;color:#0b3d6b">«¿Es el mismo dolor que lo trajo a consulta?»</span> · banda tensa · dolor referido y <b>a dónde</b>.</div>
+</div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>La <b>banda tensa</b> son los sarcómeros contraídos por ACh sostenida; el nódulo contiene nociceptores sensibilizados (bradicinina, PGE2, H⁺/K⁺, sustancia P, CGRP).</p><p>La presión mantenida aumenta la descarga de fibras C hasta superar el umbral de la neurona convergente: aparece el <b>dolor referido</b>.</p><p><b>Activo</b>: reproduce el dolor espontáneo. <b>Latente</b>: solo duele a la palpación.</p></div></aside></div></section><section class="slide" data-hook="face"><div class="hd"><div class="kick">Paso 5 · Exploración clínica</div><h2>5.3 Patrones de dolor referido</h2></div>
+<div class="facewrap"><div class="face"><svg viewBox="0 0 500 540" id="faceSvg" data-m="none">
+<defs><pattern id="hz" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#f6c99b"/><line x1="0" y1="0" x2="0" y2="8" stroke="#b5651d" stroke-width="3"/></pattern></defs>
+<path d="M250 30 C340 28 425 80 440 175 C452 250 430 320 395 360 C380 380 372 405 378 440 L388 535 L230 535 L222 445 C205 432 185 425 165 425 C140 425 122 410 118 388 C115 370 108 352 104 345 C100 338 110 332 110 326 C104 320 100 312 108 304 C104 296 96 292 98 284 C100 276 86 272 82 266 C94 245 112 232 116 214 C118 200 112 186 118 170 C126 120 160 40 250 30 Z" fill="#fdfbf7" stroke="#0b3d6b" stroke-width="4"/>
+<path d="M135 205 q22 -14 44 0" fill="none" stroke="#0b3d6b" stroke-width="3"/><ellipse cx="158" cy="214" rx="13" ry="7" fill="#0b3d6b"/>
+<path d="M128 190 q30 -18 60 -4" fill="none" stroke="#0b3d6b" stroke-width="4"/>
+<path d="M125 392 C165 402 235 405 296 386" fill="none" stroke="#7b8ea3" stroke-width="2.5" stroke-dasharray="7 6"/>
+<path d="M296 386 C300 350 300 310 296 280" fill="none" stroke="#7b8ea3" stroke-width="2.5" stroke-dasharray="7 6"/>
+<path d="M185 262 L300 262" stroke="#7b8ea3" stroke-width="5" stroke-linecap="round"/>
+<g class="mz m-tem"><path d="M190 175 C200 105 290 75 360 110 C395 130 400 190 380 225 C350 250 300 252 275 255 C245 246 215 236 196 218 Z" fill="#0b3d6b"/></g>
+<g class="mz m-mas"><path d="M210 268 L292 268 L302 382 C270 395 235 398 214 392 Z" fill="#0b3d6b"/></g>
+<g class="mz m-ecm"><path d="M342 300 L372 312 L300 535 L262 535 Z" fill="#0b3d6b"/></g>
+<g class="mz m-ptl"><ellipse cx="275" cy="276" rx="34" ry="16" fill="none" stroke="#0b3d6b" stroke-width="6" stroke-dasharray="8 5"/></g>
+<ellipse cx="330" cy="265" rx="22" ry="38" fill="#fdfbf7" stroke="#0b3d6b" stroke-width="4"/><path d="M332 245 q-12 18 0 38" fill="none" stroke="#0b3d6b" stroke-width="3"/>
+<circle cx="300" cy="270" r="7" fill="#fff" stroke="#0b3d6b" stroke-width="3"/>
+<!-- zonas -->
+<g class="zz z-mas"><ellipse cx="160" cy="318" rx="34" ry="12" fill="url(#hz)"/><ellipse cx="160" cy="350" rx="34" ry="12" fill="url(#hz)"/><ellipse cx="330" cy="265" rx="26" ry="42" fill="url(#hz)" opacity=".85"/><path d="M135 390 C175 402 225 404 270 394 L265 412 C220 420 170 418 140 408 Z" fill="url(#hz)"/></g>
+<g class="zz z-tem"><ellipse cx="228" cy="170" rx="30" ry="34" fill="url(#hz)"/><ellipse cx="150" cy="318" rx="44" ry="12" fill="url(#hz)"/><ellipse cx="160" cy="200" rx="32" ry="18" fill="url(#hz)"/></g>
+<g class="zz z-ecm"><ellipse cx="165" cy="105" rx="45" ry="26" fill="url(#hz)"/><ellipse cx="195" cy="280" rx="38" ry="28" fill="url(#hz)"/><ellipse cx="330" cy="265" rx="26" ry="42" fill="url(#hz)" opacity=".85"/><ellipse cx="420" cy="230" rx="22" ry="44" fill="url(#hz)"/></g>
+<g class="zz z-ptl"><ellipse cx="185" cy="250" rx="36" ry="20" fill="url(#hz)"/><circle cx="300" cy="270" r="20" fill="url(#hz)"/></g>
+<ellipse cx="330" cy="265" rx="22" ry="38" fill="none" stroke="#0b3d6b" stroke-width="4"/><path d="M332 245 q-12 18 0 38" fill="none" stroke="#0b3d6b" stroke-width="3"/><circle cx="300" cy="270" r="7" fill="none" stroke="#0b3d6b" stroke-width="3"/>
+</svg></div><div class="legend">
+<div class="lg f" data-m="mas"><b><span class="sw" style="background:#0b3d6b"></span>Masetero</b>→ molares superiores e inferiores, oído, cuerpo de la mandíbula</div>
+<div class="lg f" data-m="tem"><b><span class="sw" style="background:#0b3d6b"></span>Temporal</b>→ sien, dientes superiores, región retroorbitaria (ceja)</div>
+<div class="lg f" data-m="ecm"><b><span class="sw" style="background:#0b3d6b"></span>Esternocleidomastoideo</b>→ cara, oído, frente (y región occipital)</div>
+<div class="lg f" data-m="ptl"><b><span class="sw" style="border:3px dashed #0b3d6b"></span>Pterigoideo lateral</b>→ seno maxilar, ATM · <i>profundo, no palpable con fiabilidad: protrusión contra resistencia</i></div>
+<div class="f" style="font-size:21px;color:#45566a"><span class="sw" style="display:inline-block;width:18px;height:18px;background:url(#);background:repeating-linear-gradient(45deg,#b5651d 0 3px,#f6c99b 3px 8px);vertical-align:-2px;margin-right:8px"></span>Zona rayada = dónde siente el paciente el dolor referido. Clic en un músculo para resaltarlo. Base: <b>convergencia</b> en el núcleo espinal del trigémino.</div>
+</div></div></section><section class="slide"><div class="hd"><div class="kick">Paso 5 · Exploración clínica</div><h2>5.4 ATM y anestesia diagnóstica</h2></div>
+<div class="cols"><div class="main"><div class="f"><b>ATM:</b> palpa el polo lateral (0.5 kg) y alrededor del polo (1 kg), en reposo y en movimiento; registra <b>chasquido</b> (¿apertura, cierre o ambos?) y <b>crepitación</b>.</div>
+<div class="box key f"><h3>Anestesia diagnóstica</h3>Ante un dolor «dental» sin causa demostrable, infiltra el <b>punto gatillo sospechoso</b> con lidocaína <b>sin vasoconstrictor</b>.</div>
+<ul class="l f"><li>Desaparece el dolor dental → la <b>fuente es muscular</b></li><li>Anestesiar el diente <b>no elimina</b> un dolor referido desde el músculo</li></ul></div><aside class="cel f"><div class="t">¿Qué está pasando a nivel celular?</div><div class="c"><p>La lidocaína bloquea los <b>canales de Na⁺</b> dependientes de voltaje y detiene la descarga de los nociceptores en la <b>fuente</b>.</p><p>Al cesar la entrada al núcleo espinal, la neurona convergente deja de proyectar el dolor al diente: el anestésico separa <b>sitio</b> y <b>fuente</b>.</p></div></aside></div></section><section class="slide"><div class="hd"><div class="kick">Paso 6 · Diagnóstico</div><h2>Criterios DC/TMD (2014): mialgia y sus subtipos</h2></div>
+<svg width="0" height="0" style="position:absolute"><defs><pattern id="hz2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#f6c99b"/><line x1="0" y1="0" x2="0" y2="8" stroke="#b5651d" stroke-width="3"/></pattern></defs></svg>
+<div class="two" style="gap:24px"><div class="box f" style="font-size:22px;line-height:1.32"><h3>Historia (últimos 30 días)</h3>Dolor en mandíbula, sien, oído o delante del oído <b>y</b> dolor <b>modificado</b> por el movimiento mandibular, la función o la parafunción.</div>
+<div class="box f" style="font-size:22px;line-height:1.32"><h3>Exploración</h3>Dolor confirmado en <b>temporal o masetero</b> <b>y</b> <b>dolor familiar</b> a su palpación o en la apertura máxima (sin ayuda o asistida).</div></div>
+<div class="f" style="font-size:23px;margin:16px 0 10px;color:#0b3d6b"><b>Subtipos según la palpación de 5 s</b> (el punto azul es el sitio palpado y la zona rayada, el dolor):</div>
+<div class="sub3"><div class="sc f"><svg viewBox="0 0 220 120"><ellipse cx="110" cy="60" rx="80" ry="34" fill="#dce7f2" stroke="#0b3d6b" stroke-width="3"/><circle cx="110" cy="60" r="14" fill="url(#hz2)"/><circle cx="110" cy="60" r="6" fill="#0b3d6b"/></svg><h3>Mialgia local</h3><p>El dolor se limita al <b>sitio palpado</b></p></div>
+<div class="sc f"><svg viewBox="0 0 220 120"><ellipse cx="110" cy="60" rx="80" ry="34" fill="#dce7f2" stroke="#0b3d6b" stroke-width="3"/><ellipse cx="110" cy="60" rx="62" ry="24" fill="url(#hz2)"/><circle cx="110" cy="60" r="6" fill="#0b3d6b"/></svg><h3>Dolor miofascial</h3><p>Se propaga, pero <b>dentro de los límites del músculo</b></p></div>
+<div class="sc k f"><svg viewBox="0 0 220 120"><ellipse cx="110" cy="60" rx="80" ry="34" fill="#dce7f2" stroke="#0b3d6b" stroke-width="3"/><circle cx="190" cy="22" r="18" fill="url(#hz2)"/><circle cx="28" cy="100" r="16" fill="url(#hz2)"/><path d="M125 50 L176 30 M95 70 L42 94" stroke="#b5651d" stroke-width="3" stroke-dasharray="5 4"/><circle cx="110" cy="60" r="6" fill="#0b3d6b"/></svg><h3>Dolor miofascial con referencia</h3><p>Dolor <b>más allá del límite del músculo</b> (dientes, oído, sien)</p></div></div>
+<div class="why f" style="margin-top:14px;font-size:22px"><b>Requisito común:</b> debe ser <b>dolor familiar</b>, es decir, el mismo dolor que motivó la consulta. Doler a la palpación no basta.</div></section><section class="slide"><div class="hd"><div class="kick">Paso 6 · Diagnóstico</div><h2>Diagnóstico diferencial</h2></div>
+<table class="dx"><tr><th>Entidad</th><th>Dolor</th><th>Palpación y función</th><th>Rasgo clave</th></tr><tr class="f " data-i="1"><td>Mialgia local</td><td>Sordo, regional</td><td>Duele en el sitio palpado; aumenta con la función</td><td>Dolor limitado al sitio de palpación</td></tr><tr class="f " data-i="1"><td>Mioespasmo</td><td>Agudo, súbito, intenso</td><td>Músculo duro en toda su extensión; limitación marcada</td><td>Contracción involuntaria continua (taxonomía ampliada del DC/TMD)</td></tr><tr class="f hl" data-i="1"><td>Dolor miofascial</td><td>Sordo, regional</td><td>Dolor familiar; banda tensa</td><td>Se propaga dentro del músculo</td></tr><tr class="f hl" data-i="1"><td>Miofascial con referencia</td><td>Sordo, profundo, a menudo crónico</td><td>Dolor familiar; punto gatillo</td><td>Refiere fuera del músculo; la anestesia del PG lo elimina</td></tr><tr class="f " data-i="2"><td>Artralgia de ATM</td><td>Delante del oído</td><td>Dolor en polo lateral o en movimiento</td><td>El dolor está en la articulación</td></tr><tr class="f " data-i="2"><td>Desplazamiento discal</td><td>Con reducción, a menudo indoloro</td><td>Chasquido recíproco; sin reducción: limitación y deflexión</td><td>Ruido o bloqueo; tope duro</td></tr><tr class="f " data-i="3"><td>Pulpitis / dolor dental</td><td>Punzante o pulsátil; frío, calor</td><td>Pruebas pulpares y percusión positivas</td><td>Causa dental demostrable; la anestesia del diente lo elimina</td></tr><tr class="f " data-i="3"><td>Neuralgia del trigémino</td><td>Eléctrico, paroxístico, de segundos</td><td>Zonas gatillo cutáneas (al roce)</td><td>Periodos refractarios; sin dolor muscular</td></tr><tr class="f " data-i="3"><td>Cefalea tensional</td><td>Opresiva, bilateral, «en banda»</td><td>Sensibilidad pericraneal posible</td><td>No empeora con la actividad física; coexiste a menudo</td></tr></table></section><section class="slide"><div class="hd"><div class="kick">Paso 7</div><h2>Algoritmo: del hallazgo a la decisión</h2></div>
+<div class="flow" style="flex:none;height:660px;margin-top:-6px">
+<svg viewBox="0 0 1472 660" preserveAspectRatio="none"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0b3d6b"/></marker></defs>
+<g stroke="#0b3d6b" stroke-width="3.5" fill="none" marker-end="url(#ah)">
+<line class="f" data-i="2" x1="300" y1="80" x2="382" y2="80"/>
+<line class="f" data-i="3" x1="692" y1="80" x2="782" y2="80"/>
+<line class="f" data-i="4" x1="537" y1="160" x2="537" y2="215"/>
+<line class="f" data-i="5" x1="692" y1="295" x2="782" y2="295"/>
+<line class="f" data-i="6" x1="1112" y1="295" x2="1182" y2="295"/>
+<line class="f" data-i="7" x1="1327" y1="224" x2="1327" y2="162"/>
+<line class="f" data-i="8" x1="1327" y1="366" x2="1327" y2="430"/>
+<line class="f" data-i="9" x1="1182" y1="549" x2="1062" y2="549"/>
+<line class="f" data-i="10" x1="582" y1="549" x2="502" y2="549"/></g>
+<g><text class="f" data-i="3" x="718" y="68" fill="#8a1c1c">SÍ</text><text class="f" data-i="4" x="551" y="195" fill="#0b3d6b">NO</text>
+<text class="f" data-i="7" x="1340" y="198" fill="#0b3d6b">NO</text><text class="f" data-i="8" x="1340" y="407" fill="#b5651d">SÍ</text></g></svg>
+<div class="n f" data-i="1" style="left:0;top:0px;width:300px;height:160px"><h4>1–2. Motivo e historia</h4>Queja en sus palabras · localización, carácter, EVA, horario, irradiación</div>
+<div class="n red f" data-i="2" style="left:382px;top:0px;width:310px;height:160px"><h4>3. ¿Banderas rojas?</h4>Dolor nocturno constante, déficit neurológico, &gt;50 años con claudicación, dolor cardiaco</div>
+<div class="n red f" data-i="3" style="left:782px;top:0px;width:330px;height:160px"><h4>Detener y referir</h4>Medicina, urgencias, neurología u ORL. La arteritis y el dolor cardiaco son urgencias</div>
+<div class="n f" data-i="4" style="left:382px;top:215px;width:310px;height:160px"><h4>4. Factores perpetuantes</h4>Parafunción, sueño, estrés, postura, ortodoncia, comorbilidades</div>
+<div class="n f" data-i="5" style="left:782px;top:215px;width:330px;height:160px"><h4>5. Exploración</h4>Apertura 40–55 mm · palpación bilateral a 1 kg (ATM 0.5 kg) · 2 s / 5 s</div>
+<div class="n key f" data-i="6" style="left:1182px;top:224px;width:290px;height:141px"><h4>¿Dolor familiar?</h4>Al palpar temporal o masetero, o en la apertura máxima</div>
+<div class="n f" data-i="7" style="left:1182px;top:11px;width:290px;height:150px"><h4>Otra fuente</h4>Dental, neuralgia, cefalea primaria, ótica, sinusal</div>
+<div class="n key f" data-i="8" style="left:1182px;top:430px;width:290px;height:230px"><h4>Clasificar (5 s)</h4><b>Local</b>: solo el sitio palpado<br><b>Propaga</b>: dentro del músculo<br><b>Refiere</b>: fuera del músculo<br><i style="font-size:18px">Si hay duda: anestesia diagnóstica</i></div>
+<div class="n navy f" data-i="9" style="left:582px;top:430px;width:480px;height:230px"><h4>Plan escalonado, primero lo reversible</h4>A. Factores y educación<br>B. Calor, estiramiento, férula Michigan<br>C. Infiltración con lidocaína sin vasoconstrictor<br>D. Coadyuvantes (AINE por periodos cortos)</div>
+<div class="n f" data-i="10" style="left:0;top:430px;width:502px;height:230px"><h4>Control</h4>Reevalúa EVA, apertura y palpación en cada cita.<br>Sin mejoría → replantea el diagnóstico, revisa los perpetuantes y las banderas rojas, y refiere a un equipo interdisciplinario.</div>
+</div></section><section class="slide"><div class="hd"><div class="kick">Paso 7</div><h2>Plan escalonado y su lógica celular</h2></div>
+<div class="plan">
+<div class="pc f"><div class="h"><span>A</span>Eliminar factores</div><div class="a">Educación, «labios juntos, dientes separados», dieta blanda temporal, no chicle, postura, sueño, manejo del estrés; estudios si hay comorbilidad (TSH, ferritina, B12, vit. D).</div><div class="z"><i>A nivel celular</i>Menos <b>ACh sostenida</b>: el músculo recupera flujo y ATP.</div></div>
+<div class="pc f"><div class="h"><span>B</span>Calor, estiramiento, férula</div><div class="a">Calor húmedo 15–20 min y estiramiento suave sin dolor. <b>Férula de estabilización tipo Michigan</b>, nocturna si hay bruxismo del sueño. Reversible.</div><div class="z"><i>A nivel celular</i><b>Vasodilatación</b> (más O₂ y ATP, lavado de metabolitos); se alargan los sarcómeros; la férula distribuye la carga.</div></div>
+<div class="pc f"><div class="h"><span>C</span>Infiltración del PG</div><div class="a"><b>Lidocaína sin vasoconstrictor</b> en volúmenes pequeños, o punción seca, <b>seguida de estiramiento</b>. Diagnóstica y terapéutica.</div><div class="z"><i>A nivel celular</i>La aguja rompe la banda tensa y la lidocaína corta la entrada nociceptiva. La epinefrina <b>agravaría la isquemia</b>.</div></div>
+<div class="pc f"><div class="h"><span>D</span>Coadyuvantes</div><div class="a"><b>AINE</b> por periodos cortos. Con criterio médico: relajante nocturno breve o tricíclico a dosis bajas si hay sensibilización central o mal sueño.</div><div class="z"><i>A nivel celular</i>Los AINE bajan la <b>PGE2</b> (COX), pero <b>la crisis energética continúa</b>.</div></div></div>
+<div class="box red f" style="margin-top:18px;font-size:23px"><b style="color:#8a1c1c">Corticoesteroides: no indicados.</b> El cuadro no es primariamente inflamatorio, son miotóxicos al infiltrarse y tienen efectos sistémicos. Se reservan para la artritis o capsulitis de la ATM. <b style="color:#8a1c1c">Nunca</b> hagas tratamientos irreversibles (desgastes, endodoncias, extracciones) por un dolor muscular.</div></section><section class="slide"><div class="hd"><div class="kick" style="color:#8a1c1c">Paso 8</div><h2>Errores frecuentes en la clínica</h2></div>
+<div class="tiles" style="gap:18px"><div class="tile r f" style="font-size:29px;padding:20px 24px;line-height:1.32"><b style="font-size:32px">1</b>Registrar la queja en términos técnicos y no en las palabras del paciente</div><div class="tile r f" style="font-size:29px;padding:20px 24px;line-height:1.32"><b style="font-size:32px">2</b>Palpar solo un lado, sin presión estandarizada, o no preguntar si es su «dolor familiar»</div><div class="tile r f" style="font-size:29px;padding:20px 24px;line-height:1.32"><b style="font-size:32px">3</b>Confundir dolor <b>a la palpación</b> con <b>dolor miofascial</b>: debe reproducir la queja</div><div class="tile r f" style="font-size:29px;padding:20px 24px;line-height:1.32"><b style="font-size:32px">4</b>Instrumentar un diente con dolor sin causa demostrable antes de explorar los músculos</div><div class="tile r f" style="font-size:29px;padding:20px 24px;line-height:1.32"><b style="font-size:32px">5</b>Indicar ajustes oclusales irreversibles o corticoesteroides para un dolor muscular</div><div class="tile r f" style="font-size:29px;padding:20px 24px;line-height:1.32"><b style="font-size:32px">6</b>Omitir las banderas rojas en mayores de 50 años o con síntomas sistémicos</div></div></section><section class="slide closing"><div class="kick" style="color:#f0b47a">Principio clínico</div><h1>Palpa antes de instrumentar</h1><div class="line"></div>
+<p>Ante un dolor dental sin causa evidente, explora la musculatura. Trata la <b style="color:#fff">fuente</b>, no el <b style="color:#fff">sitio</b>; primero lo reversible, y reevalúa en cada cita.</p></section></div>
+<div id="help">→ / espacio: avanzar · ← retroceder · F pantalla completa · H ocultar controles</div>
+<div id="ui"><button id="bPrev" title="Anterior (←)">◀</button><span id="count"></span><button id="bNext" title="Siguiente (→)">▶</button><button id="bFs" title="Pantalla completa (F)">⛶</button></div>
+<script>
+(function(){
+const stage=document.getElementById('stage');
+const slides=[...stage.querySelectorAll('.slide')];
+slides.forEach((s,i)=>{if(!s.querySelector('.foot')&&!s.classList.contains('title')&&!s.classList.contains('closing')){const d=document.createElement('div');d.className='foot';d.textContent='Anamnesis y diagnóstico del dolor miofascial';s.appendChild(d);}});
+function steps(s){const fr=[...s.querySelectorAll('.f')];let k=0;const m=new Map();fr.forEach(e=>{let v=e.dataset.i;if(v===undefined){v='a'+(k++)};e._g=v;if(!m.has(v))m.set(v,m.size);});fr.forEach(e=>e._s=m.get(e._g));return {fr,n:m.size};}
+const info=slides.map(steps);
+let cur=0,fr=0;
+function fit(){const k=Math.min(innerWidth/1600,innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+k+')';}
+addEventListener('resize',fit);fit();
+const hooks={
+ face(s,f){const svg=s.querySelector('#faceSvg');const vis=[...s.querySelectorAll('.lg.f')].filter(e=>e.classList.contains('on'));const last=vis[vis.length-1];const m=last?last.dataset.m:'none';svg.dataset.m=m;s.querySelectorAll('.lg').forEach(e=>e.classList.toggle('cur',e.dataset.m===m));},
+ eva(){}
+};
+function render(){slides.forEach((s,i)=>s.classList.toggle('active',i===cur));const I=info[cur];I.fr.forEach(e=>e.classList.toggle('on',e._s<fr));
+ const h=slides[cur].dataset.hook;if(h&&hooks[h])hooks[h](slides[cur],fr);
+ const tot=info.reduce((a,b)=>a+b.n+1,0);let done=0;for(let i=0;i<cur;i++)done+=info[i].n+1;done+=fr+1;
+ document.getElementById('bar').style.width=(100*done/tot)+'%';
+ document.getElementById('count').textContent=(cur+1)+' / '+slides.length;
+ history.replaceState(null,'','#'+(cur+1)+(fr===I.n&&I.n?'/all':''));}
+function go(i,f){cur=Math.max(0,Math.min(slides.length-1,i));fr=f==='all'?info[cur].n:(f||0);render();}
+function next(){if(fr<info[cur].n){fr++;render();}else if(cur<slides.length-1)go(cur+1,0);}
+function prev(){if(fr>0){fr--;render();}else if(cur>0)go(cur-1,'all');}
+function fs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();else document.exitFullscreen();}
+document.addEventListener('keydown',e=>{
+ const t=e.target;if(t&&t.type==='range'){if(e.key==='Escape'||e.key==='Enter'){t.blur();e.preventDefault();}if(e.key!=='f'&&e.key!=='F')return;}
+ if(['ArrowRight','ArrowDown',' ','PageDown','Enter'].includes(e.key)){e.preventDefault();next();}
+ else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev();}
+ else if(e.key==='Home')go(0,0);else if(e.key==='End')go(slides.length-1,'all');
+ else if(e.key==='f'||e.key==='F')fs();
+ else if(e.key==='h'||e.key==='H')document.body.classList.toggle('clean');});
+stage.addEventListener('click',e=>{if(e.target.closest('button,input,a,.lg,.scale'))return;next();});
+stage.addEventListener('contextmenu',e=>{e.preventDefault();prev();});
+document.getElementById('bPrev').onclick=prev;document.getElementById('bNext').onclick=next;document.getElementById('bFs').onclick=fs;
+// leyenda clicable
+stage.querySelectorAll('.lg').forEach(l=>l.addEventListener('click',()=>{const s=l.closest('.slide');const svg=s.querySelector('#faceSvg');svg.dataset.m=l.dataset.m;s.querySelectorAll('.lg').forEach(e=>e.classList.toggle('cur',e===l));}));
+// EVA
+const sc=document.getElementById('scale'),R=document.getElementById('evaR'),N=document.getElementById('evaN'),C=document.getElementById('evaC');
+const col=v=>v===0?'#8fa3b8':v<=3?'#3f8f50':v<=6?'#d0862d':'#a32020';
+for(let v=0;v<=10;v++){const d=document.createElement('div');d.textContent=v;d.style.background=col(v);d.onclick=()=>{R.value=v;upd();};sc.appendChild(d);}
+function upd(){const v=+R.value;N.textContent=v;N.style.color=col(v);C.textContent=v===0?'Sin dolor':v<=3?'Leve':v<=6?'Moderado':'Severo';C.style.color=col(v);[...sc.children].forEach((d,i)=>d.classList.toggle('sel',i===v));}
+R.addEventListener('input',upd);upd();
+setTimeout(()=>document.getElementById('help').classList.add('hide'),6000);
+// móvil: aviso y deslizar
+document.getElementById('rot').onclick=function(){this.remove()};setTimeout(()=>{const r=document.getElementById('rot');if(r)r.remove()},9000);
+let tx=null;stage.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+stage.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(dx)>60){dx<0?next():prev();}},{passive:true});
+// hash
+const m=location.hash.match(/^#(\d+)(\/(all|\d+))?(\/eva(\d+))?(\/clean)?/);
+if(m){if(m[5]!==undefined){R.value=m[5];upd();}if(m[6])document.body.classList.add('clean');go(+m[1]-1,m[3]==='all'?'all':(m[3]?Math.min(+m[3],info[Math.max(0,Math.min(slides.length-1,+m[1]-1))].n):0));}else go(0,0);
+})();
+</script></body></html>

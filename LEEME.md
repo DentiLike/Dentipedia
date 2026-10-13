@@ -3,6 +3,11 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+## Cambios v74 — Anamnesis del dolor
+
+- Nuevo apartado **🧠 Anamnesis del dolor** (presentación de 25 diapositivas) en el inicio y en los menús ⋮, visible para todos.
+- Archivo `Anamnesis_Dolor_Miofascial.html`; en celular avisa que se gire en horizontal y se avanza deslizando.
+
 ## Cambios v73 — Glosario emergente en el recorrido docente
 
 - Abreviaturas y símbolos (ACh, AChE, ATP, COX, AINE, PGE₂, CGRP, ATM, SNC, H⁺, K⁺, Ca²⁺, Aδ…) con subrayado punteado: al pasar el cursor o tocar muestran su significado.

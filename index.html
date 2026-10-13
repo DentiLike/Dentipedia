@@ -75,6 +75,7 @@
         <button class="dropdown-item" onclick="abrirRuta('inicio')">🧭 Step by Dent</button>
         <button class="dropdown-item" onclick="irAlQuiz()">📝 Quiz de repaso</button>
         <button class="dropdown-item" onclick="abrirSimuladorCasos('inicio')">🩺 Simulador de casos clínicos</button>
+        <button class="dropdown-item" onclick="abrirAnamnesis('inicio')">🧠 Anamnesis del dolor</button>
         <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
         <button class="dropdown-item" onclick="abrirMisCalificaciones('inicio')">📊 Mis calificaciones</button>
         <div class="dropdown-sep"></div>
@@ -128,6 +129,7 @@
         <div class="dropdown-cab">Práctica y clínica</div>
         <button class="dropdown-item" onclick="elegirModoPractica('chat')">▶️ Modo Práctica</button>
         <button class="dropdown-item" onclick="abrirRuta('chat')">🧭 Step by Dent</button>
+        <button class="dropdown-item" onclick="abrirAnamnesis('chat')">🧠 Anamnesis del dolor</button>
         <button class="dropdown-item" onclick="irAlQuiz()">📝 Quiz de repaso</button>
         <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
         <button class="dropdown-item" onclick="abrirMisCalificaciones('chat')">📊 Mis calificaciones</button>
@@ -436,6 +438,7 @@ function pintarInicio(){
       <button class="ini-btn" onclick="irAlQuiz()"><span>📝</span>Quiz</button>
       <button class="ini-btn" onclick="abrirFechas('inicio')"><span>📅</span>Calendario</button>
       <button class="ini-btn ini-btn-caso" onclick="abrirSimuladorCasos()"><span>🩺</span>Casos clínicos</button>
+      <button class="ini-btn ini-btn-anam" onclick="abrirAnamnesis('inicio')"><span>🧠</span><b>Anamnesis del dolor</b><small>Guía clínica paso a paso · 25 diapositivas</small></button>
     </div>
     <div class="ini-avance">
       <div class="ini-avance-top"><span>Tu avance en ${RUTAS[rutaActual].nombre}</span><b>${pctR}%</b></div>
@@ -3519,7 +3522,7 @@ function cerrarSubScreen(){
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
 }
 
-const APP_VERSION = 'v73';
+const APP_VERSION = 'v74';
 
 async function leerVersionGuardada(){
   try{
@@ -4412,6 +4415,21 @@ const FICHAS = [
 ];
 
 
+/* Reajusta la altura de los visores (PDF, recorrido, anamnesis) al girar la pantalla */
+function ajustarVisor(){
+  var wrap = document.querySelector('.pdf-frame-wrap');
+  var frame = document.querySelector('.pdf-frame');
+  if(!wrap || !frame) return;
+  wrap.style.height = 'auto';
+  var top = wrap.getBoundingClientRect().top;
+  var h = Math.max(200, window.innerHeight - top - 8);
+  var hint = wrap.querySelector('.pdf-hint');
+  wrap.style.height = h + 'px';
+  frame.style.height = (hint ? h - 36 : h) + 'px';
+}
+window.addEventListener('resize', function(){ setTimeout(ajustarVisor, 120); });
+window.addEventListener('orientationchange', function(){ setTimeout(ajustarVisor, 300); });
+
 /* ===== Recorridos guiados SOLO DOCENTE (archivos HTML autocontenidos) ===== */
 const RECORRIDOS = {
   dolor_miofascial: { url:'Recorrido_Dolor_Miofascial_Docentes.html', label:'Del dolor al dolor miofascial', sub:'Recorrido de 9 pasos · solo docentes' }
@@ -4437,6 +4455,32 @@ function abrirRecorrido(id){
     if(wrap && frame){
       var top = wrap.getBoundingClientRect().top;
       var h = Math.max(280, window.innerHeight - top - 8);
+      wrap.style.height = h + 'px';
+      frame.style.height = h + 'px';
+    }
+  }, 60);
+}
+
+/* ===== Anamnesis del dolor (presentación HTML autocontenida, para todos) ===== */
+function abrirAnamnesis(origen){
+  const url = 'Anamnesis_Dolor_Miofascial.html';
+  const cuerpo = `
+    <div class="pdf-toolbar">
+      <button type="button" class="pdf-tool" onclick="cerrarSubScreen()">← Volver</button>
+      <span class="pdf-tool-tit">🧠 Anamnesis del dolor</span>
+      <a class="pdf-tool" href="${url}" target="_blank" rel="noopener">⛶ Pantalla completa</a>
+    </div>
+    <div class="pdf-frame-wrap">
+      <iframe class="pdf-frame" id="anamFrame" src="${url}" title="Anamnesis del dolor" allow="fullscreen" allowfullscreen></iframe>
+    </div>`;
+  abrirSubScreen(origen || 'inicio', 'Anamnesis del dolor', cuerpo);
+  { const fab = $('consultaFab'); if(fab) fab.classList.remove('visible'); }
+  setTimeout(function(){
+    var wrap = document.querySelector('.pdf-frame-wrap');
+    var frame = document.querySelector('.pdf-frame');
+    if(wrap && frame){
+      var top = wrap.getBoundingClientRect().top;
+      var h = Math.max(200, window.innerHeight - top - 8);
       wrap.style.height = h + 'px';
       frame.style.height = h + 'px';
     }
