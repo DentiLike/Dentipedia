@@ -1,9 +1,9 @@
-/* Dentipedia — Service Worker v81
+/* Dentipedia — Service Worker v82
    Estrategia: shell primero (arranca offline), contenido en segundo plano.
    Sube CACHE cada vez que publiques. */
-const CACHE = 'dentipedia-v81';
-const CACHE_SHELL = 'dentipedia-shell-v81';
-const CACHE_DATA = 'dentipedia-data-v81';
+const CACHE = 'dentipedia-v82';
+const CACHE_SHELL = 'dentipedia-shell-v82';
+const CACHE_DATA = 'dentipedia-data-v82';
 
 const BASE = self.registration.scope;
 
@@ -57,10 +57,34 @@ async function cacheOneByOne(cacheName, paths) {
   }));
 }
 
+/* Recursos externos que la app necesita para arrancar rápido y sin red:
+   SDK de Firebase (versión fija) y tipografías. */
+const FB_SDK = [
+  'https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js',
+  'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js',
+  'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js'
+];
+function esExternoCacheable(u) {
+  return (u.hostname === 'www.gstatic.com' && u.pathname.startsWith('/firebasejs/')) ||
+         u.hostname === 'fonts.googleapis.com' || u.hostname === 'fonts.gstatic.com';
+}
+async function precargarExternos() {
+  const cache = await caches.open(CACHE_SHELL);
+  await Promise.all(FB_SDK.map(async (src) => {
+    try {
+      const req = new Request(src, { mode: 'no-cors' });
+      if (await cache.match(req)) return;
+      const resp = await fetch(req);
+      if (resp && (resp.ok || resp.type === 'opaque')) await cache.put(req, resp);
+    } catch (e) {}
+  }));
+}
+
 self.addEventListener('install', (evento) => {
   evento.waitUntil((async () => {
     // 1) Shell crítico: sin esto no arranca offline
     await cacheOneByOne(CACHE_SHELL, SHELL);
+    await precargarExternos();
     // Activar de inmediato
     await self.skipWaiting();
     // 2) Ya no precargamos PDFs ni imágenes: se guardan al usarse.
@@ -105,6 +129,22 @@ self.addEventListener('fetch', (evento) => {
   if (req.method !== 'GET') return;
 
   const u = new URL(req.url);
+
+  // Externos conocidos: caché primero; se guarda al primer uso y se refresca en segundo plano
+  if (esExternoCacheable(u)) {
+    evento.respondWith((async () => {
+      const cache = await caches.open(CACHE_SHELL);
+      const hit = await cache.match(req);
+      const red = fetch(req).then(async (resp) => {
+        if (resp && (resp.ok || resp.type === 'opaque')) { try { await cache.put(req, resp.clone()); } catch (e) {} }
+        return resp;
+      }).catch(() => null);
+      if (hit) { red.catch(() => {}); return hit; }
+      return (await red) || new Response('', { status: 503, statusText: 'Offline' });
+    })());
+    return;
+  }
+
   // Solo mismo origen
   if (u.origin !== self.location.origin) return;
 

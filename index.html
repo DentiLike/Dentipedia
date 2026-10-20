@@ -329,7 +329,21 @@ function entrarChat(){
   if(g){ try{ ALUMNO = JSON.parse(g); }catch(e){} }
 })();
 window.addEventListener('DOMContentLoaded', ()=>{
-  if(ALUMNO){ iniciarFirebase().then(ok=>{ if(ok){ fbRegistrarAlumno(ALUMNO); cargarAvisoNube(); } }); }
+  // Docente recordado: entra directo (sin esperar red). Firebase confirma la sesión en segundo plano;
+  // si ya no es válida, vuelve a modo alumno.
+  let docRecordado = false;
+  try{ docRecordado = localStorage.getItem('dp_docente') === '1'; }catch(e){}
+  if(docRecordado){
+    if(!ALUMNO) ALUMNO = { nombre:'Docente', id:'docente', rol:'docente' };
+    activarModoDocente(true);
+  }
+  // Siempre se inicia Firebase: así se reconoce la sesión del docente aunque no haya alumno guardado
+  iniciarFirebase().then(ok=>{
+    if(ok){
+      if(ALUMNO && ALUMNO.rol !== 'docente') fbRegistrarAlumno(ALUMNO);
+      cargarAvisoNube();
+    }
+  });
 });
 
 function enrutar(){
@@ -595,11 +609,30 @@ function guardarProgresoCasos(p){
 function abrirSimuladorCasos(origen){
   if(origen) try{ toggleHdrMenu(origen); }catch(e){}
   pantallaAnterior = 'inicio';
+  closeAllMenus();
   $('inicioScreen').classList.remove('show');
   $('chatScreen').classList.remove('show');
+  if(!$('subScreen').classList.contains('show')){ subPila = []; navEmpujar(); }
   $('subScreen').classList.add('show');
-  $('subScreenTitle').textContent = 'Simulador de casos clínicos';
   renderCasosHome();
+  actualizarFab();
+}
+
+/* Niveles del simulador (0 inicio · 1 lista · 2 caso) dentro de la pila de la subpantalla:
+   el botón "atrás" del celular y los "← Volver" suben un nivel en vez de cerrar la app. */
+function casosMostrar(nivel, titulo, html, rerender){
+  const body = $('subScreenBody');
+  let bajo = false;
+  while(subPila.length > nivel){ subPila.pop(); bajo = true; }
+  if(subPila.length < nivel){
+    subPila.push({ o:pantallaAnterior, t:$('subScreenTitle').textContent, h:body.innerHTML, y:body.scrollTop, mp:false, f:window._casosRender });
+    navEmpujar();
+  }
+  window._casosRender = rerender;
+  $('subScreenTitle').textContent = titulo;
+  body.innerHTML = html;
+  body.scrollTop = 0;
+  if(bajo) navDespues();
 }
 
 function renderCasosHome(){
@@ -620,15 +653,15 @@ function renderCasosHome(){
   const total = Object.values(CASOS).flat().length;
   const hechos = Object.values(prog).filter(x=>x && x.completo).length;
   html += `<div class="casos-total">Progreso global: <b>${hechos}/${total}</b></div>`;
-  html += `<button class="casos-volver" onclick="mostrarInicio()">← Volver al inicio</button>`;
-  $('subScreenBody').innerHTML = html;
+  html += `<button class="casos-volver" onclick="irInicio()">← Volver al inicio</button>`;
+  casosMostrar(0, 'Simulador de casos clínicos', html, renderCasosHome);
 }
 
 function renderCasosLista(nivelId){
   const n = CASOS_NIVELES.find(x=>x.id===nivelId);
   const lista = CASOS[nivelId] || [];
   const prog = leerProgresoCasos();
-  let html = `<button class="casos-volver" onclick="renderCasosHome()">← Niveles</button>
+  let html = `<button class="casos-volver" onclick="cerrarSubScreen()">← Niveles</button>
     <h3 class="casos-lista-tit">${n.nombre}</h3>`;
   lista.forEach((c,i) => {
     const st = prog[c.id];
@@ -639,7 +672,7 @@ function renderCasosLista(nivelId){
       <span class="caso-badge">${badge}</span>
     </button>`;
   });
-  $('subScreenBody').innerHTML = html;
+  casosMostrar(1, n.nombre, html, () => renderCasosLista(nivelId));
 }
 
 function abrirCaso(nivelId, idx){
@@ -653,7 +686,7 @@ function pintarPasoCaso(){
   const { nivelId, idx, c, paso } = window._casoActual;
   const p = c.pasos[paso];
   const esDx = paso === 0;
-  let html = `<button class="casos-volver" onclick="renderCasosLista('${nivelId}')">← Lista</button>
+  let html = `<button class="casos-volver" onclick="cerrarSubScreen()">← Lista</button>
     <div class="caso-card">
       <div class="caso-etiqueta">${CASOS_NIVELES.find(x=>x.id===nivelId).nombre} · Caso ${idx+1} · Paso ${paso+1}/2: ${esDx ? 'Diagnóstico' : 'Tratamiento'}</div>
       <h3>${c.titulo}</h3>
@@ -667,7 +700,7 @@ function pintarPasoCaso(){
   html += `</div>
       <div id="casoFeedback" class="caso-feedback" style="display:none"></div>
     </div>`;
-  $('subScreenBody').innerHTML = html;
+  casosMostrar(2, 'Caso ' + (idx+1) + ' · ' + CASOS_NIVELES.find(x=>x.id===nivelId).nombre, html, () => pintarPasoCaso());
 }
 
 function responderCaso(eleccion){
@@ -705,7 +738,7 @@ function responderCaso(eleccion){
       <p><b>Explicación:</b> ${p.explicacion}</p>
       <div class="caso-resolucion"><b>Resolución del caso</b><p>${c.resolucion}</p></div>
       <p class="casos-hint">Aciertos en este caso: ${act.aciertos}/2</p>
-      <button class="caso-sig" onclick="renderCasosLista('${nivelId}')">Volver a la lista</button>
+      <button class="caso-sig" onclick="cerrarSubScreen()">Volver a la lista</button>
       ${idx < CASOS[nivelId].length-1 ? `<button class="caso-sig prim" onclick="abrirCaso('${nivelId}',${idx+1})">Siguiente caso →</button>` : ''}
     `;
   }
@@ -3562,11 +3595,13 @@ function toggleHdrMenu(quien){
   if(!abierto){
     menu.classList.add('show');
     $('menuBackdrop').classList.add('show');
+    navEmpujar();
   }
 }
 function closeAllMenus(){
   document.querySelectorAll('.dropdown').forEach(d=>d.classList.remove('show'));
   $('menuBackdrop').classList.remove('show');
+  navDespues();
 }
 
 /* ================= SUBPANTALLAS ================= */
@@ -3607,9 +3642,12 @@ function cerrarSubScreen(){
   if(subPila.length){
     const p = subPila.pop();
     pantallaAnterior = p.o;
-    $('subScreenTitle').textContent = p.t;
-    $('subScreenBody').innerHTML = p.h;
-    $('subScreenBody').scrollTop = p.y;
+    if(p.f){ p.f(); }
+    else{
+      $('subScreenTitle').textContent = p.t;
+      $('subScreenBody').innerHTML = p.h;
+      $('subScreenBody').scrollTop = p.y;
+    }
     $('subScreen').classList.toggle('sobre-mp', !!p.mp);
     actualizarFab();
     navDespues();
@@ -3623,6 +3661,9 @@ function cerrarTodoSub(){
   $('subScreen').classList.remove('sobre-mp');
   cerrarConsulta();
   actualizarFab();
+  // Si al cerrar no queda ninguna pantalla base visible (p. ej. venías del simulador), vuelve al inicio
+  const hayBase = $('inicioScreen').classList.contains('show') || $('chatScreen').classList.contains('show') || ($('modoPractica') && $('modoPractica').classList.contains('activo'));
+  if(!hayBase && pantallaAnterior !== 'chat'){ mostrarInicio(); return; }
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
   navDespues();
 }
@@ -3636,6 +3677,7 @@ function nivelesAbiertos(){
   if($('subScreen').classList.contains('show')) n += 1 + subPila.length;
   if($('consultaCap') && $('consultaCap').classList.contains('activo')) n++;
   if($('visorImg') && $('visorImg').classList.contains('activo')) n++;
+  if($('menuBackdrop') && $('menuBackdrop').classList.contains('show')) n++;
   return n;
 }
 function navEmpujar(){
@@ -3653,6 +3695,7 @@ function navDespues(){
   }, 80);
 }
 function cerrarCapaSuperior(){
+  if($('menuBackdrop') && $('menuBackdrop').classList.contains('show')){ closeAllMenus(); return; }
   if($('visorImg') && $('visorImg').classList.contains('activo')){ cerrarVisor(); return; }
   if($('consultaCap') && $('consultaCap').classList.contains('activo')){ cerrarConsulta(); return; }
   const sub = $('subScreen').classList.contains('show');
@@ -3661,10 +3704,28 @@ function cerrarCapaSuperior(){
   if(sub){ cerrarSubScreen(); return; }
   if($('chatScreen').classList.contains('show')){ mostrarInicio(); return; }
 }
+/* Guardia: una entrada de historial debajo de todo. Atrás en el inicio avisa "toca otra vez para salir"
+   en vez de cerrar la app de golpe. Se coloca con un toque del usuario (Chrome ignora entradas sin interacción). */
+let navGuardia = false, navSalirHasta = 0;
+function navPonerGuardia(){
+  if(navGuardia || Date.now() < navSalirHasta) return;
+  try{ history.pushState({dp:'guardia'}, ''); navGuardia = true; }catch(e){}
+}
+document.addEventListener('pointerdown', navPonerGuardia, true);
+function navAviso(txt){
+  let t = $('navToast');
+  if(!t){ t = document.createElement('div'); t.id = 'navToast'; document.body.appendChild(t); }
+  t.textContent = txt; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('show'), 2200);
+}
 window.addEventListener('popstate', function(){
   if(navIgnorar > 0){ navIgnorar--; return; }
-  if(navNivel > 0) navNivel--;
-  cerrarCapaSuperior();
+  if(navNivel > 0){ navNivel--; cerrarCapaSuperior(); return; }
+  // Nada que cerrar por conteo: se consumió la guardia
+  navGuardia = false;
+  if(nivelesAbiertos() > 0){ cerrarCapaSuperior(); return; }
+  navSalirHasta = Date.now() + 2300;
+  navAviso('Toca atrás otra vez para salir');
 });
 /* Botón 🏠: cierra todo y vuelve al inicio desde cualquier parte */
 function irInicio(){
@@ -3675,7 +3736,7 @@ function irInicio(){
 }
 function origenActual(){ return $('inicioScreen').classList.contains('show') ? 'inicio' : 'chat'; }
 
-const APP_VERSION = 'v81';
+const APP_VERSION = 'v82';
 
 async function leerVersionGuardada(){
   try{
@@ -3760,6 +3821,7 @@ function reintentarSync(){
 let MODO_DOCENTE = false;
 function activarModoDocente(esDoc){
   MODO_DOCENTE = !!esDoc;
+  try{ if(esDoc) localStorage.setItem('dp_docente','1'); else localStorage.removeItem('dp_docente'); }catch(e){}
   document.querySelectorAll('.dropdown-docente').forEach(el=>{
     el.style.display = esDoc ? 'block' : 'none';
   });

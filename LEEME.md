@@ -4,6 +4,12 @@ Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
 
+## Cambios v82 — Botón atrás, arranque rápido y docente recordado
+- El botón/gesto "atrás" del celular ya no cierra la app: sube un nivel (Simulador de casos: caso → lista → niveles → inicio; menú ⋮; subpantallas). En el inicio avisa "Toca atrás otra vez para salir".
+- Al cerrar el Simulador de casos vuelve al inicio (antes quedaba en blanco).
+- SDK de Firebase y tipografías se guardan en caché (arranque rápido y sin red); el SDK carga en paralelo.
+- Sesión de docente recordada en el dispositivo: abre directo en modo docente; Firebase la confirma en segundo plano.
+
 ## Cambios v81 — Avisos arriba del inicio
 - Letrero arriba del inicio con avisos **automáticos** tomados del calendario (próximos 14 días): suspensión de clases y próxima evaluación, con "hoy / mañana / en N días". Funciona sin internet.
 - **Aviso del docente**: menú ⋮ → 📢 Publicar aviso (o Panel docente → pestaña Aviso). Texto de hasta 240 caracteres, tipo (aviso/urgente) y fecha "mostrar hasta". Se guarda en Firestore (`config/aviso`) y aparece al abrir la app.

@@ -37,12 +37,18 @@ async function iniciarFirebase(){
   if(FB.listo) return FB.online;
   try{
     const base = "https://www.gstatic.com/firebasejs/10.12.2/";
-    await cargarScript(base + "firebase-app-compat.js");
-    await cargarScript(base + "firebase-firestore-compat.js");
-    await cargarScript(base + "firebase-auth-compat.js");
+    // En paralelo (más rápido); async=false conserva el orden de ejecución
+    await Promise.all(["firebase-app-compat.js","firebase-firestore-compat.js","firebase-auth-compat.js"].map(f=>
+      new Promise((res, rej)=>{
+        const s = document.createElement('script');
+        s.src = base + f; s.async = false; s.onload = res; s.onerror = rej;
+        document.head.appendChild(s);
+      })));
     firebase.initializeApp(FB_CONFIG);
     FB.db = firebase.firestore();
     FB.auth = firebase.auth();
+    // La sesión del docente se guarda en el dispositivo (no pide login cada vez)
+    try{ FB.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{}); }catch(e){}
     FB.listo = true;
     FB.online = true;
     if(typeof pintarSync==='function') pintarSync('ok');
