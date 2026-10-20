@@ -848,3 +848,26 @@ body.mp-abierto{overflow:hidden}
 .ini-btn-anam{grid-column:1 / -1; flex-direction:row !important; justify-content:flex-start !important; text-align:left; gap:.7rem !important; flex-wrap:wrap}
 .ini-btn-anam b{font-family:'Fredoka'; font-size:.95rem; color:var(--azul-osc); flex:1 1 60%}
 .ini-btn-anam small{flex:1 1 100%; margin-left:2.3rem; font-size:.68rem; color:var(--gris); font-weight:500; margin-top:-.45rem}
+
+/* v79 · navegación y lector PDF dentro de la app */
+.sub-header .home{margin-left:auto; width:34px; height:34px; border-radius:50%; color:#fff; font-size:1.05rem; display:flex; align-items:center; justify-content:center; flex-shrink:0}
+.sub-header .home:active{background:rgba(255,255,255,.15)}
+.rec-mini{display:block; font-size:.74rem; font-weight:700; color:var(--gris); text-decoration:underline; text-align:center; padding:.25rem 0 .1rem}
+.inicio-docs{display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.6rem}
+.inicio-docs .inicio-doc{margin:0}
+
+/* v81 · avisos arriba del inicio */
+.avisos{position:relative; margin:0 0 .8rem; padding-right:2.2rem; display:flex; flex-direction:column; gap:.4rem}
+.aviso{display:flex; gap:.55rem; align-items:flex-start; border-radius:10px; padding:.55rem .7rem; font-size:.8rem; line-height:1.4; border:1px solid}
+.aviso-ico{font-size:1.05rem; line-height:1.2; flex:0 0 auto}
+.aviso-txt b{font-weight:700}
+.aviso.info{background:#eff6ff; border-color:#bfdbfe; color:#1e3a8a}
+.aviso.examen{background:#f5f3ff; border-color:#ddd6fe; color:#4c1d95}
+.aviso.urgente{background:#fff7ed; border-color:#fdba74; color:#7c2d12}
+.aviso-x{position:absolute; top:0; right:0; width:28px; height:28px; border-radius:50%; background:rgba(15,23,42,.08); color:#334155; font-size:.8rem}
+.av-campo{width:100%; box-sizing:border-box; border:1px solid #cbd5e1; border-radius:9px; padding:.55rem .65rem; font:inherit; font-size:.85rem; margin:.4rem 0}
+.av-fila{display:flex; gap:.6rem; align-items:flex-end}
+.av-fila label{flex:1; font-size:.72rem; font-weight:700; color:#475569}
+.av-btn{flex:1; background:var(--azul); color:#fff; font-weight:700; font-size:.85rem; padding:.7rem; border-radius:10px; margin-top:.4rem}
+.av-btn.sec{background:#e2e8f0; color:#334155}
+.av-nota{font-size:.78rem; color:#475569; margin-top:.6rem; min-height:1.2em}

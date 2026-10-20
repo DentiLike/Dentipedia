@@ -89,6 +89,7 @@
             <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
             <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
             <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
+            <button class="dropdown-item" onclick="verPanel('aviso')">📢 Publicar aviso</button>
             <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
           </div>
           <div class="dropdown-sep"></div>
@@ -142,6 +143,7 @@
             <button class="dropdown-item" onclick="verPanel('asistencia')">✅ Asistencia</button>
             <button class="dropdown-item" onclick="verPanel('porcentaje')">📊 Porcentajes</button>
             <button class="dropdown-item" onclick="verPanel('buzon')">📨 Leer buzón</button>
+            <button class="dropdown-item" onclick="verPanel('aviso')">📢 Publicar aviso</button>
             <button class="dropdown-item" onclick="salirDocente()">🔓 Cerrar sesión docente</button>
           </div>
           <div class="dropdown-sep"></div>
@@ -207,8 +209,9 @@
 
 <div id="subScreen">
   <div class="sub-header">
-    <button class="back" onclick="cerrarSubScreen()">←</button>
+    <button class="back" onclick="cerrarSubScreen()" aria-label="Volver">←</button>
     <b id="subScreenTitle">Título</b>
+    <button class="home" onclick="irInicio()" aria-label="Ir al inicio">🏠</button>
   </div>
   <div class="sub-body" id="subScreenBody"></div>
 </div>
@@ -307,7 +310,7 @@ function entrarChat(){
   }
   ALUMNO = {nombre: nombreInput, id: idDesdeNombre(nombreInput), rol: ROL_APP};
   localStorage.setItem('mm_alumno', JSON.stringify(ALUMNO));
-  iniciarFirebase().then(ok=>{ if(ok) fbRegistrarAlumno(ALUMNO); });
+  iniciarFirebase().then(ok=>{ if(ok){ fbRegistrarAlumno(ALUMNO); cargarAvisoNube(); } });
   enrutar();
 }
 
@@ -326,7 +329,7 @@ function entrarChat(){
   if(g){ try{ ALUMNO = JSON.parse(g); }catch(e){} }
 })();
 window.addEventListener('DOMContentLoaded', ()=>{
-  if(ALUMNO){ iniciarFirebase().then(ok=>{ if(ok) fbRegistrarAlumno(ALUMNO); }); }
+  if(ALUMNO){ iniciarFirebase().then(ok=>{ if(ok){ fbRegistrarAlumno(ALUMNO); cargarAvisoNube(); } }); }
 });
 
 function enrutar(){
@@ -339,16 +342,19 @@ function mostrarInicio(){
   $('inicioScreen').classList.add('show');
   pantallaAnterior = 'inicio';
   pintarInicio();
+  navDespues();
 }
 
 let chatIniciado = false;
 function mostrarChat(){
+  const yaChat = $('chatScreen').classList.contains('show');
   ocultarGlobo();
   $('loginScreen').style.display='none';
   $('inicioScreen').classList.remove('show');
   $('chatScreen').classList.add('show');
   $('hdrAlumno').textContent = ALUMNO.nombre.split(' ')[0];
   pantallaAnterior = 'chat';
+  if(!yaChat) navEmpujar();
   if(!chatIniciado){
     renderChips();
     saludoInicial();
@@ -398,6 +404,66 @@ function avisarBuzon(){
   }catch(e){}
 }
 
+/* ===== Avisos: letrero arriba del inicio =====
+   1) Automáticos, sacados del calendario: suspensión de labores y próximo examen.
+   2) Del docente: lo publica desde Panel docente → Aviso (se guarda en Firebase). */
+let AVISO_NUBE = null;
+try{ AVISO_NUBE = JSON.parse(localStorage.getItem('dp_aviso') || 'null'); }catch(e){}
+
+function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function cargarAvisoNube(){
+  if(typeof fbLeerAviso !== 'function') return;
+  const a = await fbLeerAviso();           // undefined = sin conexión (se queda el guardado)
+  if(a === undefined) return;
+  AVISO_NUBE = a || null;
+  try{ localStorage.setItem('dp_aviso', JSON.stringify(AVISO_NUBE)); }catch(e){}
+  if($('inicioScreen') && $('inicioScreen').classList.contains('show') && !$('subScreen').classList.contains('show')) pintarInicio();
+}
+
+function cuandoAviso(iso){
+  const d = diasPara(iso);
+  return d === 0 ? 'hoy' : d === 1 ? 'mañana' : 'en ' + d + ' días';
+}
+
+function avisosActivos(){
+  const out = [];
+  const hoy = hoyLocalISO();
+  const a = AVISO_NUBE;
+  if(a && a.activo && a.texto && (!a.hasta || hoy <= a.hasta)){
+    out.push({ clase: a.tipo === 'urgente' ? 'urgente' : 'info', ico: a.tipo === 'urgente' ? '🚨' : '📢', txt: esc(a.texto) });
+  }
+  // Automáticos del calendario (próximos 14 días)
+  const prox = CRONOGRAMA.filter(f => { const d = diasPara(f.iso); return d >= 0 && d <= 14; });
+  const fest = prox.find(f => f.tipo === 'Festivo');
+  if(fest){
+    out.push({ clase:'urgente', ico:'🚫', txt:'<b>Sin clases · ' + esc(fest.fecha) + ' · ' + cuandoAviso(fest.iso) + '</b><br>' + esc(fest.tema) });
+  }
+  const ev = prox.find(f => f.tipo === 'Evaluación');
+  if(ev){
+    out.push({ clase:'examen', ico:'📝', txt:'<b>Evaluación · ' + esc(ev.fecha) + ' · ' + cuandoAviso(ev.iso) + '</b><br>' + esc(ev.tema) });
+  }
+  return out;
+}
+
+function bloqueAvisos(){
+  const av = avisosActivos();
+  if(!av.length) return '';
+  const firma = hoyLocalISO() + '|' + av.map(x => x.txt).join('|');
+  let cerrado = null;
+  try{ cerrado = localStorage.getItem('dp_aviso_cerrado'); }catch(e){}
+  if(cerrado === firma) return '';
+  return '<div class="avisos" id="avisosBar">' + av.map(x =>
+      '<div class="aviso ' + x.clase + '"><span class="aviso-ico">' + x.ico + '</span><div class="aviso-txt">' + x.txt + '</div></div>'
+    ).join('') + '<button class="aviso-x" onclick="cerrarAvisos()" aria-label="Cerrar avisos">✕</button></div>';
+}
+function cerrarAvisos(){
+  const av = avisosActivos();
+  const firma = hoyLocalISO() + '|' + av.map(x => x.txt).join('|');
+  try{ localStorage.setItem('dp_aviso_cerrado', firma); }catch(e){}
+  const el = $('avisosBar'); if(el) el.remove();
+}
+
 function pintarInicio(){
   const nombre = ALUMNO ? ALUMNO.nombre.split(' ')[0] : '';
   const ent = entregaVigente();
@@ -420,6 +486,7 @@ function pintarInicio(){
   ].filter(Boolean).join('');
 
   $('inicioBody').innerHTML = `
+    ${bloqueAvisos()}
     <div class="ini-saludo">
       <div class="ini-hola">${saludoHora()}, ${nombre}</div>
       <div class="ini-frase">“${fraseAleatoria()}”</div>
@@ -689,7 +756,10 @@ function bloqueProximaSesion(){
       <div class="inicio-label">${cuando ? cuando + ' · ' : ''}PRÓXIMA SESIÓN</div>
       <div class="inicio-fecha">${prox.fecha} · ${prox.tipo}</div>
       <div class="inicio-tema">${prox.tema}</div>
-      ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 Descargar PDF · ${doc.label}</a>` : ''}
+      <div class="inicio-docs">
+        ${(prox.temaId && TEMAS[prox.temaId]) ? `<a class="inicio-doc" href="#" onclick="abrirMaterialTema(origenActual(),'${prox.temaId}');return false;">📖 Leer en la app</a>` : ''}
+        ${doc ? `<a class="inicio-doc" href="${doc.url}" download="${doc.file}">📄 Descargar PDF</a>` : ''}
+      </div>
       ${(MODO_DOCENTE && prox.recorrido && RECORRIDOS[prox.recorrido]) ? `<a class="inicio-doc" href="#" onclick="abrirRecorrido('${prox.recorrido}');return false;">🔒 Recorrido docente · ${RECORRIDOS[prox.recorrido].label}</a>` : ''}
     </div>`;
 }
@@ -973,7 +1043,7 @@ function nivelDesbloqueado(temaId, idx){
    Toma el texto de la pregunta fallada y busca la explicación completa
    en el material del tema. */
 function repasarEnChat(textoPregunta){
-  cerrarSubScreen();
+  cerrarTodoSub();
   agregarUser('Explícame: ' + textoPregunta);
   mostrarTyping();
   setTimeout(()=>{
@@ -2826,7 +2896,7 @@ function elegirModoPractica(origen){
     const r = RUTAS[k];
     const n = r.etapas.length;
     const pasos = r.etapas.reduce((a,e)=>a+itemsEtapaDe(k,e).length,0);
-    return `<button class="elegir-card" onclick="cerrarSubScreen();abrirModoPractica('${k}')">
+    return `<button class="elegir-card" onclick="cerrarTodoSub();abrirModoPractica('${k}')">
         <span class="elegir-ico">${r.icono}</span>
         <span class="elegir-txt"><b>${r.nombre}</b><small>${n} etapas · ${pasos} pasos</small></span>
         <span class="elegir-flecha">▶</span>
@@ -2851,7 +2921,9 @@ function abrirModoPractica(cual){
   rutaActual = mpRuta;
   mpEtapa = 0; mpPaso = -1;
   const cap = $('modoPractica');
+  const yaMP = !!(cap && cap.classList.contains('activo'));
   if(cap) cap.classList.add('activo');
+  if(!yaMP) navEmpujar();
   document.body.classList.add('mp-abierto');
   pedirWakeLock();
   pintarModoPractica();
@@ -2865,6 +2937,7 @@ function cerrarModoPractica(){
   actualizarFab();
   pararCrono();
   if($('inicioScreen') && $('inicioScreen').classList.contains('show')) pintarInicio();
+  navDespues();
 }
 
 function mpAvanzar(){
@@ -3011,6 +3084,7 @@ function pintarModoPractica(){
 function abrirConsulta(){
   const c = $('consultaCap');
   if(!c) return;
+  if(!c.classList.contains('activo')) navEmpujar();
   c.classList.add('activo');
   const h = $('consultaHilo');
   if(h && !h.innerHTML.trim()) saludoConsulta();
@@ -3020,6 +3094,7 @@ function abrirConsulta(){
 function cerrarConsulta(){
   const c = $('consultaCap');
   if(c) c.classList.remove('activo');
+  navDespues();
 }
 
 function burbujaConsulta(quien, html){
@@ -3094,11 +3169,13 @@ function ampliarImagen(src, titulo){
       <img src="${src}" alt="${titulo||''}">
       ${titulo ? `<div class="visor-pie">${titulo}</div>` : ''}
     </div>`;
+  if(!el.classList.contains('activo')) navEmpujar();
   el.classList.add('activo');
 }
 function cerrarVisor(){
   const el = $('visorImg');
   if(el){ el.classList.remove('activo'); el.innerHTML = ''; }
+  navDespues();
 }
 
 /* --------- Temporizador --------- */
@@ -3506,23 +3583,99 @@ function actualizarFab(){
   fab.classList.toggle('alto', !!enMP && !enSub);
 }
 
+/* Pila de pantallas dentro de la subpantalla: Biblioteca → Tema → PDF.
+   "Volver" regresa un paso (no cierra todo), y el botón "atrás" del celular hace lo mismo. */
+let subPila = [];
 function abrirSubScreen(origen, titulo, html){
+  const sub = $('subScreen');
+  const abierta = sub.classList.contains('show');
+  const mismo = abierta && $('subScreenTitle').textContent === titulo; // re-dibujo de la misma pantalla
+  if(!abierta) subPila = [];
+  if(abierta && !mismo){
+    subPila.push({ o:pantallaAnterior, t:$('subScreenTitle').textContent, h:$('subScreenBody').innerHTML,
+                   y:$('subScreenBody').scrollTop, mp:sub.classList.contains('sobre-mp') });
+  }
   pantallaAnterior = origen;
   closeAllMenus();
   $('subScreenTitle').textContent = titulo;
   $('subScreenBody').innerHTML = html;
-  $('subScreen').classList.add('show');
+  sub.classList.add('show');
+  if(!mismo){ $('subScreenBody').scrollTop = 0; navEmpujar(); }
   actualizarFab();
 }
 function cerrarSubScreen(){
+  if(subPila.length){
+    const p = subPila.pop();
+    pantallaAnterior = p.o;
+    $('subScreenTitle').textContent = p.t;
+    $('subScreenBody').innerHTML = p.h;
+    $('subScreenBody').scrollTop = p.y;
+    $('subScreen').classList.toggle('sobre-mp', !!p.mp);
+    actualizarFab();
+    navDespues();
+    return;
+  }
+  cerrarTodoSub();
+}
+function cerrarTodoSub(){
+  subPila = [];
   $('subScreen').classList.remove('show');
   $('subScreen').classList.remove('sobre-mp');
   cerrarConsulta();
   actualizarFab();
   if(pantallaAnterior === 'inicio' && $('inicioScreen').classList.contains('show')) pintarInicio();
+  navDespues();
 }
 
-const APP_VERSION = 'v74';
+/* ===== Navegación: el botón/gesto "atrás" del celular cierra la capa de arriba ===== */
+let navNivel = 0, navIgnorar = 0, navT = null;
+function nivelesAbiertos(){
+  let n = 0;
+  if($('chatScreen').classList.contains('show')) n++;
+  if($('modoPractica') && $('modoPractica').classList.contains('activo')) n++;
+  if($('subScreen').classList.contains('show')) n += 1 + subPila.length;
+  if($('consultaCap') && $('consultaCap').classList.contains('activo')) n++;
+  if($('visorImg') && $('visorImg').classList.contains('activo')) n++;
+  return n;
+}
+function navEmpujar(){
+  try{ history.pushState({dp:1}, ''); navNivel++; }catch(e){}
+}
+/* Tras cerrar algo con los botones de la app, quita del historial las entradas que sobran */
+function navDespues(){
+  clearTimeout(navT);
+  navT = setTimeout(function(){
+    const exceso = navNivel - nivelesAbiertos();
+    if(exceso > 0){
+      navIgnorar++; navNivel -= exceso;
+      try{ history.go(-exceso); }catch(e){ navIgnorar--; }
+    }
+  }, 80);
+}
+function cerrarCapaSuperior(){
+  if($('visorImg') && $('visorImg').classList.contains('activo')){ cerrarVisor(); return; }
+  if($('consultaCap') && $('consultaCap').classList.contains('activo')){ cerrarConsulta(); return; }
+  const sub = $('subScreen').classList.contains('show');
+  const mp = $('modoPractica') && $('modoPractica').classList.contains('activo');
+  if(mp && (!sub || !$('subScreen').classList.contains('sobre-mp'))){ cerrarModoPractica(); return; }
+  if(sub){ cerrarSubScreen(); return; }
+  if($('chatScreen').classList.contains('show')){ mostrarInicio(); return; }
+}
+window.addEventListener('popstate', function(){
+  if(navIgnorar > 0){ navIgnorar--; return; }
+  if(navNivel > 0) navNivel--;
+  cerrarCapaSuperior();
+});
+/* Botón 🏠: cierra todo y vuelve al inicio desde cualquier parte */
+function irInicio(){
+  cerrarVisor(); cerrarConsulta();
+  if($('modoPractica') && $('modoPractica').classList.contains('activo')) cerrarModoPractica();
+  cerrarTodoSub();
+  mostrarInicio();
+}
+function origenActual(){ return $('inicioScreen').classList.contains('show') ? 'inicio' : 'chat'; }
+
+const APP_VERSION = 'v81';
 
 async function leerVersionGuardada(){
   try{
@@ -3749,6 +3902,7 @@ async function pintarPanel(vista){
       <button class="pd-tab ${vista==='asistencia'?'on':''}" onclick="pintarPanel('asistencia')">Asistencia</button>
       <button class="pd-tab ${vista==='porcentaje'?'on':''}" onclick="pintarPanel('porcentaje')">Porcentaje</button>
       <button class="pd-tab ${vista==='buzon'?'on':''}" onclick="pintarPanel('buzon')">Buzón</button>
+      <button class="pd-tab ${vista==='aviso'?'on':''}" onclick="pintarPanel('aviso')">Aviso</button>
     </div>`;
   const cont = document.getElementById('subScreenBody');
   if(cont) cont.innerHTML = tabs + '<div id="pdCuerpo" class="pd-cuerpo"><div class="pd-cargando">Cargando...</div></div>';
@@ -3757,6 +3911,7 @@ async function pintarPanel(vista){
   else if(vista==='asistencia') await panelAsistencia();
   else if(vista==='porcentaje') await panelPorcentaje();
   else if(vista==='buzon')  await panelBuzon();
+  else if(vista==='aviso')  await panelAviso();
 }
 
 function fechaCorta(ts){
@@ -4095,6 +4250,47 @@ async function pdGuardarPorcentajes(){
   else{ msg.className = 'pd-asis-msg err'; msg.textContent = 'No se pudo guardar (' + (r1.motivo || r2.motivo) + '). Revisa las reglas de Firestore.'; }
 }
 
+async function panelAviso(){
+  const cont = document.getElementById('pdCuerpo');
+  const actual = await fbLeerAviso();
+  const hoy = hoyLocalISO();
+  const d7 = new Date(); d7.setDate(d7.getDate() + 7);
+  const sug = d7.getFullYear() + '-' + String(d7.getMonth()+1).padStart(2,'0') + '-' + String(d7.getDate()).padStart(2,'0');
+  const vig = actual && actual.activo && actual.texto && (!actual.hasta || hoy <= actual.hasta);
+  cont.innerHTML = `
+    <div class="pd-sub">Aviso para todos los alumnos</div>
+    <div class="pd-msg-aviso">Aparece arriba en el inicio de la app. Además, la app ya anuncia sola la suspensión de labores y la próxima evaluación según el calendario.</div>
+    ${vig ? `<div class="pd-msg"><div class="pd-msg-txt"><b>Aviso vigente${actual.hasta ? ' hasta ' + esc(actual.hasta) : ''}:</b><br>${esc(actual.texto)}</div></div>` : '<div class="pd-vacio">No hay aviso publicado.</div>'}
+    <textarea id="avTexto" class="av-campo" rows="3" maxlength="240" placeholder="Ej.: Mañana no hay clase. Se repone el jueves.">${vig ? esc(actual.texto) : ''}</textarea>
+    <div class="av-fila">
+      <label>Tipo
+        <select id="avTipo" class="av-campo"><option value="info"${actual && actual.tipo !== 'urgente' ? ' selected' : ''}>📢 Aviso</option><option value="urgente"${actual && actual.tipo === 'urgente' ? ' selected' : ''}>🚨 Urgente</option></select>
+      </label>
+      <label>Mostrar hasta
+        <input type="date" id="avHasta" class="av-campo" value="${vig && actual.hasta ? esc(actual.hasta) : sug}">
+      </label>
+    </div>
+    <div class="av-fila">
+      <button class="av-btn" onclick="publicarAviso()">Publicar aviso</button>
+      <button class="av-btn sec" onclick="quitarAviso()">Quitar aviso</button>
+    </div>
+    <div id="avNota" class="av-nota"></div>`;
+}
+async function publicarAviso(){
+  const texto = ($('avTexto').value || '').trim();
+  const nota = $('avNota');
+  if(!texto){ nota.textContent = 'Escribe el aviso primero.'; return; }
+  const r = await fbGuardarAviso({ activo:true, texto:texto, tipo:$('avTipo').value, hasta:$('avHasta').value || '' });
+  nota.textContent = r.ok ? '✅ Publicado. Los alumnos lo verán al abrir la app.' : 'No se pudo publicar (' + r.motivo + '). Si dice permission-denied, falta actualizar las reglas de Firestore.';
+  if(r.ok){ AVISO_NUBE = { activo:true, texto:texto, tipo:$('avTipo').value, hasta:$('avHasta').value || '' }; try{ localStorage.setItem('dp_aviso', JSON.stringify(AVISO_NUBE)); }catch(e){} }
+}
+async function quitarAviso(){
+  const nota = $('avNota');
+  const r = await fbGuardarAviso({ activo:false, texto:'', tipo:'info', hasta:'' });
+  nota.textContent = r.ok ? '✅ Aviso retirado.' : 'No se pudo retirar (' + r.motivo + ').';
+  if(r.ok){ AVISO_NUBE = null; try{ localStorage.setItem('dp_aviso', 'null'); }catch(e){} }
+}
+
 async function panelBuzon(){
   const cont = document.getElementById('pdCuerpo');
   const msgs = await fbLeerSugerencias();
@@ -4166,21 +4362,21 @@ const CRONOGRAMA = [
   {iso:"2026-10-06", sem:9,  fecha:"06 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"IV. Trastornos articulares (continuación). Inflamatorios, subluxación.", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-08", sem:9,  fecha:"08 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Análisis documental sobre trastornos inflamatorios de la ATM.", temaId:"atmtrast", doc:"tema7"},
   {iso:"2026-10-13", sem:10, fecha:"13 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"V. Trastornos musculares. Dolor local, mioespasmos, dolor miofacial.", temaId:"musculares", doc:"tema8", recorrido:"dolor_miofascial"},
-  {iso:"2026-10-15", sem:10, fecha:"15 Oct · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Segunda Evaluación Parcial (examen, tareas, reportes)."},
+  {iso:"2026-10-15", sem:10, fecha:"15 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Práctica: arco facial y registro de mordida. Aprender a usar el arco facial y a tomar el registro para montar los modelos.", temaId:"articulador", fichaId:"articulador", doc:"tema10"},
   {iso:"2026-10-20", sem:11, fecha:"20 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VI. Hábitos parafuncionales. Bruxismo, apretamiento, deglución típica/atípica.", temaId:"habitos", doc:"tema9"},
-  {iso:"2026-10-22", sem:11, fecha:"22 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Revisión de pacientes en clínica: signos de hábitos parafuncionales.", temaId:"habitos", doc:"tema9"},
-  {iso:"2026-10-27", sem:12, fecha:"27 Oct · Martes",  tipo:"Clase",       track:"salon", tema:"VIII. Férulas oclusales. Conceptos teóricos e indicaciones.", temaId:"ferulas", doc:"tema11"},
-  {iso:"2026-10-29", sem:12, fecha:"29 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Taller de materiales: propiedades y manejo seguro del acrílico y monómero.", temaId:"ferulas", fichaId:"glosario"},
-  {iso:"2026-11-03", sem:13, fecha:"03 Nov · Martes",  tipo:"Festivo",     track:"salon", tema:"Festivo (Día de Muertos, suspensión oficial)."},
-  {iso:"2026-11-05", sem:13, fecha:"05 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Diseño y encerado de férulas oclusales.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-10-22", sem:11, fecha:"22 Oct · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Práctica: montaje y articulado de los modelos en el articulador semiajustable (con el arco facial y el registro de mordida).", temaId:"articulador", fichaId:"articulador", doc:"tema10"},
+  {iso:"2026-10-27", sem:12, fecha:"27 Oct · Martes",  tipo:"Evaluación",  track:"salon", tema:"Examen parcial (3.er parcial del calendario oficial de exámenes)."},
+  {iso:"2026-10-29", sem:12, fecha:"29 Oct · Jueves",  tipo:"Festivo",     track:"lab",   tema:"Suspensión de clases por indicación de la Secretaría de Educación del Estado (29 y 30 de octubre y 2 de noviembre)."},
+  {iso:"2026-11-03", sem:13, fecha:"03 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"VIII. Férulas oclusales. Conceptos teóricos e indicaciones. (Primer día tras la suspensión de clases.)", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-05", sem:13, fecha:"05 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Guarda Michigan · etapa 1: diseño y encerado (modelar la guarda en cera sobre el modelo montado).", temaId:"ferulas", fichaId:"glosario", doc:"tema11"},
   {iso:"2026-11-10", sem:14, fecha:"10 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Férulas de estabilización y reposicionamiento anterior.", temaId:"ferulas", doc:"tema11"},
-  {iso:"2026-11-12", sem:14, fecha:"12 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Elaboración y acrilizado de férulas.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-12", sem:14, fecha:"12 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Guarda Michigan · etapa 2: taller de materiales (manejo seguro del acrílico y monómero), elaboración y acrilizado.", temaId:"ferulas", doc:"tema11"},
   {iso:"2026-11-17", sem:15, fecha:"17 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Plano de mordida posterior.", temaId:"ferulas", doc:"tema11"},
-  {iso:"2026-11-19", sem:15, fecha:"19 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Ajuste, pulido y calibración de férulas en modelos.", temaId:"ferulas", doc:"tema11"},
-  {iso:"2026-11-24", sem:16, fecha:"24 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Presentación Final de Casos Clínicos (parte 1). Integración de conocimientos de oclusión."},
-  {iso:"2026-11-26", sem:16, fecha:"26 Nov · Jueves",  tipo:"Clase",       track:"lab",   tema:"Presentación Final de Casos Clínicos (parte 2)."},
-  {iso:"2026-12-01", sem:17, fecha:"01 Dic · Martes",  tipo:"Clase",       track:"salon", tema:"Repaso general e integración de historias clínicas."},
-  {iso:"2026-12-03", sem:17, fecha:"03 Dic · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Tercera Evaluación Parcial (examen final)."}
+  {iso:"2026-11-19", sem:15, fecha:"19 Nov · Jueves",  tipo:"Laboratorio", track:"lab",   tema:"Guarda Michigan · etapa 3: ajuste oclusal en el articulador, pulido y calibración.", temaId:"ferulas", doc:"tema11"},
+  {iso:"2026-11-24", sem:16, fecha:"24 Nov · Martes",  tipo:"Clase",       track:"salon", tema:"Asesoría del caso clínico: elección del caso, estructura de la presentación y dudas."},
+  {iso:"2026-11-26", sem:16, fecha:"26 Nov · Jueves",  tipo:"Clase",       track:"lab",   tema:"Asesoría del caso clínico: avance, modelos montados y registros."},
+  {iso:"2026-12-01", sem:17, fecha:"01 Dic · Martes",  tipo:"Clase",       track:"salon", tema:"Previo del caso clínico: entrega del borrador y retroalimentación de errores. Repaso general."},
+  {iso:"2026-12-03", sem:17, fecha:"03 Dic · Jueves",  tipo:"Evaluación",  track:"lab",   tema:"Presentación de caso clínico (evaluación final): integración de todo lo aprendido, desde la relación molar hasta férulas."}
 ];
 
 /* -------- GLOSARIO DE MATERIALES · fuente única --------
@@ -4810,6 +5006,151 @@ const MATERIALES = {
         "Lysol (idealmente Sani-Cloth) para desinfectar espejos y retractores entre cada toma"
       ]}
     ]
+  },
+  "2026-10-15": {
+    titulo: "Práctica · Arco facial y registro de mordida",
+    nota: "Se trabaja en binas: un compañero es el paciente. Antes de tocarlo hay que llenar y firmar los tres formatos del primer grupo.",
+    grupos: [
+      { g:"Documentación (antes de cualquier toma)", items:[
+        "Formato de historia clínica",
+        "Formato de consentimiento informado",
+        "Aviso de privacidad impreso"
+      ]},
+      { g:"Arco facial", items:[
+        "Articulador semiajustable con su arco facial (el de tu sistema)",
+        "Horquilla del arco facial",
+        "Modelos superior e inferior recortados",
+        "Lápiz lavable tipo cera o marcador (puntos de referencia en la cara)",
+        "Cera para la horquilla, o el material que indique tu sistema",
+        "Recipiente con agua tibia (para ablandar la cera)"
+      ]},
+      { g:"Registro de mordida", items:[
+        "Cera rosa toda estación (o cera azul de registro, si la tienes)",
+        "Espátula o navaja para recortar la cera",
+        "Recipiente con agua fría (para enfriar el registro)"
+      ]},
+      { g:"Bioseguridad e higiene", items:[
+        "Guantes de exploración",
+        "Cubrebocas",
+        "Bata clínica",
+        "Lentes de protección",
+        "Lysol o toallitas Sani-Cloth (desinfectar horquilla y arco entre cada compañero)"
+      ]}
+    ]
+  },
+  "2026-10-22": {
+    titulo: "Práctica · Montaje de los modelos en el articulador",
+    nota: "Trae el registro de mordida y los modelos de la práctica anterior. Primero se monta el superior (con el arco facial) y después el inferior (con el registro).",
+    grupos: [
+      { g:"Lo que traes de la práctica anterior", items:[
+        "Modelos superior e inferior recortados",
+        "Registro de mordida",
+        "Arco facial con la horquilla ya registrada"
+      ]},
+      { g:"Articulador", items:[
+        "Articulador semiajustable limpio",
+        "Platinas de montaje (superior e inferior)",
+        "Guía o manual de tu articulador"
+      ]},
+      { g:"Yeso y montaje", items:[
+        "Yeso tipo II para montaje",
+        "Taza de hule y espátula para yeso",
+        "Lecrón y navaja de yeso",
+        "Vaselina o separador",
+        "Cera pegajosa (para fijar provisionalmente el modelo)",
+        "Ligas gruesas o cinta masking (sostener el conjunto mientras fragua)"
+      ]},
+      { g:"Limpieza y bioseguridad", items:[
+        "Guantes",
+        "Cubrebocas",
+        "Bata clínica",
+        "Toallas desechables",
+        "Recuerda: el yeso no se tira al lavabo"
+      ]}
+    ]
+  },
+  "2026-11-05": {
+    titulo: "Guarda Michigan · Etapa 1: diseño y encerado",
+    nota: "Hoy se hacen el diseño y el encerado en una sola sesión: llega con el modelo montado y todo el material listo. El encerado es modelar la guarda en cera; al cerrar, todos los dientes de enfrente deben tocarla a la vez y con la misma fuerza.",
+    grupos: [
+      { g:"Lo que traes", items:[
+        "Modelos montados en el articulador (práctica del 22 Oct)",
+        "Modelo de la arcada que cubrirá la guarda (el Dr. Alvarado indica cuál)"
+      ]},
+      { g:"Diseño sobre el modelo", items:[
+        "Lápiz y marcador fino (marcar el contorno de la guarda)",
+        "Regla milimetrada",
+        "Cera para bloquear las zonas retentivas (socavados)",
+        "Espátula para cera"
+      ]},
+      { g:"Encerado", items:[
+        "Cera para encerar (placas o barras, según indique el Dr. Alvarado)",
+        "Espátula de cera o instrumento de encerado",
+        "Mechero de alcohol y encendedor",
+        "Navaja o bisturí para recortar cera",
+        "Papel articular (azul y rojo) y pinza de Miller"
+      ]},
+      { g:"Bioseguridad", items:[
+        "Guantes",
+        "Cubrebocas",
+        "Bata clínica",
+        "Lentes de protección",
+        "Cuidado: el mechero va lejos de cualquier monómero"
+      ]}
+    ]
+  },
+  "2026-11-12": {
+    titulo: "Guarda Michigan · Etapa 2: materiales y acrilizado",
+    nota: "Primero un taller corto de materiales y después el acrilizado. El monómero del acrílico es irritante, inflamable y sus vapores dañan: se usa con ventilación, guantes de nitrilo (atraviesa el látex) y lentes. Lista base: el Dr. Alvarado confirmará el tipo de acrílico y la técnica (termocurado o autopolimerizable).",
+    grupos: [
+      { g:"Lo que traes", items:[
+        "Modelo con el encerado terminado y aprobado"
+      ]},
+      { g:"Acrilizado", items:[
+        "Acrílico (polvo) y monómero, del tipo que indique el Dr. Alvarado",
+        "Separador yeso-acrílico",
+        "Godete o vaso dappen",
+        "Espátula o pincel para acrílico",
+        "Vaselina",
+        "Recipiente con agua",
+        "Material de muflado o de polimerización, según la técnica indicada"
+      ]},
+      { g:"Bioseguridad", items:[
+        "Guantes de nitrilo (el monómero atraviesa el látex)",
+        "Cubrebocas",
+        "Bata clínica",
+        "Lentes de protección",
+        "Trabajar en un lugar ventilado, lejos de flamas"
+      ]}
+    ]
+  },
+  "2026-11-19": {
+    titulo: "Guarda Michigan · Etapa 3: ajuste, pulido y calibración",
+    nota: "Pulir genera polvo y calor: se usa cubrebocas y lentes, y se trabaja sin presionar de más para no quemar el acrílico.",
+    grupos: [
+      { g:"Lo que traes", items:[
+        "Guarda acrilizada",
+        "Modelos montados en el articulador"
+      ]},
+      { g:"Ajuste en articulador", items:[
+        "Papel articular (azul y rojo) y pinza de Miller",
+        "Fresas y piedras para acrílico",
+        "Micromotor o pieza de mano",
+        "Papel o cinta de articular muy delgada (si hay disponible)"
+      ]},
+      { g:"Pulido", items:[
+        "Lijas de agua (de gruesa a fina)",
+        "Pasta o piedra pómez para acrílico",
+        "Ruedas o cepillos de pulir",
+        "Pulidora de banco"
+      ]},
+      { g:"Bioseguridad", items:[
+        "Guantes",
+        "Cubrebocas",
+        "Bata clínica",
+        "Lentes de protección"
+      ]}
+    ]
   }
 };
 
@@ -4934,7 +5275,7 @@ function abrirMaterialTema(origen, id){
       <div class="mt-titulo">${t.titulo}</div>
     </div>
     ${secciones}
-    ${hayQuiz ? `<button class="mt-quiz" onclick="cerrarSubScreen();irAlQuizTema('${id}')">📝 Poner a prueba este tema</button>` : ''}
+    ${hayQuiz ? `<button class="mt-quiz" onclick="cerrarTodoSub();irAlQuizTema('${id}')">📝 Poner a prueba este tema</button>` : ''}
     <div class="notas-mini">💬 Si algo no queda claro, pregúntaselo a Mikes Molares: tiene cargado este mismo material.</div>`;
   abrirSubScreen(destino, t.corto, cuerpo);
 }

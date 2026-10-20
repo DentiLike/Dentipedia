@@ -3,6 +3,39 @@
 Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
+
+## Cambios v81 — Avisos arriba del inicio
+- Letrero arriba del inicio con avisos **automáticos** tomados del calendario (próximos 14 días): suspensión de clases y próxima evaluación, con "hoy / mañana / en N días". Funciona sin internet.
+- **Aviso del docente**: menú ⋮ → 📢 Publicar aviso (o Panel docente → pestaña Aviso). Texto de hasta 240 caracteres, tipo (aviso/urgente) y fecha "mostrar hasta". Se guarda en Firestore (`config/aviso`) y aparece al abrir la app.
+- El alumno puede cerrar el letrero con ✕ (reaparece al día siguiente o si cambia el contenido).
+- Requiere reglas de Firestore para `config/aviso` (lectura pública, escritura solo docentes).
+
+## Cambios v80 — Leer en la app desde el inicio y navegación con regreso
+
+- **Inicio:** la tarjeta de próxima sesión ahora tiene "Leer en la app" (el mismo material que en Teoría) además de "Descargar PDF".
+- **Navegación:** "Volver" regresa un paso (Biblioteca → Tema), el botón/gesto "atrás" del celular hace lo mismo y ya no saca de la app a mitad de camino. Nuevo botón 🏠 en la barra azul para ir al inicio desde cualquier pantalla.
+- **Calendario:** las presentaciones de caso clínico pasan al 3 de diciembre. 24 y 26 de noviembre: asesoría del caso. 1 de diciembre: previo (borrador y retroalimentación).
+
+## Cambios v78 — Fecha de examen parcial
+
+- Calendario oficial de exámenes: Oclusión grupo B, martes 27 Oct (3.er parcial).
+- La clase de férulas (conceptos) pasa al martes 3 Nov.
+
+## Cambios v77 — Suspensión 29 Oct–2 Nov
+
+- 29 Oct: suspensión de clases. 3 Nov (antes festivo): vuelve a ser clase, tema por confirmar.
+- Guarda Michigan en 3 etapas: 5 Nov diseño y encerado · 12 Nov taller de materiales y acrilizado · 19 Nov ajuste y pulido.
+
+## Cambios v76 — Material por práctica
+
+- Listas de materiales para las prácticas del 15 y 22 Oct y las 4 etapas de la guarda Michigan (29 Oct–19 Nov).
+- Las etapas 3 y 4 son lista base: falta confirmar tipo de acrílico y técnica.
+
+## Cambios v75 — Laboratorio reprogramado
+
+- 15 Oct: arco facial y registro · 22 Oct: montaje en articulador · 29 Oct–19 Nov: guarda Michigan en 4 etapas.
+- Pendiente: reubicar la 2.ª evaluación parcial (antes 15 Oct) y la revisión de pacientes (antes 22 Oct).
+
 ## Cambios v74 — Anamnesis del dolor
 
 - Nuevo apartado **🧠 Anamnesis del dolor** (presentación de 25 diapositivas) en el inicio y en los menús ⋮, visible para todos.

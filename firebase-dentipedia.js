@@ -349,3 +349,24 @@ async function fbGuardarPonderacion(p){
     return { ok:true };
   }catch(e){ return { ok:false, motivo:(e && e.code) || 'error' }; }
 }
+
+/* ---------- AVISO PARA TODOS (letrero arriba del inicio) ---------- */
+/* Devuelve el aviso, null si no existe, o undefined si no hubo conexión. */
+async function fbLeerAviso(){
+  if(!FB.online) return undefined;
+  try{
+    const d = await FB.db.collection('config').doc('aviso').get();
+    return d.exists ? d.data() : null;
+  }catch(e){ return undefined; }
+}
+
+async function fbGuardarAviso(a){
+  if(!FB.online) return { ok:false, motivo:'sin conexión' };
+  if(!fbEsDocente()) return { ok:false, motivo:'requiere sesión de docente' };
+  try{
+    await FB.db.collection('config').doc('aviso').set(Object.assign({}, a, {
+      actualizado: firebase.firestore.FieldValue.serverTimestamp()
+    }));
+    return { ok:true };
+  }catch(e){ return { ok:false, motivo:(e && e.code) || 'error' }; }
+}
