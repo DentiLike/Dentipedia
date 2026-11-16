@@ -4,6 +4,46 @@ Plataforma de apoyo académico para la materia de **Oclusión**
 Dr. Miguel Alvarado Avilés · Universidad Cuauhtémoc
 
 
+## Cambios v88 — Trazado de Steiner: Fase 1 reordenada por estructuras anatómicas
+- Fase 1 en 10 pasos: 1 Silla turca · 2 Base craneal anterior · 3 Frontal y hueso nasal · 4 Maxila superior · 5 Incisivo y molar superiores · 6 Mandíbula · 7 Sínfisis · 8 Incisivo y molar inferiores · 9 Plano oclusal · 10 Perfil blando. Después, la vista integrada.
+- Cada estructura empieza con «¿Por qué se traza?» y «En una radiografía convencional» (primera tarjeta de la guía y también en «Más información»).
+- Dibujo anatómico nuevo de silla turca (con dorso y clinoides), plano esfenoidal con lámina cribosa y crista galli, cuerpo del esfenoides hasta el basion, frontal (tabla externa e interna) y un solo hueso nasal. Se quitaron los senos del fondo.
+- Vista integrada: interruptores para mostrar u ocultar Base del cráneo, Maxila + dientes, Mandíbula + dientes, Plano oclusal y Perfil blando (también afecta al PNG).
+- El avance guardado de la Fase 1 anterior se reinicia (cambió el orden de los pasos); la Fase 2 conserva el suyo.
+
+## Cambios v87 — Trazado de Steiner: anatomía del dibujo corregida
+- Base de cráneo más realista: clivus y basion, seno esfenoidal mayor, piso de la órbita, seno maxilar, arco cigomático, narina.
+- Sínfisis más voluminosa y redonda (cortical lingual cerrando el bulbo del mentón); espina nasal anterior (ENA) puntiaguda; nariz más proyectada.
+- Escotadura sigmoidea más amplia y coronoides redondeada.
+- Los puntos S, N, A, B y las medidas de la Fase 2 no cambian (SNA 82°, SNB 80°, ANB 2°).
+
+## Cambios v86 — Trazado de Steiner: rediseño para celular
+- Pantalla inmersiva dentro de la app (sin relleno ni barra extra: el lienzo usa todo el alto) y diseño horizontal (lienzo a la izquierda, guía y botones a la derecha).
+- Barra inferior con ‹ › para cambiar de estructura sin revisar, ↶ Deshacer, 🗑 Borrar y el botón principal (Revisar / Siguiente).
+- Tarjeta de guía fija con ◀ Siguiente ▶ grandes y «Saltar»; también se avanza deslizando la tarjeta o con las flechas del teclado.
+- Zoom con dos dedos (acercar y mover), botones ＋ － ⌖ y rueda del mouse.
+- «Más información» plegada; resultado de la revisión compacto con «Ver guía».
+- Fase 2: la guía del transportador es paso a paso; indicadores Centro/Base/Lado y botón ↻180° sobre la imagen.
+- Vibración corta al revisar y colocar puntos (donde el celular lo permite).
+
+## Cambios v85 — Trazado de Steiner: recorrido guiado paso a paso
+- Cada estructura de la Fase 1 ahora se enseña en **micro-pasos** (de 3 a 7 por estructura, ~60 en total): la app resalta con verde el tramo exacto a trazar, con flecha de dirección, punto de inicio pulsante y etiqueta del punto anatómico (n′, Sn, ENA, A, Pog, Go, furca…).
+- Cada micro-paso trae «📍 Ubicación»: dónde está la estructura y cómo reconocerla; la vista se acerca sola al tramo.
+- Controles: ◀ Anterior / Siguiente ▶ / Ver todo, y puntitos para saltar. Al terminar la guía, «Listo, a trazar».
+- El resumen del recorrido anterior quedó plegado debajo.
+
+## Cambios v84 — Trazado de Steiner (Fase 2: puntos y medidas)
+- Nueva pestaña **Fase 2 · Puntos y medidas** dentro de ✏️ Trazado de Steiner (6 pasos): ubicar S y N (plano SN), punto A (línea NA), medir **SNA**, punto B (línea NB), medir **SNB**, y **ANB + clasificación esquelética** (Clase I/II/III con interpretación).
+- Los puntos se tocan sobre la imagen y se pueden arrastrar; la app compara contra la posición de referencia en milímetros.
+- **Transportador virtual**: se arrastra (centro en el vértice N), se gira con la perilla ↻ (base sobre la línea N–S), «Girar 180°», y resalta la escala que parte de 0° del lado de S. Indicadores de centro / base / lado. Botón ▶ «Ver cómo» anima la colocación correcta.
+- El alumno anota su lectura (−5 −1 +1 +5) y la app la compara con la medida real y la norma de Steiner (SNA 82°±2, SNB 80°±2, ANB 2°±2).
+- Progreso guardado en el dispositivo; la Fase 1 sigue igual.
+
+## Cambios v83 — Trazado de Steiner (Fase 1)
+- Nueva herramienta ✏️ **Trazado de Steiner** (tarjeta en el inicio y en el menú ⋮): telerradiografía lateral esquemática; la app indica la silueta a trazar (11 pasos: perfil blando, silla turca, base craneal y nasion, maxilar, incisivo y molar superiores, sínfisis, mandíbula, incisivo y molar inferiores, plano oclusal).
+- El alumno traza con el dedo sobre la guía; "Revisar" califica recorrido y precisión, marca en rojo los tramos que faltan y muestra los puntos de referencia. Guía apagable para practicar de memoria. Avance guardado en el dispositivo; se puede guardar el trazado como PNG.
+- Archivo independiente: Trazado_Steiner.html (también funciona solo, sin internet).
+
 ## Cambios v82 — Botón atrás, arranque rápido y docente recordado
 - El botón/gesto "atrás" del celular ya no cierra la app: sube un nivel (Simulador de casos: caso → lista → niveles → inicio; menú ⋮; subpantallas). En el inicio avisa "Toca atrás otra vez para salir".
 - Al cerrar el Simulador de casos vuelve al inicio (antes quedaba en blanco).

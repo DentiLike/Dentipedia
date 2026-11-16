@@ -1,9 +1,9 @@
-/* Dentipedia — Service Worker v82
+/* Dentipedia — Service Worker v88
    Estrategia: shell primero (arranca offline), contenido en segundo plano.
    Sube CACHE cada vez que publiques. */
-const CACHE = 'dentipedia-v82';
-const CACHE_SHELL = 'dentipedia-shell-v82';
-const CACHE_DATA = 'dentipedia-data-v82';
+const CACHE = 'dentipedia-v88';
+const CACHE_SHELL = 'dentipedia-shell-v88';
+const CACHE_DATA = 'dentipedia-data-v88';
 
 const BASE = self.registration.scope;
 
@@ -28,7 +28,8 @@ const SHELL = [
   './logo-uc.png',
   './avatar-dr.png',
   './Recorrido_Dolor_Miofascial_Docentes.html',
-  './Anamnesis_Dolor_Miofascial.html'
+  './Anamnesis_Dolor_Miofascial.html',
+  './Trazado_Steiner.html'
 ];
 
 /* Contenido: PDFs, fotos, recursos (se cachean en segundo plano) */

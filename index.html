@@ -75,6 +75,7 @@
         <button class="dropdown-item" onclick="abrirRuta('inicio')">🧭 Step by Dent</button>
         <button class="dropdown-item" onclick="irAlQuiz()">📝 Quiz de repaso</button>
         <button class="dropdown-item" onclick="abrirSimuladorCasos('inicio')">🩺 Simulador de casos clínicos</button>
+        <button class="dropdown-item" onclick="abrirTrazado('inicio')">✏️ Trazado de Steiner</button>
         <button class="dropdown-item" onclick="abrirAnamnesis('inicio')">🧠 Anamnesis del dolor</button>
         <button class="dropdown-item" onclick="imprimirHistoriaClinica()">📋 Historia clínica (imprimir)</button>
         <button class="dropdown-item" onclick="abrirMisCalificaciones('inicio')">📊 Mis calificaciones</button>
@@ -519,6 +520,7 @@ function pintarInicio(){
       <button class="ini-btn" onclick="irAlQuiz()"><span>📝</span>Quiz</button>
       <button class="ini-btn" onclick="abrirFechas('inicio')"><span>📅</span>Calendario</button>
       <button class="ini-btn ini-btn-caso" onclick="abrirSimuladorCasos()"><span>🩺</span>Casos clínicos</button>
+      <button class="ini-btn ini-btn-anam" onclick="abrirTrazado('inicio')"><span>✏️</span><b>Trazado de Steiner</b><small>Aprende a trazar paso a paso · Fase 1: siluetas</small></button>
       <button class="ini-btn ini-btn-anam" onclick="abrirAnamnesis('inicio')"><span>🧠</span><b>Anamnesis del dolor</b><small>Guía clínica paso a paso · 25 diapositivas</small></button>
     </div>
     <div class="ini-avance">
@@ -3632,6 +3634,7 @@ function abrirSubScreen(origen, titulo, html){
   }
   pantallaAnterior = origen;
   closeAllMenus();
+  if(!mismo) sub.classList.remove('inm');
   $('subScreenTitle').textContent = titulo;
   $('subScreenBody').innerHTML = html;
   sub.classList.add('show');
@@ -3639,6 +3642,7 @@ function abrirSubScreen(origen, titulo, html){
   actualizarFab();
 }
 function cerrarSubScreen(){
+  $('subScreen').classList.remove('inm');
   if(subPila.length){
     const p = subPila.pop();
     pantallaAnterior = p.o;
@@ -3659,6 +3663,7 @@ function cerrarTodoSub(){
   subPila = [];
   $('subScreen').classList.remove('show');
   $('subScreen').classList.remove('sobre-mp');
+  $('subScreen').classList.remove('inm');
   cerrarConsulta();
   actualizarFab();
   // Si al cerrar no queda ninguna pantalla base visible (p. ej. venías del simulador), vuelve al inicio
@@ -3736,7 +3741,7 @@ function irInicio(){
 }
 function origenActual(){ return $('inicioScreen').classList.contains('show') ? 'inicio' : 'chat'; }
 
-const APP_VERSION = 'v82';
+const APP_VERSION = 'v88';
 
 async function leerVersionGuardada(){
   try{
@@ -4720,6 +4725,14 @@ function abrirRecorrido(id){
 }
 
 /* ===== Anamnesis del dolor (presentación HTML autocontenida, para todos) ===== */
+function abrirTrazado(origen){
+  const url = 'Trazado_Steiner.html';
+  const cuerpo = `<div class="traz-wrap"><iframe class="traz-frame" id="trazFrame" src="${url}" title="Trazado cefalométrico de Steiner" allow="fullscreen" allowfullscreen></iframe></div>`;
+  abrirSubScreen(origen || 'inicio', 'Trazado de Steiner', cuerpo);
+  $('subScreen').classList.add('inm');
+  { const fab = $('consultaFab'); if(fab) fab.classList.remove('visible'); }
+}
+
 function abrirAnamnesis(origen){
   const url = 'Anamnesis_Dolor_Miofascial.html';
   const cuerpo = `
